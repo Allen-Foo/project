@@ -8,6 +8,8 @@ import Colors from '../constants/Colors';
 import NewsFeedScreen from '../screens/NewsFeedScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import SearchScreen from '../screens/SearchScreen';
+import ScheduleScreen from '../screens/ScheduleScreen';
 
 export default TabNavigator(
   {
@@ -16,6 +18,12 @@ export default TabNavigator(
     },
     History: {
       screen: HistoryScreen,
+    },
+    Search: {
+      screen: SearchScreen,
+    },
+    Schedule: {
+      screen: ScheduleScreen,
     },
     Profile: {
       screen: ProfileScreen,
@@ -36,6 +44,16 @@ export default TabNavigator(
             iconName = Platform.OS === 'ios'
               ? `ios-heart${focused ? '' : '-outline'}`
               : 'md-heart';
+            break;
+          case 'Search':
+            iconName = Platform.OS === 'ios'
+              ? `ios-search${focused ? '' : '-outline'}`
+              : 'md-search';
+            break;
+          case 'Schedule':
+            iconName = Platform.OS === 'ios'
+              ? `ios-calendar${focused ? '' : '-outline'}`
+              : 'md-calendar';
             break;
           case 'Profile':
             iconName = Platform.OS === 'ios'
