@@ -11,7 +11,7 @@ import {
 
 export default class NewsFeedScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    title: 'NewsFeed',
   };
 
   render() {
