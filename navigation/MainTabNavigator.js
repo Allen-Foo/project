@@ -29,8 +29,8 @@ export default TabNavigator(
         switch (routeName) {
           case 'NewsFeed':
             iconName = Platform.OS === 'ios'
-              ? `ios-information-circle${focused ? '' : '-outline'}`
-              : 'md-information-circle';
+              ? `ios-paper${focused ? '' : '-outline'}`
+              : 'md-paper';
             break;
           case 'Links':
             iconName = Platform.OS === 'ios'
