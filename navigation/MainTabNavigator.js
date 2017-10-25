@@ -6,7 +6,7 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 import NewsFeedScreen from '../screens/NewsFeedScreen';
-import LinksScreen from '../screens/LinksScreen';
+import HistoryScreen from '../screens/HistoryScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 export default TabNavigator(
@@ -14,8 +14,8 @@ export default TabNavigator(
     NewsFeed: {
       screen: NewsFeedScreen,
     },
-    Links: {
-      screen: LinksScreen,
+    History: {
+      screen: HistoryScreen,
     },
     Settings: {
       screen: SettingsScreen,
@@ -32,10 +32,10 @@ export default TabNavigator(
               ? `ios-paper${focused ? '' : '-outline'}`
               : 'md-paper';
             break;
-          case 'Links':
+          case 'History':
             iconName = Platform.OS === 'ios'
-              ? `ios-link${focused ? '' : '-outline'}`
-              : 'md-link';
+              ? `ios-heart${focused ? '' : '-outline'}`
+              : 'md-heart';
             break;
           case 'Settings':
             iconName = Platform.OS === 'ios'
