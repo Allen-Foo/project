@@ -7,7 +7,7 @@ import Colors from '../constants/Colors';
 
 import NewsFeedScreen from '../screens/NewsFeedScreen';
 import HistoryScreen from '../screens/HistoryScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 export default TabNavigator(
   {
@@ -17,8 +17,8 @@ export default TabNavigator(
     History: {
       screen: HistoryScreen,
     },
-    Settings: {
-      screen: SettingsScreen,
+    Profile: {
+      screen: ProfileScreen,
     },
   },
   {
@@ -37,10 +37,10 @@ export default TabNavigator(
               ? `ios-heart${focused ? '' : '-outline'}`
               : 'md-heart';
             break;
-          case 'Settings':
+          case 'Profile':
             iconName = Platform.OS === 'ios'
-              ? `ios-options${focused ? '' : '-outline'}`
-              : 'md-options';
+              ? `ios-contact${focused ? '' : '-outline'}`
+              : 'md-contact';
         }
         return (
           <Ionicons
