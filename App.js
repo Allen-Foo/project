@@ -1,8 +1,11 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { AsyncStorage, Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
+import { languageKeyName, defaultLanguageKey } from './lib/locale';
+import languagesConfig from './lib/locale/languages';
+
 
 export default class App extends React.Component {
   state = {
@@ -56,6 +59,15 @@ export default class App extends React.Component {
     this.setState({ isLoadingComplete: true });
   };
 }
+
+// Load the user prefered language from local storage 
+  // or use default language if there is no language pre-selection
+AsyncStorage.getItem(languageKeyName).then(languageKey => {
+  let key = languageKey || config.defaultLanguageKey;
+  // console.warn('key', key)
+  global.locale = languagesConfig[key]
+  // console.warn('global.locale', global.locale)
+})
 
 const styles = StyleSheet.create({
   container: {

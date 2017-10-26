@@ -9,7 +9,7 @@ export default class ScheduleScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> Schedule </Text>
+        <Text> {global.locale.schedule.title} </Text>
       </View>
     );
   }

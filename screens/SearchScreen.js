@@ -9,7 +9,7 @@ export default class SearchScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> Search </Text>
+        <Text> {global.locale.search.title} </Text>
       </View>
     );
   }

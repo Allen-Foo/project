@@ -3,13 +3,13 @@ import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
 export default class HistoryScreen extends React.Component {
   static navigationOptions = {
-    title: 'History',
+    title: 'History'
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text> History </Text>
+        <Text> {global.locale.history.title} </Text>
       </View>
     );
   }

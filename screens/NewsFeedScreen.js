@@ -17,7 +17,7 @@ export default class NewsFeedScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> News Feed</Text>
+        <Text>{global.locale.newsfeed.title}</Text>
       </View>
     );
   }
