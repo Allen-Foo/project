@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 class NewsFeedScreen extends React.Component {
   static navigationOptions = {
     title: 'NewsFeed',
+    header: null
   };
 
   render() {

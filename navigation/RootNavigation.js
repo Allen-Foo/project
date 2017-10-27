@@ -2,11 +2,15 @@ import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
+import Home from '../screens/HomeScreen';
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
 const RootStackNavigator = StackNavigator(
   {
+    Home: {
+      screen: Home,
+    }, 
     Main: {
       screen: MainTabNavigator,
     },
