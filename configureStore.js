@@ -5,6 +5,7 @@ import thunkMiddleware from 'redux-thunk';
 import reducer from './redux/reducers';
 import { languageKeyName, defaultLanguageKey } from './lib/locale';
 import languagesConfig from './lib/locale/languages';
+import { setLanguage } from './redux/actions'
 
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 
@@ -28,6 +29,7 @@ AsyncStorage.getItem(languageKeyName).then(languageKey => {
   // console.warn('key', key)
   global.locale = languagesConfig[key]
   // console.warn('global.locale', global.locale)
+  store.dispatch(setLanguage(key));
 })
 
 export default store;
