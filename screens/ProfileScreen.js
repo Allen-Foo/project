@@ -1,9 +1,11 @@
 import React from 'react';
 import { Alert, AsyncStorage, ScrollView, StyleSheet, View, Text } from 'react-native';
-import { languageKeyName } from '../lib/locale';
+import { setLanguage } from '../redux/actions'
+
+import { connect } from 'react-redux';
 
 
-export default class ProfileScreen extends React.Component {
+class ProfileScreen extends React.Component {
   static navigationOptions = {
     title: 'Profile',
   };
@@ -13,12 +15,14 @@ export default class ProfileScreen extends React.Component {
       <View style={styles.container}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text onPress={()=>{
-            setLanguage('en', 'You have successfully change the language')
+            this.props.changeLanguage('en')
+            Alert.alert('You have successfully change the language')
           }}>
             {'English     '}  
           </Text>
           <Text onPress={()=>{
-            setLanguage('zh_hans', '语言设置已更改')
+            this.props.changeLanguage('zh_hans')
+            Alert.alert('语言设置已更改')
           }}>
             中文 
           </Text>
@@ -28,10 +32,17 @@ export default class ProfileScreen extends React.Component {
   }
 }
 
-function setLanguage(language, message) {
-    AsyncStorage.setItem(languageKeyName, language, () => {
-      Alert.alert(message)
-    })
+
+const mapStateToPorps = (state) => {
+  return {
+    locale: state.language
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeLanguage: (lang) => dispatch(setLanguage(lang))
+  }
 }
 
 const styles = StyleSheet.create({
@@ -42,3 +53,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+export default connect(null, mapDispatchToProps)(ProfileScreen)
