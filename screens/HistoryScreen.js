@@ -1,15 +1,17 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
-export default class HistoryScreen extends React.Component {
+import { connect } from 'react-redux';
+
+class HistoryScreen extends React.Component {
   static navigationOptions = {
-    title: 'History'
+    title: 'history'
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text> {global.locale.history.title} </Text>
+        <Text> {this.props.locale.history.title} </Text>
       </View>
     );
   }
@@ -23,3 +25,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const mapStateToProps = (state) => {
+  // console.warn('state', state)
+  return {
+    locale: state.language
+  }
+}
+
+export default connect(mapStateToProps)(HistoryScreen)

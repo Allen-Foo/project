@@ -9,7 +9,10 @@ import {
   View,
 } from 'react-native';
 
-export default class NewsFeedScreen extends React.Component {
+import { connect } from 'react-redux';
+
+
+class NewsFeedScreen extends React.Component {
   static navigationOptions = {
     title: 'NewsFeed',
   };
@@ -17,11 +20,10 @@ export default class NewsFeedScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>{global.locale.newsfeed.title}</Text>
+        <Text>{this.props.locale.newsfeed.title}</Text>
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -32,3 +34,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const mapStateToProps = (state) => {
+  // console.warn('state', state)
+  return {
+    locale: state.language
+  }
+}
+
+export default connect(mapStateToProps)(NewsFeedScreen)

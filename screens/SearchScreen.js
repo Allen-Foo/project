@@ -1,7 +1,10 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
-export default class SearchScreen extends React.Component {
+import { connect } from 'react-redux';
+
+
+class SearchScreen extends React.Component {
   static navigationOptions = {
     title: 'Search',
   };
@@ -9,7 +12,7 @@ export default class SearchScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> {global.locale.search.title} </Text>
+        <Text> {this.props.locale.search.title} </Text>
       </View>
     );
   }
@@ -23,3 +26,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const mapStateToProps = (state) => {
+  // console.warn('state', state)
+  return {
+    locale: state.language
+  }
+}
+
+export default connect(mapStateToProps)(SearchScreen)
