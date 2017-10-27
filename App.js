@@ -3,11 +3,20 @@ import { AsyncStorage, Platform, StatusBar, StyleSheet, View } from 'react-nativ
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
-import { languageKeyName, defaultLanguageKey } from './lib/locale';
-import languagesConfig from './lib/locale/languages';
+import store from './configureStore';
+import { Provider } from 'react-redux';
 
+export default class extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <App />
+      </Provider>
+    )
+  }
+}
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
@@ -59,15 +68,6 @@ export default class App extends React.Component {
     this.setState({ isLoadingComplete: true });
   };
 }
-
-// Load the user prefered language from local storage 
-  // or use default language if there is no language pre-selection
-AsyncStorage.getItem(languageKeyName).then(languageKey => {
-  let key = languageKey || config.defaultLanguageKey;
-  // console.warn('key', key)
-  global.locale = languagesConfig[key]
-  // console.warn('global.locale', global.locale)
-})
 
 const styles = StyleSheet.create({
   container: {
