@@ -24,7 +24,10 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
 
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity 
+          style={styles.loginButton}
+          onPress={() => this.props.navigation.navigate('Login')}
+        >
           <Text style={{color: 'white'}}> Sign in </Text>
         </TouchableOpacity> 
 
