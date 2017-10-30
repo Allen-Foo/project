@@ -12,6 +12,8 @@ import {
 
 import { connect } from 'react-redux';
 
+import { SocialIcon } from 'react-native-elements';
+
 const { height, width } = Dimensions.get('window')
 
 
@@ -31,16 +33,20 @@ class HomeScreen extends React.Component {
           <Text style={{color: 'white'}}> Sign in </Text>
         </TouchableOpacity> 
 
-        <View style={[styles.logo,{marginTop: 40}, {marginBottom: 50}]}>
+        <View style={[styles.logo,{marginTop: 40, marginBottom: 50}]}>
           <Text> LOGO </Text>
         </View>
 
-        <TouchableOpacity 
-          style={[styles.button, {backgroundColor: '#4266B2'}]}
+        <SocialIcon
+          title='Use Facebook to Log in'
+          button
+          raised
+          type='facebook'
           onPress={() => this.props.navigation.navigate('Main')}
-        >
-          <Text style={{color: 'white'}}> Use Facebook to Log in </Text>
-        </TouchableOpacity>
+          style={{width: width * 0.8}}
+        />
+
+      
 
         <TouchableOpacity style={[styles.button, {backgroundColor: '#E4E4E4'}]}>
           <Text style={{color: 'black'}}> Register </Text>
