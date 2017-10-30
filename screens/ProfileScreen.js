@@ -33,7 +33,13 @@ class ProfileScreen extends React.Component {
             this.props.changeLanguage('zh_hans')
             Alert.alert('语言设置已更改')
           }}>
-            中文 
+            {'简体中文     '}
+          </Text>
+          <Text onPress={()=>{
+            this.props.changeLanguage('zh_hant')
+            Alert.alert('語言設置已更改')
+          }}>
+            繁體中文
           </Text>
         </View>
       </View>

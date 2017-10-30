@@ -69,14 +69,15 @@ class LoginScreen extends React.Component {
           }}
           value={this.state.password}
         />
-        <TouchableOpacity style={styles.button}
+        <TouchableOpacity 
+          style={styles.button}
           onPress={() => this.validateInput()}
         >
-        <Text style={{color: 'white'}}> Sign in </Text>
+          <Text style={{color: 'white'}}> {locale.login.text.signIn.label} </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.button, {backgroundColor: '#E4E4E4'}]}>
-        <Text style={{color: '#606060'}}> Register </Text>
+          <Text style={{color: '#606060'}}> {locale.login.text.register.label} </Text>
         </TouchableOpacity>
 
       </View>
