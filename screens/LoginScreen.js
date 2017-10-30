@@ -42,26 +42,27 @@ class LoginScreen extends React.Component {
   }
 
   render() {
+    let { locale } = this.props
     return (
 
       <View style={styles.container}>
         <View style={styles.logo}>
           <Text> LOGO </Text>
         </View>
-        <Text style={[styles.text, styles.boldText]}>{'Username:'}</Text>
+        <Text style={[styles.text, styles.boldText]}>{locale.login.textInput.username.label}</Text>
         <TextInput 
           style={styles.textInput}
-          placeholder={'User name'}
+          placeholder={locale.login.textInput.username.placeholder}
           onChangeText={username => {
             // console.warn('text', text);
             this.setState({username})
           }}
           value={this.state.username}
         />
-        <Text style={styles.text}>{'Password:'}</Text>
+        <Text style={[styles.text, styles.boldText]}>{locale.login.textInput.password.label}</Text>
         <TextInput
           style={styles.textInput}
-          placeholder={'Password'}
+          placeholder={locale.login.textInput.password.placeholder}
           onChangeText={password => {
             // console.warn('text', text);
             this.setState({password})
