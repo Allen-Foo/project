@@ -33,7 +33,7 @@ class HomeScreen extends React.Component {
           <Text style={{color: 'white'}}> Sign in </Text>
         </TouchableOpacity> 
 
-        <View style={[styles.logo,{marginTop: 40, marginBottom: 50}]}>
+        <View style={[styles.logo, {marginTop: 40, marginBottom: 50}]}>
           <Text> LOGO </Text>
         </View>
 
@@ -45,7 +45,6 @@ class HomeScreen extends React.Component {
           onPress={() => this.props.navigation.navigate('Main')}
           style={{width: width * 0.8}}
         />
-
       
 
         <TouchableOpacity style={[styles.button, {backgroundColor: '#E4E4E4'}]}>
@@ -64,31 +63,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  logo:{
+  logo: {
     justifyContent: 'center',
     alignItems: 'center',
     width: width * 0.8,
     height: height * 0.4,
     borderWidth: 1,
   },
-  textInput:{
+  textInput: {
     height: 20, 
     borderColor: 'gray', 
     borderBottomWidth: 1, 
     width: width * 0.8,
     fontSize: 14
   },
-  text:{
+  text: {
     alignSelf: 'flex-start', 
     height: 22, 
     width: width * 0.8,
     marginTop: 10, 
     marginLeft: width * 0.1,
   },
-  boldText:{
-    fontWeight:'bold'
+  boldText: {
+    fontWeight: 'bold'
   },
-  button:{
+  button: {
     height: 40, 
     width: width * 0.8,
     backgroundColor: '#41B252', 

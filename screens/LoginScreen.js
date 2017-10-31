@@ -23,7 +23,7 @@ class LoginScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       username: '',
       password: ''
     }
@@ -93,14 +93,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  logo:{
+  logo: {
     justifyContent: 'center',
     alignItems: 'center',
     width: width * 0.8,
     height: height * 0.4,
     borderWidth: 1,
   },
-  textInput:{
+  textInput: {
     height: 20, 
     borderColor: 'gray', 
     borderBottomWidth: 1, 
