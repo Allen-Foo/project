@@ -74,6 +74,9 @@ export default TabNavigator(
     tabBarPosition: 'bottom',
     animationEnabled: false,
     swipeEnabled: false,
-    header: null
+    header: null,
+    tabBarOptions: {
+      showLabel: false
+    }
   }
 );
