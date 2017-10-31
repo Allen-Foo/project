@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 class ScheduleScreen extends React.Component {
   static navigationOptions = {
     title: 'Schedule',
+    headerLeft: null
   };
 
   render() {

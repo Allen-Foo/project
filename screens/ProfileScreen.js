@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 class ProfileScreen extends React.Component {
   static navigationOptions = {
     title: 'Profile',
+    headerLeft: null
   };
 
   render() {

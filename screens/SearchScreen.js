@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 class SearchScreen extends React.Component {
   static navigationOptions = {
     title: 'Search',
+    headerLeft: null
   };
 
   render() {

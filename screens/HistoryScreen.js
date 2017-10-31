@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 
 class HistoryScreen extends React.Component {
   static navigationOptions = {
-    title: 'history'
+    title: 'history',
+    headerLeft: null
   };
 
   render() {
