@@ -15,14 +15,28 @@ import { connect } from 'react-redux';
 
 
 class NewsFeedScreen extends React.Component {
-  static navigationOptions = {
-    title: 'NewsFeed',
-    headerLeft: null,
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+
+  static navigationOptions = ({navigation}) => {
+    const { state } = navigation;
+    return {
+      headerTitle: state.params && state.params.title ? state.params.title : 'NewsFeed',
+      headerLeft: null,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },  
+    }
   };
+
+  componentWillMount() {
+    this.props.navigation.setParams({title: this.props.locale.newsfeed.title})
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.locale !== nextProps.locale) {
+      this.props.navigation.setParams({title: nextProps.locale.newsfeed.title})
+    }
+  }
 
   render() {
     return (
