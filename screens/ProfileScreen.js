@@ -10,21 +10,41 @@ import { connect } from 'react-redux';
 class ProfileScreen extends React.Component {
   static navigationOptions = {
     title: 'Profile',
-    headerLeft: null
+    headerLeft: null,
+    headerTintColor: '#fff',
+    headerStyle: {
+      backgroundColor: Colors.tintColor,
+    },
   };
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Avatar
           large
           rounded
-          title='AF'
-          onPress={() => console.warn("Works!")}
+          icon={{name: 'account-box'}}
+          onPress={() => this.props.navigation.navigate('Login')}
           activeOpacity={0.7}
-          containerStyle={{ marginVertical: 115}}
+          containerStyle={{ marginTop: 25, marginBottom: 10}}
         />
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <Text> 
+          {this.props.locale.profile.text.login}
+        </Text>
+
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 20}}>
+          <SocialIcon
+            type='facebook'
+            light
+            raised={false}
+          />
+          <SocialIcon
+            type='google-plus-official'
+            light
+            raised={false}
+          />
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 20}}>
           <Text onPress={()=>{
             this.props.changeLanguage('en')
             Alert.alert('You have successfully change the language')
@@ -44,7 +64,7 @@ class ProfileScreen extends React.Component {
             繁體中文
           </Text>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -66,9 +86,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
+    //justifyContent: 'center',
     alignItems: 'center',
   },
 });
 
-export default connect(null, mapDispatchToProps)(ProfileScreen)
+export default connect(mapStateToPorps, mapDispatchToProps)(ProfileScreen)
