@@ -2,12 +2,17 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
+import Colors from '../constants/Colors';
 
 
 class ScheduleScreen extends React.Component {
   static navigationOptions = {
     title: 'Schedule',
-    headerLeft: null
+    headerLeft: null,
+    headerTintColor: '#fff',
+    headerStyle: {
+      backgroundColor: Colors.tintColor,
+    },
   };
 
   render() {

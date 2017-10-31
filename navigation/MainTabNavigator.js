@@ -74,9 +74,15 @@ export default TabNavigator(
     tabBarPosition: 'bottom',
     animationEnabled: false,
     swipeEnabled: false,
-    header: null,
     tabBarOptions: {
-      showLabel: false
-    }
+      showLabel: false, // this will control whether show the tab icon label or not
+      // labelStyle: {
+      //   fontSize: 12,
+      //   color: '#fff'
+      // },
+      // style: {
+      //   backgroundColor: '#555',
+      // },
+    },
   }
 );

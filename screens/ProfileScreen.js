@@ -1,7 +1,8 @@
 import React from 'react';
 import { Alert, AsyncStorage, ScrollView, StyleSheet, View, Text } from 'react-native';
 import { setLanguage } from '../redux/actions';
-import { Avatar } from 'react-native-elements';
+import { Avatar, SocialIcon } from 'react-native-elements';
+import Colors from '../constants/Colors';
 
 import { connect } from 'react-redux';
 

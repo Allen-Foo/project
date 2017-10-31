@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Colors from '../constants/Colors';
+
 
 import { connect } from 'react-redux';
 
@@ -15,7 +17,11 @@ import { connect } from 'react-redux';
 class NewsFeedScreen extends React.Component {
   static navigationOptions = {
     title: 'NewsFeed',
-    headerLeft: null
+    headerLeft: null,
+    headerTintColor: '#fff',
+    headerStyle: {
+      backgroundColor: Colors.tintColor,
+    },
   };
 
   render() {
