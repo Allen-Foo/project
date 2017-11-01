@@ -15,7 +15,8 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { mockData } from '../constants/mockData'
+import { mockData } from '../constants/mockData';
+import StarRating from 'react-native-star-rating';
 
 
 class NewsFeedScreen extends React.Component {
@@ -70,14 +71,18 @@ class NewsFeedScreen extends React.Component {
                 <Text style={styles.className}> {data.className} </Text>
                 <Text style={styles.tutorName}> {data.tutorName} </Text>
                 <View style={styles.ratingRow}>
-                  <Rating
-                    type="star"
-                    fractions={1}
-                    startingValue={data.rating}
-                    imageSize={20}
-                    onFinishRating={this.ratingCompleted}
-                    style={styles.rating}
+                  <StarRating
+                    disabled
+                    emptyStar={'ios-star-outline'}
+                    fullStar={'ios-star'}
+                    halfStar={'ios-star-half'}
+                    starSize={30}
+                    iconSet={'Ionicons'}
+                    maxStars={5}
+                    rating={data.rating}
+                    starColor={Colors.tintColor}
                   />
+                  
                   <Text style={styles.comment}> {`${data.comment} comments`} </Text>
                 </View>
                 <Text>
