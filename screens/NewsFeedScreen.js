@@ -15,6 +15,8 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 
+import { mockData } from '../constants/mockData'
+
 
 class NewsFeedScreen extends React.Component {
 
@@ -50,56 +52,60 @@ class NewsFeedScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.rowContainer}>
-          <View style={styles.avatarContainer}>
-            <Avatar
-              large
-              rounded
-              title='DF'
-              onPress={() => console.warn("Works!")}
-              activeOpacity={0.7}
-              style= {styles.avatar}
-            />
-          </View>
+        {
+          mockData.map((data, index) => (
+            <View key={index} style={styles.rowContainer}>
+              <View style={styles.avatarContainer}>
+                <Avatar
+                  large
+                  rounded
+                  title={data.avatar}
+                  onPress={() => console.warn("Works!")}
+                  activeOpacity={0.7}
+                  style= {styles.avatar}
+                />
+              </View>
 
-          <View style={styles.contentContainer}>
-            <Text style={styles.className}> The Darts Factory </Text>
-            <Text style={styles.tutorName}> Chan Tai Man </Text>
-            <View style={styles.ratingRow}>
-              <Rating
-                type="star"
-                fractions={1}
-                startingValue={3.5}
-                imageSize={20}
-                onFinishRating={this.ratingCompleted}
-                style={styles.rating}
-              />
-              <Text style={styles.comment}> 30 comments </Text>
+              <View style={styles.contentContainer}>
+                <Text style={styles.className}> {data.className} </Text>
+                <Text style={styles.tutorName}> {data.tutorName} </Text>
+                <View style={styles.ratingRow}>
+                  <Rating
+                    type="star"
+                    fractions={1}
+                    startingValue={data.rating}
+                    imageSize={20}
+                    onFinishRating={this.ratingCompleted}
+                    style={styles.rating}
+                  />
+                  <Text style={styles.comment}> {`${data.comment} comments`} </Text>
+                </View>
+                <Text>
+                  <FontAwesome 
+                    name={'dollar'} 
+                    size={14}
+                    style={{marginLeft: '1%'}}
+                    color={'#E8DA3A'}
+                  />
+                  <Text> {`${data.fee}/lesson`}</Text>
+                </Text>
+                <Text style={styles.tutorName}> {data.address} </Text>
+              </View>
+
+              <TouchableOpacity
+                style={styles.heart} 
+                onPress={() => this.setState({liked: !this.state.liked})}
+              >
+                <Ionicons
+                  name={this.state.liked ? 'ios-heart-outline' : 'ios-heart'}
+                  size={28}
+                  style={{ padding: '3%'}}
+                  color={'red'}
+                />
+              </TouchableOpacity>
             </View>
-            <Text>
-              <FontAwesome 
-                name={'dollar'} 
-                size={14}
-                style={{marginLeft: '1%'}}
-                color={'#E8DA3A'}
-              />
-              <Text> 150/lesson </Text>
-            </Text>
-            <Text style={styles.tutorName}> Address </Text>
-          </View>
-
-          <TouchableOpacity
-            style={styles.heart} 
-            onPress={() => this.setState({liked: !this.state.liked})}
-          >
-            <Ionicons
-              name={this.state.liked ? 'ios-heart-outline' : 'ios-heart'}
-              size={28}
-              style={{ padding: '3%'}}
-              color={'red'}
-            />
-          </TouchableOpacity>
-        </View>
+          ))
+        }
       </View>
     );
   }
@@ -109,7 +115,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
   },
   rowContainer: {
