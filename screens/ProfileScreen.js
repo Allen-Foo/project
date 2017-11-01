@@ -7,6 +7,26 @@ import Colors from '../constants/Colors';
 import { connect } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 
+import { List, ListItem } from 'react-native-elements'
+
+const list = [
+  {
+    title: 'Appointments',
+    icon: 'av-timer'
+  },
+  {
+    title: 'Trips',
+    icon: 'flight-takeoff'
+  },
+  {
+    title: 'Trips',
+    icon: 'flight-takeoff'
+  },
+  {
+    title: 'Settings',
+    icon: ''
+  },
+]
 
 class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -56,6 +76,18 @@ class ProfileScreen extends React.Component {
             繁體中文
           </Text>
         </View>
+
+        <List containerStyle={{width: '80%'}}>
+        {
+          list.map((item, i) => (
+            <ListItem
+              key={i}
+              title={item.title}
+              leftIcon={{name: item.icon}}
+            />
+          ))
+        }
+        </List>
       </ScrollView>
     );
   }
