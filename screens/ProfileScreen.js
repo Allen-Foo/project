@@ -1,7 +1,7 @@
 import React from 'react';
-import { Alert, AsyncStorage, ScrollView, StyleSheet, View, Text } from 'react-native';
+import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { setLanguage } from '../redux/actions';
-import { Avatar, SocialIcon } from 'react-native-elements';
+import { Avatar } from 'react-native-elements';
 import Colors from '../constants/Colors';
 
 import { connect } from 'react-redux';
@@ -30,24 +30,9 @@ class ProfileScreen extends React.Component {
           </Text>
 
           <View style={{flexDirection: 'row', justifyContent: 'center', marginVertical: '5%'}}>
-            <FontAwesome
-              name='facebook'
-              size={22}
-              color={'#fff'}
-              style={{width: '30%', textAlign: 'center'}}
-            />
-            <FontAwesome
-              name='google-plus'
-              size={22}
-              color={'#fff'}
-              style={{width: '30%', textAlign: 'center'}}
-            />
-            <FontAwesome
-              name='wechat'
-              size={22}
-              color={'#fff'}
-              style={{width: '30%', textAlign: 'center'}}
-            />
+            <SocialIcon onPress={() => {}} name={'facebook'} />
+            <SocialIcon onPress={() => {}} name={'google-plus'} />
+            <SocialIcon onPress={() => {}} name={'wechat'} />
           </View>
         </View>
 
@@ -74,6 +59,20 @@ class ProfileScreen extends React.Component {
       </ScrollView>
     );
   }
+}
+
+const SocialIcon = props => {
+  const { name, onPress } = props;
+  return (
+    <TouchableOpacity onPress={onPress} style={{width: '30%'}}>
+      <FontAwesome
+        name={name}
+        size={22}
+        color={'#fff'}
+        style={{textAlign: 'center'}}
+      />
+    </TouchableOpacity>
+  )
 }
 
 
