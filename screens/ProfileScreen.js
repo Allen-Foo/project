@@ -5,45 +5,52 @@ import { Avatar, SocialIcon } from 'react-native-elements';
 import Colors from '../constants/Colors';
 
 import { connect } from 'react-redux';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 class ProfileScreen extends React.Component {
   static navigationOptions = {
-    title: 'Profile',
-    headerLeft: null,
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+    header: null,
   };
 
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <Avatar
-          large
-          rounded
-          icon={{name: 'account-box'}}
-          onPress={() => this.props.navigation.navigate('Login')}
-          activeOpacity={0.7}
-          containerStyle={{ marginTop: 25, marginBottom: 10}}
-        />
-        <Text> 
-          {this.props.locale.profile.text.login}
-        </Text>
+        <View style={styles.loginContainer}>
+          <Avatar
+            large
+            rounded
+            icon={{name: 'account-box'}}
+            onPress={() => this.props.navigation.navigate('Login')}
+            activeOpacity={0.7}
+            containerStyle={{marginTop: '10%', marginBottom: '5%', backgroundColor: '#eee'}}
+          />
+          <Text style={{color: '#fff'}}> 
+            {this.props.locale.profile.text.login}
+          </Text>
 
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 20}}>
-          <SocialIcon
-            type='facebook'
-            light
-            raised={false}
-          />
-          <SocialIcon
-            type='google-plus-official'
-            light
-            raised={false}
-          />
+          <View style={{flexDirection: 'row', justifyContent: 'center', marginVertical: '5%'}}>
+            <FontAwesome
+              name='facebook'
+              size={22}
+              color={'#fff'}
+              style={{width: '30%', textAlign: 'center'}}
+            />
+            <FontAwesome
+              name='google-plus'
+              size={22}
+              color={'#fff'}
+              style={{width: '30%', textAlign: 'center'}}
+            />
+            <FontAwesome
+              name='wechat'
+              size={22}
+              color={'#fff'}
+              style={{width: '30%', textAlign: 'center'}}
+            />
+          </View>
         </View>
+
         <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 20}}>
           <Text onPress={()=>{
             this.props.changeLanguage('en')
@@ -88,6 +95,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     //justifyContent: 'center',
     alignItems: 'center',
+  },
+  loginContainer: {
+    width: '100%',
+    backgroundColor: Colors.tintColor,
+    alignItems: 'center',
+  },
+  socialContainer: {
+
   },
 });
 
