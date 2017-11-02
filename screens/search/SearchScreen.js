@@ -27,15 +27,16 @@ class SearchScreen extends React.Component {
       <View style={styles.container}>
         <MapView
           style={StyleSheet.absoluteFill}
+          style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}
           initialRegion={{
-            latitude: 22.2962113,
-            longitude: 114.1740933,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitude: 22.2965866,
+            longitude: 114.1748086,
+            latitudeDelta: 0.00922,
+            longitudeDelta: 0.00421,
           }}
         >
            <MapView.Marker
-            coordinate={{latitude: 22.2962113, longitude: 114.1740933}}
+            coordinate={{latitude: 22.2965866, longitude: 114.1748086}}
             title={'The Darts Factory'}
             description={'A cool company'}
           />
