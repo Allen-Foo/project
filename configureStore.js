@@ -27,7 +27,7 @@ const store = configureStore({});
 AsyncStorage.getItem(languageKeyName).then(languageKey => {
   let key = languageKey || defaultLanguageKey;
   // console.warn('key', key)
-  global.locale = languagesConfig[key]
+  window.locale = languagesConfig[key]
   // console.warn('global.locale', global.locale)
   store.dispatch(setLanguage(key));
 })

@@ -24,7 +24,7 @@ class NewsFeedScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
     const { state } = navigation;
     return {
-      headerTitle: state.params && state.params.title ? state.params.title : 'NewsFeed',
+      headerTitle: state.params && state.params.title ? state.params.title : '',
       headerLeft: null,
       headerTintColor: '#fff',
       headerStyle: {
