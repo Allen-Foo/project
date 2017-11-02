@@ -81,6 +81,7 @@ class NewsFeedScreen extends React.Component {
                     maxStars={5}
                     rating={data.rating}
                     starColor={Colors.tintColor}
+                    emptyStarColor={Colors.tintColor}
                   />
                   
                   <Text style={styles.comment}> {`${data.comment} comments`} </Text>
