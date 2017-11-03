@@ -11,21 +11,21 @@ import { List, ListItem } from 'react-native-elements'
 
 const list = [
   {
-    title: 'Appointments',
-    icon: 'av-timer'
+    title: 'Comments',
+    icon: 'comment',
   },
   {
-    title: 'Trips',
-    icon: 'flight-takeoff'
+    title: 'Notification',
+    icon: 'notifications',
   },
   {
-    title: 'Trips',
-    icon: 'flight-takeoff'
+    title: 'Apply to be a tutor',
+    icon: 'people',
   },
   {
     title: 'Settings',
-    icon: ''
-  },
+    icon: 'settings'
+  }
 ]
 
 class ProfileScreen extends React.Component {
@@ -77,13 +77,14 @@ class ProfileScreen extends React.Component {
           </Text>
         </View>
 
-        <List containerStyle={{width: '80%'}}>
+        <List containerStyle={{width: '90%'}}>
         {
           list.map((item, i) => (
             <ListItem
               key={i}
               title={item.title}
               leftIcon={{name: item.icon}}
+              onPress={() => {}}
             />
           ))
         }
