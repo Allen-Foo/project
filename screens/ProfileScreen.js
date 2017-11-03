@@ -84,7 +84,7 @@ class ProfileScreen extends React.Component {
               key={i}
               title={item.title}
               leftIcon={{name: item.icon}}
-              onPress={() => {}}
+              onPress={() => {this.props.navigation.navigate('Settings')}}
             />
           ))
         }
