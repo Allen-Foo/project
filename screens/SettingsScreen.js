@@ -24,7 +24,7 @@ class SettingsScreen extends React.Component {
           <ListItem
             containerStyle={{height: '20%', justifyContent: 'center'}}
             title={this.props.locale.settings.language}
-            onPress={() => {this.props.navigation.navigate('Settings')}}
+            onPress={() => {this.props.navigation.navigate('Language')}}
           />
           <ListItem
             containerStyle={{height: '20%', justifyContent: 'center'}}

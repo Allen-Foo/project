@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import Home from '../screens/HomeScreen';
 import Login from '../screens/LoginScreen'
 import Settings from '../screens/SettingsScreen';
+import Language from '../screens/LanguageScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
@@ -22,6 +23,9 @@ const RootStackNavigator = StackNavigator(
     },
     Settings: {
       screen: Settings,
+    },
+    Language: {
+      screen: Language,
     }
   },
   {
