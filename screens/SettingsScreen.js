@@ -20,14 +20,14 @@ class SettingsScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <List containerStyle={{width: '100%', marginTop: 0}}>
+        <List containerStyle={styles.listContainer}>
           <ListItem
-            containerStyle={{height: '20%', justifyContent: 'center'}}
+            containerStyle={styles.itemContainer}
             title={this.props.locale.settings.language}
             onPress={() => {this.props.navigation.navigate('Language')}}
           />
           <ListItem
-            containerStyle={{height: '20%', justifyContent: 'center'}}
+            containerStyle={styles.itemContainer}
             title={this.props.locale.settings.version}
             rightTitle={'0.0.1'}
             rightTitleStyle={{fontSize: 16}}
@@ -44,6 +44,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  listContainer: {
+    width: '100%',
+    marginTop: 0,
+  },
+  itemContainer: {
+    height: '20%',
+    justifyContent: 'center',
+  }
 });
 
 const mapStateToProps = (state) => {
