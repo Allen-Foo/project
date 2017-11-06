@@ -18,49 +18,44 @@ class LanguageScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      locale: 'en'
+      key: 'en'
     }
   }
 
   componentDidMount() {
-    this.setState({locale: this.props.locale})
+    this.setState({key: this.props.languageKey})
+  }
+
+  changeKey = (key) => {
+    this.setState({key})
   }
 
   render() {
     return (
       <View style={styles.container}>
         <List containerStyle={{width: '100%', marginTop: 0}}>
-          <ListItem
-            containerStyle={{height: '15%', justifyContent: 'center'}}
-            title={'English'}
-            rightIcon={{
-              name: this.state.locale == 'en' ? 'radio-button-checked' : 'radio-button-unchecked', 
-              color: Colors.tintColor
-            }}
-            onPressRightIcon={() => {this.setState({locale: 'en'})}}
-          />
-          <ListItem
-            containerStyle={{height: '15%', justifyContent: 'center'}}
-            title={'繁体中文'}
-            rightIcon={{
-              name: this.state.locale == 'zh_hant' ? 'radio-button-checked' : 'radio-button-unchecked', 
-              color: Colors.tintColor
-            }}
-            onPressRightIcon={() => {this.setState({locale: 'zh_hant'})}}
-          />
-          <ListItem
-            containerStyle={{height: '15%', justifyContent: 'center'}}
-            title={'简体中文'}
-            rightIcon={{
-              name: this.state.locale == 'zh_hans' ? 'radio-button-checked' : 'radio-button-unchecked', 
-              color: Colors.tintColor
-            }}
-            onPressRightIcon={() => {this.setState({locale: 'zh_hans'})}}
-          />
+          <Item currentKey={this.state.key} changeKey={this.changeKey} title={'English'} languageKey={'en'} />
+          <Item currentKey={this.state.key} changeKey={this.changeKey} title={'繁体中文'} languageKey={'zh_hant'} />
+          <Item currentKey={this.state.key} changeKey={this.changeKey} title={'简体中文'} languageKey={'zh_hans'} />
         </List>
       </View>
     );
   }
+}
+
+const Item = props => {
+  const { title, languageKey, currentKey, changeKey } = props;
+  return (
+    <ListItem
+      containerStyle={styles.itemContainer}
+      title={title}
+      rightIcon={{
+        name: currentKey == languageKey ? 'radio-button-checked' : 'radio-button-unchecked', 
+        color: Colors.tintColor
+      }}
+      onPressRightIcon={() => {changeKey(languageKey)}}
+    />
+  )
 }
 
 const styles = StyleSheet.create({
@@ -68,12 +63,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  itemContainer: {
+    height: '15%',
+    justifyContent: 'center',
+  }
 });
 
 const mapStateToProps = (state) => {
   console.warn('state', state)
   return {
-    locale: state.language
+    locale: state.language.locale,
+    languageKey: state.language.key
   }
 }
 

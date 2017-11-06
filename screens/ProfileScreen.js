@@ -111,7 +111,7 @@ const SocialIcon = props => {
 
 const mapStateToPorps = (state) => {
   return {
-    locale: state.language
+    locale: state.language.locale
   }
 }
 

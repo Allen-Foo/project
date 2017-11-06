@@ -2,10 +2,19 @@
 import languagesConfig from '../../lib/locale/languages';
 import { defaultLanguageKey } from '../../lib/locale';
 
-const language = (state = languagesConfig[defaultLanguageKey], action) => {
+const defaultState = {
+  key: defaultLanguageKey,
+  locale: languagesConfig[defaultLanguageKey]
+}
+
+const language = (state = defaultState, action) => {
   switch (action.type) {
     case 'SET_LANGUAGE':
-      return languagesConfig[action.language]
+      return {
+        ...state,
+        locale: languagesConfig[action.language],
+        key: action.language,
+      }
     default:
       return state
   }
