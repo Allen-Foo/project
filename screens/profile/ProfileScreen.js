@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 
 import { connect } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';

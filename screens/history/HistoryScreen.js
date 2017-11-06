@@ -2,13 +2,13 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 
 
-class FavouriteScreen extends React.Component {
+class HistoryScreen extends React.Component {
   static navigationOptions = {
     title: 'History',
-    tabBarLabel: 'Favourite',
+    tabBarLabel: 'History',
     headerLeft: null,
     headerTintColor: '#fff',
     headerStyle: {
@@ -41,4 +41,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(FavouriteScreen)
+export default connect(mapStateToProps)(HistoryScreen)

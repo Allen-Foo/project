@@ -2,12 +2,12 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 
 
-class ScheduleScreen extends React.Component {
+class SearchScreen extends React.Component {
   static navigationOptions = {
-    title: 'Schedule',
+    title: 'Search',
     headerLeft: null,
     headerTintColor: '#fff',
     headerStyle: {
@@ -18,7 +18,7 @@ class ScheduleScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> {this.props.locale.schedule.title} </Text>
+        <Text> {this.props.locale.search.title} </Text>
       </View>
     );
   }
@@ -40,4 +40,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(ScheduleScreen)
+export default connect(mapStateToProps)(SearchScreen)

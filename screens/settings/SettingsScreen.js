@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 
 import { List, ListItem } from 'react-native-elements';
 import { Constants } from 'expo'

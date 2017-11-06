@@ -2,10 +2,10 @@ import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
-import Home from '../screens/HomeScreen';
-import Login from '../screens/LoginScreen'
-import Settings from '../screens/SettingsScreen';
-import Language from '../screens/LanguageScreen';
+import Home from '../screens/home/HomeScreen';
+import Login from '../screens/login/LoginScreen'
+import Settings from '../screens/settings/SettingsScreen';
+import Language from '../screens/settings/LanguageScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';

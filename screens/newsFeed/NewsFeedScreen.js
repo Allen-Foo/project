@@ -9,13 +9,13 @@ import {
   View,
 } from 'react-native';
 
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { mockData } from '../constants/mockData';
+import { mockData } from '../../constants/mockData';
 import StarRating from 'react-native-star-rating';
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 import HistoryScreen from './HistoryScreen';
 import FavouriteScreen from './FavouriteScreen';
 import { TabNavigator, TabBarTop } from 'react-navigation';

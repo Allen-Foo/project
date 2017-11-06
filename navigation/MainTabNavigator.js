@@ -5,11 +5,11 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import Colors from '../constants/Colors';
 
-import NewsFeedScreen from '../screens/NewsFeedScreen';
-import HistoryScene from '../screens/HistoryScene';
-import ProfileScreen from '../screens/ProfileScreen';
-import SearchScreen from '../screens/SearchScreen';
-import ScheduleScreen from '../screens/ScheduleScreen';
+import NewsFeedScreen from '../screens/newsFeed/NewsFeedScreen';
+import HistoryScene from '../screens/history/HistoryScene';
+import ProfileScreen from '../screens/profile/ProfileScreen';
+import SearchScreen from '../screens/search/SearchScreen';
+import ScheduleScreen from '../screens/schedule/ScheduleScreen';
 
 export default TabNavigator(
   {

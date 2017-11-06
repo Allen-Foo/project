@@ -2,9 +2,10 @@ import React from 'react';
 import { Alert, ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
+
 import { List, ListItem } from 'react-native-elements';
-import { setLanguage } from '../redux/actions';
+import { setLanguage } from '../../redux/actions';
 
 
 class LanguageScreen extends React.Component {
