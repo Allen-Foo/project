@@ -11,7 +11,7 @@ import {
 
 import Colors from '../constants/Colors';
 
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -45,7 +45,7 @@ class NewsFeedScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.locale !== nextProps.locale) {
+    if (this.props.languageKey !== nextProps.languageKey) {
       this.props.navigation.setParams({title: nextProps.locale.newsfeed.title})
     }
   }
@@ -83,19 +83,25 @@ class NewsFeedScreen extends React.Component {
                     starColor={Colors.tintColor}
                     emptyStarColor={Colors.tintColor}
                   />
-                  
                   <Text style={styles.comment}> {`${data.comment} comments`} </Text>
                 </View>
                 <Text>
                   <FontAwesome 
                     name={'dollar'} 
                     size={14}
-                    style={{marginLeft: '1%'}}
+                    style={{marginLeft: '5%'}}
                     color={'#E8DA3A'}
                   />
                   <Text> {`${data.fee}/lesson`}</Text>
                 </Text>
-                <Text style={styles.tutorName}> {data.address} </Text>
+                <Text>
+                  <MaterialIcons
+                    name={'location-on'} 
+                    size={14}
+                    color={'#ff0000'}
+                  />
+                  <Text style={styles.tutorName}> {data.address} </Text>
+                </Text>
               </View>
 
               <TouchableOpacity
@@ -121,23 +127,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // justifyContent: 'center',
     alignItems: 'center',
   },
   rowContainer: {
     width: '100%',
-    height: '20%',
     flexDirection: 'row',
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    // borderColor: 'red',
+    paddingVertical: '2%',
   },
   avatarContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    // borderWidth: 1,
-    // borderColor: 'green',
   },
   avatar: {
     marginTop: '5%',
@@ -146,7 +148,6 @@ const styles = StyleSheet.create({
     marginHorizontal: '5%'
   },
   contentContainer: {
-    // borderWidth: 1,
     justifyContent: 'center',
     flex: 2
   },
@@ -181,8 +182,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  // console.warn('state', state)
+  console.warn('state', state)
   return {
+    languageKey: state.language.key,
     locale: state.language.locale
   }
 }
