@@ -6,7 +6,7 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 import NewsFeedScreen from '../screens/NewsFeedScreen';
-import HistoryScreen from '../screens/HistoryScreen';
+import HistoryScene from '../screens/HistoryScene';
 import ProfileScreen from '../screens/ProfileScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ScheduleScreen from '../screens/ScheduleScreen';
@@ -17,7 +17,7 @@ export default TabNavigator(
       screen: NewsFeedScreen,
     },
     History: {
-      screen: HistoryScreen,
+      screen: HistoryScene,
     },
     Search: {
       screen: SearchScreen,

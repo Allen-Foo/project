@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  console.warn('state', state)
   return {
     languageKey: state.language.key,
     locale: state.language.locale

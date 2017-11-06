@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import Colors from '../constants/Colors';
 
 
-class HistoryScreen extends React.Component {
+class FavouriteScreen extends React.Component {
   static navigationOptions = {
     title: 'History',
-    tabBarLabel: 'History',
+    tabBarLabel: 'Favourite',
     headerLeft: null,
     headerTintColor: '#fff',
     headerStyle: {
@@ -41,4 +41,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(HistoryScreen)
+export default connect(mapStateToProps)(FavouriteScreen)
