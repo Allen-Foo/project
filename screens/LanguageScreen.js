@@ -1,9 +1,10 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { Alert, ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../constants/Colors';
 import { List, ListItem } from 'react-native-elements';
+import { setLanguage } from '../redux/actions';
 
 
 class LanguageScreen extends React.Component {
@@ -26,8 +27,21 @@ class LanguageScreen extends React.Component {
     this.setState({key: this.props.languageKey})
   }
 
+  componentWillReceiveProps(nextProps) {
+    // if change the language, will show some message to notify user
+    // add go back 
+    if(nextProps.languageKey !== this.props.languageKey) {
+      Alert.alert(
+        nextProps.locale.language.message.changeLanguage,
+        null,
+        [{text: 'OK', onPress: () => this.props.navigation.goBack()}],
+      )
+    }
+  }
+
   changeKey = (key) => {
     this.setState({key})
+    this.props.changeLanguage(key)
   }
 
   render() {
@@ -53,7 +67,7 @@ const Item = props => {
         name: currentKey == languageKey ? 'radio-button-checked' : 'radio-button-unchecked', 
         color: Colors.tintColor
       }}
-      onPressRightIcon={() => {changeKey(languageKey)}}
+      onPress={() => {changeKey(languageKey)}}
     />
   )
 }
@@ -64,17 +78,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   itemContainer: {
-    height: '15%',
     justifyContent: 'center',
   }
 });
 
 const mapStateToProps = (state) => {
-  console.warn('state', state)
   return {
     locale: state.language.locale,
     languageKey: state.language.key
   }
 }
 
-export default connect(mapStateToProps)(LanguageScreen)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeLanguage: (lang) => dispatch(setLanguage(lang))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LanguageScreen)
