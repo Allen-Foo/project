@@ -3,6 +3,8 @@ import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
+import { mockData } from '../../constants/mockData';
+import Tutor from '../../components/Tutor';
 
 
 class FavouriteScreen extends React.Component {
@@ -19,7 +21,11 @@ class FavouriteScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> {this.props.locale.history.title} </Text>
+        {
+          mockData.map((data, index) => (
+            <Tutor key={index} data={data} />
+          ))
+        }
       </View>
     );
   }
@@ -29,7 +35,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
     alignItems: 'center',
   },
 });
