@@ -1,10 +1,10 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { mockData } from '../../constants/mockData';
-import Tutor from '../../components/Tutor';
+import { Tutor, Separator } from '../../components';
 
 
 class HistoryScreen extends React.Component {
@@ -20,13 +20,19 @@ class HistoryScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {
-          // mockData.map((data, index) => (
-          //   <Tutor key={index} data={data} />
-          // ))
-        }
-      </View>
+      <FlatList
+        contentContainerStyle={styles.container}
+        data={mockData.class}
+        keyExtractor={(item, index) => (item.address)}
+        renderItem={({item}) => {
+          return (
+            <View style={{width: '100%'}}>
+              <Text> {item.address} </Text>
+              <Separator />
+            </View>
+          )
+        }}
+      />
     );
   }
 }
