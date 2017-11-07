@@ -1,10 +1,10 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { mockData } from '../../constants/mockData';
-import Tutor from '../../components/Tutor';
+import { Tutor, Separator } from '../../components';
 
 
 class FavouriteScreen extends React.Component {
@@ -20,22 +20,26 @@ class FavouriteScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {
-          mockData.map((data, index) => (
-            <Tutor key={index} data={data} />
-          ))
-        }
-      </View>
+      <FlatList
+        contentContainerStyle={styles.container}
+        data={mockData.tutor}
+        keyExtractor={(item, index) => (item.avatar)}
+        renderItem={({item}) => {
+          return (
+            <View style={{width: '100%'}}>
+              <Tutor data={item} />
+              <Separator />
+            </View>
+          )
+        }}
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
   },
 });
 
