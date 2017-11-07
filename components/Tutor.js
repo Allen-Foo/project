@@ -99,8 +99,6 @@ const styles = StyleSheet.create({
   rowContainer: {
     width: '100%',
     flexDirection: 'row',
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
     paddingVertical: '2%',
   },
   avatarContainer: {

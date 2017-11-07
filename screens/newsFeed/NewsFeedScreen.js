@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { mockData } from '../../constants/mockData';
 
 import Tutor from '../../components/Tutor';
+import Separator from '../../components/Separator';
 
 
 class NewsFeedScreen extends React.Component {
@@ -54,7 +55,10 @@ class NewsFeedScreen extends React.Component {
       <View style={styles.container}>
         {
           mockData.map((data, index) => (
-            <Tutor key={index} data={data} />
+            <View key={index} style={{width: '100%'}}>
+              <Tutor data={data} />
+              <Separator />
+            </View>  
           ))
         }
       </View>
