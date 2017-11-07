@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  FlatList,
   Image,
   Platform,
   ScrollView,
@@ -48,25 +49,26 @@ class NewsFeedScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {
-          mockData.map((data, index) => (
-            <View key={index} style={{width: '100%'}}>
-              <Tutor data={data} />
+      <FlatList
+        contentContainerStyle={styles.container}
+        data={mockData.class}
+        keyExtractor={(item, index) => (item.avatar)}
+        renderItem={({item}) => {
+          return (
+            <View style={{width: '100%'}}>
+              <Tutor data={item} />
               <Separator />
-            </View>  
-          ))
-        }
-      </View>
+            </View>
+          )
+        }}
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
   },
 });
 
