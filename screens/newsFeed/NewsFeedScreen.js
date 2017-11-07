@@ -10,14 +10,10 @@ import {
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
+import { mockData } from '../../constants/mockData';
+import { Tutor, Separator } from '../../components';
 
 import { connect } from 'react-redux';
-
-import { mockData } from '../../constants/mockData';
-
-import Tutor from '../../components/Tutor';
-import Separator from '../../components/Separator';
-
 
 class NewsFeedScreen extends React.Component {
 
