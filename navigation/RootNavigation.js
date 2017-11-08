@@ -3,9 +3,10 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import Home from '../screens/home/HomeScreen';
-import Login from '../screens/login/LoginScreen'
+import Login from '../screens/login/LoginScreen';
 import Settings from '../screens/settings/SettingsScreen';
 import Language from '../screens/settings/LanguageScreen';
+import TutorDetail from '../screens/detail/TutorDetail';
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
@@ -26,6 +27,9 @@ const RootStackNavigator = StackNavigator(
     },
     Language: {
       screen: Language,
+    },
+    TutorDetail: {
+      screen: TutorDetail
     }
   },
   {

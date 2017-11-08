@@ -28,7 +28,7 @@ class Tutor extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, onPress } = this.props;
     return (
       <View style={styles.rowContainer}>
         <View style={styles.avatarContainer}>
@@ -36,7 +36,7 @@ class Tutor extends React.Component {
             large
             rounded
             title={data.avatar}
-            onPress={() => console.warn("Works!")}
+            onPress={onPress}
             activeOpacity={0.7}
             style= {styles.avatar}
           />
