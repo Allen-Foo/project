@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text, Dimensions } from 'react-native';
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements'
@@ -7,6 +7,8 @@ import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
 import Tutor from '../../components/Tutor';
+
+const { width } = Dimensions.get('window');
 
 const data = {
   avatar: 'DF',
@@ -17,6 +19,9 @@ const data = {
   fee: '150',
   address: 'Address1',
   liked: true,
+  openingTime:'10:00',
+  closingTime:'22:00',
+  phoneNumber:'12345678'
 };
 
 class TutorDetailScreen extends React.Component {
@@ -25,10 +30,13 @@ class TutorDetailScreen extends React.Component {
   };
 
   render() {
+    let { locale } = this.props;
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
+        <View>
         <View style={styles.loginContainer}>
-          {/*
+          
           <Avatar
             large
             rounded
@@ -37,26 +45,26 @@ class TutorDetailScreen extends React.Component {
             activeOpacity={0.7}
             containerStyle={styles.avatarContainer}
           />
-          */}
+        </View>
           <Text style={{color: '#fff'}}> 
           </Text>
           <View style={styles.contentContainer}>
-          <Text style={styles.className}> {data.className} </Text>
-          <Text style={styles.tutorName}> {data.tutorName} </Text>
-          <View style={styles.ratingRow}>
-            <StarRating
-              disabled
-              emptyStar={'ios-star-outline'}
-              fullStar={'ios-star'}
-              halfStar={'ios-star-half'}
-              starSize={30}
-              iconSet={'Ionicons'}
-              maxStars={5}
-              rating={data.rating}
-              starColor={Colors.tintColor}
-              emptyStarColor={Colors.tintColor}
-            />
-            <Text style={styles.comment}> {`${data.comment} comments`} </Text>
+            <Text style={styles.className}> {data.className} </Text>
+            <Text style={styles.tutorName}> {data.tutorName} </Text>
+            <View style={styles.ratingRow}>
+              <StarRating
+                disabled
+                emptyStar={'ios-star-outline'}
+                fullStar={'ios-star'}
+                halfStar={'ios-star-half'}
+                starSize={30}
+                iconSet={'Ionicons'}
+                maxStars={5}
+                rating={data.rating}
+                starColor={Colors.tintColor}
+                emptyStarColor={Colors.tintColor}
+              />
+              <Text style={styles.comment}> {`${data.comment} comments`} </Text>
           </View>
           <Text>
             <FontAwesome 
@@ -69,13 +77,40 @@ class TutorDetailScreen extends React.Component {
           </Text>
           <Text>
             <MaterialIcons
+              name={'alarm'}
+              size={14}
+              color={'#ff0000'}
+            />
+            <Text style={styles.tutorName}> {`${data.openingTime} - ${data.closingTime} `}</Text>
+            </Text>
+          <Text>
+            <MaterialIcons
+              name={'call'} 
+              size={14}
+              color={'#ff0000'}
+            />
+            <Text style={styles.tutorName}> {data.phoneNumber}</Text>
+            
+          </Text>
+        </View>
+        <View style={styles.map}>
+
+        </View>
+          <Text>
+            <MaterialIcons
               name={'location-on'} 
               size={14}
               color={'#ff0000'}
             />
             <Text style={styles.tutorName}> {data.address} </Text>
           </Text>
-        </View>
+          <TouchableOpacity style={styles.registerButton}>
+            <Text style={{color: 'white', }}> 
+            {
+              locale.tutorDetail.text.register.label
+            }
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     );
@@ -92,17 +127,29 @@ const mapStateToPorps = (state) => {
 }
 
 const styles = StyleSheet.create({
-  rowContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    paddingVertical: '2%',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
   },
   avatarContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
+    //flex: 1,
+    marginTop: '10%',
+    marginBottom: '5%',
+    backgroundColor: '#eee'
+  },
+  loginContainer: {
+    //width: '100%',
+    backgroundColor: Colors.tintColor,
+    alignItems: 'center',
+  },
+
+  socialContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: '5%'
   },
   avatar: {
     marginTop: '5%',
@@ -112,7 +159,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     justifyContent: 'center',
-    flex: 2
+    
   },
   ratingRow: {
     flexDirection: 'row',
@@ -141,6 +188,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: '3%',
     top: '10%',
+  },
+  map:{
+    width:'100%',
+    height:200,
+    backgroundColor:'#555'
+  },
+  registerButton:{
+    height: 40, 
+    width: width,
+    backgroundColor: Colors.tintColor,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderRadius: 10, 
+    marginTop: 20
   }
 });
 
