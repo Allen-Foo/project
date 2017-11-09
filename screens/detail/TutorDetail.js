@@ -26,8 +26,10 @@ const data = {
 
 class TutorDetailScreen extends React.Component {
   static navigationOptions = {
-    title: 'Tutor Detail',
-    header: null,
+    //title: 'Tutor Detail',
+    headerStyle: {
+      backgroundColor: Colors.tintColor,
+    },
   };
 
   render() {
