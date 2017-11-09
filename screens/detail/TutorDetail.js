@@ -27,6 +27,7 @@ const data = {
 class TutorDetailScreen extends React.Component {
   static navigationOptions = {
     title: 'Tutor Detail',
+    header: null,
   };
 
   render() {
@@ -73,7 +74,7 @@ class TutorDetailScreen extends React.Component {
               style={{marginLeft: '5%'}}
               color={'#E8DA3A'}
             />
-            <Text> {`${data.fee}/lesson`}</Text>
+            <Text style={styles.tutorName}> {`${data.fee}/lesson`}</Text>
           </Text>
           <Text>
             <MaterialIcons
@@ -176,8 +177,8 @@ const styles = StyleSheet.create({
   },
   tutorName: {
     color: '#555',
-    fontSize: 14,
-    marginLeft: '8%'
+    fontSize: 18,
+    //marginLeft: '8%'
   },
   comment: {
     alignItems: 'flex-end',
