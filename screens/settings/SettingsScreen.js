@@ -32,6 +32,7 @@ class SettingsScreen extends React.Component {
             rightTitle={'0.0.1'}
             rightTitleStyle={{fontSize: 16}}
             hideChevron
+            onPress={() => {this.props.navigation.navigate('ApiTest')}}
           />
         </List>
       </View>

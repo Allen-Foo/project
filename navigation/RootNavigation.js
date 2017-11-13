@@ -6,6 +6,7 @@ import Home from '../screens/home/HomeScreen';
 import Login from '../screens/login/LoginScreen';
 import Settings from '../screens/settings/SettingsScreen';
 import Comments from '../screens/comments/CommentsScene';
+import ApiTest from '../screens/settings/ApiTestScreen';
 import Language from '../screens/settings/LanguageScreen';
 import TutorDetail from '../screens/detail/TutorDetail';
 
@@ -34,6 +35,9 @@ const RootStackNavigator = StackNavigator(
     },
     Comments:{
       screen: Comments,
+    },
+    ApiTest: {
+      screen: ApiTest
     }
   },
   {
