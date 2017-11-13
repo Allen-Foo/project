@@ -27,6 +27,7 @@ const data = {
 class TutorDetailScreen extends React.Component {
   static navigationOptions = {
     //title: 'Tutor Detail',
+    headerTintColor: '#fff',
     headerStyle: {
       backgroundColor: Colors.tintColor,
     },
