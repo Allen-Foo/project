@@ -3,6 +3,7 @@ import { Button, ScrollView, StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
+import { doGet, doPost } from '../../api/apiTest';
 
 
 class ApiTestScreen extends React.Component {
@@ -18,8 +19,8 @@ class ApiTestScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button color={'blue'} title={'GET'} onPress={() => {}} />
-        <Button color={'yellow'} title={'POST'} onPress={() => {}} />
+        <Button color={'blue'} title={'GET'} onPress={() => {doGet()}} />
+        <Button color={'red'} title={'POST'} onPress={() => {doPost()}} />
       </View>
     );
   }
