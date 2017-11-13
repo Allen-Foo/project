@@ -27,7 +27,7 @@ class FavouriteScreen extends React.Component {
         renderItem={({item}) => {
           return (
             <View style={{width: '100%'}}>
-              <Tutor data={item} />
+              <Tutor data={item} onPress={() => this.props.navigation.navigate('TutorDetail')} />
               <Separator />
             </View>
           )

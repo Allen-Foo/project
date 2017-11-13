@@ -42,7 +42,7 @@ class Tutor extends React.Component {
           />
         </View>
 
-        <View style={styles.contentContainer}>
+        <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
           <Text style={styles.className}> {data.className} </Text>
           <Text style={styles.tutorName}> {data.tutorName} </Text>
           <View style={styles.ratingRow}>
@@ -77,7 +77,7 @@ class Tutor extends React.Component {
             />
             <Text style={styles.tutorName}> {data.address} </Text>
           </Text>
-        </View>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.heart} 
