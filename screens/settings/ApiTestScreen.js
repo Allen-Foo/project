@@ -9,8 +9,7 @@ import { Toast } from '../../components';
 
 class ApiTestScreen extends React.Component {
   static navigationOptions = {
-    title: 'Search',
-    headerLeft: null,
+    title: 'API TEST',
     headerTintColor: '#fff',
     headerStyle: {
       backgroundColor: Colors.tintColor,
