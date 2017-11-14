@@ -2,25 +2,47 @@ import { AsyncStorage } from 'react-native';
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import reducer from './redux/reducers';
+import { rootEpic, rootReducer } from './redux/reducers';
+import { createEpicMiddleware } from 'redux-observable';
+import axios from 'axios';
+
 import { languageKeyName, defaultLanguageKey } from './lib/locale';
 import languagesConfig from './lib/locale/languages';
-import { setLanguage } from './redux/actions'
+import { setLanguage } from './redux/actions';
+
+import appSecrets from './appSecrets';
+
 
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 
-function configureStore(initialState) {
-  const enhancer = compose(
+const restClient = axios.create({
+  baseURL: appSecrets.aws.apiURL,
+  timeout: 15000,
+});
+
+const epicMiddleware = createEpicMiddleware(rootEpic, {
+  dependencies: { request: restClient.request },
+  // dependencies: {
+  //   request: mockRequest,
+  // },
+});
+
+function configureStore() {
+  const store = createStore(
+    rootReducer,
     applyMiddleware(
       thunkMiddleware,
       loggerMiddleware,
+      epicMiddleware,
     )
-  );
-  return createStore(reducer, initialState, enhancer);
+  )
+ 
+  return store;
 }
 
+
 //Create the store (as a singleton, this module will always return this same instance of the store)
-const store = configureStore({});
+const store = configureStore();
 
 //Load the user prefered language from local storage (or use default language if there is no language pre-selection)
 //Once the language is loaded the store itself dispatch the action to update the language congifuration

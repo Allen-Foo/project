@@ -1,9 +1,16 @@
 // index.js
-import { combineReducers } from 'redux'
-import language from './language'
+import { combineReducers } from 'redux';
+import { combineEpics } from 'redux-observable';
 
-const rootReducer = combineReducers({
+import language from './language';
+
+import apiTest, { doGetEpic } from '../../api/apiTest'
+
+export const rootReducer = combineReducers({
   language,
+  apiTest
 })
 
-export default rootReducer
+export const rootEpic = combineEpics(
+  doGetEpic
+)

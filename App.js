@@ -1,3 +1,6 @@
+// import RxJS operators
+import 'rxjs';
+
 import React from 'react';
 import { AsyncStorage, Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
