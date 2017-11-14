@@ -34,13 +34,8 @@ class ApiTestScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button color={'blue'} title={'GET'} onPress={() => {
-          this.props.doGet()
-        }} />
-        <Button color={'red'} title={'POST'} onPress={() => {
-          this.setState({message: doPost()});
-          this.Toast._root.show();
-        }} />
+        <Button color={'blue'} title={'GET'} onPress={() => {this.props.doGet()}} />
+        <Button color={'red'} title={'POST'} onPress={() => {this.props.doPost()}} />
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.message} />
       </View>
     );
@@ -66,4 +61,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   doGet,
+  doPost
 })(ApiTestScreen)

@@ -4,7 +4,7 @@ import { combineEpics } from 'redux-observable';
 
 import language from './language';
 
-import apiTest, { doGetEpic } from '../../api/apiTest'
+import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest'
 
 export const rootReducer = combineReducers({
   language,
@@ -12,5 +12,6 @@ export const rootReducer = combineReducers({
 })
 
 export const rootEpic = combineEpics(
-  doGetEpic
+  doGetEpic,
+  doPostEpic
 )
