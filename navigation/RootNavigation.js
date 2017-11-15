@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import Home from '../screens/home/HomeScreen';
 import Login from '../screens/login/LoginScreen';
 import Settings from '../screens/settings/SettingsScreen';
+import Comments from '../screens/comments/CommentsScene';
 import Language from '../screens/settings/LanguageScreen';
 import TutorDetail from '../screens/detail/TutorDetail';
 
@@ -30,6 +31,9 @@ const RootStackNavigator = StackNavigator(
     },
     TutorDetail: {
       screen: TutorDetail
+    },
+    Comments:{
+      screen: Comments,
     }
   },
   {

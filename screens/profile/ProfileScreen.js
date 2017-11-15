@@ -8,24 +8,6 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import { List, ListItem } from 'react-native-elements'
 
-const list = [
-  {
-    title: 'Comments',
-    icon: 'comment',
-  },
-  {
-    title: 'Notification',
-    icon: 'notifications',
-  },
-  {
-    title: 'Apply to be a tutor',
-    icon: 'people',
-  },
-  {
-    title: 'Settings',
-    icon: 'settings'
-  }
-]
 
 class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -56,16 +38,26 @@ class ProfileScreen extends React.Component {
         </View>
 
         <List containerStyle={{width: '90%'}}>
-        {
-          list.map((item, i) => (
-            <ListItem
-              key={i}
-              title={item.title}
-              leftIcon={{name: item.icon}}
-              onPress={() => {this.props.navigation.navigate('Settings')}}
-            />
-          ))
-        }
+          <ListItem
+            title={'Comments'}
+            leftIcon={{name: 'comment'}}
+            onPress={() => {this.props.navigation.navigate('Comments')}}
+          />
+          <ListItem
+            title={'Notifications'}
+            leftIcon={{name: 'notifications'}}
+            onPress={() => {this.props.navigation.navigate('Notifications')}}
+          />
+          <ListItem
+            title={'Apply to be a tutor'}
+            leftIcon={{name: 'people'}}
+            onPress={() => {this.props.navigation.navigate('Apply to be a tutor')}}
+          />
+          <ListItem
+            title={'Settings'}
+            leftIcon={{name: 'settings'}}
+            onPress={() => {this.props.navigation.navigate('Settings')}}
+          />        
         </List>
       </ScrollView>
     );
