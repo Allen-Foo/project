@@ -1,5 +1,15 @@
 import React from 'react';
-import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text, Dimensions } from 'react-native';
+import { 
+  Alert, 
+  AsyncStorage, 
+  ScrollView, 
+  StyleSheet, 
+  TouchableOpacity, 
+  View, 
+  Text, 
+  Dimensions 
+} from 'react-native';
+
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements'
@@ -7,8 +17,9 @@ import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
 import Tutor from '../../components/Tutor';
+import Comments from '../comments/Comments';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const data = {
   avatar: 'DF',
@@ -21,7 +32,8 @@ const data = {
   liked: true,
   openingTime:'10:00',
   closingTime:'22:00',
-  phoneNumber:'12345678'
+  phoneNumber:'12345678',
+  userComment:'It is a very useful class, Our vision has always been to create an iPhone that is entirely screen. One so immersive the device itself disappears into the experience. And so intelligent it can respond to a tap, your voice, and even a glance. With iPhone X, that vision is now a reality. Say hello to the future. ',
 };
 
 class TutorDetailScreen extends React.Component {
@@ -39,19 +51,18 @@ class TutorDetailScreen extends React.Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View>
-        <View style={styles.loginContainer}>
-          
-          <Avatar
-            large
-            rounded
-            icon={{name: 'account-box'}}
-            onPress={() => this.props.navigation.navigate('Login')}
-            activeOpacity={0.7}
-            containerStyle={styles.avatarContainer}
-          />
-        </View>
-          <Text style={{color: '#fff'}}> 
-          </Text>
+          <View style={styles.loginContainer}>
+            <Avatar
+              large
+              rounded
+              icon={{name: 'account-box'}}
+              onPress={() => this.props.navigation.navigate('Login')}
+              activeOpacity={0.7}
+              containerStyle={styles.avatarContainer}
+            />
+          </View>
+
+          <Text style={{color: '#fff'}}></Text>
           <View style={styles.contentContainer}>
             <Text style={styles.className}> {data.className} </Text>
             <Text style={styles.tutorName}> {data.tutorName} </Text>
@@ -98,7 +109,7 @@ class TutorDetailScreen extends React.Component {
           </Text>
         </View>
         <View style={styles.map}>
-
+          <Text> Map </Text>
         </View>
           <Text>
             <MaterialIcons
@@ -116,6 +127,7 @@ class TutorDetailScreen extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
+        { [1,2,3].map((x, i) => <Comments key={i}/>) }
       </ScrollView>
     );
   }
@@ -132,9 +144,7 @@ const mapStateToPorps = (state) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
   },
   avatarContainer: {
     justifyContent: 'center',
@@ -196,7 +206,10 @@ const styles = StyleSheet.create({
   map:{
     width:'100%',
     height:200,
-    backgroundColor:'#555'
+    backgroundColor:'#eee',
+    borderWidth: 1,
+    alignItems: 'center', 
+    justifyContent: 'center',
   },
   registerButton:{
     height: 40, 
@@ -205,7 +218,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius: 10, 
-    marginTop: 20
+    marginVertical: 20,
   }
 });
 
