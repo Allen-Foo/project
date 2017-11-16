@@ -43,6 +43,13 @@ const data = {
 
 class Comments extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapsed: true
+    }
+  }
+
   render() {
     const {onPress} = this.props;
     return (
@@ -60,8 +67,8 @@ class Comments extends React.Component {
               style= {styles.avatar}
             />
           </View>
-
-          <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
+                
+          <TouchableOpacity style={styles.contentContainer} onPress={() => {this.setState({collapsed: false})}}>
             <Text style={styles.className}> {data.className} </Text>
             <Text style={styles.tutorName}> {data.tutorName} </Text>
             <View style={styles.ratingRow}>
@@ -79,17 +86,21 @@ class Comments extends React.Component {
               />
               <Text style={styles.comment}> {`${data.comment} comments`} </Text>
             </View>
-            <Text>
-              <Text style={styles.userComment}> {data.userComment} </Text>
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.heart} 
-            //onPress={() => this.setState({liked: !this.state.liked})}
-          >
+            {
+              this.state.collapsed ?
+              <Text 
+                style={styles.userComment}
+                numberOfLines={2}
+              > 
+                {data.userComment} 
+              </Text> :
+              <Text style={styles.userComment}> 
+                {data.userComment} 
+              </Text>
+            }
             
           </TouchableOpacity>
+
         </View>
       </View>
     );
