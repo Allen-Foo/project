@@ -1,18 +1,26 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 
-import { connect } from 'react-redux';
 import { MapView, Constants } from 'expo';
 import { SearchBar } from 'react-native-elements';
+import { Tutor,} from '../../components';
+import { mockData } from '../../constants/mockData';
 
 
 class SearchScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedMarkerIndex: null,
+    }
+  }
 
   render() {
     return (
@@ -43,13 +51,24 @@ class SearchScreen extends React.Component {
               longitudeDelta: 0.00421,
             }}
           >
-             <MapView.Marker
-              coordinate={{latitude: 22.2965866, longitude: 114.1748086}}
-              title={'The Darts Factory'}
-              description={'A cool company'}
-            />
+            {
+              mockData.class.map((cls, index) => (
+                <MapView.Marker
+                  key={index}
+                  coordinate={cls.position}
+                  onPress={e => this.setState({selectedMarkerIndex: index})}
+                />
+              ))
+            }
           </MapView>
         </View>
+        <View style={{width: '100%'}}>
+        {
+          this.state.selectedMarkerIndex !== null &&
+          <Tutor data={mockData.class[this.state.selectedMarkerIndex]} onPress={() => this.props.navigation.navigate('TutorDetail')} />
+        }
+        </View>
+        
       </View>
     );
   }

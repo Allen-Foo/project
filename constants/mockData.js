@@ -40,8 +40,13 @@ export const mockData = {
       rating: 3.5,
       comment: '30',
       fee: '150',
-      address: 'Address1',
+      address: 'K11 Shopping Mall',
       liked: true,
+      position: {
+        latitude: 22.2973556,
+        longitude: 114.1722189,
+      },
+      description: 'will teach you how to use darts'
     },
     {
       avatar: 'AL',
@@ -53,6 +58,11 @@ export const mockData = {
       fee: '250',
       address: 'Address2',
       liked: false,
+      position: {
+        latitude: 22.2971765,
+        longitude: 114.1737107,
+      },
+      description: 'will teach you how to use darts'
     },
     {
       avatar: 'SE',
@@ -64,46 +74,11 @@ export const mockData = {
       fee: '50',
       address: 'Address3',
       liked: false,
+      position: {
+        latitude: 22.2971765,
+        longitude: 114.1737107,
+      },
+      description: 'will teach you how to use darts'
     },
-    // {
-    //   avatar: 'AD',
-    //   className: 'The Darts Factory',
-    //   tutorName: 'Chan Tai Man',
-    //   rating: 3.5,
-    //   comment: '30',
-    //   fee: '150',
-    //   address: 'Address4',
-    //   liked: true,
-    // },
-    // {
-    //   avatar: 'ER',
-    //   className: 'The Darts Factory',
-    //   tutorName: 'Wong Siu Ming',
-    //   rating: 5,
-    //   comment: '20',
-    //   fee: '250',
-    //   address: 'Address5',
-    //   liked: false,
-    // },
-    // {
-    //   avatar: 'WI',
-    //   className: 'The Darts Factory',
-    //   tutorName: 'Wong Siu Ming',
-    //   rating: 0,
-    //   comment: '10',
-    //   fee: '50',
-    //   address: 'Address6',
-    //   liked: false,
-    // },
-    // {
-    //   avatar: 'KS',
-    //   className: 'The Darts Factory',
-    //   tutorName: 'Wong Siu Ming',
-    //   rating: 0,
-    //   comment: '10',
-    //   fee: '50',
-    //   address: 'Address7',
-    //   liked: false,
-    // },
   ],
 } 
