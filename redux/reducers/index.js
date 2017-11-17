@@ -4,14 +4,19 @@ import { combineEpics } from 'redux-observable';
 
 import language from './language';
 
-import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest'
+import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest';
+import socialLogin from './socialLogin';
+import { signInFacebookEpic, signInGoogleEpic } from '../actions/socialLogin';
 
 export const rootReducer = combineReducers({
   language,
-  apiTest
+  apiTest,
+  socialLogin
 })
 
 export const rootEpic = combineEpics(
   doGetEpic,
-  doPostEpic
+  doPostEpic,
+  signInFacebookEpic,
+  signInGoogleEpic
 )
