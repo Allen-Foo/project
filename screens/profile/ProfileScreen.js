@@ -1,13 +1,14 @@
 import React from 'react';
 import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import Colors from '../../constants/Colors';
 
 import { connect } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
-
 import { List, ListItem } from 'react-native-elements'
 
+import Colors from '../../constants/Colors';
+
+import { signInFacebook, signInGoogle } from '../../redux/actions';
 
 class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -15,24 +16,37 @@ class ProfileScreen extends React.Component {
   };
 
   render() {
+    const { avatarUrl, userName, navigation, locale, signInGoogle, signInFacebook } = this.props;
+
+    let avatar = avatarUrl ?
+      <Avatar
+        large
+        rounded
+        source={{url: avatarUrl}}
+        onPress={() => navigation.navigate('Login')}
+        activeOpacity={0.7}
+        containerStyle={styles.avatarContainer}
+      /> :
+       <Avatar
+        large
+        rounded
+        icon={{name: 'account-box'}}
+        onPress={() => navigation.navigate('Login')}
+        activeOpacity={0.7}
+        containerStyle={styles.avatarContainer}
+      /> 
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.loginContainer}>
-          <Avatar
-            large
-            rounded
-            icon={{name: 'account-box'}}
-            onPress={() => this.props.navigation.navigate('Login')}
-            activeOpacity={0.7}
-            containerStyle={styles.avatarContainer}
-          />
-          <Text style={{color: '#fff'}}> 
-            {this.props.locale.profile.text.login}
+          { avatar }
+          <Text style={{color: '#fff', fontWeight: 'bold'}}> 
+            {userName || locale.profile.text.login}
           </Text>
 
           <View style={styles.socialContainer}>
-            <SocialIcon onPress={() => {}} name={'facebook'} />
-            <SocialIcon onPress={() => {}} name={'google-plus'} />
+            <SocialIcon onPress={() => {signInFacebook()}} name={'facebook'} />
+            <SocialIcon onPress={() => {signInGoogle()}} name={'google-plus'} />
             <SocialIcon onPress={() => {}} name={'wechat'} />
           </View>
         </View>
@@ -81,7 +95,10 @@ const SocialIcon = props => {
 
 const mapStateToPorps = (state) => {
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    isLogined: state.socialLogin.isLogined,
+    avatarUrl: state.socialLogin.avatarUrl,
+    userName: state.socialLogin.userName,
   }
 }
 
@@ -108,4 +125,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToPorps)(ProfileScreen)
+export default connect(mapStateToPorps, {
+  signInFacebook,
+  signInGoogle
+})(ProfileScreen)
