@@ -2,6 +2,9 @@ import {
   SIGN_IN_FACEBOOK,
   SIGN_IN_FACEBOOK_SUCCESS,
   SIGN_IN_FACEBOOK_FAIL,
+  GET_FACEBOOK_PROFILE,
+  GET_FACEBOOK_PROFILE_SUCCESS,
+  GET_FACEBOOK_PROFILE_FAIL,
   SIGN_IN_GOOGLE,
   SIGN_IN_GOOGLE_SUCCESS,
   SIGN_IN_GOOGLE_FAIL,
@@ -30,6 +33,23 @@ export default (state = {...defaultState}, action) => {
         accessToken: action.payload
       };
     case SIGN_IN_FACEBOOK_FAIL:
+      // console.warn('here', 'DO_GET_SUCCESS', action.payload)
+      return {
+        ...state,
+        isLogined: false,
+        message: action.payload
+      }
+    case GET_FACEBOOK_PROFILE:
+      console.warn('here', 'GET_FACEBOOK_PROFILE')
+      return state
+    case GET_FACEBOOK_PROFILE_SUCCESS:
+      console.warn('here', 'GET_FACEBOOK_PROFILE_SUCCESS')
+      return {
+        ...state,
+        isLogined: true,
+        ...action.payload
+      };
+    case GET_FACEBOOK_PROFILE_FAIL:
       // console.warn('here', 'DO_GET_SUCCESS', action.payload)
       return {
         ...state,
