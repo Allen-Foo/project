@@ -13,7 +13,7 @@ const appSecrets = {
 		}
 	},
 	facebook: {
-		clientID: `1349440611846013`
+		clientID: `133515140682972`
 	},
 	twitter: {
 		clientID: `YzdixNvS1QPdsakaywxlKLu84`
