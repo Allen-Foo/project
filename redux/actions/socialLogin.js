@@ -6,6 +6,9 @@ import {
   GET_FACEBOOK_PROFILE,
   GET_FACEBOOK_PROFILE_SUCCESS,
   GET_FACEBOOK_PROFILE_FAIL,
+  GET_FACEBOOK_PICTURE,
+  GET_FACEBOOK_PICTURE_SUCCESS,
+  GET_FACEBOOK_PICTURE_FAIL,
   SIGN_IN_GOOGLE,
   SIGN_IN_GOOGLE_SUCCESS,
   SIGN_IN_GOOGLE_FAIL,
@@ -71,7 +74,15 @@ export const getFacebookProfileEpic = (action$, store, { request }) =>
         `https://graph.facebook.com/me?fields=id,name,email,birthday&access_token=${action.payload}`
       ))
       .map(res => {
-        // console.warn('success', res.data)
+        // console.warn('GET_FACEBOOK_PROFILE_SUCCESS', res.data)
+
+        store.dispatch({
+          type: GET_FACEBOOK_PICTURE,
+          payload: {
+            userId: res.data.id,
+            accessToken: action.payload,
+          }
+        })
 
         return {
           type: GET_FACEBOOK_PROFILE_SUCCESS,
@@ -88,6 +99,38 @@ export const getFacebookProfileEpic = (action$, store, { request }) =>
       })),
     )
 
+/* here is an example of the reponse
+  {
+    "data": {
+        "height": 200,
+        "is_silhouette": false,
+        "url": "https://scontent.xx.fbcdn.net/v/t1.0-1/23722601_121579211952166_3148123853748525094_n.jpg?oh=c5a41b2f36f58428a38395718d3bb772&oe=5AACA778",
+        "width": 200
+    }
+  }
+*/
+export const getFacebookPictureEpic = (action$, store, { request }) =>
+  action$.ofType(GET_FACEBOOK_PICTURE)
+    .mergeMap(action => 
+      Observable.fromPromise(axios.get(
+        `https://graph.facebook.com/${action.payload.userId}/picture?redirect=false&type=large&access_token=${action.payload.accessToken}`
+      ))
+      .map(res => {
+        // console.warn('GET_FACEBOOK_PICTURE_SUCCESS', res.data.data)
+
+        return {
+          type: GET_FACEBOOK_PICTURE_SUCCESS,
+          payload: {
+            avatarUrl: res.data.data.url,
+          }
+        }
+      })
+      .catch(error => Observable.of({
+        type: GET_FACEBOOK_PICTURE_FAIL,
+        payload: 'get profile failed'
+      })),
+    )
+
 export const signInGoogleEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_IN_GOOGLE)
     .mergeMap(action => 
@@ -99,7 +142,7 @@ export const signInGoogleEpic = (action$, store, { request }) =>
       .map(res => {
         switch (res.type) {
           case 'success':
-            console.warn('success', res)
+            // console.warn('success', res)
             return {
               type: SIGN_IN_GOOGLE_SUCCESS,
               payload: {

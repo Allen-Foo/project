@@ -6,7 +6,12 @@ import language from './language';
 
 import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest';
 import socialLogin from './socialLogin';
-import { signInFacebookEpic, signInGoogleEpic, getFacebookProfileEpic } from '../actions/socialLogin';
+import { 
+  signInFacebookEpic,
+  signInGoogleEpic,
+  getFacebookProfileEpic,
+  getFacebookPictureEpic
+} from '../actions/socialLogin';
 
 export const rootReducer = combineReducers({
   language,
@@ -20,4 +25,5 @@ export const rootEpic = combineEpics(
   signInFacebookEpic,
   signInGoogleEpic,
   getFacebookProfileEpic,
+  getFacebookPictureEpic,
 )
