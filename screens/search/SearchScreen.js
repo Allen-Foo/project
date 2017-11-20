@@ -56,6 +56,7 @@ class SearchScreen extends React.Component {
                 <MapView.Marker
                   key={index}
                   coordinate={cls.position}
+                  pinColor={this.state.selectedMarkerIndex === index ? Colors.tintColor : 'red'}
                   onPress={e => this.setState({selectedMarkerIndex: index})}
                 />
               ))
