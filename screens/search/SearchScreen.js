@@ -62,7 +62,7 @@ class SearchScreen extends React.Component {
             }
           </MapView>
         </View>
-        <View style={{width: '100%'}}>
+        <View style={styles.bottomViewClassDetail}>
         {
           this.state.selectedMarkerIndex !== null &&
           <Tutor data={mockData.class[this.state.selectedMarkerIndex]} onPress={() => this.props.navigation.navigate('TutorDetail')} />
@@ -115,6 +115,14 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  bottomViewClassDetail:{
+    width: '90%',
+    marginHorizontal: '5%',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    bottom: '2%',
+  }
 });
 
 const mapStateToProps = (state) => {
