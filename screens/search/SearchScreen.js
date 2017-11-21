@@ -44,6 +44,10 @@ class SearchScreen extends React.Component {
         <View style={styles.mapContainer}>
           <MapView
             style={styles.map}
+            showsUserLocation
+            showsMyLocationButton
+            showsPointsOfInterest
+            showsScale
             initialRegion={{
               latitude: 22.2965866,
               longitude: 114.1748086,
@@ -66,7 +70,10 @@ class SearchScreen extends React.Component {
         <View style={styles.bottomViewClassDetail}>
         {
           this.state.selectedMarkerIndex !== null &&
-          <Tutor data={mockData.class[this.state.selectedMarkerIndex]} onPress={() => this.props.navigation.navigate('TutorDetail')} />
+          <Tutor 
+            data={mockData.class[this.state.selectedMarkerIndex]}
+            onPress={() => this.props.navigation.navigate('TutorDetail')} 
+          />
         }
         </View>
         
