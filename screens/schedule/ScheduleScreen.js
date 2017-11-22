@@ -22,7 +22,12 @@ class ScheduleScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: {}
+      items: {
+       '2017-11-22': [{text: 'The Darts Factory', time: '10: 00AM - 11:00 AM', tutor: 'Wong Siu Ming'}],
+       '2017-11-23': [{text: 'item 2 - any js object'}],
+       '2017-11-24': [],
+       '2017-11-25': [{text: 'item 3 - any js object'},{text: 'any js object'}],
+      }
     };
   }
 
@@ -31,7 +36,8 @@ class ScheduleScreen extends React.Component {
       <Agenda
         items={this.state.items}
         loadItemsForMonth={this.loadItems.bind(this)}
-        selected={'2017-11-11'}
+        //loadItemsForMonth={(month) => {console.log('trigger items loading')}}
+        selected={new Date().toISOString().slice(0,10)}
         renderItem={this.renderItem.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
         rowHasChanged={this.rowHasChanged.bind(this)}
@@ -44,7 +50,7 @@ class ScheduleScreen extends React.Component {
          }}
         //monthFormat={'yyyy'}
         //theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
-        //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
+        // renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
       />
     );
   }
@@ -56,14 +62,8 @@ class ScheduleScreen extends React.Component {
         const strTime = this.timeToString(time);
         if (!this.state.items[strTime]) {
           this.state.items[strTime] = [];
-          const numItems = Math.floor(Math.random() * 5);
-          for (let j = 0; j < numItems; j++) {
-            this.state.items[strTime].push({
-              name: 'Item for ' + strTime,
-              height: Math.max(50, Math.floor(Math.random() * 150))
-            });
-          }
-        }
+          this.state.items[strTime].push([])
+        } 
       }
       //console.log(this.state.items);
       const newItems = {};
@@ -77,18 +77,22 @@ class ScheduleScreen extends React.Component {
 
   renderItem(item) {
     return (
-      <View style={[styles.item, {height: item.height}]}><Text>{item.name}</Text></View>
+      <View style={[styles.item, {height: item.height}]}>
+        <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.text}</Text>
+        <Text style={{color: Colors.tintColor}}>{item.time}</Text>
+        <Text style={{color: 'purple'}}>{item.tutor}</Text>
+      </View>
     );
   }
 
   renderEmptyDate() {
     return (
-      <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
+      <View />
     );
   }
 
   rowHasChanged(r1, r2) {
-    return r1.name !== r2.name;
+    return r1.text !== r2.text;
   }
 
   timeToString(time) {
