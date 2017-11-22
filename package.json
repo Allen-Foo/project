@@ -13,11 +13,13 @@
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
+    "aws-sdk": "^2.155.0",
     "axios": "^0.17.1",
     "expo": "^22.0.0",
     "react": "16.0.0-beta.5",
     "react-native": "https://github.com/expo/react-native/archive/sdk-22.0.1.tar.gz",
     "react-native-animatable": "^1.2.4",
+    "react-native-aws-cognito-js": "0.0.7",
     "react-native-elements": "^0.17.0",
     "react-native-star-rating": "^1.0.8",
     "react-navigation": "^1.0.0-beta.15",
