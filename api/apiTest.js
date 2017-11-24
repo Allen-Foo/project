@@ -27,7 +27,7 @@ export const doGet = (service, userInfo) => {
 
 
 export const doGetEpic = (action$, store, { request }) =>
-  action$.ofType(DO_GET)
+  action$.ofType(DO_GET).delay(1000)
     .mergeMap(action => 
       Observable.fromPromise(request({
         method: 'get',
@@ -46,7 +46,7 @@ export const doGetEpic = (action$, store, { request }) =>
     )
 
 export const doPostEpic = (action$, store, { request }) =>
-  action$.ofType(DO_POST)
+  action$.ofType(DO_POST).delay(1000)
     .mergeMap(action => 
       Observable.fromPromise(request({
         method: 'post',

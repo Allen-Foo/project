@@ -4,7 +4,7 @@ import { ActivityIndicator, Button, ScrollView, StyleSheet, View, Text } from 'r
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { doGet, doPost } from '../../api/apiTest';
-import { Toast } from '../../components';
+import { Toast, Spinner } from '../../components';
 import { BlurView } from 'expo';
 
 
@@ -26,7 +26,7 @@ class ApiTestScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.message !== this.props.message) {
+    if (nextProps.message && nextProps.message !== this.props.message) {
       this.Toast.show();
     }
   }
@@ -38,11 +38,8 @@ class ApiTestScreen extends React.Component {
         <Button color={'blue'} title={'GET'} onPress={() => {this.props.doGet()}} />
         <Button color={'red'} title={'POST'} onPress={() => {this.props.doPost()}} />
         { 
-          isFetching &&
-          <BlurView tint="light" intensity={100} style={styles.center}>
-            <ActivityIndicator color={Colors.tintColor} />
-          </BlurView>
-        }
+          isFetching && <Spinner />
+         }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={message} />
       </View>
     );
