@@ -5,13 +5,16 @@ import {
   ActivityIndicator,
   StyleSheet,
   View,
+  Text,
 } from 'react-native';
+
+import { connect } from 'react-redux';
 
 import { BlurView } from 'expo';
 
 import Colors from '../constants/Colors'
 
-export default class Spinner extends Component {
+class Spinner extends Component {
 
   static propTypes = {
     color: PropTypes.string,
@@ -28,6 +31,9 @@ export default class Spinner extends Component {
     return (
       <BlurView tint="light" intensity={intensity} style={styles.container}>
         <ActivityIndicator color={color} />
+        <Text style={[styles.text, {color: color}]}>
+          {this.props.locale.common.loading}
+        </Text>
       </BlurView>
     )
   }
@@ -43,4 +49,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  text: {
+    paddingTop: '3%'
+  }
 });
+
+const mapStateToProps = (state) => {
+  return {
+    locale: state.language.locale
+  }
+}
+
+export default connect(mapStateToProps)(Spinner)
