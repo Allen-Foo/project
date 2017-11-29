@@ -3,7 +3,7 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import Home from '../screens/home/HomeScreen';
-import Login from '../screens/login/LoginScreen';
+import Signin from '../screens/login/SigninScreen';
 import Settings from '../screens/settings/SettingsScreen';
 import Comments from '../screens/comments/CommentsScene';
 import ApiTest from '../screens/settings/ApiTestScreen';
@@ -21,8 +21,8 @@ const RootStackNavigator = StackNavigator(
     Main: {
       screen: MainTabNavigator,
     },
-    Login: {
-      screen: Login,
+    Signin: {
+      screen: Signin,
     },
     Settings: {
       screen: Settings,
@@ -31,7 +31,7 @@ const RootStackNavigator = StackNavigator(
       screen: Language,
     },
     TutorDetail: {
-      screen: TutorDetail
+      screen: TutorDetail,
     },
     Comments:{
       screen: Comments,

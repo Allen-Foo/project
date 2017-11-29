@@ -1,10 +1,11 @@
 import React from 'react';
-import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text, Dimensions } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
 import { connect } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { List, ListItem } from 'react-native-elements'
+const { height, width } = Dimensions.get('window')
 
 import Colors from '../../constants/Colors';
 
@@ -15,33 +16,24 @@ class ProfileScreen extends React.Component {
     header: null,
   };
 
-  render() {
-    const { avatarUrl, userName, navigation, locale, signInGoogle, signInFacebook } = this.props;
+  static defaultProps = {
+    isLoggedIn: false
+  }
 
-    let avatar = avatarUrl ?
-      <Avatar
-        large
-        rounded
-        source={{url: avatarUrl}}
-        onPress={() => navigation.navigate('Login')}
-        activeOpacity={0.7}
-        containerStyle={styles.avatarContainer}
-      /> :
-       <Avatar
-        large
-        rounded
-        icon={{name: 'account-box'}}
-        onPress={() => navigation.navigate('Login')}
-        activeOpacity={0.7}
-        containerStyle={styles.avatarContainer}
-      /> 
-
-    return (
-      <ScrollView contentContainerStyle={styles.container}>
+  renderHeader(isLoggedIn) {
+    if (isLoggedIn) {
+      return (
         <View style={styles.loginContainer}>
-          { avatar }
-          <Text style={{color: '#fff', fontWeight: 'bold'}}> 
-            {userName || locale.profile.text.login}
+          <Avatar
+            large
+            rounded
+            icon={{name: 'account-box'}}
+            onPress={() => this.props.navigation.navigate('Signin')}
+            activeOpacity={0.7}
+            containerStyle={styles.avatarContainer}
+          />
+          <Text style={{color: '#fff'}}> 
+            {this.props.locale.profile.text.login}
           </Text>
 
           <View style={styles.socialContainer}>
@@ -50,6 +42,28 @@ class ProfileScreen extends React.Component {
             <SocialIcon onPress={() => {}} name={'wechat'} />
           </View>
         </View>
+      )
+    } else {
+      return (
+        <View style={styles.loginContainer}>
+          <TouchableOpacity style={[styles.button, {backgroundColor: '#E4E4E4'}]} onPress={() => this.props.navigation.navigate('Signin')}>
+            <Text style={{color: '#5ECC3F'}}> {this.props.locale.profile.text.pleaseSignInToViewYourProfile} </Text>
+          </TouchableOpacity>
+
+          <Text style={styles.text}> 
+            {this.props.locale.profile.text.signUp} 
+          </Text>
+
+        </View>
+      )
+    }
+  }
+
+  render() {
+    return (
+      <ScrollView contentContainerStyle={styles.container}>
+
+        {this.renderHeader(this.props.isLoggedIn)}
 
         <List containerStyle={{width: '90%'}}>
           <ListItem
@@ -112,6 +126,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: Colors.tintColor,
     alignItems: 'center',
+    paddingVertical: '20%',
   },
   avatarContainer: {
     marginTop: '10%',
@@ -123,6 +138,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: '5%'
   },
+  button:{
+    height: 40, 
+    width: width * 0.8,
+    backgroundColor: '#41B252', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderRadius: 10, 
+    marginTop: 20
+  },
+  text: {
+    marginTop:10,
+    color: '#fff'
+  }
+
 });
 
 export default connect(mapStateToPorps, {
