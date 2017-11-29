@@ -2,7 +2,7 @@ import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
-import Home from '../screens/home/HomeScreen';
+// import Home from '../screens/home/HomeScreen';
 import Signin from '../screens/login/SigninScreen';
 import Settings from '../screens/settings/SettingsScreen';
 import Comments from '../screens/comments/CommentsScene';
@@ -15,9 +15,9 @@ import registerForPushNotificationsAsync from '../api/registerForPushNotificatio
 
 const RootStackNavigator = StackNavigator(
   {
-    Home: {
-      screen: Home,
-    }, 
+    // Home: {
+    //   screen: Home,
+    // }, 
     Main: {
       screen: MainTabNavigator,
     },
