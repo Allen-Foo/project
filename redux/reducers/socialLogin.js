@@ -1,4 +1,7 @@
 import {
+  SIGN_IN_EMAIL,
+  SIGN_IN_EMAIL_SUCCESS,
+  SIGN_IN_EMAIL_FAIL,
   SIGN_IN_FACEBOOK,
   SIGN_IN_FACEBOOK_SUCCESS,
   SIGN_IN_FACEBOOK_FAIL,
@@ -15,7 +18,7 @@ import {
 
 
 const defaultState = {
-  isLogined: false,
+  isLoggedIn: false,
   accessToken: null,
   avatarUrl: null,
   email: null,
@@ -25,6 +28,23 @@ const defaultState = {
 // Reducer
 export default (state = {...defaultState}, action) => {
   switch (action.type) {
+    case SIGN_IN_EMAIL:
+      // console.warn('here', 'SIGN_IN_EMAIL')
+      return state
+    case SIGN_IN_EMAIL_SUCCESS:
+      // console.warn('here', 'SIGN_IN_EMAIL_SUCCESS')
+      return {
+        ...state,
+        isLoggedIn: true,
+        accessToken: action.payload
+      };
+    case SIGN_IN_EMAIL_FAIL:
+      // console.warn('here', 'DO_GET_SUCCESS', action.payload)
+      return {
+        ...state,
+        isLoggedIn: false,
+        message: action.payload
+      }
     case SIGN_IN_FACEBOOK:
       // console.warn('here', 'SIGN_IN_FACEBOOK')
       return state
@@ -32,14 +52,14 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'SIGN_IN_FACEBOOK_SUCCESS')
       return {
         ...state,
-        isLogined: true,
+        isLoggedIn: true,
         accessToken: action.payload
       };
     case SIGN_IN_FACEBOOK_FAIL:
       // console.warn('here', 'DO_GET_SUCCESS', action.payload)
       return {
         ...state,
-        isLogined: false,
+        isLoggedIn: false,
         message: action.payload
       }
     case GET_FACEBOOK_PROFILE:
@@ -49,14 +69,14 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'GET_FACEBOOK_PROFILE_SUCCESS')
       return {
         ...state,
-        isLogined: true,
+        isLoggedIn: true,
         ...action.payload
       };
     case GET_FACEBOOK_PROFILE_FAIL:
       // console.warn('here', 'GET_FACEBOOK_PROFILE_FAIL', action.payload)
       return {
         ...state,
-        isLogined: false,
+        isLoggedIn: false,
         message: action.payload
       }
     case GET_FACEBOOK_PICTURE:
@@ -66,14 +86,14 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'GET_FACEBOOK_PICTURE_SUCCESS', action.payload)
       return {
         ...state,
-        isLogined: true,
+        isLoggedIn: true,
         ...action.payload
       };
     case GET_FACEBOOK_PICTURE_FAIL:
       // console.warn('here', 'GET_FACEBOOK_PICTURE_FAIL', action.payload)
       return {
         ...state,
-        isLogined: false,
+        isLoggedIn: false,
         message: action.payload
       }
     case SIGN_IN_GOOGLE:
@@ -83,14 +103,14 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'SIGN_IN_GOOGLE_SUCCESS')
       return {
         ...state,
-        isLogined: true,
+        isLoggedIn: true,
         ...action.payload
       };
     case SIGN_IN_GOOGLE_FAIL:
       // console.warn('here', 'DO_GET_SUCCESS', action.payload)
       return {
         ...state,
-        isLogined: false,
+        isLoggedIn: false,
         message: action.payload
       }
     default:

@@ -1,5 +1,8 @@
 // socialLogin.js
 import {
+  SIGN_IN_EMAIL,
+  SIGN_IN_EMAIL_SUCCESS,
+  SIGN_IN_EMAIL_FAIL,
   SIGN_IN_FACEBOOK,
   SIGN_IN_FACEBOOK_SUCCESS,
   SIGN_IN_FACEBOOK_FAIL,
@@ -19,6 +22,13 @@ import { Observable } from 'rxjs/Observable';
 import Expo from 'expo';
 import axios from 'axios';
 
+export const signInEmail = (email, password) => ({
+  type: SIGN_IN_EMAIL_SUCCESS,
+  payload: {
+    email,
+    password,
+  }
+})
 
 export const signInFacebook = () => ({
   type: SIGN_IN_FACEBOOK
@@ -66,7 +76,6 @@ export const signInFacebookEpic = (action$, store, { request }) =>
       })),
     )
 
-//`https://graph.facebook.com/${action.payload.facebookUserID}/picture?redirect=false&type=large&access_token=${action.payload.accessToken}`))
 export const getFacebookProfileEpic = (action$, store, { request }) =>
   action$.ofType(GET_FACEBOOK_PROFILE)
     .mergeMap(action => 

@@ -20,7 +20,6 @@ class SearchScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> {this.props.locale.search.title} </Text>
         <SignIn />
       </View>
     );

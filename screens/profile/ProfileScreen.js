@@ -96,7 +96,7 @@ const SocialIcon = props => {
 const mapStateToPorps = (state) => {
   return {
     locale: state.language.locale,
-    isLogined: state.socialLogin.isLogined,
+    isLoggedIn: state.socialLogin.isLoggedIn,
     avatarUrl: state.socialLogin.avatarUrl,
     userName: state.socialLogin.userName,
   }

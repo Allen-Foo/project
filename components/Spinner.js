@@ -23,7 +23,7 @@ class Spinner extends Component {
 
   static defaultProps = {
     color: Colors.tintColor,
-    intensity: 100,
+    intensity: 80,
   };
 
   render() {

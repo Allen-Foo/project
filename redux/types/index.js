@@ -1,6 +1,11 @@
 //Application
 export const SET_LANGUAGE = 'SET_LANGUAGE';
 
+// Email Logins
+export const SIGN_IN_EMAIL = 'SIGN_IN_EMAIL';
+export const SIGN_IN_EMAIL_SUCCESS = 'SIGN_IN_EMAIL_SUCCESS';
+export const SIGN_IN_EMAIL_FAIL = 'SIGN_IN_EMAIL_FAIL';
+
 // Social Logins
 export const SIGN_IN_FACEBOOK = 'SIGN_IN_FACEBOOK';
 export const SIGN_IN_FACEBOOK_SUCCESS = 'SIGN_IN_FACEBOOK_SUCCESS';
