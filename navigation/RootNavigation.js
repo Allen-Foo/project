@@ -8,10 +8,13 @@ import Settings from '../screens/settings/SettingsScreen';
 import Comments from '../screens/comments/CommentsScene';
 import ApiTest from '../screens/settings/ApiTestScreen';
 import Language from '../screens/settings/LanguageScreen';
+import ProfileSetting from '../screens/settings/ProfileSettingScreen';
 import TutorDetail from '../screens/detail/TutorDetail';
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+
+import { WithAuth } from '../lib/Auth/Components';
 
 const RootStackNavigator = StackNavigator(
   {
@@ -19,10 +22,10 @@ const RootStackNavigator = StackNavigator(
     //   screen: Home,
     // }, 
     Main: {
-      screen: MainTabNavigator,
+      screen: props => <MainTabNavigator rootNavigator={props.navigation} {...props.screenProps } />
     },
     Signin: {
-      screen: Signin,
+      screen: Signin
     },
     Settings: {
       screen: Settings,
@@ -38,7 +41,10 @@ const RootStackNavigator = StackNavigator(
     },
     ApiTest: {
       screen: ApiTest
-    }
+    },
+    ProfileSetting: {
+      screen: ProfileSetting
+    },
   },
   {
     navigationOptions: () => ({
@@ -49,7 +55,7 @@ const RootStackNavigator = StackNavigator(
   }
 );
 
-export default class RootNavigator extends React.Component {
+class RootNavigator extends React.Component {
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
   }
@@ -59,7 +65,7 @@ export default class RootNavigator extends React.Component {
   }
 
   render() {
-    return <RootStackNavigator />;
+    return <RootStackNavigator screenProps={{ ...this.props }} />;
   }
 
   _registerForPushNotifications() {
@@ -81,3 +87,5 @@ export default class RootNavigator extends React.Component {
     );
   };
 }
+
+export default WithAuth(RootNavigator)

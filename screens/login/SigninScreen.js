@@ -10,7 +10,11 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { WithAuth } from '../../lib/Auth/Components';
 import { connect } from 'react-redux';
+import { signInEmail } from '../../redux/actions'
+import { Spinner, Toast } from '../../components';
+
 import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Hr, HideoTextInput} from '../../components';
@@ -26,8 +30,19 @@ class SigninScreen extends React.Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      errorMessage: null,
+      isLoading: false,
     }
+
+    this.resolver = Promise.resolve();
+
+    this.handleSignIn = this.handleSignIn.bind(this);
+    this.doSignIn = this.doSignIn.bind(this);
+
+    this.handleMFAValidate = this.handleMFAValidate.bind(this);
+    this.handleMFACancel = this.handleMFACancel.bind(this);
+    this.handleMFASuccess = this.handleMFASuccess.bind(this);
   }
 
   validateInput() {
@@ -38,8 +53,105 @@ class SigninScreen extends React.Component {
     } else {
       // TODO
       // submit to server
-      this.props.navigation.navigate('Main')
+      this.handleSignIn()
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // TO DO ALLEN
+    // use REDUX or HOC to control the login status
+    if (nextProps.isLoggedIn && !this.props.isLoggedIn) {
+      this.props.navigation.goBack()
+    }
+  }
+
+   /**
+   * Signs in a user with a email.password combination. If needed, takes care of MFA.
+   *
+   * @param {string} email 
+   * @param {string} password 
+   */
+  doSignIn(email, password) {
+    const { auth } = this.props.screenProps;
+    console.warn('SigninScreen', this.props.isLoggedIn);
+    let showMFAPrompt = false;
+
+    return new Promise(async (outResolve, reject) => {
+      this.resolver = outResolve;
+
+      const session = await new Promise((resolve) => {
+        auth.handleSignIn(email, password, auth.loginCallbackFactory({
+          onSuccess(session) {
+            console.log('loginCallbacks.onSuccess', session);
+            this.setState({isLoading: false})
+            resolve(session);
+          },
+          onFailure(err) {
+            this.setState({isLoading: false})
+            console.log('loginCallbacks.onFailure', err);
+            reject(new Error(err.invalidCredentialsMessage || err.message || err));
+          },
+          newPasswordRequired(data) {
+            this.setState({isLoading: false})
+            reject(new Error('newPasswordRequired'));
+          },
+          mfaRequired(challengeName, challengeParameters) {
+            this.setState({isLoading: false})
+            showMFAPrompt = true;
+            resolve();
+          },
+        }, this));
+      });
+
+      this.setState({ showMFAPrompt }, () => {
+        if (session) {
+          this.resolver(session);
+        }
+      });
+    });
+  }
+
+  async handleSignIn() {
+    console.warn('clicked')
+
+    this.setState({isLoading: true})
+
+    const { email, password } = this.state;
+
+    try {
+      const session = await this.doSignIn(email, password);
+      console.warn('handleSignIn session', session)
+      this.props.screenProps.onSignIn(session);
+
+      if (session) {
+        this.props.signInEmail()
+        //this.props.navigation.navigate('Main')
+      }
+      console.warn('CLIENT', 'Signed In: ' + (session));
+      console.log('CLIENT', 'Signed In: ' + (session));
+    } catch (err) {
+      console.warn('CLIENT', err.message);
+      console.log('CLIENT', err.message);
+      this.setState({ errorMessage: err.message}, () => this.Toast.show());
+    }
+  }
+
+  handleMFAValidate(code = '') {
+    const { auth } = this.props;
+
+    return new Promise((resolve, reject) => auth.sendMFAVerificationCode(code, { onFailure: reject, onSuccess: resolve }, this));
+  }
+
+  handleMFACancel() {
+    this.setState({ showMFAPrompt: false });
+
+    this.resolver(null);
+  }
+
+  handleMFASuccess(session) {
+    this.resolver(session);
+
+    this.setState({ showMFAPrompt: false });
   }
 
   render() {
@@ -64,6 +176,7 @@ class SigninScreen extends React.Component {
         </View>
         
         <HideoTextInput
+          autoCapitalize={'none'}
           iconClass={MaterialIcons}
           iconName={'email'}
           iconColor={'white'}
@@ -79,6 +192,8 @@ class SigninScreen extends React.Component {
         />
 
         <HideoTextInput
+          autoCapitalize={'none'}
+          secureTextEntry={true}
           iconClass={MaterialIcons}
           iconName={'vpn-key'}
           iconColor={'white'}
@@ -103,6 +218,9 @@ class SigninScreen extends React.Component {
 
         <Text>{locale.forgotpassword.text.forgotPassword.label}</Text>
         <Text>{locale.signin.text.signUp.label}</Text>
+
+        { this.state.isLoading && <Spinner /> }
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.state.errorMessage} />
       </View>
     );
   }
@@ -165,9 +283,12 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    isLoggedIn: state.socialLogin.isLoggedIn,
   }
 }
 
-export default connect(mapStateToProps)(SigninScreen)
+export default connect(mapStateToProps, {
+  signInEmail,
+})(SigninScreen);
 

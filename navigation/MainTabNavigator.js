@@ -11,10 +11,13 @@ import ProfileScreen from '../screens/profile/ProfileScreen';
 import SearchScreen from '../screens/search/SearchScreen';
 import ScheduleScreen from '../screens/schedule/ScheduleScreen';
 
-export default TabNavigator(
+const MainTab = TabNavigator(
   {
     NewsFeed: {
-      screen: NewsFeedScreen,
+      screen: (props) => {
+        const { screenProps, ...otherProps } = props;
+        return <NewsFeedScreen {...props.screenProps} {...otherProps} />
+      }
     },
     History: {
       screen: HistoryScene,
@@ -26,7 +29,10 @@ export default TabNavigator(
       screen: ScheduleScreen,
     },
     Profile: {
-      screen: ProfileScreen,
+      screen: (props) => {
+        const { screenProps, ...otherProps } = props;
+        return <ProfileScreen {...props.screenProps} {...otherProps} />
+      }
     },
   },
   {
@@ -86,3 +92,9 @@ export default TabNavigator(
     },
   }
 );
+
+export default (props) => {
+  const { screenProps, rootNavigator, ...otherProps } = props;
+
+  return <MainTab screenProps={{ rootNavigator, ...screenProps, ...otherProps }} />
+};
