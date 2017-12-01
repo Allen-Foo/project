@@ -10,6 +10,7 @@ import ApiTest from '../screens/settings/ApiTestScreen';
 import Language from '../screens/settings/LanguageScreen';
 import ProfileSetting from '../screens/settings/ProfileSettingScreen';
 import TutorDetail from '../screens/detail/TutorDetail';
+import LearnerSignUp from '../screens/login/LearnerSignUpScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
@@ -44,6 +45,9 @@ const RootStackNavigator = StackNavigator(
     },
     ProfileSetting: {
       screen: ProfileSetting
+    },
+    LearnerSignUp:{
+      screen: LearnerSignUp,
     },
   },
   {

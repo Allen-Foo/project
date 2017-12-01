@@ -47,7 +47,10 @@ class HomeScreen extends React.Component {
         />
       
 
-        <TouchableOpacity style={[styles.button, {backgroundColor: '#E4E4E4'}]}>
+        <TouchableOpacity
+          style={[styles.button, {backgroundColor: '#E4E4E4'}]} 
+          onPress={() => this.props.navigation.navigate('LearnerSignUp')} 
+        >
           <Text style={{color: 'black'}}> Register </Text>
         </TouchableOpacity>
 
