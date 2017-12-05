@@ -57,7 +57,6 @@ class ProfileScreen extends React.Component {
   }
 
   render() {
-    console.warn('ProfileScreen, this.pros', this.props.session)
     return (
       <ScrollView contentContainerStyle={styles.container}>
 

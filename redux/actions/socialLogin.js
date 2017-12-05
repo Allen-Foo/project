@@ -17,6 +17,10 @@ import {
   SIGN_IN_GOOGLE_FAIL,
 } from '../types';
 
+import AWS from 'aws-sdk';
+import awsmobile from '../../aws-exports';
+
+
 import appSecrets from '../../appSecrets';
 import { Observable } from 'rxjs/Observable';
 import Expo from 'expo';
@@ -48,6 +52,39 @@ export const signInFacebookEpic = (action$, store, { request }) =>
         switch (res.type) {
           case 'success':
             // console.warn('success', res)
+            // 
+            // Add the Facebook access token to the Cognito credentials login map.
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+              IdentityPoolId: awsmobile.aws_cognito_identity_pool_id,
+              Logins: {
+                'graph.facebook.com': res.token
+              }
+            });
+
+            // Obtain AWS credentials
+            // // We can set the get method of the Credentials object to retrieve
+            // the unique identifier for the end user (identityId) once the provider
+            // has refreshed itself
+            AWS.config.credentials.get(function(err) {
+                if (err) {
+                    console.warn("Error: "+err);
+                    return;
+                }
+                console.warn("Cognito Identity Id: " + AWS.config.credentials.identityId);
+             
+                // Other service clients will automatically use the Cognito Credentials provider
+                // configured in the JavaScript SDK.
+                // var cognitoSyncClient = new AWS.CognitoSync();
+                // cognitoSyncClient.listDatasets({
+                //     IdentityId: AWS.config.credentials.identityId,
+                //     IdentityPoolId: "YOUR_COGNITO_IDENTITY_POOL_ID"
+                // }, function(err, data) {
+                //     if ( !err ) {
+                //         console.log(JSON.stringify(data));
+                //     }
+                // });
+            });
+            
 
             store.dispatch({
               type: GET_FACEBOOK_PROFILE,

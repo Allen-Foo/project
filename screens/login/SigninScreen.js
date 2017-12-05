@@ -14,6 +14,7 @@ import { WithAuth } from '../../lib/Auth/Components';
 import { connect } from 'react-redux';
 import { signInEmail } from '../../redux/actions'
 import { Spinner, Toast } from '../../components';
+import { signInFacebook, signInGoogle } from '../../redux/actions';
 
 import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -155,7 +156,7 @@ class SigninScreen extends React.Component {
   }
 
   render() {
-    let { locale } = this.props
+    let { locale, signInFacebook, signInGoogle } = this.props
     return (
       <View style={styles.container}>
         
@@ -165,11 +166,13 @@ class SigninScreen extends React.Component {
           name={'facebook'}
           text={'Sign in with Facebook'}
           color={'#516BA2'}
+          onPress={() => {signInFacebook()}}
         />
         <SocialButton
           name={'google-plus'}
           text={'Sign in with Google'}
           color={'#CF563C'}
+          onPress={() => {signInGoogle()}}
         />
         <View style={{width: '80%'}}>
           <Hr text="Or" marginLeft={0} marginRight={0}/>
@@ -227,10 +230,11 @@ class SigninScreen extends React.Component {
 }
 
 const SocialButton = props => {
-  const { name, text, color} = props;
+  const { name, text, color, onPress } = props;
   return (
     <TouchableOpacity 
       style={[styles.button,{backgroundColor:color, marginBottom:10, marginTop:10, flexDirection:'row'}]}
+      onPress={onPress}
     >
       <FontAwesome
       name={name}
@@ -290,5 +294,7 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   signInEmail,
+  signInFacebook,
+  signInGoogle
 })(SigninScreen);
 
