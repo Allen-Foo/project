@@ -21,7 +21,7 @@ class ProfileScreen extends React.Component {
   }
 
   renderHeader(isLoggedIn) {
-    if (this.props.session) {
+    if (isLoggedIn) {
       return (
         <View style={styles.loginContainer}>
           <Avatar

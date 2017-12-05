@@ -12,7 +12,7 @@ import {
 
 import { WithAuth } from '../../lib/Auth/Components';
 import { connect } from 'react-redux';
-import { signInEmail } from '../../redux/actions'
+import { signInEmail, signInEmailSuccess, signInEmailFail } from '../../redux/actions'
 import { Spinner, Toast } from '../../components';
 import { signInFacebook, signInGoogle } from '../../redux/actions';
 
@@ -20,6 +20,9 @@ import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Hr, HideoTextInput} from '../../components';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+
+import { onSignIn } from '../../lib/Auth/AWS_Auth';
+
 
 class SigninScreen extends React.Component {
 
@@ -54,7 +57,8 @@ class SigninScreen extends React.Component {
     } else {
       // TODO
       // submit to server
-      this.handleSignIn()
+      // this.handleSignIn()
+      onSignIn(this.state.email, this.state.password, this.props.signInEmailSuccess, this.props.signInEmailFail)
     }
   }
 
@@ -294,6 +298,8 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   signInEmail,
+  signInEmailSuccess,
+  signInEmailFail,
   signInFacebook,
   signInGoogle
 })(SigninScreen);

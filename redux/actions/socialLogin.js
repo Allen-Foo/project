@@ -34,6 +34,19 @@ export const signInEmail = (email, password) => ({
   }
 })
 
+export const signInEmailSuccess = (identityId) => ({
+  type: SIGN_IN_EMAIL_SUCCESS,
+  payload: {
+    loginType: 'email',
+    identityId: identityId
+  }
+})
+
+export const signInEmailFail = (err) => ({
+  type: SIGN_IN_EMAIL_FAIL,
+  payload: err
+})
+
 export const signInFacebook = () => ({
   type: SIGN_IN_FACEBOOK
 })
