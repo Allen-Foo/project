@@ -15,6 +15,7 @@ import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Hr, HideoTextInput} from '../../components';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import CountryPicker, {getAllCountries} from 'react-native-country-picker-modal';
 
 class LearnerSignUpScreen extends React.Component {
 
@@ -31,6 +32,7 @@ class LearnerSignUpScreen extends React.Component {
       lastName:'',
       countryCode:'',
       phoneNumber:'',
+      cca2: 'HK',
     }
   }
 
@@ -60,7 +62,7 @@ class LearnerSignUpScreen extends React.Component {
       <View style={styles.container}>
         <TextInput 
           style={styles.textInput}
-          placeholder={locale.learnerSignUp.textInput.lastName.placeholder}
+          placeholder={locale.commonSignUp.textInput.lastName.placeholder}
           onChangeText={lastName => {
             // console.warn('text', text);
             this.setState({lastName})
@@ -69,7 +71,7 @@ class LearnerSignUpScreen extends React.Component {
         />
         <TextInput 
           style={styles.textInput}
-          placeholder={locale.learnerSignUp.textInput.firstName.placeholder}
+          placeholder={locale.commonSignUp.textInput.firstName.placeholder}
           onChangeText={firstName => {
             // console.warn('text', text);
             this.setState({firstName})
@@ -78,7 +80,7 @@ class LearnerSignUpScreen extends React.Component {
         />
         <TextInput 
           style={styles.textInput}
-          placeholder={locale.learnerSignUp.textInput.email.placeholder}
+          placeholder={locale.commonSignUp.textInput.email.placeholder}
           onChangeText={email => {
             // console.warn('text', text);
             this.setState({email})
@@ -87,31 +89,35 @@ class LearnerSignUpScreen extends React.Component {
         />
         <TextInput 
           style={styles.textInput}
-          placeholder={locale.learnerSignUp.textInput.password.placeholder}
+          placeholder={locale.commonSignUp.textInput.password.placeholder}
           onChangeText={password => {
             // console.warn('text', text);
             this.setState({password})
           }}
           value={this.state.password}
         />
+        <View style={styles.contact}>
+          <View style={styles.countryPickerContainer}>
+            <CountryPicker
+              styles={countryPickerStyle}
+              onChange={(value)=> {
+                console.warn('cca2', value)
+                this.setState({cca2: value.cca2, callingCode: value.callingCode});
+              }}
+              cca2={this.state.cca2}
+              translation='eng'
+            />
+          </View>
         <TextInput 
           style={styles.textInput}
-          placeholder={locale.learnerSignUp.textInput.countryCode.placeholder}
-          onChangeText={countryCode => {
-            // console.warn('text', text);
-            this.setState({countryCode})
-          }}
-          value={this.state.countryCode}
-        />
-        <TextInput 
-          style={styles.textInput}
-          placeholder={locale.learnerSignUp.textInput.phoneNumber.placeholder}
+          placeholder={locale.commonSignUp.textInput.phoneNumber.placeholder}
           onChangeText={phoneNumber => {
             // console.warn('text', text);
             this.setState({phoneNumber})
           }}
           value={this.state.phoneNumber}
         />
+        </View>
         <TouchableOpacity 
           style={[styles.button, {marginTop:20} ]}
           onPress={() => this.validateInput()}
@@ -119,11 +125,14 @@ class LearnerSignUpScreen extends React.Component {
           <Text style={{color: 'white'}}> {locale.signin.text.signIn.label} </Text>
         </TouchableOpacity>
         
+        <Text style={styles.agreement}>
+          {locale.commonSignUp.text.agreement.label}
+        </Text>
         <SocialButton
           name={'facebook'}
           text={'Sign in with Facebook'}
           color={'#516BA2'}
-          style={{bottom: 70}}
+          style={{bottom: 90}}
         />
         <SocialButton
           name={'google-plus'}
@@ -152,6 +161,15 @@ const SocialButton = props => {
   )
 }
 
+const countryPickerStyle = {
+  itemCountryFlag: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    backgroundColor: '#fff',
+  },
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -160,14 +178,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop:40
   },
-
+  contact:{
+    flexDirection:'row',
+    // backgroundColor: 'red'
+  },
+  countryPickerContainer: {
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderColor: 'grey', 
+  },
+  agreement:{
+    fontSize:14,
+    marginTop:20,
+    width:'80%'
+  },
   textInput: {
     height: 40, 
     borderColor: 'grey', 
-    borderWidth: 1, 
+    borderBottomWidth: 1, 
     width: '100%',
     fontSize: 14,
-    backgroundColor:'#FFF'
+    backgroundColor:'#FFF',
+    paddingLeft:20,
   },
   text:{
     alignSelf: 'flex-start', 
@@ -189,7 +221,7 @@ const styles = StyleSheet.create({
     position:'absolute',
     left: '10%',
     right:0,
-    bottom: 20,
+    bottom: 40,
     flexDirection:'row'
   },
   button:{

@@ -100,15 +100,17 @@ class TutorSignUpScreen extends React.Component {
           value={this.state.password}
         />
         <View style={styles.contact}>
-          <CountryPicker
-            styles={countryPickerStyle}
-            onChange={(value)=> {
-              console.warn('cca2', value)
-              this.setState({cca2: value.cca2, callingCode: value.callingCode});
-            }}
-            cca2={this.state.cca2}
-            translation='eng'
-          />
+          <View style={styles.countryPickerContainer}>
+            <CountryPicker
+              styles={countryPickerStyle}
+              onChange={(value)=> {
+                console.warn('cca2', value)
+                this.setState({cca2: value.cca2, callingCode: value.callingCode});
+              }}
+              cca2={this.state.cca2}
+              translation='eng'
+            />
+          </View>
           <TextInput 
             style={[styles.textInput, {width: '85%', marginLeft: 0}]}
             placeholder={locale.commonSignUp.textInput.phoneNumber.placeholder}
@@ -120,6 +122,18 @@ class TutorSignUpScreen extends React.Component {
             underlineColorAndroid={'transparent'}
           />
         </View>
+        <TextInput
+          style={[styles.textInput, {height:100}]}
+          multiline= {true}
+          numberOfLines={5}
+          placeholder={locale.commonSignUp.textInput.skill.placeholder}
+        />
+        <TouchableOpacity 
+          style={styles.uploadButton}
+          onPress={() => this.validateInput()}
+        >
+          <Text style={{color: 'black'}}> {locale.commonSignUp.text.upload.label} </Text>
+        </TouchableOpacity>
         <TouchableOpacity 
           style={[styles.button, {marginTop:20} ]}
           onPress={() => this.validateInput()}
@@ -142,9 +156,6 @@ const countryPickerStyle = {
     justifyContent: 'center',
     alignItems: 'center',
     height: 40,
-    borderBottomWidth: 1,
-    borderRightWidth: 1,
-    borderColor: 'grey', 
     backgroundColor: '#fff',
   },
 }
@@ -155,16 +166,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#E4E4E4',
     //justifyContent: 'center',
     alignItems: 'center',
-    marginTop:40
+    marginTop:40,
+  },
+  uploadButton: {
+    borderWidth:1,
+    width:'100%',
+    height:40,
+    backgroundColor:'#FFF',
+    borderColor:'grey',
+    alignItems:'center',
+    justifyContent:'center'
   },
   contact:{
     flexDirection:'row',
     // backgroundColor: 'red'
   },
+  countryPickerContainer: {
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderColor: 'grey', 
+  },
   agreement:{
     fontSize:14,
     marginTop:20,
-    width:'80%'
+    width:'80%',
   },
   textInput: {
     height: 40, 
@@ -183,7 +208,7 @@ const styles = StyleSheet.create({
     marginLeft: '10%',
   },
   boldText:{
-    fontWeight:'bold'
+    fontWeight:'bold',
   },
   SocialButtonStyle:{
     height: 40, 
@@ -196,7 +221,7 @@ const styles = StyleSheet.create({
     left: '10%',
     right:0,
     bottom: 40,
-    flexDirection:'row'
+    flexDirection:'row',
   },
   button:{
     height: 40, 
