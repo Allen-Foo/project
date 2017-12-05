@@ -12,6 +12,7 @@ import ProfileSetting from '../screens/settings/ProfileSettingScreen';
 import TutorDetail from '../screens/detail/TutorDetail';
 import LearnerSignUp from '../screens/login/LearnerSignUpScreen';
 import TutorSignUp from '../screens/login/TutorSignUpScreen'
+import PreSignUp from '../screens/login/PreSignUpScreen'
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
@@ -52,6 +53,9 @@ const RootStackNavigator = StackNavigator(
     },
     TutorSignUp:{
       screen: TutorSignUp,
+    },
+    PreSignUp: {
+      screen: PreSignUp,
     }
   },
   {
