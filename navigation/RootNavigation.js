@@ -11,8 +11,9 @@ import Language from '../screens/settings/LanguageScreen';
 import ProfileSetting from '../screens/settings/ProfileSettingScreen';
 import TutorDetail from '../screens/detail/TutorDetail';
 import LearnerSignUp from '../screens/login/LearnerSignUpScreen';
-import TutorSignUp from '../screens/login/TutorSignUpScreen'
-import PreSignUp from '../screens/login/PreSignUpScreen'
+import TutorSignUp from '../screens/login/TutorSignUpScreen';
+import PreSignUp from '../screens/login/PreSignUpScreen';
+import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
@@ -56,7 +57,10 @@ const RootStackNavigator = StackNavigator(
     },
     PreSignUp: {
       screen: PreSignUp,
-    }
+    },
+    ForgotPassword: {
+      screen:ForgotPassword,
+    },
   },
   {
     navigationOptions: () => ({
