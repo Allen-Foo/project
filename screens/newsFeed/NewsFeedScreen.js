@@ -18,10 +18,11 @@ import { connect } from 'react-redux';
 
 class NewsFeedScreen extends React.Component {
 
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
     return {
-      headerTitle: state.params && state.params.title ? state.params.title : '',
+      tabBarLabel: screenProps.locale.newsfeed.title,
+      headerTitle: screenProps.locale.newsfeed.title,
       headerLeft: null,
       headerTintColor: '#fff',
       headerStyle: {
@@ -34,16 +35,6 @@ class NewsFeedScreen extends React.Component {
     super(props);
     this.state={
       liked: false
-    }
-  }
-
-  componentWillMount() {
-    this.props.navigation.setParams({title: this.props.locale.newsfeed.title})
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.languageKey !== nextProps.languageKey) {
-      this.props.navigation.setParams({title: nextProps.locale.newsfeed.title})
     }
   }
 
