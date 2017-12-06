@@ -122,7 +122,7 @@ class SigninScreen extends React.Component {
           <Text style={{color: 'white'}}> {locale.signin.text.signIn.label} </Text>
         </TouchableOpacity>
 
-        <Text>{locale.forgotpassword.text.forgotPassword.label}</Text>
+        <Text>{locale.forgotPassword.text.forgotPassword.label}</Text>
         <Text onPress={() => this.props.navigation.navigate('PreSignUp')}>
           {this.props.locale.profile.text.signUp} 
         </Text>

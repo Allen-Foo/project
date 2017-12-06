@@ -41,14 +41,14 @@ class ForgotPasswordScreen extends React.Component {
     return (
       <View style={styles.container}>
       	<Text style={styles.forgotPassword}>
-      		{locale.forgotpassword.text.forgotPassword}
+      		{locale.forgotPassword.text.forgotPassword}
       	</Text>
       	<Text style={styles.forgotPasswordEmail}>
-      		{locale.forgotpassword.text.forgotPasswordEmail}
+      		{locale.forgotPassword.text.forgotPasswordEmail}
       	</Text>
         <TextInput 
           style={styles.textInput}
-          placeholder={locale.forgotpassword.textInput.email.placeholder}
+          placeholder={locale.forgotPassword.textInput.email.placeholder}
           onChangeText={email => {
             // console.warn('text', text);
             this.setState({email})
@@ -56,7 +56,7 @@ class ForgotPasswordScreen extends React.Component {
           value={this.state.email}
         />
         <TouchableOpacity style={styles.button}>
-          <Text style={{color:'#FFF'}}> {locale.forgotpassword.text.confirm.label} </Text>
+          <Text style={{color:'#FFF'}}> {locale.forgotPassword.text.confirm.label} </Text>
         </TouchableOpacity>
       </View>
     );
