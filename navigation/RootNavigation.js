@@ -1,6 +1,7 @@
 import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import { connect } from 'react-redux';
 
 // import Home from '../screens/home/HomeScreen';
 import Signin from '../screens/login/SigninScreen';
@@ -26,7 +27,7 @@ const RootStackNavigator = StackNavigator(
     //   screen: Home,
     // }, 
     Main: {
-      screen: props => <MainTabNavigator rootNavigator={props.navigation} {...props.screenProps } />
+      screen: MainTabNavigator
     },
     Signin: {
       screen: Signin
@@ -104,4 +105,10 @@ class RootNavigator extends React.Component {
   };
 }
 
-export default WithAuth(RootNavigator)
+const mapStateToProps = (state) => {
+  return {
+    locale: state.language.locale,
+  }
+}
+
+export default connect(mapStateToProps, null)(RootNavigator)

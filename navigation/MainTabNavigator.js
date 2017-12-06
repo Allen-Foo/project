@@ -11,13 +11,10 @@ import ProfileScreen from '../screens/profile/ProfileScreen';
 import SearchScreen from '../screens/search/SearchScreen';
 import ScheduleScreen from '../screens/schedule/ScheduleScreen';
 
-const MainTab = TabNavigator(
+export default MainTab = TabNavigator(
   {
     NewsFeed: {
-      screen: (props) => {
-        const { screenProps, ...otherProps } = props;
-        return <NewsFeedScreen {...props.screenProps} {...otherProps} />
-      }
+      screen: NewsFeedScreen
     },
     History: {
       screen: HistoryScene,
@@ -29,10 +26,7 @@ const MainTab = TabNavigator(
       screen: ScheduleScreen,
     },
     Profile: {
-      screen: (props) => {
-        const { screenProps, ...otherProps } = props;
-        return <ProfileScreen {...props.screenProps} {...otherProps} />
-      }
+      screen: ProfileScreen
     },
   },
   {
@@ -81,20 +75,13 @@ const MainTab = TabNavigator(
     animationEnabled: false,
     swipeEnabled: false,
     tabBarOptions: {
-      showLabel: false, // this will control whether show the tab icon label or not
-      // labelStyle: {
-      //   fontSize: 12,
-      //   color: '#fff'
-      // },
+      showLabel: true, // this will control whether show the tab icon label or not
+      activeTintColor: Colors.tintColor,
+      inactiveTintColor: Colors.tabIconDefault,
+      
       // style: {
-      //   backgroundColor: '#555',
+        // backgroundColor: '#555',
       // },
     },
   }
 );
-
-export default (props) => {
-  const { screenProps, rootNavigator, ...otherProps } = props;
-
-  return <MainTab screenProps={{ rootNavigator, ...screenProps, ...otherProps }} />
-};

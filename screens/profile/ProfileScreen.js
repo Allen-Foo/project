@@ -26,7 +26,7 @@ class ProfileScreen extends React.Component {
         large
         rounded
         icon={{name: 'account-box'}}
-        onPress={() => this.props.rootNavigator.navigate('ProfileSetting')}
+        onPress={() => this.props.navigation.navigate('ProfileSetting')}
         activeOpacity={0.7}
         containerStyle={styles.avatarContainer}
       />
@@ -36,7 +36,7 @@ class ProfileScreen extends React.Component {
           large
           rounded
           source={{url: this.props.avatarUrl}}
-          onPress={() => this.props.rootNavigator.navigate('ProfileSetting')}
+          onPress={() => this.props.navigation.navigate('ProfileSetting')}
           activeOpacity={0.7}
           containerStyle={styles.avatarContainer}
         />
@@ -57,7 +57,7 @@ class ProfileScreen extends React.Component {
     } else {
       return (
         <View style={styles.loginContainer}>
-          <TouchableOpacity style={[styles.button, {backgroundColor: '#E4E4E4'}]} onPress={() => this.props.rootNavigator.navigate('Signin')}>
+          <TouchableOpacity style={[styles.button, {backgroundColor: '#E4E4E4'}]} onPress={() => this.props.navigation.navigate('Signin')}>
             <Text style={{color: '#5ECC3F'}}> {this.props.locale.profile.text.pleaseSignInToViewYourProfile} </Text>
           </TouchableOpacity>
 
@@ -76,22 +76,22 @@ class ProfileScreen extends React.Component {
           <ListItem
             title={'Comments'}
             leftIcon={{name: 'comment'}}
-            onPress={() => {this.props.rootNavigator.navigate('Comments')}}
+            onPress={() => {this.props.navigation.navigate('Comments')}}
           />
           <ListItem
             title={'Notifications'}
             leftIcon={{name: 'notifications'}}
-            onPress={() => {this.props.rootNavigator.navigate('Notifications')}}
+            onPress={() => {this.props.navigation.navigate('Notifications')}}
           />
           <ListItem
             title={'Apply to be a tutor'}
             leftIcon={{name: 'people'}}
-            onPress={() => {this.props.rootNavigator.navigate('Apply to be a tutor')}}
+            onPress={() => {this.props.navigation.navigate('Apply to be a tutor')}}
           />
           <ListItem
             title={'Settings'}
             leftIcon={{name: 'settings'}}
-            onPress={() => {this.props.rootNavigator.navigate('Settings')}}
+            onPress={() => {this.props.navigation.navigate('Settings')}}
           />        
         </List>
       </ScrollView>
