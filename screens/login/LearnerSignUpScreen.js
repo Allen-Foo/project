@@ -20,7 +20,6 @@ import CountryPicker, {getAllCountries} from 'react-native-country-picker-modal'
 class LearnerSignUpScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Welcome Back',
   };
 
   constructor(props) {
@@ -101,7 +100,7 @@ class LearnerSignUpScreen extends React.Component {
             <CountryPicker
               styles={countryPickerStyle}
               onChange={(value)=> {
-                console.warn('cca2', value)
+                // console.warn('cca2', value)
                 this.setState({cca2: value.cca2, callingCode: value.callingCode});
               }}
               cca2={this.state.cca2}
@@ -109,7 +108,7 @@ class LearnerSignUpScreen extends React.Component {
             />
           </View>
         <TextInput 
-          style={styles.textInput}
+          style={[styles.textInput, {width: '85%', marginLeft: 0}]}
           placeholder={locale.commonSignUp.textInput.phoneNumber.placeholder}
           onChangeText={phoneNumber => {
             // console.warn('text', text);
@@ -122,7 +121,7 @@ class LearnerSignUpScreen extends React.Component {
           style={[styles.button, {marginTop:20} ]}
           onPress={() => this.validateInput()}
         >
-          <Text style={{color: 'white'}}> {locale.signin.text.signIn.label} </Text>
+          <Text style={{color: 'white'}}> {locale.signin.text.signUp.label} </Text>
         </TouchableOpacity>
         
         <Text style={styles.agreement}>

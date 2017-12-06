@@ -61,10 +61,6 @@ class ProfileScreen extends React.Component {
             <Text style={{color: '#5ECC3F'}}> {this.props.locale.profile.text.pleaseSignInToViewYourProfile} </Text>
           </TouchableOpacity>
 
-          <Text style={styles.text}> 
-            {this.props.locale.profile.text.signUp} 
-          </Text>
-
         </View>
       )
     }

@@ -18,12 +18,10 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import CountryPicker, {getAllCountries} from 'react-native-country-picker-modal';
 
-const NORTH_AMERICA = ['CA', 'MX', 'US'];
-
 class TutorSignUpScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Welcome Back',
+    title: 'Register as tutor'
   };
 
   constructor(props) {
@@ -104,7 +102,7 @@ class TutorSignUpScreen extends React.Component {
             <CountryPicker
               styles={countryPickerStyle}
               onChange={(value)=> {
-                console.warn('cca2', value)
+                // console.warn('cca2', value)
                 this.setState({cca2: value.cca2, callingCode: value.callingCode});
               }}
               cca2={this.state.cca2}
@@ -138,7 +136,7 @@ class TutorSignUpScreen extends React.Component {
           style={[styles.button, {marginTop:20} ]}
           onPress={() => this.validateInput()}
         >
-          <Text style={{color: 'white'}}> {locale.signin.text.signIn.label} </Text>
+          <Text style={{color: 'white'}}> {locale.signin.text.signUp.label} </Text>
         </TouchableOpacity>
 
         
@@ -166,7 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E4E4E4',
     //justifyContent: 'center',
     alignItems: 'center',
-    marginTop:40,
+    paddingTop:40,
   },
   uploadButton: {
     borderWidth:1,

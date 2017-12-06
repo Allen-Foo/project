@@ -123,7 +123,9 @@ class SigninScreen extends React.Component {
         </TouchableOpacity>
 
         <Text>{locale.forgotpassword.text.forgotPassword.label}</Text>
-        <Text>{locale.signin.text.signUp.label}</Text>
+        <Text onPress={() => this.props.navigation.navigate('PreSignUp')}>
+          {this.props.locale.profile.text.signUp} 
+        </Text>
 
         { this.props.isLoading && <Spinner /> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.state.errorMessage} />
