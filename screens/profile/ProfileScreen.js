@@ -21,17 +21,31 @@ class ProfileScreen extends React.Component {
   }
 
   renderHeader(isLoggedIn) {
+    let avatar = 
+      <Avatar
+        large
+        rounded
+        icon={{name: 'account-box'}}
+        onPress={() => this.props.rootNavigator.navigate('ProfileSetting')}
+        activeOpacity={0.7}
+        containerStyle={styles.avatarContainer}
+      />
+    if (this.props.avatarUrl) {
+      avatar = 
+        <Avatar
+          large
+          rounded
+          source={{url: this.props.avatarUrl}}
+          onPress={() => this.props.rootNavigator.navigate('ProfileSetting')}
+          activeOpacity={0.7}
+          containerStyle={styles.avatarContainer}
+        />
+    }
+
     if (isLoggedIn) {
       return (
         <View style={styles.loginContainer}>
-          <Avatar
-            large
-            rounded
-            icon={{name: 'account-box'}}
-            onPress={() => this.props.rootNavigator.navigate('ProfileSetting')}
-            activeOpacity={0.7}
-            containerStyle={styles.avatarContainer}
-          />
+          { avatar }
 
           <View style={styles.socialContainer}>
             <SocialIcon onPress={() => {signInFacebook()}} name={'facebook'} />

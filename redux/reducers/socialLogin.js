@@ -56,18 +56,23 @@ export default (state = {...defaultState}, action) => {
       }
     case SIGN_IN_FACEBOOK:
       // console.warn('here', 'SIGN_IN_FACEBOOK')
-      return state
+      return {
+        ...state,
+        isLoading: true,
+      }
     case SIGN_IN_FACEBOOK_SUCCESS:
       // console.warn('here', 'SIGN_IN_FACEBOOK_SUCCESS')
       return {
         ...state,
         isLoggedIn: true,
+        isLoading: false,
         accessToken: action.payload
       };
     case SIGN_IN_FACEBOOK_FAIL:
       // console.warn('here', 'DO_GET_SUCCESS', action.payload)
       return {
         ...state,
+        isLoading: false,
         isLoggedIn: false,
         message: action.payload
       }
@@ -107,11 +112,15 @@ export default (state = {...defaultState}, action) => {
       }
     case SIGN_IN_GOOGLE:
       // console.warn('here', 'SIGN_IN_GOOGLE')
-      return state
+      return {
+        ...state,
+        isLoading: true,
+      }
     case SIGN_IN_GOOGLE_SUCCESS:
       // console.warn('here', 'SIGN_IN_GOOGLE_SUCCESS')
       return {
         ...state,
+        isLoading: false,
         isLoggedIn: true,
         ...action.payload
       };
@@ -120,6 +129,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoggedIn: false,
+        isLoading: false,
         message: action.payload
       }
     case SIGN_OUT:
