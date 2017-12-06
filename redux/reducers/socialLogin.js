@@ -14,6 +14,9 @@ import {
   SIGN_IN_GOOGLE,
   SIGN_IN_GOOGLE_SUCCESS,
   SIGN_IN_GOOGLE_FAIL,
+  SIGN_OUT,
+  SIGN_OUT_SUCCESS,
+  SIGN_OUT_FAIL,
 } from '../types';
 
 
@@ -111,6 +114,20 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoggedIn: false,
+        message: action.payload
+      }
+    case SIGN_OUT:
+      // console.warn('here', 'SIGN_OUT')
+      return state
+    case SIGN_OUT_SUCCESS:
+      // console.warn('here', 'SIGN_OUT_SUCCESS')
+      return {
+        ...defaultState
+      };
+    case SIGN_OUT_FAIL:
+      // console.warn('here', 'DO_GET_SUCCESS', action.payload)
+      return {
+        ...state,
         message: action.payload
       }
     default:

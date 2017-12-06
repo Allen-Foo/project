@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { List, ListItem } from 'react-native-elements';
 
+import { signOut } from '../../redux/actions'
+import { onSignOut } from '../../lib/Auth/AWS_Auth';
 
 
 class ProfileSettingScreen extends React.Component {
@@ -17,7 +19,6 @@ class ProfileSettingScreen extends React.Component {
   };
 
   render() {
-    console.warn('ProfileSettingScreen this.ps', this.props)
     return (
       <View style={styles.container}>
         <List containerStyle={styles.listContainer}>
@@ -30,8 +31,7 @@ class ProfileSettingScreen extends React.Component {
         <TouchableOpacity 
           style={styles.signOutContainer}
           onPress={() => {
-            const { doSignOut } = this.props.screenProps;
-            doSignOut();
+            onSignOut(this.props.accessToken, this.props.signOut)
             this.props.navigation.goBack()
           }}
         >
@@ -74,8 +74,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    accessToken: state.socialLogin.accessToken,
   }
 }
 
-export default connect(mapStateToProps)(ProfileSettingScreen)
+export default connect(mapStateToProps, {
+  signOut,
+})(ProfileSettingScreen)

@@ -15,6 +15,9 @@ import {
   SIGN_IN_GOOGLE,
   SIGN_IN_GOOGLE_SUCCESS,
   SIGN_IN_GOOGLE_FAIL,
+  SIGN_OUT,
+  SIGN_OUT_SUCCESS,
+  SIGN_OUT_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -25,6 +28,10 @@ import appSecrets from '../../appSecrets';
 import { Observable } from 'rxjs/Observable';
 import Expo from 'expo';
 import axios from 'axios';
+
+export const signOut = () => ({
+  type: SIGN_OUT_SUCCESS
+})
 
 export const signInEmail = (email, password) => ({
   type: SIGN_IN_EMAIL_SUCCESS,

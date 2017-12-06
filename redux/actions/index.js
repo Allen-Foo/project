@@ -1,5 +1,5 @@
 import { setLanguage } from './setLanguage';
-import { signInEmail, signInEmailSuccess, signInEmailFail, signInFacebook, signInGoogle } from './socialLogin';
+import { signInEmail, signInEmailSuccess, signInEmailFail, signInFacebook, signInGoogle, signOut } from './socialLogin';
 
 export {
   setLanguage,
@@ -8,4 +8,5 @@ export {
   signInEmail,
   signInEmailSuccess,
   signInEmailFail,
+  signOut,
 }
