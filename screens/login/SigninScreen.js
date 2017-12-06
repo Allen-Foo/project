@@ -36,127 +36,26 @@ class SigninScreen extends React.Component {
       email: '',
       password: '',
       errorMessage: null,
-      isLoading: false,
     }
-
-    this.resolver = Promise.resolve();
-
-    this.handleSignIn = this.handleSignIn.bind(this);
-    this.doSignIn = this.doSignIn.bind(this);
-
-    this.handleMFAValidate = this.handleMFAValidate.bind(this);
-    this.handleMFACancel = this.handleMFACancel.bind(this);
-    this.handleMFASuccess = this.handleMFASuccess.bind(this);
   }
 
   validateInput() {
-    if (!this.state.email) {
+    const { email, password } = this.state;
+    if (!email) {
       Alert.alert('email is empty!')
-    } else if (!this.state.password) {
+    } else if (!password) {
       Alert.alert('password is empty!')
     } else {
-      // TODO
+      const { signInEmail, signInEmailSuccess, signInEmailFail } = this.props;
       // submit to server
-      // this.handleSignIn()
-      onSignIn(this.state.email, this.state.password, this.props.signInEmailSuccess, this.props.signInEmailFail)
+      onSignIn(email, password, signInEmail, signInEmailSuccess, signInEmailFail)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    // TO DO ALLEN
-    // use REDUX or HOC to control the login status
     if (nextProps.isLoggedIn && !this.props.isLoggedIn) {
       this.props.navigation.goBack()
     }
-  }
-
-   /**
-   * Signs in a user with a email.password combination. If needed, takes care of MFA.
-   *
-   * @param {string} email 
-   * @param {string} password 
-   */
-  doSignIn(email, password) {
-    const { auth } = this.props.screenProps;
-    console.warn('SigninScreen', this.props.isLoggedIn);
-    let showMFAPrompt = false;
-
-    return new Promise(async (outResolve, reject) => {
-      this.resolver = outResolve;
-
-      const session = await new Promise((resolve) => {
-        auth.handleSignIn(email, password, auth.loginCallbackFactory({
-          onSuccess(session) {
-            console.log('loginCallbacks.onSuccess', session);
-            this.setState({isLoading: false})
-            resolve(session);
-          },
-          onFailure(err) {
-            this.setState({isLoading: false})
-            console.log('loginCallbacks.onFailure', err);
-            reject(new Error(err.invalidCredentialsMessage || err.message || err));
-          },
-          newPasswordRequired(data) {
-            this.setState({isLoading: false})
-            reject(new Error('newPasswordRequired'));
-          },
-          mfaRequired(challengeName, challengeParameters) {
-            this.setState({isLoading: false})
-            showMFAPrompt = true;
-            resolve();
-          },
-        }, this));
-      });
-
-      this.setState({ showMFAPrompt }, () => {
-        if (session) {
-          this.resolver(session);
-        }
-      });
-    });
-  }
-
-  async handleSignIn() {
-    console.warn('clicked')
-
-    this.setState({isLoading: true})
-
-    const { email, password } = this.state;
-
-    try {
-      const session = await this.doSignIn(email, password);
-      console.warn('handleSignIn session', session)
-      this.props.screenProps.onSignIn(session);
-
-      if (session) {
-        this.props.signInEmail()
-        //this.props.navigation.navigate('Main')
-      }
-      console.warn('CLIENT', 'Signed In: ' + (session));
-      console.log('CLIENT', 'Signed In: ' + (session));
-    } catch (err) {
-      console.warn('CLIENT', err.message);
-      console.log('CLIENT', err.message);
-      this.setState({ errorMessage: err.message}, () => this.Toast.show());
-    }
-  }
-
-  handleMFAValidate(code = '') {
-    const { auth } = this.props;
-
-    return new Promise((resolve, reject) => auth.sendMFAVerificationCode(code, { onFailure: reject, onSuccess: resolve }, this));
-  }
-
-  handleMFACancel() {
-    this.setState({ showMFAPrompt: false });
-
-    this.resolver(null);
-  }
-
-  handleMFASuccess(session) {
-    this.resolver(session);
-
-    this.setState({ showMFAPrompt: false });
   }
 
   render() {
@@ -226,7 +125,7 @@ class SigninScreen extends React.Component {
         <Text>{locale.forgotpassword.text.forgotPassword.label}</Text>
         <Text>{locale.signin.text.signUp.label}</Text>
 
-        { this.state.isLoading && <Spinner /> }
+        { this.props.isLoading && <Spinner /> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.state.errorMessage} />
       </View>
     );
@@ -292,6 +191,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
+    isLoading: state.socialLogin.isLoading,
     isLoggedIn: state.socialLogin.isLoggedIn,
   }
 }

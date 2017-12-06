@@ -34,7 +34,7 @@ export const signOut = () => ({
 })
 
 export const signInEmail = (email, password) => ({
-  type: SIGN_IN_EMAIL_SUCCESS,
+  type: SIGN_IN_EMAIL,
   payload: {
     email,
     password,

@@ -21,6 +21,7 @@ import {
 
 
 const defaultState = {
+  isLoading: false,
   isLoggedIn: false,
   accessToken: null,
   avatarUrl: null,
@@ -33,18 +34,23 @@ export default (state = {...defaultState}, action) => {
   switch (action.type) {
     case SIGN_IN_EMAIL:
       // console.warn('here', 'SIGN_IN_EMAIL')
-      return state
+      return {
+        ...state,
+        isLoading: true,
+      }
     case SIGN_IN_EMAIL_SUCCESS:
       // console.warn('here', 'SIGN_IN_EMAIL_SUCCESS')
       return {
         ...state,
         isLoggedIn: true,
+        isLoading: false,
         accessToken: action.payload
       };
     case SIGN_IN_EMAIL_FAIL:
       // console.warn('here', 'DO_GET_SUCCESS', action.payload)
       return {
         ...state,
+        isLoading: false,
         isLoggedIn: false,
         message: action.payload
       }
