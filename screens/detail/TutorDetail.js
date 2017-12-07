@@ -16,10 +16,7 @@ import { List, ListItem } from 'react-native-elements'
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
-import Tutor from '../../components/Tutor';
 import Comments from '../comments/Comments';
-
-const { width, height } = Dimensions.get('window');
 
 const data = {
   avatar: 'DF',
@@ -30,15 +27,14 @@ const data = {
   fee: '150',
   address: 'Address1',
   liked: true,
-  openingTime:'10:00',
-  closingTime:'22:00',
-  phoneNumber:'12345678',
-  userComment:'It is a very useful class, Our vision has always been to create an iPhone that is entirely screen. One so immersive the device itself disappears into the experience. And so intelligent it can respond to a tap, your voice, and even a glance. With iPhone X, that vision is now a reality. Say hello to the future. ',
+  openingTime: '10:00',
+  closingTime: '22:00',
+  phoneNumber: '12345678',
+  userComment: 'It is a very useful class, Our vision has always been to create an iPhone that is entirely screen. One so immersive the device itself disappears into the experience. And so intelligent it can respond to a tap, your voice, and even a glance. With iPhone X, that vision is now a reality. Say hello to the future. ',
 };
 
 class TutorDetailScreen extends React.Component {
   static navigationOptions = {
-    //title: 'Tutor Detail',
     headerTintColor: '#fff',
     headerStyle: {
       backgroundColor: Colors.tintColor,
@@ -62,7 +58,6 @@ class TutorDetailScreen extends React.Component {
             />
           </View>
 
-          <Text style={{color: '#fff'}}></Text>
           <View style={styles.contentContainer}>
             <Text style={styles.className}> {data.className} </Text>
             <Text style={styles.tutorName}> {data.tutorName} </Text>
@@ -80,61 +75,56 @@ class TutorDetailScreen extends React.Component {
                 emptyStarColor={Colors.tintColor}
               />
               <Text style={styles.comment}> {`${data.comment} comments`} </Text>
-          </View>
-          <Text>
-            <FontAwesome 
-              name={'dollar'} 
-              size={14}
-              style={{marginLeft: '5%'}}
-              color={'#E8DA3A'}
-            />
-            <Text style={styles.tutorName}> {`${data.fee}/lesson`}</Text>
-          </Text>
-          <Text>
-            <MaterialIcons
-              name={'alarm'}
-              size={14}
-              color={'#ff0000'}
-            />
-            <Text style={styles.tutorName}> {`${data.openingTime} - ${data.closingTime} `}</Text>
+            </View>
+            <Text>
+              <FontAwesome 
+                name={'dollar'} 
+                size={14}
+                style={{marginLeft: '5%'}}
+                color={'#E8DA3A'}
+              />
+              <Text style={styles.tutorName}> {`${data.fee}/lesson`}</Text>
             </Text>
-          <Text>
-            <MaterialIcons
-              name={'call'} 
-              size={14}
-              color={'#ff0000'}
-            />
-            <Text style={styles.tutorName}> {data.phoneNumber}</Text>
-            
-          </Text>
-        </View>
-        <View style={styles.map}>
-          <Text> Map </Text>
-        </View>
-          <Text>
-            <MaterialIcons
-              name={'location-on'} 
-              size={14}
-              color={'#ff0000'}
-            />
-            <Text style={styles.tutorName}> {data.address} </Text>
-          </Text>
+            <Text>
+              <MaterialIcons
+                name={'alarm'}
+                size={14}
+                color={'#ff0000'}
+              />
+              <Text style={styles.tutorName}> {`${data.openingTime} - ${data.closingTime} `}</Text>
+            </Text>
+            <Text>
+              <MaterialIcons
+                name={'call'} 
+                size={14}
+                color={'#ff0000'}
+              />
+              <Text style={styles.tutorName}> {data.phoneNumber}</Text>
+            </Text>
+            <Text>
+              <MaterialIcons
+                name={'location-on'} 
+                size={14}
+                color={'#ff0000'}
+              />
+              <Text style={styles.tutorName}> {data.address} </Text>
+            </Text>
+          </View>
+          <View style={styles.map}>
+            <Text> Map </Text>
+          </View>
+          
           <TouchableOpacity style={styles.registerButton}>
             <Text style={{color: 'white', }}> 
-            {
-              locale.tutorDetail.text.register.label
-            }
+              { locale.tutorDetail.text.register.label }
             </Text>
           </TouchableOpacity>
         </View>
-        { [1,2,3].map((x, i) => <Comments key={i}/>) }
+        { [1, 2, 3].map((x, i) => <Comments key={i}/>) }
       </ScrollView>
     );
   }
 }
-
-
-
 
 const mapStateToPorps = (state) => {
   return {
@@ -173,7 +163,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     justifyContent: 'center',
-    
+    paddingLeft: '5%',
+    paddingVertical: '3%',
   },
   ratingRow: {
     flexDirection: 'row',
@@ -191,7 +182,6 @@ const styles = StyleSheet.create({
   tutorName: {
     color: '#555',
     fontSize: 18,
-    //marginLeft: '8%'
   },
   comment: {
     alignItems: 'flex-end',
@@ -203,21 +193,23 @@ const styles = StyleSheet.create({
     right: '3%',
     top: '10%',
   },
-  map:{
-    width:'100%',
-    height:200,
-    backgroundColor:'#eee',
+  map: {
+    width: '100%',
+    height: 200,
+    backgroundColor: '#eee',
     borderWidth: 1,
     alignItems: 'center', 
     justifyContent: 'center',
+    alignSelf: 'center',
   },
-  registerButton:{
+  registerButton: {
     height: 40, 
-    width: width,
+    width: '90%',
     backgroundColor: Colors.tintColor,
-    justifyContent: 'center', 
+    justifyContent: 'center',
+    alignSelf: 'center',
     alignItems: 'center', 
-    borderRadius: 10, 
+    borderRadius: 5, 
     marginVertical: 20,
   }
 });
