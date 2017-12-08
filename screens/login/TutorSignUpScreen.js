@@ -10,6 +10,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import WithAuth from '../../lib/Auth/Components/WithAuth';
+
+import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -21,39 +24,94 @@ import CountryPicker, {getAllCountries} from 'react-native-country-picker-modal'
 class TutorSignUpScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Register as tutor'
+    title: 'Register as tutor',
+    headerTintColor: '#fff',
+    headerStyle: {
+      backgroundColor: Colors.tintColor,
+    },
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      firstName:'',
-      lastName:'',
-      countryCode:'',
-      phoneNumber:'',
+      email: 'adf@ossofs.com',
+      password: 'aA!12312323',
+      firstName:'user1',
+      lastName:'stevensdf',
+      callingCode:'852',
+      phoneNumber:'12363123',
       cca2: 'HK',
+    }
+
+    this.resolver = Promise.resolve();
+
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.doSignUp = this.doSignUp.bind(this);
+  }
+
+  doSignUp(username, password, email, phone) {
+    const { auth } = this.props;
+    console.warn('auth', auth)
+    const [emailVal, phoneVal] = [{ Name: 'email', Value: email }, { Name: 'phone_number', Value: phone }];
+
+    return new Promise(async (outResolve, reject) => {
+      this.resolver = outResolve;
+
+      const result = await new Promise((resolve) => {
+        auth.handleNewCustomerRegistration(username, password, emailVal, phoneVal, (err, res) => {
+          if (err) {
+            reject(Error(err.message));
+            return;
+          }
+
+          resolve(res);
+        });
+      });
+
+      const userConfirmed = !!result.userConfirmed;
+
+      this.setState({ showMFAPrompt: !userConfirmed });
+
+      if (userConfirmed) {
+        this.resolver(result.user);
+      }
+    });
+  }
+
+  async handleSignUp() {
+    const { firstName, lastName, password, email, phoneNumber, callingCode } = this.state;
+    const username = firstName;
+    const phone = '+' + callingCode + phoneNumber;
+
+    console.warn('onSignUp', this.props.onSignUp);
+
+    try {
+      const user = await this.doSignUp(username, password, email, phone);
+      this.props.onSignUp();
+
+      console.warn('CLIENT', 'Signed Up: ' + (user ? 'YES' : 'NO'));
+    } catch (err) {
+      console.warn('CLIENT', err.message);
+      this.setState({ errorMessage: err.message });
     }
   }
 
   validateInput() {
-    if (!this.state.email) {
-      Alert.alert('email is empty!')
-    } else if (!this.state.password) {
-      Alert.alert('password is empty!')
-    } else if (!this.state.firstName) {
-      Alert.alert('firstName is empty!')
+    if (!this.state.firstName) {
+      Alert.alert('First Name cannot be empty!')
     } else if (!this.state.lastName) {
-      Alert.alert('lastName is empty!')
-    } else if (!this.state.countryCode) {
-      Alert.alert('countryCode is empty!')
-    } else if (!this.state.phoneNumber) {
-      Alert.alert('phoneNumber is empty!')
+      Alert.alert('Last Name cannot be empty!')
+    } else if (!this.state.email) {
+      Alert.alert('Email cannot be empty!')
+    } else if (!this.state.password) {
+      Alert.alert('Password cannot be empty!')
+    }else if (!this.state.phoneNumber) {
+      Alert.alert('Phone Number cannot be empty!')
     } else {
       // TODO
       // submit to server
-      this.props.navigation.navigate('Main')
+      // this.props.navigation.navigate('Main')
+      this.handleSignUp();
     }
   }
 
@@ -61,7 +119,16 @@ class TutorSignUpScreen extends React.Component {
     let { locale } = this.props
     return (
       <View style={styles.container}>
+        {
+          this.state.showMFAPrompt &&
+          <MFAPrompt
+            onValidate={this.handleMFAValidate}
+            onCancel={this.handleMFACancel}
+            onSuccess={this.handleMFASuccess}
+          />
+        }
         <TextInput 
+          autoCapitalize={'none'}
           style={styles.textInput}
           placeholder={locale.commonSignUp.textInput.lastName.placeholder}
           onChangeText={lastName => {
@@ -89,6 +156,7 @@ class TutorSignUpScreen extends React.Component {
           value={this.state.email}
         />
         <TextInput 
+          secureTextEntry={true}
           style={styles.textInput}
           placeholder={locale.commonSignUp.textInput.password.placeholder}
           onChangeText={password => {
@@ -139,8 +207,6 @@ class TutorSignUpScreen extends React.Component {
           <Text style={{color: 'white'}}> {locale.signin.text.signUp.label} </Text>
         </TouchableOpacity>
 
-        
-        
         <Text style={styles.agreement}>
           {locale.commonSignUp.text.agreement.label}
         </Text>
@@ -239,5 +305,5 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(TutorSignUpScreen)
+export default connect(mapStateToProps)(WithAuth(TutorSignUpScreen))
 
