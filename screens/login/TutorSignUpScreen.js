@@ -19,7 +19,6 @@ import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Hr, HideoTextInput} from '../../components';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-
 import CountryPicker, {getAllCountries} from 'react-native-country-picker-modal';
 
 class TutorSignUpScreen extends React.Component {
@@ -35,9 +34,9 @@ class TutorSignUpScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'adf@ossofs.com',
+      email: 'vorapaxa@crymail2.com',
       password: 'aA!12312323',
-      firstName:'user2',
+      firstName:'user4',
       lastName:'stevensdf',
       callingCode:'852',
       phoneNumber:'12363123',
@@ -56,7 +55,7 @@ class TutorSignUpScreen extends React.Component {
 
   doSignUp(username, password, email, phone) {
     const { auth } = this.props;
-    console.warn('auth', auth)
+    //console.warn('auth', auth)
     const [emailVal, phoneVal] = [{ Name: 'email', Value: email }, { Name: 'phone_number', Value: phone }];
 
     return new Promise(async (outResolve, reject) => {
@@ -88,7 +87,7 @@ class TutorSignUpScreen extends React.Component {
     const username = firstName;
     const phone = '+' + callingCode + phoneNumber;
 
-    console.warn('onSignUp', this.props.onSignUp);
+    //console.warn('onSignUp', this.props.onSignUp);
 
     try {
       const user = await this.doSignUp(username, password, email, phone);
@@ -99,6 +98,18 @@ class TutorSignUpScreen extends React.Component {
       console.warn('CLIENT', err.message);
       this.setState({ errorMessage: err.message });
     }
+  }
+
+  handleMFACancel() {
+    this.setState({ showMFAPrompt: false });
+
+    this.resolver(null);
+  }
+
+  handleMFASuccess(session) {
+    this.resolver(session);
+
+    this.setState({ showMFAPrompt: false });
   }
 
   validateInput() {
@@ -121,7 +132,9 @@ class TutorSignUpScreen extends React.Component {
   }
 
   handleMFAValidate(code = '') {
-    const { username } = this.state;
+    const { firstName } = this.state;
+    const username = firstName;
+    
     const { auth } = this.props;
 
     return new Promise((resolve, reject) => {
