@@ -34,12 +34,12 @@ class TutorSignUpScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'vorapaxa@crymail2.com',
-      password: 'aA!12312323',
-      firstName:'user4',
-      lastName:'stevensdf',
+      email: '',
+      password: '',
+      firstName:'',
+      lastName:'',
       callingCode:'852',
-      phoneNumber:'12363123',
+      phoneNumber:'',
       cca2: 'HK',
     }
 
@@ -83,8 +83,7 @@ class TutorSignUpScreen extends React.Component {
   }
 
   async handleSignUp() {
-    const { firstName, lastName, password, email, phoneNumber, callingCode } = this.state;
-    const username = firstName;
+    const { username, password, email, phoneNumber, callingCode } = this.state;
     const phone = '+' + callingCode + phoneNumber;
 
     //console.warn('onSignUp', this.props.onSignUp);
@@ -113,10 +112,8 @@ class TutorSignUpScreen extends React.Component {
   }
 
   validateInput() {
-    if (!this.state.firstName) {
-      Alert.alert('First Name cannot be empty!')
-    } else if (!this.state.lastName) {
-      Alert.alert('Last Name cannot be empty!')
+    if (!this.state.username) {
+      Alert.alert('Username cannot be empty!')
     } else if (!this.state.email) {
       Alert.alert('Email cannot be empty!')
     } else if (!this.state.password) {
@@ -132,9 +129,8 @@ class TutorSignUpScreen extends React.Component {
   }
 
   handleMFAValidate(code = '') {
-    const { firstName } = this.state;
-    const username = firstName;
-    
+    const { username } = this.state;
+
     const { auth } = this.props;
 
     return new Promise((resolve, reject) => {
@@ -176,21 +172,12 @@ class TutorSignUpScreen extends React.Component {
         <TextInput 
           autoCapitalize={'none'}
           style={styles.textInput}
-          placeholder={locale.commonSignUp.textInput.lastName.placeholder}
-          onChangeText={lastName => {
+          placeholder={locale.commonSignUp.textInput.username.placeholder}
+          onChangeText={username => {
             // console.warn('text', text);
-            this.setState({lastName})
+            this.setState({username})
           }}
-          value={this.state.lastName}
-        />
-        <TextInput 
-          style={styles.textInput}
-          placeholder={locale.commonSignUp.textInput.firstName.placeholder}
-          onChangeText={firstName => {
-            // console.warn('text', text);
-            this.setState({firstName})
-          }}
-          value={this.state.firstName}
+          value={this.state.username}
         />
         <TextInput 
           style={styles.textInput}
