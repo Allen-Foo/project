@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import WithAuth from '../../lib/Auth/Components/WithAuth';
+import MFAPrompt from '../../lib/Auth/Components/MFAPrompt';
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
@@ -36,7 +37,7 @@ class TutorSignUpScreen extends React.Component {
     this.state = {
       email: 'adf@ossofs.com',
       password: 'aA!12312323',
-      firstName:'user1',
+      firstName:'user2',
       lastName:'stevensdf',
       callingCode:'852',
       phoneNumber:'12363123',
@@ -47,6 +48,10 @@ class TutorSignUpScreen extends React.Component {
 
     this.handleSignUp = this.handleSignUp.bind(this);
     this.doSignUp = this.doSignUp.bind(this);
+
+    this.handleMFAValidate = this.handleMFAValidate.bind(this);
+    this.handleMFACancel = this.handleMFACancel.bind(this);
+    this.handleMFASuccess = this.handleMFASuccess.bind(this);
   }
 
   doSignUp(username, password, email, phone) {
@@ -113,6 +118,34 @@ class TutorSignUpScreen extends React.Component {
       // this.props.navigation.navigate('Main')
       this.handleSignUp();
     }
+  }
+
+  handleMFAValidate(code = '') {
+    const { username } = this.state;
+    const { auth } = this.props;
+
+    return new Promise((resolve, reject) => {
+      auth.handleSubmitVerificationCode(username, code, (err, result) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(result);
+      });
+    });
+  }
+
+  handleMFACancel() {
+    this.setState({ showMFAPrompt: false });
+
+    this.resolver(null);
+  }
+
+  handleMFASuccess(session) {
+    this.resolver(session);
+
+    this.setState({ showMFAPrompt: false });
   }
 
   render() {
