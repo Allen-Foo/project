@@ -51,7 +51,7 @@ export const signInEmailSuccess = (identityId) => ({
 
 export const signInEmailFail = (err) => ({
   type: SIGN_IN_EMAIL_FAIL,
-  payload: err
+  payload: err.message
 })
 
 export const signInFacebook = () => ({

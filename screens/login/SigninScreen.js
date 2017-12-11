@@ -1,6 +1,5 @@
 import React from 'react';
 import { 
-  Dimensions,
   ScrollView, 
   StyleSheet, 
   View, 
@@ -12,9 +11,8 @@ import {
 
 import { WithAuth } from '../../lib/Auth/Components';
 import { connect } from 'react-redux';
-import { signInEmail, signInEmailSuccess, signInEmailFail } from '../../redux/actions'
+import { signInEmail, signInEmailSuccess, signInEmailFail, signInFacebook, signInGoogle } from '../../redux/actions'
 import { Spinner, Toast } from '../../components';
-import { signInFacebook, signInGoogle } from '../../redux/actions';
 
 import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -53,8 +51,18 @@ class SigninScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // if login success, go to main page
     if (nextProps.isLoggedIn && !this.props.isLoggedIn) {
       this.props.navigation.goBack()
+    }
+
+    // if login fail, show message 
+    if (nextProps.fetchErrorLastUpdate instanceof Date) {
+      if (!(this.props.fetchErrorLastUpdate instanceof Date) ||
+        nextProps.fetchErrorLastUpdate.getTime() !== this.props.fetchErrorLastUpdate.getTime()
+      ) {
+        this.Toast.show();
+      }
     }
   }
 
@@ -90,10 +98,7 @@ class SigninScreen extends React.Component {
           iconBackgroundColor={'#EAB083'}
           style={{width: "80%", marginTop: 20, borderWidth:1, borderColor:'#EAB083'}}
           inputStyle={{ color: '#464949' ,fontSize: 16}}
-          onChangeText={email => {
-            // console.warn('text', text);
-            this.setState({email})
-          }}
+          onChangeText={email => { this.setState({email}) }}
           value={this.state.email}
         />
 
@@ -103,14 +108,10 @@ class SigninScreen extends React.Component {
           iconClass={MaterialIcons}
           iconName={'vpn-key'}
           iconColor={'white'}
-          // this is used as backgroundColor of icon container view.
           iconBackgroundColor={'#EAB083'}
           style={{width: "80%", marginTop:10, borderWidth:1, borderColor:'#EAB083'}}
           inputStyle={{ color: '#464949' ,fontSize: 16}}
-          onChangeText={password => {
-            // console.warn('text', text);
-            this.setState({password})
-          }}
+          onChangeText={password => { this.setState({password}) }}
           value={this.state.password}
         />
         
@@ -128,7 +129,7 @@ class SigninScreen extends React.Component {
         </Text>
 
         { this.props.isLoading && <Spinner /> }
-        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.state.errorMessage} />
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>
     );
   }
@@ -142,9 +143,9 @@ const SocialButton = props => {
       onPress={onPress}
     >
       <FontAwesome
-      name={name}
-      size={20}
-      color='#fff'
+        name={name}
+        size={20}
+        color='#fff'
       />
       <Text style={[styles.boldText,{color: 'white', paddingLeft: 5}]}>{text}</Text>
     </TouchableOpacity>
@@ -152,15 +153,12 @@ const SocialButton = props => {
   )
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    //justifyContent: 'center',
     alignItems: 'center',
   },
-
   textInput: {
     height: 20, 
     borderColor: 'gray', 
@@ -185,16 +183,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius: 10, 
-    //marginTop: 20
   }
 });
 
 const mapStateToProps = (state) => {
-  // console.warn('state', state)
   return {
     locale: state.language.locale,
     isLoading: state.socialLogin.isLoading,
     isLoggedIn: state.socialLogin.isLoggedIn,
+    fetchErrorMsg: state.socialLogin.fetchErrorMsg,
+    fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate
   }
 }
 

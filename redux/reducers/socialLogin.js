@@ -26,7 +26,8 @@ const defaultState = {
   accessToken: null,
   avatarUrl: null,
   email: null,
-  userName: null
+  userName: null,
+  fetchErrorMsg: null
 }
 
 // Reducer
@@ -52,7 +53,8 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoading: false,
         isLoggedIn: false,
-        message: action.payload
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
       }
     case SIGN_IN_FACEBOOK:
       // console.warn('here', 'SIGN_IN_FACEBOOK')
@@ -74,7 +76,8 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoading: false,
         isLoggedIn: false,
-        message: action.payload
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
       }
     case GET_FACEBOOK_PROFILE:
       // console.warn('here', 'GET_FACEBOOK_PROFILE')
@@ -91,7 +94,8 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoggedIn: false,
-        message: action.payload
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
       }
     case GET_FACEBOOK_PICTURE:
       // console.warn('here', 'GET_FACEBOOK_PICTURE')
@@ -108,7 +112,8 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoggedIn: false,
-        message: action.payload
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
       }
     case SIGN_IN_GOOGLE:
       // console.warn('here', 'SIGN_IN_GOOGLE')
@@ -130,7 +135,8 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoggedIn: false,
         isLoading: false,
-        message: action.payload
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
       }
     case SIGN_OUT:
       // console.warn('here', 'SIGN_OUT')
@@ -144,7 +150,8 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'DO_GET_SUCCESS', action.payload)
       return {
         ...state,
-        message: action.payload
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
       }
     default:
       return state
