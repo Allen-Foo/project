@@ -12,8 +12,17 @@ import Colors from '../../constants/Colors';
 import { signInFacebook, signInGoogle } from '../../redux/actions';
 
 class ProfileScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      tabBarLabel: screenProps.locale.profile.title,
+      headerTitle: screenProps.locale.profile.title,
+      headerLeft: null,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
   };
 
   static defaultProps = {
@@ -74,22 +83,22 @@ class ProfileScreen extends React.Component {
 
         <List containerStyle={{width: '90%'}}>
           <ListItem
-            title={'Comments'}
+            title={this.props.locale.profile.text.comments}
             leftIcon={{name: 'comment'}}
             onPress={() => {this.props.navigation.navigate('Comments')}}
           />
           <ListItem
-            title={'Notifications'}
+            title={this.props.locale.profile.text.notifications}
             leftIcon={{name: 'notifications'}}
             onPress={() => {this.props.navigation.navigate('Notifications')}}
           />
           <ListItem
-            title={'Apply to be a tutor'}
+            title={this.props.locale.profile.text.applyToBeTutor}
             leftIcon={{name: 'people'}}
             onPress={() => {this.props.navigation.navigate('Apply to be a tutor')}}
           />
           <ListItem
-            title={'Settings'}
+            title={this.props.locale.profile.text.settings}
             leftIcon={{name: 'settings'}}
             onPress={() => {this.props.navigation.navigate('Settings')}}
           />        

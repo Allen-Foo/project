@@ -8,13 +8,17 @@ import { SignIn } from '../../lib/Auth/Components/Examples'
 
 
 class SearchScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Search',
-    headerLeft: null,
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      tabBarLabel: screenProps.locale.search.title,
+      headerTitle: screenProps.locale.search.title,
+      headerLeft: null,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
   };
 
   render() {

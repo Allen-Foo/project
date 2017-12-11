@@ -9,12 +9,15 @@ import { Constants } from 'expo'
 
 
 class SettingsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Settings',
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      headerTitle: screenProps.locale.settings.title,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
   };
 
   render() {

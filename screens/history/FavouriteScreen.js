@@ -8,14 +8,17 @@ import { Tutor, Separator } from '../../components';
 
 
 class FavouriteScreen extends React.Component {
-  static navigationOptions = {
-    title: 'History',
-    tabBarLabel: 'Favourite',
-    headerLeft: null,
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      tabBarLabel: screenProps.locale.history.favourite,
+      headerTitle: screenProps.locale.history.title,
+      headerLeft: null,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
   };
 
   render() {

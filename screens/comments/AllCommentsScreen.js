@@ -21,7 +21,6 @@ import Tutor from '../../components/Tutor';
 class AllCommentsScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Comments',
     tabBarLabel: 'All',
     headerTintColor: '#fff',
     headerStyle: {

@@ -7,13 +7,17 @@ import { SignUp } from '../../lib/Auth/Components/Examples'
 
 
 class ScheduleScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Schedule',
-    headerLeft: null,
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      tabBarLabel: screenProps.locale.schedule.title,
+      headerTitle: screenProps.locale.schedule.title,
+      headerLeft: null,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
   };
 
   render() {

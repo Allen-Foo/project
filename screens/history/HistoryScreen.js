@@ -8,14 +8,17 @@ import { Tutor, Separator } from '../../components';
 
 
 class HistoryScreen extends React.Component {
-  static navigationOptions = {
-    title: 'History',
-    tabBarLabel: 'History',
-    headerLeft: null,
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      tabBarLabel: screenProps.locale.history.history,
+      headerTitle: screenProps.locale.history.title,
+      headerLeft: null,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
   };
 
   render() {

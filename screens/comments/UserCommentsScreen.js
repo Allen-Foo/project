@@ -21,7 +21,6 @@ import Tutor from '../../components/Tutor';
 class UserCommentsScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Comments',
     tabBarLabel: 'As a User',
     headerTintColor: '#fff',
     headerStyle: {

@@ -10,7 +10,6 @@ import { setLanguage } from '../../redux/actions';
 
 class LanguageScreen extends React.Component {
   static navigationOptions = {
-    title: 'Language',
     headerTintColor: '#fff',
     headerStyle: {
       backgroundColor: Colors.tintColor,
