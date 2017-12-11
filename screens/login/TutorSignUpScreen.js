@@ -101,14 +101,14 @@ class TutorSignUpScreen extends React.Component {
 
   handleMFACancel() {
     this.setState({ showMFAPrompt: false });
-
     this.resolver(null);
   }
 
   handleMFASuccess(session) {
     this.resolver(session);
-
-    this.setState({ showMFAPrompt: false });
+    this.setState({ showMFAPrompt: false }, () => {
+      this.props.navigation.navigate('Profile')
+    });
   }
 
   validateInput() {
@@ -145,18 +145,6 @@ class TutorSignUpScreen extends React.Component {
     });
   }
 
-  handleMFACancel() {
-    this.setState({ showMFAPrompt: false });
-
-    this.resolver(null);
-  }
-
-  handleMFASuccess(session) {
-    this.resolver(session);
-
-    this.setState({ showMFAPrompt: false });
-  }
-
   render() {
     let { locale } = this.props
     return (
@@ -164,6 +152,7 @@ class TutorSignUpScreen extends React.Component {
         {
           this.state.showMFAPrompt &&
           <MFAPrompt
+            locale={this.props.locale}
             onValidate={this.handleMFAValidate}
             onCancel={this.handleMFACancel}
             onSuccess={this.handleMFASuccess}
