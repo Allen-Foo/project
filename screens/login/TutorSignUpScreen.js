@@ -18,8 +18,12 @@ import { connect } from 'react-redux';
 import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Hr, HideoTextInput} from '../../components';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import CountryPicker, {getAllCountries} from 'react-native-country-picker-modal';
+import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
+import { Spinner, Toast } from '../../components';
+
+import { onSignUp } from '../../lib/Auth/AWS_Auth';
+import { signUp, signUpSuccess, signUpFail } from '../../redux/actions'
+
 
 class TutorSignUpScreen extends React.Component {
 
@@ -46,11 +50,21 @@ class TutorSignUpScreen extends React.Component {
     this.resolver = Promise.resolve();
 
     this.handleSignUp = this.handleSignUp.bind(this);
-    this.doSignUp = this.doSignUp.bind(this);
 
     this.handleMFAValidate = this.handleMFAValidate.bind(this);
     this.handleMFACancel = this.handleMFACancel.bind(this);
     this.handleMFASuccess = this.handleMFASuccess.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // if sign up fail, show message 
+    if (nextProps.fetchErrorLastUpdate instanceof Date) {
+      if (!(this.props.fetchErrorLastUpdate instanceof Date) ||
+        nextProps.fetchErrorLastUpdate.getTime() !== this.props.fetchErrorLastUpdate.getTime()
+      ) {
+        this.Toast.show();
+      }
+    }
   }
 
   doSignUp(username, password, email, phone) {
@@ -82,21 +96,15 @@ class TutorSignUpScreen extends React.Component {
     });
   }
 
-  async handleSignUp() {
+  handleSignUp() {
     const { username, password, email, phoneNumber, callingCode } = this.state;
     const phone = '+' + callingCode + phoneNumber;
 
-    //console.warn('onSignUp', this.props.onSignUp);
+    const { signUp, signUpSuccess, signUpFail } = this.props;
 
-    try {
-      const user = await this.doSignUp(username, password, email, phone);
-      this.props.onSignUp();
+    onSignUp(username, password, email, phone, signUp, signUpSuccess, signUpFail);
 
-      console.warn('CLIENT', 'Signed Up: ' + (user ? 'YES' : 'NO'));
-    } catch (err) {
-      console.warn('CLIENT', err.message);
-      this.setState({ errorMessage: err.message });
-    }
+    // console.warn('CLIENT', 'Signed Up: ' + (user ? 'YES' : 'NO'));
   }
 
   handleMFACancel() {
@@ -232,6 +240,9 @@ class TutorSignUpScreen extends React.Component {
         <Text style={styles.agreement}>
           {locale.commonSignUp.text.agreement.label}
         </Text>
+
+        { this.props.isLoading && <Spinner /> }
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>
     );
   }
@@ -323,9 +334,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    isLoading: state.socialLogin.isLoading,
+    fetchErrorMsg: state.socialLogin.fetchErrorMsg,
+    fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate,
   }
 }
 
-export default connect(mapStateToProps)(WithAuth(TutorSignUpScreen))
+export default connect(mapStateToProps, {
+  signUp,
+  signUpSuccess,
+  signUpFail 
+})(WithAuth(TutorSignUpScreen))
 

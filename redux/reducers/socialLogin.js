@@ -17,6 +17,9 @@ import {
   SIGN_OUT,
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAIL,
+  SIGN_UP,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAIL,
 } from '../types';
 
 
@@ -33,6 +36,25 @@ const defaultState = {
 // Reducer
 export default (state = {...defaultState}, action) => {
   switch (action.type) {
+    case SIGN_UP:
+      // console.warn('here', 'SIGN_UP')
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case SIGN_UP_SUCCESS:
+      // console.warn('here', 'SIGN_UP_SUCCESS')
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case SIGN_UP_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
     case SIGN_IN_EMAIL:
       // console.warn('here', 'SIGN_IN_EMAIL')
       return {
@@ -48,7 +70,7 @@ export default (state = {...defaultState}, action) => {
         accessToken: action.payload
       };
     case SIGN_IN_EMAIL_FAIL:
-      // console.warn('here', 'DO_GET_SUCCESS', action.payload)
+      // console.warn('here', 'SIGN_IN_EMAIL_FAIL', action.payload)
       return {
         ...state,
         isLoading: false,

@@ -18,6 +18,9 @@ import {
   SIGN_OUT,
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAIL,
+  SIGN_UP,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -31,6 +34,22 @@ import axios from 'axios';
 
 export const signOut = () => ({
   type: SIGN_OUT_SUCCESS
+})
+
+export const signUp = () => ({
+  type: SIGN_UP,
+})
+
+export const signUpSuccess = () => ({
+  type: SIGN_UP_SUCCESS,
+  payload: {
+    
+  }
+})
+
+export const signUpFail = (err) => ({
+  type: SIGN_UP_FAIL,
+  payload: err.message
 })
 
 export const signInEmail = (email, password) => ({
