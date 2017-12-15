@@ -14,6 +14,9 @@ import TutorDetail from '../screens/detail/TutorDetail';
 import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
+import ClassList from '../screens/class/ClassList';
+import Category from '../screens/category/Category';
+import Skill from '../screens/skill/Skill';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -57,8 +60,18 @@ const RootStackNavigator = StackNavigator(
       screen: PreSignUp,
     },
     ForgotPassword: {
-      screen:ForgotPassword,
+      screen: ForgotPassword,
     },
+    ClassList: {
+      screen: ClassList,
+    },
+    Category: {
+      screen: Category,
+    },
+    Skill: {
+      screen: Skill,
+    },
+
   },
   {
     navigationOptions: () => ({
