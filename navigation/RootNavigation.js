@@ -14,9 +14,9 @@ import TutorDetail from '../screens/detail/TutorDetail';
 import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
-import ClassList from '../screens/class/ClassList';
-import Category from '../screens/category/Category';
-import Skill from '../screens/skill/Skill';
+import ClassList from '../screens/class/ClassListScreen';
+import Category from '../screens/category/CategoryScreen';
+import Skill from '../screens/skill/SkillScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';

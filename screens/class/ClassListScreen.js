@@ -13,6 +13,18 @@ import {
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 class ClassList extends React.Component {
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state, props } = navigation;
+
+    return {
+      tabBarLabel: screenProps.locale.category.title,
+      headerTitle: screenProps.locale.category.title,
+      headerTintColor: 'black',
+      headerStyle: {
+        //backgroundColor: '#3A3C3D',
+      },
+    }
+  };
   render() {
     return (
       <View style={styles.container}>

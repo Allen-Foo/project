@@ -5,30 +5,31 @@ import { connect } from 'react-redux';
 const { height, width } = Dimensions.get('window')
 
 import Colors from '../../constants/Colors';
-const categoryList = ['sports', 'language', 'mathematics']
+import { classData } from '../../constants/classData';
 
-class Category extends React.Component {
+class Skill extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state, props } = navigation;
 
     return {
-      tabBarLabel: screenProps.locale.profile.title,
-      headerTitle: screenProps.locale.profile.title,
-      headerTintColor: '#fff',
+      tabBarLabel: screenProps.locale.skill.title,
+      headerTintColor: 'black',
       headerStyle: {
-        backgroundColor: Colors.tintColor,
+        //backgroundColor: '#3A3C3D',
       },
     }
   };
   render() {
+    let categoryIndex = this.props.navigation.state.params.category;
+    let skillList = classData.category[categoryIndex];
     return (
       <View>
         {
-          categoryList.map((x, i) => 
-            <CategoryButton
+          skillList.map((x, i) => 
+            <SkillButton
               key={i}
-              text={this.props.locale.category.types[x]}
-              onPress={() => this.props.navigation.navigate('Skill')}
+              text={this.props.locale.skill.types[categoryIndex][x]}
+              onPress= {() => this.props.navigation.navigate('TutionFeeScreen')}
             />
           )
         }
@@ -37,7 +38,7 @@ class Category extends React.Component {
   }
 }
 
-const CategoryButton = props => {
+const SkillButton = props => {
   const {text, onPress } = props;
   return (
     <TouchableOpacity 
@@ -69,4 +70,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Category)
+export default connect(mapStateToProps)(Skill)
