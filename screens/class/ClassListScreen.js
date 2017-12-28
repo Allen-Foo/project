@@ -17,8 +17,8 @@ class ClassList extends React.Component {
     const { state, props } = navigation;
 
     return {
-      tabBarLabel: screenProps.locale.category.title,
-      headerTitle: screenProps.locale.category.title,
+      tabBarLabel: screenProps.locale.classList.title,
+      headerTitle: screenProps.locale.classList.title,
       headerTintColor: 'black',
       headerStyle: {
         //backgroundColor: '#3A3C3D',

@@ -16,6 +16,7 @@ class CategoryScreen extends React.Component {
 
     return {
       tabBarLabel: screenProps.locale.category.title,
+      headerTitle: screenProps.locale.category.title,
       headerTintColor: 'black',
       headerStyle: {
         //backgroundColor: '#3A3C3D',

@@ -5,68 +5,75 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
-  Picker
+  Picker,
 } from 'react-native';
 
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 class TutionFee extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      tutionFee: '',
+      teachingExp: ''
+    }
+  }
 
   validateInput() {
     if (!this.state.tutionFee) {
       Alert.alert('Tution Fee is empty!')
     } else if (!this.state.teachingExp) {
       Alert.alert('Teaching Experience is empty!')
-    } 
+    }
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <View>
-          <Text>
-            TutionFee:
+        <View style={[styles.textInputRow, {paddingTop: '10%'}]}>
+          <Text style={styles.text}>
+            Tution Fee:
           </Text>
           <TextInput 
-          style={styles.textInput}
-          onChangeText={tutionFee => {
-            // console.warn('text', text);
-            this.setState({tutionFee})
-          }}
-          value={this.state.tutionFee}
+            style={styles.textInput}
+            onChangeText={tutionFee => {
+              // console.warn('text', text);
+              this.setState({tutionFee})
+            }}
+            value={this.state.tutionFee}
           />
-          <Picker selectedValue={this.state.language}
-            onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}
-          >
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
-          </Picker>
-
-          <Text>
+        </View>
+        <View style={{ flex: 1 }}>
+        <TouchableOpacity onPress={this._showDateTimePicker}>
+          <Text>Show DatePicker</Text>
+        </TouchableOpacity>
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+        />
+      </View>
+        <View style={styles.textInputRow}>
+          <Text style={styles.text}>
             Teaching Experience
           </Text>
           <TextInput 
-          style={styles.textInput}
-          onChangeText={teachingExp => {
-            // console.warn('text', text);
-            this.setState({teachingExp})
-          }}
-          value={this.state.teachingExp}
+            style={[styles.textInput,{width: '15%'}]}
+            onChangeText={teachingExp => {
+              // console.warn('text', text);
+              this.setState({teachingExp})
+            }}
+            value={this.state.teachingExp}
           />
-          <Text>
+          <Text style={styles.text}>
             year/years
           </Text>
-        </View>
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('Category')}
-          >
-
-            <Text style={styles.text}> Next</Text>
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -80,8 +87,25 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
   },
   text: {
-    fontSize: 18,
-    fontWeight: 'bold'
+    fontSize: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  textInput: {
+    height: 40, 
+    borderColor: 'grey', 
+    //borderBottomWidth: 1, 
+    width: '50%',
+    fontSize: 14,
+    backgroundColor:'#FFF',
+    paddingLeft:10,
+    marginLeft: 10,
+    marginRight:10,
+  },
+  textInputRow: {
+    flexDirection: 'row',
+    marginLeft: 10,
   },
   button: {
     height: 60, 

@@ -13,6 +13,7 @@ class Skill extends React.Component {
 
     return {
       tabBarLabel: screenProps.locale.skill.title,
+      headerTitle: screenProps.locale.skill.title,
       headerTintColor: 'black',
       headerStyle: {
         //backgroundColor: '#3A3C3D',
@@ -29,7 +30,7 @@ class Skill extends React.Component {
             <SkillButton
               key={i}
               text={this.props.locale.skill.types[categoryIndex][x]}
-              onPress= {() => this.props.navigation.navigate('TutionFeeScreen')}
+              onPress= {() => this.props.navigation.navigate('test')}
             />
           )
         }

@@ -17,6 +17,8 @@ import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 import ClassList from '../screens/class/ClassListScreen';
 import Category from '../screens/category/CategoryScreen';
 import Skill from '../screens/skill/SkillScreen';
+import TutionFee from '../screens/tutionFee/TutionFeeScreen';
+import test from '../screens/tutionFee/test';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -71,7 +73,12 @@ const RootStackNavigator = StackNavigator(
     Skill: {
       screen: Skill,
     },
-
+    TutionFee: {
+      screen: TutionFee,
+    },
+    test: {
+      screen: test,
+    },
   },
   {
     navigationOptions: () => ({
