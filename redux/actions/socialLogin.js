@@ -21,6 +21,10 @@ import {
   SIGN_UP,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
+  VERIFY_CODE,
+  VERIFY_CODE_SUCCESS,
+  VERIFY_CODE_FAIL,
+  VERIFY_CODE_CANCEL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -40,16 +44,38 @@ export const signUp = () => ({
   type: SIGN_UP,
 })
 
-export const signUpSuccess = () => ({
-  type: SIGN_UP_SUCCESS,
-  payload: {
-    
-  }
-})
+export const signUpSuccess = (result) => {
+  return {
+    type: SIGN_UP_SUCCESS,
+    payload: {
+      showMFAPrompt: !result.userConfirmed,
+      user: result.user
+    }
+  }  
+}
 
 export const signUpFail = (err) => ({
   type: SIGN_UP_FAIL,
   payload: err.message
+})
+
+export const verifyCode = () => ({
+  type: VERIFY_CODE,
+})
+
+export const verifyCodeSuccess = (result) => {
+  return {
+    type: VERIFY_CODE_SUCCESS,
+  }  
+}
+
+export const verifyCodeFail = (err) => ({
+  type: VERIFY_CODE_FAIL,
+  payload: err.message
+})
+
+export const verifyCodeCancel = () => ({
+  type: VERIFY_CODE_CANCEL
 })
 
 export const signInEmail = (email, password) => ({

@@ -8,6 +8,10 @@ import { signInEmail,
   signUp,
   signUpSuccess,
   signUpFail,
+  verifyCode,
+  verifyCodeSuccess,
+  verifyCodeFail,
+  verifyCodeCancel,
 } from './socialLogin';
 
 export {
@@ -21,4 +25,8 @@ export {
   signUp,
   signUpSuccess,
   signUpFail,
+  verifyCode,
+  verifyCodeSuccess,
+  verifyCodeFail,
+  verifyCodeCancel,
 }

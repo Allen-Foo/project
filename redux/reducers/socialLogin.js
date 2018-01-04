@@ -20,17 +20,23 @@ import {
   SIGN_UP,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
+  VERIFY_CODE,
+  VERIFY_CODE_SUCCESS,
+  VERIFY_CODE_FAIL,
+  VERIFY_CODE_CANCEL,
 } from '../types';
 
 
 const defaultState = {
   isLoading: false,
   isLoggedIn: false,
-  accessToken: null,
+  accessToken: null,                                                        
   avatarUrl: null,
   email: null,
   userName: null,
-  fetchErrorMsg: null
+  isVerified: false,
+  verfiedErrorMsg: null,
+  fetchErrorMsg: null,
 }
 
 // Reducer
@@ -47,6 +53,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
+        ...action.payload,
       };
     case SIGN_UP_FAIL:
       return {
@@ -54,6 +61,36 @@ export default (state = {...defaultState}, action) => {
         isLoading: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
+      }
+    case VERIFY_CODE:
+      console.warn('here', 'VERIFY_CODE')
+      return {
+        ...state,
+        isLoading: true,
+        isVerified: false,
+        showMFAPrompt: false,
+      }
+    case VERIFY_CODE_SUCCESS:
+      console.warn('here', 'VERIFY_CODE_SUCCESS')
+      return {
+        ...state,
+        isLoading: false,
+        showMFAPrompt: false,
+        isVerified: true,
+      };
+    case VERIFY_CODE_FAIL:
+      console.warn('VERIFY_CODE_FAIL', action.payload)
+      return {
+        ...state,
+        isLoading: false,
+        showMFAPrompt: true,
+        isVerified: false,
+        verfiedErrorMsg: action.payload,
+      }
+    case VERIFY_CODE_CANCEL:
+      return {
+        ...state,
+        showMFAPrompt: false,
       }
     case SIGN_IN_EMAIL:
       // console.warn('here', 'SIGN_IN_EMAIL')

@@ -19,10 +19,12 @@ import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Hr, HideoTextInput} from '../../components';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
+import Prompt from 'react-native-prompt';
+
 import { Spinner, Toast } from '../../components';
 
-import { onSignUp } from '../../lib/Auth/AWS_Auth';
-import { signUp, signUpSuccess, signUpFail } from '../../redux/actions'
+import { onSignUp, onVerifyCode, onSignIn } from '../../lib/Auth/AWS_Auth';
+import { signUp, signUpSuccess, signUpFail, verifyCode, verifyCodeSuccess, verifyCodeFail, verifyCodeCancel} from '../../redux/actions'
 
 
 class TutorSignUpScreen extends React.Component {
@@ -38,16 +40,13 @@ class TutorSignUpScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      email: 'allen@letsmail9.com',
       password: '',
-      firstName:'',
-      lastName:'',
-      callingCode:'852',
+      username: '',
+      callingCode:'+852',
       phoneNumber:'',
       cca2: 'HK',
     }
-
-    this.resolver = Promise.resolve();
 
     this.handleSignUp = this.handleSignUp.bind(this);
 
@@ -65,35 +64,11 @@ class TutorSignUpScreen extends React.Component {
         this.Toast.show();
       }
     }
-  }
 
-  doSignUp(username, password, email, phone) {
-    const { auth } = this.props;
-    //console.warn('auth', auth)
-    const [emailVal, phoneVal] = [{ Name: 'email', Value: email }, { Name: 'phone_number', Value: phone }];
-
-    return new Promise(async (outResolve, reject) => {
-      this.resolver = outResolve;
-
-      const result = await new Promise((resolve) => {
-        auth.handleNewCustomerRegistration(username, password, emailVal, phoneVal, (err, res) => {
-          if (err) {
-            reject(Error(err.message));
-            return;
-          }
-
-          resolve(res);
-        });
-      });
-
-      const userConfirmed = !!result.userConfirmed;
-
-      this.setState({ showMFAPrompt: !userConfirmed });
-
-      if (userConfirmed) {
-        this.resolver(result.user);
-      }
-    });
+    if (nextProps.isVerified && !this.props.isVerified) {
+      // console.warn('verify success!')
+      this.props.navigation.navigate('Signin');
+    }
   }
 
   handleSignUp() {
@@ -102,20 +77,18 @@ class TutorSignUpScreen extends React.Component {
 
     const { signUp, signUpSuccess, signUpFail } = this.props;
 
-    onSignUp(username, password, email, phone, signUp, signUpSuccess, signUpFail);
+    const [emailVal, phoneVal] = [{ Name: 'email', Value: email }, { Name: 'phone_number', Value: phone }];
 
-    // console.warn('CLIENT', 'Signed Up: ' + (user ? 'YES' : 'NO'));
+    onSignUp(username, password, emailVal, phoneVal, signUp, signUpSuccess, signUpFail);
   }
 
   handleMFACancel() {
-    this.setState({ showMFAPrompt: false });
-    this.resolver(null);
+    this.props.verifyCodeCancel()
   }
 
   handleMFASuccess(session) {
-    this.resolver(session);
     this.setState({ showMFAPrompt: false }, () => {
-      this.props.navigation.navigate('Profile')
+      this.props.navigation.navigate('SignIn')
     });
   }
 
@@ -139,18 +112,9 @@ class TutorSignUpScreen extends React.Component {
   handleMFAValidate(code = '') {
     const { username } = this.state;
 
-    const { auth } = this.props;
+    const { verifyCode, verifyCodeSuccess, verifyCodeFail } = this.props;
 
-    return new Promise((resolve, reject) => {
-      auth.handleSubmitVerificationCode(username, code, (err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(result);
-      });
-    });
+    onVerifyCode(username, code, verifyCode, verifyCodeSuccess, verifyCodeFail)
   }
 
   render() {
@@ -158,12 +122,15 @@ class TutorSignUpScreen extends React.Component {
     return (
       <View style={styles.container}>
         {
-          this.state.showMFAPrompt &&
-          <MFAPrompt
-            locale={this.props.locale}
-            onValidate={this.handleMFAValidate}
+          <Prompt
+            title={this.props.verfiedErrorMsg || this.props.locale.commonSignUp.text.verifyCode.label}
+            placeholder={this.props.locale.commonSignUp.text.verifyCodePlaceholder.label}
+            submitText={this.props.locale.common.ok}
+            cancelText={this.props.locale.common.cancel}
+            textInputProps={{keyboardType: 'numeric'}}
+            visible={this.props.showMFAPrompt}
             onCancel={this.handleMFACancel}
-            onSuccess={this.handleMFASuccess}
+            onSubmit={(code) => this.handleMFAValidate(code)}
           />
         }
         <TextInput 
@@ -336,6 +303,9 @@ const mapStateToProps = (state) => {
   return {
     locale: state.language.locale,
     isLoading: state.socialLogin.isLoading,
+    showMFAPrompt: state.socialLogin.showMFAPrompt,
+    isVerified: state.socialLogin.isVerified,
+    verfiedErrorMsg: state.socialLogin.verfiedErrorMsg,
     fetchErrorMsg: state.socialLogin.fetchErrorMsg,
     fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate,
   }
@@ -344,6 +314,10 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   signUp,
   signUpSuccess,
-  signUpFail 
+  signUpFail,
+  verifyCode,
+  verifyCodeSuccess,
+  verifyCodeFail,
+  verifyCodeCancel,
 })(WithAuth(TutorSignUpScreen))
 

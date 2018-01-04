@@ -18,9 +18,9 @@ const appSecrets = {
 	twitter: {
 		clientID: `YzdixNvS1QPdsakaywxlKLu84`
 	},
-   
 	aws: {
-		apiURL: `https://7n1u0nexpd.execute-api.us-east-1.amazonaws.com/dev/users/create`
+		// apiURL: `https://7n1u0nexpd.execute-api.us-east-1.amazonaws.com/dev/users/create`
+		apiURL: "https://reaf1dgnga.execute-api.us-east-1.amazonaws.com/dev"
 	}
 };
 

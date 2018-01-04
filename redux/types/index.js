@@ -30,3 +30,8 @@ export const SIGN_OUT_FAIL = 'SIGN_OUT_FAIL';
 export const SIGN_UP = 'SIGN_UP';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAIL = 'SIGN_UP_FAIL';
+
+export const VERIFY_CODE = 'VERIFY_CODE';
+export const VERIFY_CODE_SUCCESS = 'VERIFY_CODE_SUCCESS';
+export const VERIFY_CODE_FAIL = 'VERIFY_CODE_FAIL';
+export const VERIFY_CODE_CANCEL = 'VERIFY_CODE_CANCEL';
