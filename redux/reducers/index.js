@@ -8,6 +8,7 @@ import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest';
 import socialLogin from './socialLogin';
 import { 
   signInEmailEpic,
+  signUpEmailEpic,
   signInFacebookEpic,
   signInGoogleEpic,
   getFacebookProfileEpic,
@@ -27,5 +28,6 @@ export const rootEpic = combineEpics(
   signInGoogleEpic,
   getFacebookProfileEpic,
   getFacebookPictureEpic,
-  signInEmailEpic
+  signInEmailEpic,
+  signUpEmailEpic,
 )

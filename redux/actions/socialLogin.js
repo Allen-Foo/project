@@ -35,29 +35,17 @@ import { Observable } from 'rxjs/Observable';
 import Expo from 'expo';
 import axios from 'axios';
 
-import { onSignInEmail } from '../../lib/Auth/AWS_Auth';
+import { onSignInEmail, onSignUpEmail } from '../../lib/Auth/AWS_Auth';
 
 export const signOut = () => ({
   type: SIGN_OUT_SUCCESS
 })
 
-export const signUp = () => ({
+export const signUp = (profile) => ({
   type: SIGN_UP,
-})
-
-export const signUpSuccess = (result) => {
-  return {
-    type: SIGN_UP_SUCCESS,
-    payload: {
-      showMFAPrompt: !result.userConfirmed,
-      user: result.user
-    }
-  }  
-}
-
-export const signUpFail = (err) => ({
-  type: SIGN_UP_FAIL,
-  payload: err.message
+  payload: {
+    profile
+  }
 })
 
 export const verifyCode = () => ({
@@ -114,6 +102,25 @@ export const signInEmailEpic = (action$, store, { request }) =>
       }))
     )
 
+export const signUpEmailEpic = (action$, store, { request }) =>
+  action$.ofType(SIGN_UP)
+    .mergeMap(action => 
+      Observable.fromPromise(onSignUpEmail(action.payload.profile))
+      .map(res => {
+        return {
+          type: SIGN_UP_SUCCESS,
+          payload: {
+            showMFAPrompt: !res.userConfirmed,
+            user: res.user
+          }
+        }
+      })
+      .catch(err => Observable.of({
+        type: SIGN_UP_FAIL,
+        payload: err.message
+      }))
+    )
+
 export const signInFacebookEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_IN_FACEBOOK)
     .mergeMap(action => 
@@ -123,8 +130,6 @@ export const signInFacebookEpic = (action$, store, { request }) =>
       .map(res => {
         switch (res.type) {
           case 'success':
-            // console.warn('success', res)
-            // 
             // Add the Facebook access token to the Cognito credentials login map.
             AWS.config.credentials = new AWS.CognitoIdentityCredentials({
               IdentityPoolId: awsmobile.aws_cognito_identity_pool_id,
@@ -134,7 +139,7 @@ export const signInFacebookEpic = (action$, store, { request }) =>
             });
 
             // Obtain AWS credentials
-            // // We can set the get method of the Credentials object to retrieve
+            // We can set the get method of the Credentials object to retrieve
             // the unique identifier for the end user (identityId) once the provider
             // has refreshed itself
             AWS.config.credentials.get(function(err) {
@@ -143,20 +148,7 @@ export const signInFacebookEpic = (action$, store, { request }) =>
                     return;
                 }
                 console.warn("Cognito Identity Id: " + AWS.config.credentials.identityId);
-             
-                // Other service clients will automatically use the Cognito Credentials provider
-                // configured in the JavaScript SDK.
-                // var cognitoSyncClient = new AWS.CognitoSync();
-                // cognitoSyncClient.listDatasets({
-                //     IdentityId: AWS.config.credentials.identityId,
-                //     IdentityPoolId: "YOUR_COGNITO_IDENTITY_POOL_ID"
-                // }, function(err, data) {
-                //     if ( !err ) {
-                //         console.log(JSON.stringify(data));
-                //     }
-                // });
             });
-            
 
             store.dispatch({
               type: GET_FACEBOOK_PROFILE,

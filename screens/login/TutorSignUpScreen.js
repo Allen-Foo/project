@@ -23,8 +23,8 @@ import Prompt from 'react-native-prompt';
 
 import { Spinner, Toast } from '../../components';
 
-import { onSignUp, onVerifyCode, onSignIn } from '../../lib/Auth/AWS_Auth';
-import { signUp, signUpSuccess, signUpFail, verifyCode, verifyCodeSuccess, verifyCodeFail, verifyCodeCancel} from '../../redux/actions'
+import { onVerifyCode } from '../../lib/Auth/AWS_Auth';
+import { signUp, signUpFail, verifyCode, verifyCodeSuccess, verifyCodeFail, verifyCodeCancel} from '../../redux/actions'
 
 
 class TutorSignUpScreen extends React.Component {
@@ -75,11 +75,7 @@ class TutorSignUpScreen extends React.Component {
     const { username, password, email, phoneNumber, callingCode } = this.state;
     const phone = '+' + callingCode + phoneNumber;
 
-    const { signUp, signUpSuccess, signUpFail } = this.props;
-
-    const [emailVal, phoneVal] = [{ Name: 'email', Value: email }, { Name: 'phone_number', Value: phone }];
-
-    onSignUp(username, password, emailVal, phoneVal, signUp, signUpSuccess, signUpFail);
+    this.props.signUp({username, password, email, phone})
   }
 
   handleMFACancel() {
@@ -313,8 +309,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   signUp,
-  signUpSuccess,
-  signUpFail,
   verifyCode,
   verifyCodeSuccess,
   verifyCodeFail,
