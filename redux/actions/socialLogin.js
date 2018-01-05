@@ -35,7 +35,7 @@ import { Observable } from 'rxjs/Observable';
 import Expo from 'expo';
 import axios from 'axios';
 
-import { onSignInEmail, onSignUpEmail } from '../../lib/Auth/AWS_Auth';
+import { onSignInEmail, onSignUpEmail, onVerifyCode } from '../../lib/Auth/AWS_Auth';
 
 export const signOut = () => ({
   type: SIGN_OUT_SUCCESS
@@ -48,19 +48,12 @@ export const signUp = (profile) => ({
   }
 })
 
-export const verifyCode = () => ({
+export const verifyCode = (userName, code) => ({
   type: VERIFY_CODE,
-})
-
-export const verifyCodeSuccess = (result) => {
-  return {
-    type: VERIFY_CODE_SUCCESS,
-  }  
-}
-
-export const verifyCodeFail = (err) => ({
-  type: VERIFY_CODE_FAIL,
-  payload: err.message
+  payload: {
+    userName,
+    code
+  }
 })
 
 export const verifyCodeCancel = () => ({
@@ -117,6 +110,21 @@ export const signUpEmailEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: SIGN_UP_FAIL,
+        payload: err.message
+      }))
+    )
+
+export const verifyCodeEpic = (action$, store, { request }) =>
+  action$.ofType(VERIFY_CODE)
+    .mergeMap(action => 
+      Observable.fromPromise(onVerifyCode(action.payload.userName, action.payload.code))
+      .map(res => {
+        return {
+          type: VERIFY_CODE_SUCCESS,
+        }
+      })
+      .catch(err => Observable.of({
+        type: VERIFY_CODE_FAIL,
         payload: err.message
       }))
     )

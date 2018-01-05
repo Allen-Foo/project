@@ -16,7 +16,6 @@ class ProfileScreen extends React.Component {
     const { state } = navigation;
     return {
       tabBarLabel: screenProps.locale.profile.title,
-      headerTitle: screenProps.locale.profile.title,
       headerLeft: null,
       headerTintColor: '#fff',
       headerStyle: {

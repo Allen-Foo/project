@@ -9,6 +9,7 @@ import socialLogin from './socialLogin';
 import { 
   signInEmailEpic,
   signUpEmailEpic,
+  verifyCodeEpic,
   signInFacebookEpic,
   signInGoogleEpic,
   getFacebookProfileEpic,
@@ -30,4 +31,5 @@ export const rootEpic = combineEpics(
   getFacebookPictureEpic,
   signInEmailEpic,
   signUpEmailEpic,
+  verifyCodeEpic,
 )

@@ -1,7 +1,5 @@
 import { setLanguage } from './setLanguage';
 import { signInEmail,
-  signInEmailSuccess,
-  signInEmailFail,
   signInFacebook,
   signInGoogle,
   signOut,
@@ -9,8 +7,6 @@ import { signInEmail,
   signUpSuccess,
   signUpFail,
   verifyCode,
-  verifyCodeSuccess,
-  verifyCodeFail,
   verifyCodeCancel,
 } from './socialLogin';
 
@@ -19,14 +15,10 @@ export {
   signInFacebook,
   signInGoogle,
   signInEmail,
-  signInEmailSuccess,
-  signInEmailFail,
   signOut,
   signUp,
   signUpSuccess,
   signUpFail,
   verifyCode,
-  verifyCodeSuccess,
-  verifyCodeFail,
   verifyCodeCancel,
 }

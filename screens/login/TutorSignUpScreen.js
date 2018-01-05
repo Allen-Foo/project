@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 
 import WithAuth from '../../lib/Auth/Components/WithAuth';
-import MFAPrompt from '../../lib/Auth/Components/MFAPrompt';
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
@@ -24,7 +23,7 @@ import Prompt from 'react-native-prompt';
 import { Spinner, Toast } from '../../components';
 
 import { onVerifyCode } from '../../lib/Auth/AWS_Auth';
-import { signUp, signUpFail, verifyCode, verifyCodeSuccess, verifyCodeFail, verifyCodeCancel} from '../../redux/actions'
+import { signUp, signUpFail, verifyCode, verifyCodeCancel} from '../../redux/actions'
 
 
 class TutorSignUpScreen extends React.Component {
@@ -40,19 +39,13 @@ class TutorSignUpScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'allen@letsmail9.com',
+      email: '',
       password: '',
       username: '',
-      callingCode:'+852',
-      phoneNumber:'',
+      callingCode: '+852',
+      phoneNumber: '',
       cca2: 'HK',
     }
-
-    this.handleSignUp = this.handleSignUp.bind(this);
-
-    this.handleMFAValidate = this.handleMFAValidate.bind(this);
-    this.handleMFACancel = this.handleMFACancel.bind(this);
-    this.handleMFASuccess = this.handleMFASuccess.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,16 +71,6 @@ class TutorSignUpScreen extends React.Component {
     this.props.signUp({username, password, email, phone})
   }
 
-  handleMFACancel() {
-    this.props.verifyCodeCancel()
-  }
-
-  handleMFASuccess(session) {
-    this.setState({ showMFAPrompt: false }, () => {
-      this.props.navigation.navigate('SignIn')
-    });
-  }
-
   validateInput() {
     if (!this.state.username) {
       Alert.alert('Username cannot be empty!')
@@ -95,22 +78,12 @@ class TutorSignUpScreen extends React.Component {
       Alert.alert('Email cannot be empty!')
     } else if (!this.state.password) {
       Alert.alert('Password cannot be empty!')
-    }else if (!this.state.phoneNumber) {
+    } else if (!this.state.phoneNumber) {
       Alert.alert('Phone Number cannot be empty!')
     } else {
-      // TODO
       // submit to server
-      // this.props.navigation.navigate('Main')
       this.handleSignUp();
     }
-  }
-
-  handleMFAValidate(code = '') {
-    const { username } = this.state;
-
-    const { verifyCode, verifyCodeSuccess, verifyCodeFail } = this.props;
-
-    onVerifyCode(username, code, verifyCode, verifyCodeSuccess, verifyCodeFail)
   }
 
   render() {
@@ -125,8 +98,8 @@ class TutorSignUpScreen extends React.Component {
             cancelText={this.props.locale.common.cancel}
             textInputProps={{keyboardType: 'numeric'}}
             visible={this.props.showMFAPrompt}
-            onCancel={this.handleMFACancel}
-            onSubmit={(code) => this.handleMFAValidate(code)}
+            onCancel={() => this.props.verifyCodeCancel()}
+            onSubmit={(code) => this.props.verifyCode(this.state.username, code)}
           />
         }
         <TextInput 
@@ -182,19 +155,19 @@ class TutorSignUpScreen extends React.Component {
           />
         </View>
         <TextInput
-          style={[styles.textInput, {height:100}]}
+          style={[styles.textInput, {height: 100}]}
           multiline= {true}
           numberOfLines={5}
           placeholder={locale.commonSignUp.textInput.skill.placeholder}
         />
         <TouchableOpacity 
           style={styles.uploadButton}
-          onPress={() => this.validateInput()}
+          onPress={() => {}}
         >
           <Text style={{color: 'black'}}> {locale.commonSignUp.text.upload.label} </Text>
         </TouchableOpacity>
         <TouchableOpacity 
-          style={[styles.button, {marginTop:20} ]}
+          style={[styles.button, {marginTop: 20} ]}
           onPress={() => this.validateInput()}
         >
           <Text style={{color: 'white'}}> {locale.signin.text.signUp.label} </Text>
@@ -226,19 +199,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#E4E4E4',
     //justifyContent: 'center',
     alignItems: 'center',
-    paddingTop:40,
+    paddingTop: 40,
   },
   uploadButton: {
-    borderWidth:1,
-    width:'100%',
-    height:40,
-    backgroundColor:'#FFF',
-    borderColor:'grey',
-    alignItems:'center',
-    justifyContent:'center'
+    borderWidth: 1,
+    width: '100%',
+    height: 40,
+    backgroundColor: '#FFF',
+    borderColor: 'grey',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  contact:{
-    flexDirection:'row',
+  contact: {
+    flexDirection: 'row',
     // backgroundColor: 'red'
   },
   countryPickerContainer: {
@@ -246,10 +219,10 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderColor: 'grey', 
   },
-  agreement:{
-    fontSize:14,
-    marginTop:20,
-    width:'80%',
+  agreement: {
+    fontSize: 14,
+    marginTop: 20,
+    width: '80%',
   },
   textInput: {
     height: 40, 
@@ -257,40 +230,39 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1, 
     width: '100%',
     fontSize: 14,
-    backgroundColor:'#FFF',
-    paddingLeft:20,
+    backgroundColor: '#FFF',
+    paddingLeft: 20,
   },
-  text:{
+  text: {
     alignSelf: 'flex-start', 
     height: 22, 
     width: '80%',
     marginTop: 10, 
     marginLeft: '10%',
   },
-  boldText:{
-    fontWeight:'bold',
+  boldText: {
+    fontWeight: 'bold',
   },
-  SocialButtonStyle:{
+  SocialButtonStyle: {
     height: 40, 
     width: '80%',
     backgroundColor: '#5ECC3F', 
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius: 10, 
-    position:'absolute',
+    position: 'absolute',
     left: '10%',
-    right:0,
+    right: 0,
     bottom: 40,
-    flexDirection:'row',
+    flexDirection: 'row',
   },
-  button:{
+  button: {
     height: 40, 
     width: '60%',
     backgroundColor: '#5ECC3F', 
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius: 10, 
-    //marginTop: 20
   }
 });
 
@@ -310,8 +282,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   signUp,
   verifyCode,
-  verifyCodeSuccess,
-  verifyCodeFail,
   verifyCodeCancel,
 })(WithAuth(TutorSignUpScreen))
 
