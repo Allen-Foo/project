@@ -11,7 +11,7 @@ import {
 
 import { WithAuth } from '../../lib/Auth/Components';
 import { connect } from 'react-redux';
-import { signInEmail, signInEmailSuccess, signInEmailFail, signInFacebook, signInGoogle } from '../../redux/actions'
+import { signInEmail, signInFacebook, signInGoogle } from '../../redux/actions'
 import { Spinner, Toast } from '../../components';
 
 import { SocialIcon } from 'react-native-elements';
@@ -44,9 +44,8 @@ class SigninScreen extends React.Component {
     } else if (!password) {
       Alert.alert('password is empty!')
     } else {
-      const { signInEmail, signInEmailSuccess, signInEmailFail } = this.props;
       // submit to server
-      onSignIn(email, password, signInEmail, signInEmailSuccess, signInEmailFail)
+      this.props.signInEmail(email, password);
     }
   }
 
@@ -198,8 +197,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   signInEmail,
-  signInEmailSuccess,
-  signInEmailFail,
   signInFacebook,
   signInGoogle
 })(SigninScreen);

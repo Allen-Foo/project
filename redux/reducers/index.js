@@ -7,6 +7,7 @@ import language from './language';
 import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest';
 import socialLogin from './socialLogin';
 import { 
+  signInEmailEpic,
   signInFacebookEpic,
   signInGoogleEpic,
   getFacebookProfileEpic,
@@ -26,4 +27,5 @@ export const rootEpic = combineEpics(
   signInGoogleEpic,
   getFacebookProfileEpic,
   getFacebookPictureEpic,
+  signInEmailEpic
 )

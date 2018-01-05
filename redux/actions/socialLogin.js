@@ -30,11 +30,12 @@ import {
 import AWS from 'aws-sdk';
 import awsmobile from '../../aws-exports';
 
-
 import appSecrets from '../../appSecrets';
 import { Observable } from 'rxjs/Observable';
 import Expo from 'expo';
 import axios from 'axios';
+
+import { onSignInEmail } from '../../lib/Auth/AWS_Auth';
 
 export const signOut = () => ({
   type: SIGN_OUT_SUCCESS
@@ -86,19 +87,6 @@ export const signInEmail = (email, password) => ({
   }
 })
 
-export const signInEmailSuccess = (identityId) => ({
-  type: SIGN_IN_EMAIL_SUCCESS,
-  payload: {
-    loginType: 'email',
-    identityId: identityId
-  }
-})
-
-export const signInEmailFail = (err) => ({
-  type: SIGN_IN_EMAIL_FAIL,
-  payload: err.message
-})
-
 export const signInFacebook = () => ({
   type: SIGN_IN_FACEBOOK
 })
@@ -106,6 +94,25 @@ export const signInFacebook = () => ({
 export const signInGoogle = () => ({
   type: SIGN_IN_GOOGLE
 })
+
+export const signInEmailEpic = (action$, store, { request }) =>
+  action$.ofType(SIGN_IN_EMAIL)
+    .mergeMap(action => 
+      Observable.fromPromise(onSignInEmail(action.payload.email, action.payload.password))
+      .map(res => {
+        return {
+          type: SIGN_IN_EMAIL_SUCCESS,
+          payload: {
+            loginType: 'email',
+            identityId: res
+          }
+        }
+      })
+      .catch(err => Observable.of({
+        type: SIGN_IN_EMAIL_FAIL,
+        payload: err.message
+      }))
+    )
 
 export const signInFacebookEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_IN_FACEBOOK)
