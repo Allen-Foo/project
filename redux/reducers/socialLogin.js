@@ -33,7 +33,7 @@ const defaultState = {
   accessToken: null,                                                        
   avatarUrl: null,
   email: null,
-  userName: null,
+  username: null,
   isVerified: false,
   verfiedErrorMsg: null,
   fetchErrorMsg: null,

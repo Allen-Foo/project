@@ -127,7 +127,7 @@ const mapStateToPorps = (state) => {
     locale: state.language.locale,
     isLoggedIn: state.socialLogin.isLoggedIn,
     avatarUrl: state.socialLogin.avatarUrl,
-    userName: state.socialLogin.userName,
+    username: state.socialLogin.username,
   }
 }
 

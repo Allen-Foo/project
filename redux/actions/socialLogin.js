@@ -48,10 +48,10 @@ export const signUp = (profile) => ({
   }
 })
 
-export const verifyCode = (userName, code) => ({
+export const verifyCode = (username, code) => ({
   type: VERIFY_CODE,
   payload: {
-    userName,
+    username,
     code
   }
 })
@@ -60,10 +60,10 @@ export const verifyCodeCancel = () => ({
   type: VERIFY_CODE_CANCEL
 })
 
-export const signInEmail = (email, password) => ({
+export const signInEmail = (username, password) => ({
   type: SIGN_IN_EMAIL,
   payload: {
-    email,
+    username,
     password,
   }
 })
@@ -79,8 +79,9 @@ export const signInGoogle = () => ({
 export const signInEmailEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_IN_EMAIL)
     .mergeMap(action => 
-      Observable.fromPromise(onSignInEmail(action.payload.email, action.payload.password))
+      Observable.fromPromise(onSignInEmail(action.payload.username, action.payload.password))
       .map(res => {
+        console.warn('signInEmailEpic', res)
         return {
           type: SIGN_IN_EMAIL_SUCCESS,
           payload: {
@@ -100,11 +101,13 @@ export const signUpEmailEpic = (action$, store, { request }) =>
     .mergeMap(action => 
       Observable.fromPromise(onSignUpEmail(action.payload.profile))
       .map(res => {
+        console.warn('signUpEmailEpic', res)
+        
         return {
           type: SIGN_UP_SUCCESS,
           payload: {
             showMFAPrompt: !res.userConfirmed,
-            user: res.user
+            user: action.payload.profile
           }
         }
       })
@@ -117,10 +120,14 @@ export const signUpEmailEpic = (action$, store, { request }) =>
 export const verifyCodeEpic = (action$, store, { request }) =>
   action$.ofType(VERIFY_CODE)
     .mergeMap(action => 
-      Observable.fromPromise(onVerifyCode(action.payload.userName, action.payload.code))
+      Observable.fromPromise(onVerifyCode(action.payload.username, action.payload.code))
       .map(res => {
         return {
-          type: VERIFY_CODE_SUCCESS,
+          type: SIGN_IN_EMAIL,
+          payload: {
+            username: store.getState().socialLogin.user.username,
+            password: store.getState().socialLogin.user.password,
+          }
         }
       })
       .catch(err => Observable.of({
@@ -207,7 +214,7 @@ export const getFacebookProfileEpic = (action$, store, { request }) =>
           payload: {
             id: res.data.id,
             email: res.data.email,
-            userName: res.data.name,
+            username: res.data.name,
           }
         }
       })
@@ -267,7 +274,7 @@ export const signInGoogleEpic = (action$, store, { request }) =>
                 accessToken: res.accessToken,
                 avatarUrl: res.user.photoUrl,
                 email: res.user.email,
-                userName: res.user.name,
+                username: res.user.name,
               }
             }
           case 'cancel':
