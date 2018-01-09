@@ -24,16 +24,18 @@ import {
   VERIFY_CODE_SUCCESS,
   VERIFY_CODE_FAIL,
   VERIFY_CODE_CANCEL,
+  REGISTER,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
 } from '../types';
 
 
 const defaultState = {
   isLoading: false,
   isLoggedIn: false,
-  accessToken: null,                                                        
+  awsId: null,                                                        
   avatarUrl: null,
-  email: null,
-  username: null,
+  user: null,
   isVerified: false,
   verfiedErrorMsg: null,
   fetchErrorMsg: null,
@@ -56,6 +58,28 @@ export default (state = {...defaultState}, action) => {
         ...action.payload,
       };
     case SIGN_UP_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case REGISTER:
+      console.warn('here', 'REGISTER')
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case REGISTER_SUCCESS:
+      console.warn('here', 'REGISTER_SUCCESS')
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: true,
+        ...action.payload,
+      };
+    case REGISTER_FAIL:
+      console.warn('here', 'REGISTER_FAIL')
       return {
         ...state,
         isLoading: false,
@@ -104,7 +128,7 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        accessToken: action.payload
+        awsId: action.payload.awsId
       };
     case SIGN_IN_EMAIL_FAIL:
       // console.warn('here', 'SIGN_IN_EMAIL_FAIL', action.payload)
@@ -127,7 +151,7 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        accessToken: action.payload
+        awsId: action.payload
       };
     case SIGN_IN_FACEBOOK_FAIL:
       // console.warn('here', 'DO_GET_SUCCESS', action.payload)

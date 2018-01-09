@@ -25,6 +25,9 @@ import {
   VERIFY_CODE_SUCCESS,
   VERIFY_CODE_FAIL,
   VERIFY_CODE_CANCEL,
+  REGISTER,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -82,11 +85,24 @@ export const signInEmailEpic = (action$, store, { request }) =>
       Observable.fromPromise(onSignInEmail(action.payload.username, action.payload.password))
       .map(res => {
         console.warn('signInEmailEpic', res)
-        return {
-          type: SIGN_IN_EMAIL_SUCCESS,
-          payload: {
-            loginType: 'email',
-            identityId: res
+        if (action.payload.isNewUser) {
+          // remove password field and add login type and awsId
+          const {password, ...user} = store.getState().socialLogin.user
+          user.loginType = 'email';
+          user.awsId = res;
+          return {
+            type: REGISTER,
+            payload: {
+              user
+            }
+          }  
+        } else {
+          console.warn('trigger login')
+          return {
+            type: "LOGIN",
+            payload: {
+              awsId: res
+            }
           }
         }
       })
@@ -102,7 +118,7 @@ export const signUpEmailEpic = (action$, store, { request }) =>
       Observable.fromPromise(onSignUpEmail(action.payload.profile))
       .map(res => {
         console.warn('signUpEmailEpic', res)
-        
+
         return {
           type: SIGN_UP_SUCCESS,
           payload: {
@@ -117,6 +133,28 @@ export const signUpEmailEpic = (action$, store, { request }) =>
       }))
     )
 
+export const registerEpic = (action$, store, { request }) =>
+  action$.ofType(REGISTER)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: '/register',
+        method: 'post',
+        data: {
+          ...action.payload.user,
+        } 
+      }))
+      .map(res => {
+        console.warn('register success', res)
+        return {
+          type: REGISTER_SUCCESS
+        }
+      })
+      .catch(err => Observable.of({
+        type: REGISTER_FAIL,
+        payload: err.message
+      }))
+    )
+
 export const verifyCodeEpic = (action$, store, { request }) =>
   action$.ofType(VERIFY_CODE)
     .mergeMap(action => 
@@ -127,6 +165,7 @@ export const verifyCodeEpic = (action$, store, { request }) =>
           payload: {
             username: store.getState().socialLogin.user.username,
             password: store.getState().socialLogin.user.password,
+            isNewUser: true
           }
         }
       })

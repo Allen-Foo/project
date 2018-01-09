@@ -6,7 +6,8 @@ import language from './language';
 
 import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest';
 import socialLogin from './socialLogin';
-import { 
+import {
+  registerEpic,
   signInEmailEpic,
   signUpEmailEpic,
   verifyCodeEpic,
@@ -32,4 +33,5 @@ export const rootEpic = combineEpics(
   signInEmailEpic,
   signUpEmailEpic,
   verifyCodeEpic,
+  registerEpic,
 )

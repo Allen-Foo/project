@@ -9,7 +9,6 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { WithAuth } from '../../lib/Auth/Components';
 import { connect } from 'react-redux';
 import { signInEmail, signInFacebook, signInGoogle } from '../../redux/actions'
 import { Spinner, Toast } from '../../components';

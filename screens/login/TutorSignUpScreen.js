@@ -10,8 +10,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import WithAuth from '../../lib/Auth/Components/WithAuth';
-
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { SocialIcon } from 'react-native-elements';
@@ -21,9 +19,7 @@ import CountryPicker, { getAllCountries } from 'react-native-country-picker-moda
 import Prompt from 'react-native-prompt';
 
 import { Spinner, Toast } from '../../components';
-
-import { onVerifyCode } from '../../lib/Auth/AWS_Auth';
-import { signUp, signUpFail, verifyCode, verifyCodeCancel} from '../../redux/actions'
+import { signUp, verifyCode, verifyCodeCancel} from '../../redux/actions'
 
 
 class TutorSignUpScreen extends React.Component {
@@ -66,7 +62,7 @@ class TutorSignUpScreen extends React.Component {
 
   handleSignUp() {
     const { username, password, email, phoneNumber, callingCode } = this.state;
-    const phone = '+' + callingCode + phoneNumber;
+    const phone = callingCode + phoneNumber;
 
     this.props.signUp({username, password, email, phone})
   }
@@ -197,7 +193,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#E4E4E4',
-    //justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 40,
   },
@@ -212,7 +207,6 @@ const styles = StyleSheet.create({
   },
   contact: {
     flexDirection: 'row',
-    // backgroundColor: 'red'
   },
   countryPickerContainer: {
     borderBottomWidth: 1,
@@ -283,5 +277,5 @@ export default connect(mapStateToProps, {
   signUp,
   verifyCode,
   verifyCodeCancel,
-})(WithAuth(TutorSignUpScreen))
+})(TutorSignUpScreen)
 
