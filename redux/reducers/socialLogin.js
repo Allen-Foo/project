@@ -27,6 +27,9 @@ import {
   REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
 } from '../types';
 
 
@@ -80,6 +83,28 @@ export default (state = {...defaultState}, action) => {
       };
     case REGISTER_FAIL:
       console.warn('here', 'REGISTER_FAIL')
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case LOGIN:
+      console.warn('here', 'LOGIN')
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case LOGIN_SUCCESS:
+      console.warn('here', 'LOGIN_SUCCESS')
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: true,
+        user: action.payload,
+      };
+    case LOGIN_FAIL:
+      console.warn('here', 'LOGIN_FAIL')
       return {
         ...state,
         isLoading: false,

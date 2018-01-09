@@ -14,7 +14,8 @@ import {
   signInFacebookEpic,
   signInGoogleEpic,
   getFacebookProfileEpic,
-  getFacebookPictureEpic
+  getFacebookPictureEpic,
+  loginEpic,
 } from '../actions/socialLogin';
 
 export const rootReducer = combineReducers({
@@ -34,4 +35,5 @@ export const rootEpic = combineEpics(
   signUpEmailEpic,
   verifyCodeEpic,
   registerEpic,
+  loginEpic,
 )

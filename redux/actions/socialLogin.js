@@ -28,6 +28,9 @@ import {
   REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -79,6 +82,7 @@ export const signInGoogle = () => ({
   type: SIGN_IN_GOOGLE
 })
 
+// this epic will sign in user through AWS Cognito
 export const signInEmailEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_IN_EMAIL)
     .mergeMap(action => 
@@ -112,6 +116,7 @@ export const signInEmailEpic = (action$, store, { request }) =>
       }))
     )
 
+// this epic will sign up user through AWS Cognito
 export const signUpEmailEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_UP)
     .mergeMap(action => 
@@ -133,6 +138,7 @@ export const signUpEmailEpic = (action$, store, { request }) =>
       }))
     )
 
+// this epic will register user at dynamoDb
 export const registerEpic = (action$, store, { request }) =>
   action$.ofType(REGISTER)
     .mergeMap(action => 
@@ -156,6 +162,31 @@ export const registerEpic = (action$, store, { request }) =>
       }))
     )
 
+// this epic will get user profile from dynamoDb
+export const loginEpic = (action$, store, { request }) =>
+  action$.ofType(LOGIN)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: '/login',
+        method: 'post',
+        data: {
+          ...action.payload,
+        } 
+      }))
+      .map(res => {
+        console.warn('login success', res)
+        return {
+          type: LOGIN_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: LOGIN_FAIL,
+        payload: err.message
+      }))
+    )
+
+// this epic will verify email address through AWS Cognito
 export const verifyCodeEpic = (action$, store, { request }) =>
   action$.ofType(VERIFY_CODE)
     .mergeMap(action => 
