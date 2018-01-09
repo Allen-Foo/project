@@ -146,7 +146,8 @@ export const registerEpic = (action$, store, { request }) =>
       .map(res => {
         console.warn('register success', res)
         return {
-          type: REGISTER_SUCCESS
+          type: REGISTER_SUCCESS,
+          payload: res.data
         }
       })
       .catch(err => Observable.of({

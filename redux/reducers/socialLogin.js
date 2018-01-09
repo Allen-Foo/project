@@ -76,7 +76,7 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoading: false,
         isLoggedIn: true,
-        ...action.payload,
+        user: action.payload,
       };
     case REGISTER_FAIL:
       console.warn('here', 'REGISTER_FAIL')

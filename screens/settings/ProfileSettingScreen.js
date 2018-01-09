@@ -31,7 +31,7 @@ class ProfileSettingScreen extends React.Component {
         <TouchableOpacity 
           style={styles.signOutContainer}
           onPress={() => {
-            onSignOut(this.props.accessToken, this.props.signOut)
+            onSignOut(this.props.user, this.props.signOut)
             this.props.navigation.goBack()
           }}
         >
@@ -75,7 +75,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    accessToken: state.socialLogin.accessToken,
+    user: state.socialLogin.user,
   }
 }
 
