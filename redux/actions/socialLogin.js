@@ -334,9 +334,10 @@ export const signInGoogleEpic = (action$, store, { request }) =>
           case 'success':
             // console.warn('success', res)
             return {
-              type: SIGN_IN_GOOGLE_SUCCESS,
+              type: GET_IDENTITY_ID,
               payload: {
-                accessToken: res.accessToken,
+                loginType: 'google',
+                accessToken: res.idToken,
                 avatarUrl: res.user.photoUrl,
                 email: res.user.email,
                 username: res.user.name,
