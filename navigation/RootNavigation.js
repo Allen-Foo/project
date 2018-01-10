@@ -15,10 +15,11 @@ import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 import ClassList from '../screens/class/ClassListScreen';
-import Category from '../screens/category/CategoryScreen';
-import Skill from '../screens/skill/SkillScreen';
-import TutionFee from '../screens/tutionFee/TutionFeeScreen';
-import test from '../screens/tutionFee/test';
+import Category from '../screens/createClass/CategoryScreen';
+import Skill from '../screens/createClass/SkillScreen';
+import TutionFee from '../screens/createClass/TutionFeeScreen';
+import Calendar from '../screens/createClass/CalendarScreen';
+
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -76,8 +77,8 @@ const RootStackNavigator = StackNavigator(
     TutionFee: {
       screen: TutionFee,
     },
-    test: {
-      screen: test,
+    Calendar: {
+      screen: Calendar,
     },
   },
   {

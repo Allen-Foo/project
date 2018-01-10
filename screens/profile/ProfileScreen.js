@@ -65,7 +65,7 @@ class ProfileScreen extends React.Component {
     } else {
       return (
         <View style={styles.loginContainer}>
-          <TouchableOpacity style={[styles.button, {backgroundColor: '#E4E4E4'}]} onPress={() => this.props.navigation.navigate('Signin')}>
+          <TouchableOpacity style={[styles.button, {backgroundColor: '#E4E4E4'}]} onPress={() => this.props.navigation.navigate('Calendar')}>
             <Text style={{color: '#5ECC3F'}}> {this.props.locale.profile.text.pleaseSignInToViewYourProfile} </Text>
           </TouchableOpacity>
 
