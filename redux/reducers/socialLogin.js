@@ -68,13 +68,13 @@ export default (state = {...defaultState}, action) => {
         fetchErrorLastUpdate: new Date(),
       }
     case REGISTER:
-      console.warn('here', 'REGISTER')
+      // console.warn('here', 'REGISTER')
       return {
         ...state,
         isLoading: true,
       }
     case REGISTER_SUCCESS:
-      console.warn('here', 'REGISTER_SUCCESS')
+      // console.warn('here', 'REGISTER_SUCCESS')
       return {
         ...state,
         isLoading: false,
@@ -82,7 +82,7 @@ export default (state = {...defaultState}, action) => {
         user: action.payload,
       };
     case REGISTER_FAIL:
-      console.warn('here', 'REGISTER_FAIL')
+      // console.warn('here', 'REGISTER_FAIL')
       return {
         ...state,
         isLoading: false,
@@ -90,13 +90,13 @@ export default (state = {...defaultState}, action) => {
         fetchErrorLastUpdate: new Date(),
       }
     case LOGIN:
-      console.warn('here', 'LOGIN')
+      // console.warn('here', 'LOGIN')
       return {
         ...state,
         isLoading: true,
       }
     case LOGIN_SUCCESS:
-      console.warn('here', 'LOGIN_SUCCESS')
+      // console.warn('here', 'LOGIN_SUCCESS')
       return {
         ...state,
         isLoading: false,
@@ -104,7 +104,7 @@ export default (state = {...defaultState}, action) => {
         user: action.payload,
       };
     case LOGIN_FAIL:
-      console.warn('here', 'LOGIN_FAIL')
+      // console.warn('here', 'LOGIN_FAIL')
       return {
         ...state,
         isLoading: false,
@@ -112,7 +112,7 @@ export default (state = {...defaultState}, action) => {
         fetchErrorLastUpdate: new Date(),
       }
     case VERIFY_CODE:
-      console.warn('here', 'VERIFY_CODE')
+      // console.warn('here', 'VERIFY_CODE')
       return {
         ...state,
         isLoading: true,
@@ -120,7 +120,7 @@ export default (state = {...defaultState}, action) => {
         showMFAPrompt: false,
       }
     case VERIFY_CODE_SUCCESS:
-      console.warn('here', 'VERIFY_CODE_SUCCESS')
+      // console.warn('here', 'VERIFY_CODE_SUCCESS')
       return {
         ...state,
         isLoading: false,
@@ -128,7 +128,7 @@ export default (state = {...defaultState}, action) => {
         isVerified: true,
       };
     case VERIFY_CODE_FAIL:
-      console.warn('VERIFY_CODE_FAIL', action.payload)
+      // console.warn('VERIFY_CODE_FAIL', action.payload)
       return {
         ...state,
         isLoading: false,
