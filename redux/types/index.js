@@ -43,3 +43,7 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const LOGIN = 'LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
+
+export const GET_IDENTITY_ID = 'GET_IDENTITY_ID';
+export const GET_IDENTITY_ID_SUCCESS = 'GET_IDENTITY_ID_SUCCESS';
+export const GET_IDENTITY_ID_FAIL = 'GET_IDENTITY_ID_FAIL';

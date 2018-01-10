@@ -31,6 +31,9 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  GET_IDENTITY_ID,
+  GET_IDENTITY_ID_SUCCESS,
+  GET_IDENTITY_ID_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -120,8 +123,7 @@ export const signUpEmailEpic = (action$, store, { request }) =>
     .mergeMap(action => 
       Observable.fromPromise(onSignUpEmail(action.payload.profile))
       .map(res => {
-        console.warn('signUpEmailEpic', res)
-
+        // console.warn('signUpEmailEpic', res)
         return {
           type: SIGN_UP_SUCCESS,
           payload: {
@@ -184,6 +186,30 @@ export const loginEpic = (action$, store, { request }) =>
       }))
     )
 
+// this epic will get user profile from dynamoDb
+export const getIdentityIdEpic = (action$, store, { request }) =>
+  action$.ofType(GET_IDENTITY_ID)
+    .mergeMap(action => 
+      Observable.fromPromise(getIdentityId(action.payload.accessToken, action.payload.loginType))
+      .map(res => {
+        console.warn('getIdentityId success', res)
+        let { accessToken, ...user } = action.payload
+        return {
+          type: REGISTER,
+          payload: {
+            user: {
+              awsId: res,
+              ...user
+            }
+          }
+        }
+      })
+      .catch(err => Observable.of({
+        type: LOGIN_FAIL,
+        payload: err.message
+      }))
+    )
+
 // this epic will verify email address through AWS Cognito
 export const verifyCodeEpic = (action$, store, { request }) =>
   action$.ofType(VERIFY_CODE)
@@ -214,26 +240,6 @@ export const signInFacebookEpic = (action$, store, { request }) =>
       .map(res => {
         switch (res.type) {
           case 'success':
-            // // Add the Facebook access token to the Cognito credentials login map.
-            // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-            //   IdentityPoolId: awsmobile.aws_cognito_identity_pool_id,
-            //   Logins: {
-            //     'graph.facebook.com': res.token
-            //   }
-            // });
-
-            // // Obtain AWS credentials
-            // // We can set the get method of the Credentials object to retrieve
-            // // the unique identifier for the end user (identityId) once the provider
-            // // has refreshed itself
-            // AWS.config.credentials.get(function(err) {
-            //     if (err) {
-            //         console.warn("Error: "+err);
-            //         return;
-            //     }
-            //     console.warn("Cognito Identity Id: " + AWS.config.credentials.identityId);
-            // });
-
             return {
               type: GET_FACEBOOK_PROFILE,
               payload: {
@@ -265,14 +271,14 @@ export const getFacebookProfileEpic = (action$, store, { request }) =>
         `https://graph.facebook.com/me?fields=id,name,email,birthday&access_token=${action.payload.accessToken}`
       ))
       .map(res => {
-        console.warn('GET_FACEBOOK_PROFILE_SUCCESS', res.data)
+        // console.warn('GET_FACEBOOK_PROFILE_SUCCESS', res.data)
         return {
           type: GET_FACEBOOK_PICTURE,
           payload: {
             facebookId: res.data.id,
             email: res.data.email,
             username: res.data.name,
-            ...action.payload
+            accessToken: action.payload.accessToken
           }
         }
       })
@@ -299,13 +305,13 @@ export const getFacebookPictureEpic = (action$, store, { request }) =>
         `https://graph.facebook.com/${action.payload.facebookId}/picture?redirect=false&type=large&access_token=${action.payload.accessToken}`
       ))
       .map(res => {
-        console.warn('GET_FACEBOOK_PICTURE_SUCCESS', res.data.data)
-
+        // console.warn('GET_FACEBOOK_PICTURE_SUCCESS', res.data.data)
         return {
-          type: GET_FACEBOOK_PICTURE_SUCCESS,
+          type: GET_IDENTITY_ID,
           payload: {
             avatarUrl: res.data.data.url,
-            ...action.payload
+            loginType: 'facebook',
+            ...action.payload  
           }
         }
       })

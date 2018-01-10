@@ -38,12 +38,12 @@ class ProfileScreen extends React.Component {
         activeOpacity={0.7}
         containerStyle={styles.avatarContainer}
       />
-    if (this.props.avatarUrl) {
+    if (this.props.user && this.props.user.avatarUrl) {
       avatar = 
         <Avatar
           large
           rounded
-          source={{url: this.props.avatarUrl}}
+          source={{url: this.props.user.avatarUrl}}
           onPress={() => this.props.navigation.navigate('ProfileSetting')}
           activeOpacity={0.7}
           containerStyle={styles.avatarContainer}
@@ -126,8 +126,7 @@ const mapStateToPorps = (state) => {
   return {
     locale: state.language.locale,
     isLoggedIn: state.socialLogin.isLoggedIn,
-    avatarUrl: state.socialLogin.avatarUrl,
-    username: state.socialLogin.username,
+    user: state.socialLogin.user,
   }
 }
 
