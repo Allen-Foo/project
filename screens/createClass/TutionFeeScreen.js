@@ -50,21 +50,21 @@ class TutionFee extends React.Component {
           />
         </View>
         <View style={{ flex: 1 }}>
-        <TouchableOpacity onPress={this._showDateTimePicker}>
-          <Text>Show DatePicker</Text>
-        </TouchableOpacity>
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this._handleDatePicked}
-          onCancel={this._hideDateTimePicker}
-        />
-      </View>
+          <TouchableOpacity onPress={this._showDateTimePicker}>
+            <Text>Show DatePicker</Text>
+          </TouchableOpacity>
+          <DateTimePicker
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={this._handleDatePicked}
+            onCancel={this._hideDateTimePicker}
+          />
+        </View>
         <View style={styles.textInputRow}>
           <Text style={styles.text}>
             Teaching Experience
           </Text>
           <TextInput 
-            style={[styles.textInput,{width: '15%'}]}
+            style={[styles.textInput, {width: '15%'}]}
             onChangeText={teachingExp => {
               // console.warn('text', text);
               this.setState({teachingExp})
@@ -98,10 +98,10 @@ const styles = StyleSheet.create({
     //borderBottomWidth: 1, 
     width: '50%',
     fontSize: 14,
-    backgroundColor:'#FFF',
-    paddingLeft:10,
+    backgroundColor: '#FFF',
+    paddingLeft: 10,
     marginLeft: 10,
-    marginRight:10,
+    marginRight: 10,
   },
   textInputRow: {
     flexDirection: 'row',
