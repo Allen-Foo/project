@@ -14,13 +14,58 @@ import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { Hr } from '../../components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import moment from 'moment';
 
 class CalendarScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSelectTimeContainerVisible: false,
+      isTimePickerVisible: false,
+      startTime: '',
+      endTime: '',
+      isTimeButtonVisible: false,
+
+    }
+  }
+
+  _showSelectTimeContainer = () => this.setState({ isSelectTimeContainerVisible: true });
+
+  _hideSelectTimeContainer = () => this.setState({ isSelectTimeContainerVisible: false });
+
+  _handleStartTimePicked = (sTime) => {
+    console.warn('stime', sTime);
+    this.setState({startTime: sTime})
+  };
+
+  _handleEndTimePicked = (eTime) => {
+    console.warn('eTime', eTime);
+    this.setState({endTime: eTime})
+  };
+
+  _showTimeButton = () => this.setState({ isTimeButtonVisible: true });
+
+
 
   render() {
     return (
+      <View>
+        <View>
+          <CalendarList
+            // Callback which gets executed when visible months change in scroll view. Default = undefined
+            onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
+            // Max amount of months allowed to scroll to the past. Default = 50
+            pastScrollRange={50}
+            // Max amount of months allowed to scroll to the future. Default = 50
+            futureScrollRange={50}
+            // Enable or disable scrolling of calendar list
+            scrollEnabled={true}
+            // Enable or disable vertical scroll indicator. Default = false
+            showScrollIndicator={true}
+            onDayPress={(day) => {console.log('selected day', day)}}
+          />
+        </View>
         <View style={styles.selectTimeContainer}>
           <View style={[styles.rowContainer, styles.bottomLine]}>
             <View style={styles.innerRowContainer}>
@@ -46,7 +91,7 @@ class CalendarScreen extends React.Component {
               <TouchableOpacity>
                 <Text style={[styles.text,{color: '#999C9E'}]} 
                       onPress={() => this.props.navigation.navigate('ClassList')}> 
-                  {this.props.locale.common.never} 
+                  {this.props.locale.common.never}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -59,30 +104,67 @@ class CalendarScreen extends React.Component {
           <View style={styles.rowContainer}>
             <View style={styles.innerRowContainer}>
               <View style={styles.innerLeftRowContainer}>
-                <TouchableOpacity style={[styles.timeButton, {borderTopLeftRadius: 8, borderBottomLeftRadius: 8}]}>
-                  <Text style={styles.text} onPress={() => this.props.navigation.navigate('ClassList')}>
-                    {this.props.locale.common.start}
-                  </Text>
-                </TouchableOpacity>
+                <TimeButton 
+                  buttonName={this.props.locale.common.start}
+                  handleTimeName={this._handleStartTimePicked}
+                />
               </View>
               <View style={styles.innerRightRowContainer}>
-                <TouchableOpacity style={[styles.timeButton, {borderTopRightRadius: 8, borderBottomRightRadius: 8}]}>
-                  <Text style={styles.text} onPress={() => this.props.navigation.navigate('ClassList')}>
-                    {this.props.locale.common.end}
-                  </Text>
-                </TouchableOpacity>
+                <TimeButton 
+                  buttonName={this.props.locale.common.end}
+                  handleTimeName={this._handleEndTimePicked}
+                />
               </View>
             </View>
           </View>
-
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.text} onPress={() => this.props.navigation.navigate('ClassList')}>
-                {this.props.locale.common.addTimeSlot}
-              </Text>
-            </TouchableOpacity>
-
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.text} onPress={() => this._showTimeButton}>
+              {this.props.locale.common.addTimeSlot}
+            </Text>
+          </TouchableOpacity>
         </View>
+      </View>
     );
+  }
+}
+
+class TimeButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isTimePickerVisible: false,
+      time: '',
+    }
+  }
+
+  render() {
+    const { buttonName, handleTimeName} = this.props;
+
+    return (
+      <TouchableOpacity 
+        onPress={() => this.setState({isTimePickerVisible: true}) } 
+        style={styles.timeButton}
+      >
+        <Text style={styles.text}>
+          {buttonName}
+        </Text>
+        <Text style={styles.text}>
+          {this.state.time}
+        </Text>
+        <DateTimePicker
+          isVisible={this.state.isTimePickerVisible}
+          onConfirm={(time) => {
+            this.setState({
+              time: moment(time).format('LT'),
+              isTimePickerVisible: false
+            })
+            handleTimeName(time)
+          }}
+          onCancel={() => this.setState({ isTimePickerVisible: false })}
+          mode={'time'}
+        />
+      </TouchableOpacity>
+    )
   }
 }
 
@@ -90,9 +172,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
   text: {
     justifyContent:'center',
+    alignItems: 'center',
+    alignSelf: 'center',
     color:'#666A6C',
   },
   timeButton: {
@@ -101,6 +184,7 @@ const styles = StyleSheet.create({
     borderWidth:1,
     borderColor:'#DFE0DF',
     justifyContent: 'center',
+    flexDirection:'row',
   },
   button: {
     width: 300,
@@ -113,7 +197,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   selectTimeContainer:{
-    height: 250,
+    height: 350,
     backgroundColor:'#F0F0F0',
     position:'absolute',
     bottom:0,
@@ -140,18 +224,17 @@ const styles = StyleSheet.create({
     // borderColor: 'blue',
   },
   innerLeftRowContainer: {
-    paddingLeft: 28,
-
+    paddingLeft: 25,
   },
   innerRightRowContainer: {
-    paddingRight: 30,
-
+    paddingRight: 26,
   }
 })
 
 const mapStateToProps = (state) => {
   return {
     locale: state.language.locale
+
   }
 }
 export default connect(mapStateToProps)(CalendarScreen)
