@@ -23,6 +23,10 @@
     "templateStrings": true,
     "jsx": true
   },
+  "plugins": [
+    "react",
+    "react-native"
+  ],
   "rules": {
 /**
  * Strict mode
@@ -123,7 +127,7 @@
       "allowSingleLine": true
     }],
     "quotes": [
-      2, "single", "avoid-escape"    // http://eslint.org/docs/rules/quotes
+      0, "single", "avoid-escape"    // http://eslint.org/docs/rules/quotes
     ],
     "camelcase": [2, {               // http://eslint.org/docs/rules/camelcase
       "properties": "never"
@@ -161,6 +165,36 @@
     "keyword-spacing": 2,            // http://eslint.org/docs/rules/keyword-spacing
     "space-before-blocks": 2,        // http://eslint.org/docs/rules/space-before-blocks
     "space-before-function-paren": [2, "never"], // http://eslint.org/docs/rules/space-before-function-paren
-    "space-infix-ops": 2             // http://eslint.org/docs/rules/space-infix-ops
+    "space-infix-ops": 2,             // http://eslint.org/docs/rules/space-infix-ops
+
+/**
+* React Plugin
+* The following rules are made available via `eslint-plugin-react`. 
+*/
+    "react/display-name": 0,
+    "react/jsx-boolean-value": 0,
+    "react/jsx-no-duplicate-props": 2,
+    "react/jsx-no-undef": 1,
+    "react/jsx-sort-props": 0,
+    "react/jsx-uses-react": 1,
+    "react/jsx-uses-vars": 1,
+    "react/no-did-mount-set-state": 1,
+    "react/no-did-update-set-state": 1,
+    "react/no-multi-comp": 0,
+    "react/no-string-refs": 1,
+    "react/no-unknown-property": 0,
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 1,
+    "react/self-closing-comp": 1,
+    "react/wrap-multilines": 0,
+
+/**
+ * React Native Plugin
+ */
+
+    "react-native/no-unused-styles": 2,
+    "react-native/split-platform-components": 2,
+    "react-native/no-inline-styles": 0,
+    "react-native/no-color-literals": 0
   }
 }
