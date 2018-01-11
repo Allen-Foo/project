@@ -69,7 +69,7 @@ class SigninScreen extends React.Component {
     return (
       <View style={styles.container}>
         
-        <Text style= {{marginTop:20, fontSize:20}}>{locale.signin.text.signIn.label}</Text>
+        <Text style= {{marginTop: 20, fontSize: 20}}>{locale.signin.text.signIn.label}</Text>
 
         <SocialButton
           name={'facebook'}
@@ -94,8 +94,8 @@ class SigninScreen extends React.Component {
           iconColor={'white'}
           // this is used as backgroundColor of icon container view.
           iconBackgroundColor={'#EAB083'}
-          style={{width: "80%", marginTop: 20, borderWidth:1, borderColor:'#EAB083'}}
-          inputStyle={{ color: '#464949' ,fontSize: 16}}
+          style={{width: "80%", marginTop: 20, borderWidth: 1, borderColor: '#EAB083'}}
+          inputStyle={{ color: '#464949', fontSize: 16}}
           onChangeText={email => { this.setState({email}) }}
           value={this.state.email}
         />
@@ -107,15 +107,15 @@ class SigninScreen extends React.Component {
           iconName={'vpn-key'}
           iconColor={'white'}
           iconBackgroundColor={'#EAB083'}
-          style={{width: "80%", marginTop:10, borderWidth:1, borderColor:'#EAB083'}}
-          inputStyle={{ color: '#464949' ,fontSize: 16}}
+          style={{width: "80%", marginTop: 10, borderWidth: 1, borderColor: '#EAB083'}}
+          inputStyle={{ color: '#464949', fontSize: 16}}
           onChangeText={password => { this.setState({password}) }}
           value={this.state.password}
         />
         
         
         <TouchableOpacity 
-          style={[styles.button, {marginTop:20} ]}
+          style={[styles.button, {marginTop: 20} ]}
           onPress={() => this.validateInput()}
         >
           <Text style={{color: 'white'}}> {locale.signin.text.signIn.label} </Text>
@@ -137,7 +137,7 @@ const SocialButton = props => {
   const { name, text, color, onPress } = props;
   return (
     <TouchableOpacity 
-      style={[styles.button,{backgroundColor:color, marginBottom:10, marginTop:10, flexDirection:'row'}]}
+      style={[styles.button, {backgroundColor: color, marginBottom: 10, marginTop: 10, flexDirection: 'row'}]}
       onPress={onPress}
     >
       <FontAwesome
@@ -145,7 +145,7 @@ const SocialButton = props => {
         size={20}
         color='#fff'
       />
-      <Text style={[styles.boldText,{color: 'white', paddingLeft: 5}]}>{text}</Text>
+      <Text style={[styles.boldText, {color: 'white', paddingLeft: 5}]}>{text}</Text>
     </TouchableOpacity>
 
   )
@@ -157,24 +157,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
   },
-  textInput: {
-    height: 20, 
-    borderColor: 'gray', 
-    borderBottomWidth: 1, 
-    width: '80%',
-    fontSize: 14
+  boldText: {
+    fontWeight: 'bold'
   },
-  text:{
-    alignSelf: 'flex-start', 
-    height: 22, 
-    width: '80%',
-    marginTop: 10, 
-    marginLeft: '10%',
-  },
-  boldText:{
-    fontWeight:'bold'
-  },
-  button:{
+  button: {
     height: 40, 
     width: '80%',
     backgroundColor: '#41B252', 

@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: '5%'
   },
-  button:{
+  button: {
     height: 40, 
     width: width * 0.8,
     backgroundColor: '#41B252', 
@@ -161,11 +161,6 @@ const styles = StyleSheet.create({
     borderRadius: 10, 
     marginTop: 20
   },
-  text: {
-    marginTop:10,
-    color: '#fff'
-  }
-
 });
 
 export default connect(mapStateToPorps, {
