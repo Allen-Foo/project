@@ -26,7 +26,7 @@ class CalendarScreen extends React.Component {
       startTime: '',
       endTime: '',
       isTimeButtonVisible: false,
-
+      markedDates: null,
     }
   }
 
@@ -35,18 +35,16 @@ class CalendarScreen extends React.Component {
   _hideSelectTimeContainer = () => this.setState({ isSelectTimeContainerVisible: false });
 
   _handleStartTimePicked = (sTime) => {
-    console.warn('stime', sTime);
+    //console.warn('stime', sTime);
     this.setState({startTime: sTime})
   };
 
   _handleEndTimePicked = (eTime) => {
-    console.warn('eTime', eTime);
+    //console.warn('eTime', eTime);
     this.setState({endTime: eTime})
   };
 
   _showTimeButton = () => this.setState({ isTimeButtonVisible: true });
-
-
 
   render() {
     return (
@@ -63,21 +61,29 @@ class CalendarScreen extends React.Component {
             scrollEnabled={true}
             // Enable or disable vertical scroll indicator. Default = false
             showScrollIndicator={true}
-            onDayPress={(day) => {console.log('selected day', day)}}
+
+            onDayPress={(day) => {
+              console.log('selected day', day)
+              this.setState({
+                markedDates: {
+                  [day.dateString]: {selected: true}
+                }
+              })
+            }}
+
+            markedDates={this.state.markedDates}
           />
         </View>
         <View style={styles.selectTimeContainer}>
           <View style={[styles.rowContainer, styles.bottomLine]}>
             <View style={styles.innerRowContainer}>
-              <TouchableOpacity>
-                <Text style={[styles.text,{color: '#666A6C', }]} 
-                      onPress={() => this.props.navigation.navigate('ClassList')}
-                > {this.props.locale.common.cancel} 
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
+                <Text style={[styles.text,{color: '#666A6C', }]}>
+                  {this.props.locale.common.cancel} 
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity>
-                <Text style={[styles.text,{color: '#FF5A5F', }]} 
-                      onPress={() => this.props.navigation.navigate('ClassList')}> 
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
+                <Text style={[styles.text,{color: '#FF5A5F', }]}>
                   {this.props.locale.common.confirm} 
                 </Text>
               </TouchableOpacity>
@@ -88,9 +94,8 @@ class CalendarScreen extends React.Component {
               <Text style={[styles.text,{color: '#666A6C'}]}> 
                 {this.props.locale.common.repeat} 
               </Text>
-              <TouchableOpacity>
-                <Text style={[styles.text,{color: '#999C9E'}]} 
-                      onPress={() => this.props.navigation.navigate('ClassList')}> 
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
+                <Text style={[styles.text,{color: '#999C9E'}]}>
                   {this.props.locale.common.never}
                 </Text>
               </TouchableOpacity>
@@ -224,10 +229,10 @@ const styles = StyleSheet.create({
     // borderColor: 'blue',
   },
   innerLeftRowContainer: {
-    paddingLeft: 25,
+    paddingLeft: 28,
   },
   innerRightRowContainer: {
-    paddingRight: 26,
+    paddingRight: 29,
   }
 })
 
