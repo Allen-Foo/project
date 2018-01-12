@@ -27,6 +27,7 @@ class CalendarScreen extends React.Component {
       endTime: '',
       isTimeButtonVisible: false,
       markedDates: null,
+      selectedDay: null, // dateString 2018-01-11
     }
   }
 
@@ -63,12 +64,25 @@ class CalendarScreen extends React.Component {
             showScrollIndicator={true}
 
             onDayPress={(day) => {
-              console.log('selected day', day)
-              this.setState({
-                markedDates: {
-                  [day.dateString]: {selected: true}
+              // console.warn('selected day', day.dateString)
+              let temp = this.state.markedDates || {};
+              Object.keys(temp).forEach(key => {
+                if (temp[key].selected && temp[key].marked) {
+                  delete temp[key].selected
+                } else if (temp[key].selected) {
+                  delete temp[key]
                 }
               })
+              temp[day.dateString] = {selected: true} 
+              console.warn('temp', temp)
+              console.warn('dateString', {[day.dateString] : {selected: true} })
+
+              this.setState({
+                markedDates: {[day.dateString] : {selected: true} },
+                selectedDay: day.dateString
+              })
+              // console.warn('onDayPress markedDates', this.state.markedDates)
+              this.forceUpdate()
             }}
 
             markedDates={this.state.markedDates}
@@ -77,12 +91,21 @@ class CalendarScreen extends React.Component {
         <View style={styles.selectTimeContainer}>
           <View style={[styles.rowContainer, styles.bottomLine]}>
             <View style={styles.innerRowContainer}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
+              <TouchableOpacity>
                 <Text style={[styles.text,{color: '#666A6C', }]}>
                   {this.props.locale.common.cancel} 
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
+              <TouchableOpacity onPress={() => {
+                let temp = this.state.markedDates;
+                console.warn('markedDates, before setState', this.state.markedDates)
+
+                temp[this.state.selectedDay] = {marked: true} 
+                this.setState({
+                  markedDates: temp
+                })
+                console.warn('markedDates', this.state.markedDates)
+              }}>
                 <Text style={[styles.text,{color: '#FF5A5F', }]}>
                   {this.props.locale.common.confirm} 
                 </Text>
@@ -103,7 +126,7 @@ class CalendarScreen extends React.Component {
           </View>
           <View style = {{height: 40, justifyContent: 'center', alignItems: 'center'}}>
             <Text style = {styles.text}>
-              1 Jan 2017
+              {this.state.selectedDay}
             </Text>
           </View>
           <View style={styles.rowContainer}>
