@@ -11,8 +11,7 @@ import ApiTest from '../screens/settings/ApiTestScreen';
 import Language from '../screens/settings/LanguageScreen';
 import ProfileSetting from '../screens/settings/ProfileSettingScreen';
 import TutorDetail from '../screens/detail/TutorDetail';
-import LearnerSignUp from '../screens/login/LearnerSignUpScreen';
-import TutorSignUp from '../screens/login/TutorSignUpScreen';
+import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 
@@ -50,11 +49,8 @@ const RootStackNavigator = StackNavigator(
     ProfileSetting: {
       screen: ProfileSetting
     },
-    LearnerSignUp:{
-      screen: LearnerSignUp,
-    },
-    TutorSignUp:{
-      screen: TutorSignUp,
+    SignUp:{
+      screen: SignUp,
     },
     PreSignUp: {
       screen: PreSignUp,

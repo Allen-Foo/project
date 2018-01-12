@@ -22,7 +22,7 @@ import { Spinner, Toast } from '../../components';
 import { signUp, verifyCode, verifyCodeCancel} from '../../redux/actions'
 
 
-class TutorSignUpScreen extends React.Component {
+class SignUpScreen extends React.Component {
 
   static navigationOptions = {
     title: 'Register as tutor',
@@ -42,7 +42,7 @@ class TutorSignUpScreen extends React.Component {
       phoneNumber: '',
       cca2: 'HK',
       skill: '',
-      isTutor: true,
+      isTutor: props.navigation.state.params.isTutor,
     }
   }
 
@@ -85,6 +85,7 @@ class TutorSignUpScreen extends React.Component {
   }
 
   render() {
+    let isTutor = this.props.navigation.state.params.isTutor;
     let { locale } = this.props
     return (
       <View style={styles.container}>
@@ -152,23 +153,29 @@ class TutorSignUpScreen extends React.Component {
             underlineColorAndroid={'transparent'}
           />
         </View>
-        <TextInput
-          style={[styles.textInput, {height: 100}]}
-          multiline= {true}
-          numberOfLines={5}
-          placeholder={locale.commonSignUp.textInput.skill.placeholder}
-          onChangeText={skill => {
-            // console.warn('text', text);
-            this.setState({skill})
-          }}
-          value={this.state.skill}
-        />
-        <TouchableOpacity 
-          style={styles.uploadButton}
-          onPress={() => {}}
-        >
-          <Text style={{color: 'black'}}> {locale.commonSignUp.text.upload.label} </Text>
-        </TouchableOpacity>
+        { 
+          isTutor &&
+          <TextInput
+            style={[styles.textInput, {height: 100}]}
+            multiline= {true}
+            numberOfLines={5}
+            placeholder={locale.commonSignUp.textInput.skill.placeholder}
+            onChangeText={skill => {
+              // console.warn('text', text);
+              this.setState({skill})
+            }}
+            value={this.state.skill}
+          />
+        }
+        {
+          isTutor &&
+          <TouchableOpacity 
+            style={styles.uploadButton}
+            onPress={() => {}}
+          >
+            <Text style={{color: 'black'}}> {locale.commonSignUp.text.upload.label} </Text>
+          </TouchableOpacity>  
+        }
         <TouchableOpacity 
           style={[styles.button, {marginTop: 20} ]}
           onPress={() => this.validateInput()}
@@ -180,11 +187,45 @@ class TutorSignUpScreen extends React.Component {
           {locale.commonSignUp.text.agreement.label}
         </Text>
 
+        { 
+          !isTutor &&
+          <View style={styles.socialLogins}>
+            <SocialButton
+              name={'facebook'}
+              text={'Sign in with Facebook'}
+              color={'#516BA2'}
+              style={{marginBottom: 10}}
+            />
+            <SocialButton
+              name={'google-plus'}
+              text={'Sign in with Google'}
+              color={'#CF563C'}
+            />
+          </View>
+        }
+
         { this.props.isLoading && <Spinner /> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>
     );
   }
+}
+
+const SocialButton = props => {
+  const { name, text, color, style} = props;
+  return (
+    <TouchableOpacity 
+      style={[styles.SocialButtonStyle, {backgroundColor: color}, {...style}]}
+    >
+      <FontAwesome
+        name={name}
+        size={20}
+        color='#fff'
+      />
+      <Text style={styles.buttonText}>{text}</Text>
+    </TouchableOpacity>
+
+  )
 }
 
 const countryPickerStyle = {
@@ -241,7 +282,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius: 10, 
-  }
+  },
+  socialLogins: {
+    position: 'absolute',
+    left: '12%',
+    right: '12%',
+    bottom: 40,
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    color: 'white',
+    paddingLeft: 5
+  },
+  SocialButtonStyle: {
+    height: 40, 
+    backgroundColor: '#5ECC3F', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderRadius: 10, 
+    flexDirection: 'row'
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -261,5 +321,5 @@ export default connect(mapStateToProps, {
   signUp,
   verifyCode,
   verifyCodeCancel,
-})(TutorSignUpScreen)
+})(SignUpScreen)
 
