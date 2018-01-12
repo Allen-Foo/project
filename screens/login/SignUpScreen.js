@@ -24,12 +24,15 @@ import { signUp, verifyCode, verifyCodeCancel} from '../../redux/actions'
 
 class SignUpScreen extends React.Component {
 
-  static navigationOptions = {
-    title: 'Register as tutor',
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      title: screenProps.locale.signUp.title[state.params.isTutor ? 'tutor' : 'learner'],
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
   };
 
   constructor(props) {
@@ -91,8 +94,8 @@ class SignUpScreen extends React.Component {
       <View style={styles.container}>
         {
           <Prompt
-            title={this.props.verfiedErrorMsg || this.props.locale.commonSignUp.text.verifyCode.label}
-            placeholder={this.props.locale.commonSignUp.text.verifyCodePlaceholder.label}
+            title={this.props.verfiedErrorMsg || this.props.locale.signUp.text.verifyCode.label}
+            placeholder={this.props.locale.signUp.text.verifyCodePlaceholder.label}
             submitText={this.props.locale.common.ok}
             cancelText={this.props.locale.common.cancel}
             textInputProps={{keyboardType: 'numeric'}}
@@ -104,7 +107,7 @@ class SignUpScreen extends React.Component {
         <TextInput 
           autoCapitalize={'none'}
           style={styles.textInput}
-          placeholder={locale.commonSignUp.textInput.username.placeholder}
+          placeholder={locale.signUp.textInput.username.placeholder}
           onChangeText={username => {
             // console.warn('text', text);
             this.setState({username})
@@ -113,7 +116,7 @@ class SignUpScreen extends React.Component {
         />
         <TextInput 
           style={styles.textInput}
-          placeholder={locale.commonSignUp.textInput.email.placeholder}
+          placeholder={locale.signUp.textInput.email.placeholder}
           onChangeText={email => {
             // console.warn('text', text);
             this.setState({email})
@@ -123,7 +126,7 @@ class SignUpScreen extends React.Component {
         <TextInput 
           secureTextEntry={true}
           style={styles.textInput}
-          placeholder={locale.commonSignUp.textInput.password.placeholder}
+          placeholder={locale.signUp.textInput.password.placeholder}
           onChangeText={password => {
             // console.warn('text', text);
             this.setState({password})
@@ -144,7 +147,7 @@ class SignUpScreen extends React.Component {
           </View>
           <TextInput 
             style={[styles.textInput, {width: '85%', marginLeft: 0}]}
-            placeholder={locale.commonSignUp.textInput.phoneNumber.placeholder}
+            placeholder={locale.signUp.textInput.phoneNumber.placeholder}
             onChangeText={phoneNumber => {
               // console.warn('text', text);
               this.setState({phoneNumber})
@@ -159,7 +162,7 @@ class SignUpScreen extends React.Component {
             style={[styles.textInput, {height: 100}]}
             multiline= {true}
             numberOfLines={5}
-            placeholder={locale.commonSignUp.textInput.skill.placeholder}
+            placeholder={locale.signUp.textInput.skill.placeholder}
             onChangeText={skill => {
               // console.warn('text', text);
               this.setState({skill})
@@ -173,7 +176,7 @@ class SignUpScreen extends React.Component {
             style={styles.uploadButton}
             onPress={() => {}}
           >
-            <Text style={{color: 'black'}}> {locale.commonSignUp.text.upload.label} </Text>
+            <Text style={{color: 'black'}}> {locale.signUp.text.upload.label} </Text>
           </TouchableOpacity>  
         }
         <TouchableOpacity 
@@ -184,7 +187,7 @@ class SignUpScreen extends React.Component {
         </TouchableOpacity>
 
         <Text style={styles.agreement}>
-          {locale.commonSignUp.text.agreement.label}
+          {locale.signUp.text.agreement.label}
         </Text>
 
         { 

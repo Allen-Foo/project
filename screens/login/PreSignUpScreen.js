@@ -26,19 +26,19 @@ class PreSignUpScreen extends React.Component {
     let { locale } = this.props
     return (
       <View style={styles.container}>
-        <Text style={styles.chooseUserType}>{locale.commonSignUp.text.chooseUserType.label}</Text>
+        <Text style={styles.chooseUserType}>{locale.signUp.text.chooseUserType.label}</Text>
         <TouchableOpacity 
           style={styles.button}
           onPress={() => this.props.navigation.navigate('SignUp', {isTutor: true})}
         >
-          <Text style={styles.textStyle}> {locale.commonSignUp.text.tutor.label} </Text>
+          <Text style={styles.textStyle}> {locale.signUp.text.tutor.label} </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate('SignUp', {isTutor: false})}
         >
-          <Text style={styles.textStyle}> {locale.commonSignUp.text.learner.label} </Text>
+          <Text style={styles.textStyle}> {locale.signUp.text.learner.label} </Text>
         </TouchableOpacity> 
       </View>
     );
