@@ -41,6 +41,8 @@ class TutorSignUpScreen extends React.Component {
       callingCode: '+852',
       phoneNumber: '',
       cca2: 'HK',
+      skill: '',
+      isTutor: true,
     }
   }
 
@@ -61,10 +63,10 @@ class TutorSignUpScreen extends React.Component {
   }
 
   handleSignUp() {
-    const { username, password, email, phoneNumber, callingCode } = this.state;
-    const phone = callingCode + phoneNumber;
+    let { cca2, phoneNumber, callingCode, ...profile } = this.state;
+    profile.phone = callingCode + phoneNumber;
 
-    this.props.signUp({username, password, email, phone})
+    this.props.signUp(profile)
   }
 
   validateInput() {
@@ -155,6 +157,11 @@ class TutorSignUpScreen extends React.Component {
           multiline= {true}
           numberOfLines={5}
           placeholder={locale.commonSignUp.textInput.skill.placeholder}
+          onChangeText={skill => {
+            // console.warn('text', text);
+            this.setState({skill})
+          }}
+          value={this.state.skill}
         />
         <TouchableOpacity 
           style={styles.uploadButton}
