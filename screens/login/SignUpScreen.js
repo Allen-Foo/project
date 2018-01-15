@@ -19,7 +19,7 @@ import CountryPicker, { getAllCountries } from 'react-native-country-picker-moda
 import Prompt from 'react-native-prompt';
 
 import { Spinner, Toast } from '../../components';
-import { signUp, verifyCode, verifyCodeCancel} from '../../redux/actions'
+import { signUp, verifyCode, verifyCodeCancel, signInFacebook, signInGoogle } from '../../redux/actions'
 
 
 class SignUpScreen extends React.Component {
@@ -198,11 +198,13 @@ class SignUpScreen extends React.Component {
               text={'Sign in with Facebook'}
               color={'#516BA2'}
               style={{marginBottom: 10}}
+              onPress={() => this.props.signInFacebook()}
             />
             <SocialButton
               name={'google-plus'}
               text={'Sign in with Google'}
               color={'#CF563C'}
+              onPress={() => this.props.signInGoogle()}
             />
           </View>
         }
@@ -215,9 +217,10 @@ class SignUpScreen extends React.Component {
 }
 
 const SocialButton = props => {
-  const { name, text, color, style} = props;
+  const { name, text, color, style, onPress} = props;
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
+      onPress={onPress}
       style={[styles.SocialButtonStyle, {backgroundColor: color}, {...style}]}
     >
       <FontAwesome
@@ -324,5 +327,7 @@ export default connect(mapStateToProps, {
   signUp,
   verifyCode,
   verifyCodeCancel,
+  signInFacebook,
+  signInGoogle,
 })(SignUpScreen)
 
