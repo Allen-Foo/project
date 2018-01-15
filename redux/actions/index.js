@@ -1,4 +1,6 @@
 import { setLanguage } from './setLanguage';
+import { setAppType } from './setAppType';
+
 import { signInEmail,
   signInFacebook,
   signInGoogle,
@@ -12,6 +14,7 @@ import { signInEmail,
 
 export {
   setLanguage,
+  setAppType,
   signInFacebook,
   signInGoogle,
   signInEmail,

@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 
 import language from './language';
+import appType from './appType';
 
 import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest';
 import socialLogin from './socialLogin';
@@ -22,6 +23,7 @@ import {
 export const rootReducer = combineReducers({
   language,
   apiTest,
+  appType,
   socialLogin
 })
 

@@ -16,6 +16,7 @@ import PreSignUp from '../screens/login/PreSignUpScreen';
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 
 import MainTabNavigator from './MainTabNavigator';
+import TutorTabNavigator from './TutorTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
 import { WithAuth } from '../lib/Auth/Components';
@@ -68,6 +69,33 @@ const RootStackNavigator = StackNavigator(
   }
 );
 
+const TutorStackNavigator = StackNavigator(
+  {
+    TutorMain: {
+      screen: TutorTabNavigator
+    },
+    ProfileSetting: {
+      screen: ProfileSetting
+    },
+    Signin: {
+      screen: Signin
+    },
+    Settings: {
+      screen: Settings,
+    },
+    Language: {
+      screen: Language,
+    },
+  },
+  {
+    navigationOptions: () => ({
+      headerTitleStyle: {
+        fontWeight: 'normal',
+      },
+    }),
+  }
+);
+
 class RootNavigator extends React.Component {
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
@@ -78,7 +106,11 @@ class RootNavigator extends React.Component {
   }
 
   render() {
-    return <RootStackNavigator screenProps={{ ...this.props }} />;
+    if (this.props.appType === 'tutor') {
+      return <TutorStackNavigator screenProps={{ ...this.props }} />;
+    } else {
+      return <RootStackNavigator screenProps={{ ...this.props }} />;
+    }
   }
 
   _registerForPushNotifications() {
@@ -104,6 +136,7 @@ class RootNavigator extends React.Component {
 const mapStateToProps = (state) => {
   return {
     locale: state.language.locale,
+    appType: state.appType.mode,
   }
 }
 

@@ -9,7 +9,7 @@ const { height, width } = Dimensions.get('window')
 
 import Colors from '../../constants/Colors';
 
-import { signInFacebook, signInGoogle } from '../../redux/actions';
+import { signInFacebook, signInGoogle, setAppType } from '../../redux/actions';
 
 class ProfileScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -96,6 +96,14 @@ class ProfileScreen extends React.Component {
             leftIcon={{name: 'people'}}
             onPress={() => {this.props.navigation.navigate('Apply to be a tutor')}}
           />
+          {
+            this.props.appType &&
+            <ListItem
+              title={`switch to ${this.props.appType == 'tutor'? 'learner' : 'tutor'} mode`}
+              leftIcon={{name: 'swap-horiz'}}
+              onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
+            />
+          }
           <ListItem
             title={this.props.locale.profile.text.settings}
             leftIcon={{name: 'settings'}}
@@ -109,6 +117,7 @@ class ProfileScreen extends React.Component {
 
 const SocialIcon = props => {
   const { name, onPress } = props;
+  // it is actually using MaterialIcons
   return (
     <TouchableOpacity onPress={onPress} style={{width: '30%'}}>
       <FontAwesome
@@ -121,14 +130,6 @@ const SocialIcon = props => {
   )
 }
 
-
-const mapStateToPorps = (state) => {
-  return {
-    locale: state.language.locale,
-    isLoggedIn: state.socialLogin.isLoggedIn,
-    user: state.socialLogin.user,
-  }
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -163,7 +164,17 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToPorps = (state) => {
+  return {
+    locale: state.language.locale,
+    isLoggedIn: state.socialLogin.isLoggedIn,
+    user: state.socialLogin.user,
+    appType: state.appType.mode,
+  }
+}
+
 export default connect(mapStateToPorps, {
   signInFacebook,
-  signInGoogle
+  signInGoogle,
+  setAppType,
 })(ProfileScreen)
