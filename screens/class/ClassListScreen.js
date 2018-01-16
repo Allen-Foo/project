@@ -21,27 +21,25 @@ class ClassList extends React.Component {
       headerTitle: screenProps.locale.classList.title,
       headerTintColor: 'black',
       headerStyle: {
-        //backgroundColor: '#3A3C3D',
+        // backgroundColor: '#555',
       },
     }
   };
   render() {
     return (
       <View style={styles.container}>
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('Calendar')}
-          >
-            <Ionicons
-              name={'ios-add-circle-outline'}
-              size={35}
-              style={{ padding: '3%'}}
-              color={'black'}
-            />
-            <Text style={styles.text}> Add a Class</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate('Calendar')}
+        >
+          <Ionicons
+            name={'ios-add-circle-outline'}
+            size={30}
+            style={{ padding: '2%'}}
+            color={'black'}
+          />
+          <Text style={styles.text}> Add a Class</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -50,22 +48,19 @@ class ClassList extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //justifyContent: 'center',
-    //alignItems: 'center',
   },
   text: {
     fontSize: 18,
     fontWeight: 'bold'
   },
   button: {
-    height: 60, 
-    width: '100%',
     backgroundColor: '#FFF', 
     justifyContent: 'center', 
     alignItems: 'center', 
-    borderRadius: 15, 
+    borderRadius: 5, 
     flexDirection: 'row',
-    paddingVertical: '2%',
+    marginTop: '5%',
+    marginHorizontal: '5%',
   },
 });
 

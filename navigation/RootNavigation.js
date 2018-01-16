@@ -14,7 +14,6 @@ import TutorDetail from '../screens/detail/TutorDetail';
 import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
-import ClassList from '../screens/class/ClassListScreen';
 import Category from '../screens/createClass/CategoryScreen';
 import Skill from '../screens/createClass/SkillScreen';
 import TutionFee from '../screens/createClass/TutionFeeScreen';
@@ -65,21 +64,6 @@ const RootStackNavigator = StackNavigator(
     ForgotPassword: {
       screen: ForgotPassword,
     },
-    ClassList: {
-      screen: ClassList,
-    },
-    Category: {
-      screen: Category,
-    },
-    Skill: {
-      screen: Skill,
-    },
-    TutionFee: {
-      screen: TutionFee,
-    },
-    Calendar: {
-      screen: Calendar,
-    },
   },
   {
     navigationOptions: () => ({
@@ -106,6 +90,18 @@ const TutorStackNavigator = StackNavigator(
     },
     Language: {
       screen: Language,
+    },
+    Category: {
+      screen: Category,
+    },
+    Skill: {
+      screen: Skill,
+    },
+    TutionFee: {
+      screen: TutionFee,
+    },
+    Calendar: {
+      screen: Calendar,
     },
   },
   {

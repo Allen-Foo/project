@@ -5,15 +5,15 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import Colors from '../constants/Colors';
 
-import NewsFeedScreen from '../screens/newsFeed/NewsFeedScreen';
-import HistoryScene from '../screens/history/HistoryScene';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import ScheduleScreen from '../screens/schedule/ScheduleScreen';
+import ClassList from '../screens/class/ClassListScreen';
+
 
 export default MainTab = TabNavigator(
   {
-    NewsFeed: {
-      screen: NewsFeedScreen
+    ClassList: {
+      screen: ClassList,
     },
     Schedule: {
       screen: ScheduleScreen,
@@ -28,7 +28,7 @@ export default MainTab = TabNavigator(
         const { routeName } = navigation.state;
         let iconName;
         switch (routeName) {
-          case 'NewsFeed':
+          case 'ClassList':
             iconName = Platform.OS === 'ios'
               ? `ios-paper${focused ? '' : '-outline'}`
               : 'md-paper';
