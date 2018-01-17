@@ -30,6 +30,11 @@ class CalendarScreen extends React.Component {
   }
 
   handleDayPress = (day) => {
+    // if press the same day, do nothing
+    if (day.dateString === this.state.selectedDay) {
+      return
+    }
+
     // console.warn('selected day', day.dateString)
     let temp = this.state.markedDates || {};
     Object.keys(temp).forEach(key => {
@@ -103,10 +108,11 @@ class CalendarScreen extends React.Component {
         {
           this.state.showClassPlanner &&
           <ClassPlanner
-            selectedDay={this.state.selectedDay}
+            selectedDay={selectedDay}
             onConfirm={this.handleConfirm}
             onCancel={this.handleCancel}
             locale={this.props.locale}
+            timeSlot={data && data[selectedDay]}
           />
         }
       </View>
@@ -117,14 +123,29 @@ class CalendarScreen extends React.Component {
 class ClassPlanner extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       startTime: null,
       endTime: null,
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    // if change the day, the timeslot will change at the same time 
+    // load the timeslot 
+    if (nextProps.timeSlot !== this.props.timeSlot &&
+      nextProps.timeSlot
+      ) {
+        console.warn('here', nextProps.timeSlot)
+        this.setState({
+          startTime: nextProps.timeSlot.startTime,
+          endTime: nextProps.timeSlot.endTime,
+        })
+    }
+  }
+
   render() {
-    const { selectedDay, onConfirm, onCancel } = this.props;
+    const { selectedDay, onConfirm, onCancel, timeSlot } = this.props;
     let { startTime, endTime } = this.state;
 
     return (
