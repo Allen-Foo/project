@@ -23,48 +23,32 @@ class CalendarScreen extends React.Component {
     super(props);
     this.state = {
       showClassPlanner: false,
-      isTimeButtonVisible: false,
-      startTime: null,
-      endTime: null,
       markedDates: null,
       selectedDay: null, // dateString 2018-01-11
       data: null
     }
   }
 
-  _handleStartTimePicked = (startTime) => {
-    // console.warn('startTime', startTime, this.state.selectedDay);
-    let temp = this.state.data || {};
-    let endTime = temp[this.state.selectedDay] && temp[this.state.selectedDay].endTime;
-    if (endTime) {
-      temp[this.state.selectedDay] = {startTime, endTime}
-    } else {
-      temp[this.state.selectedDay] = {startTime}
-    }
-    this.setState({
-      // data: temp,
-      startTime
+  handleDayPress = (day) => {
+    // console.warn('selected day', day.dateString)
+    let temp = this.state.markedDates || {};
+    Object.keys(temp).forEach(key => {
+      if (temp[key].selected && temp[key].marked) {
+        delete temp[key].selected
+      } else if (temp[key].selected) {
+        delete temp[key]
+      }
     })
-  };
-
-  _handleEndTimePicked = (endTime) => {
-    //console.warn('endTime', endTime);
-    let temp = this.state.data || {};
-    let startTime = temp[this.state.selectedDay] && temp[this.state.selectedDay].startTime;
-    if (startTime) {
-      temp[this.state.selectedDay] = {startTime, endTime}
-    } else {
-      temp[this.state.selectedDay] = {endTime}
-    }
+    temp[day.dateString] = Object.assign({}, temp[day.dateString], {selected: true})
+    // console.warn('temp', temp)
     this.setState({
-      // data: temp,
-      endTime,
+      markedDates: temp,
+      selectedDay: day.dateString,
+      showClassPlanner: true,
     })
-  };
+  }
 
-  _showTimeButton = () => this.setState({ isTimeButtonVisible: true });
-
-  handleValidateTimeSlot = (startTime, endTime) => {
+  handleConfirm = (startTime, endTime) => {
     if (!startTime) {
       Alert.alert('Start time is empty!')
     } else if (!endTime) {
@@ -75,22 +59,17 @@ class CalendarScreen extends React.Component {
       // store the data 
       let temp = this.state.data || {};
       temp[this.state.selectedDay] = {startTime, endTime}
+
+      // mark the date with dot
+      let tempDate = this.state.markedDates;
+      tempDate[this.state.selectedDay] = {marked: true, selected: true}
+
       this.setState({
         data: temp,
+        markedDates: tempDate,
         showClassPlanner: false
       });
     }
-  }
-
-  handleConfirm = (startTime, endTime) => {
-    let temp = this.state.markedDates;
-    // console.warn('markedDates, before setState', this.state.markedDates)
-
-    temp[this.state.selectedDay] = {marked: true, selected: true} 
-    this.setState({
-      markedDates: temp,
-    })
-    this.handleValidateTimeSlot(startTime, endTime);
   }
 
   handleCancel = () => this.hideClassPlanner()
@@ -117,28 +96,7 @@ class CalendarScreen extends React.Component {
             // Enable or disable vertical scroll indicator. Default = false
             showScrollIndicator={true}
             showWeekNumbers={true}
-
-            onDayPress={(day) => {
-              // console.warn('selected day', day.dateString)
-              let temp = this.state.markedDates || {};
-              Object.keys(temp).forEach(key => {
-                if (temp[key].selected && temp[key].marked) {
-                  delete temp[key].selected
-                } else if (temp[key].selected) {
-                  delete temp[key]
-                }
-              })
-              temp[day.dateString] = {selected: true} 
-              // console.warn('temp', temp)
-              // console.warn('date', {[day.dateString] : {selected: true} })
-              this.setState({
-                markedDates: temp,
-                selectedDay: day.dateString,
-                showClassPlanner: true,
-              })
-              // console.warn('onDayPress markedDates', this.state.markedDates)
-            }}
-
+            onDayPress={this.handleDayPress}
             markedDates={this.state.markedDates}
           />
         </View>
@@ -178,18 +136,7 @@ class ClassPlanner extends React.Component {
                 {this.props.locale.common.cancel} 
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
-              // let temp = this.state.markedDates;
-              // // console.warn('markedDates, before setState', this.state.markedDates)
-
-              // temp[this.state.selectedDay] = {marked: true, selected: true} 
-              // this.setState({
-              //   markedDates: temp,
-              // })
-              // this.handleValidateTimeSlot();
-              onConfirm(startTime, endTime)
-              // console.warn('markedDates', this.state.markedDates)
-            }}>
+            <TouchableOpacity onPress={() => {onConfirm(startTime, endTime)}}>
               <Text style={[styles.text,{color: '#FF5A5F', }]}>
                 {this.props.locale.common.confirm} 
               </Text>
@@ -210,7 +157,7 @@ class ClassPlanner extends React.Component {
         </View>
         <View style = {{height: 40, justifyContent: 'center', alignItems: 'center'}}>
           <Text style = {styles.text}>
-            {this.state.selectedDay}
+            {selectedDay}
           </Text> 
         </View>
         <View style={styles.rowContainer}>
