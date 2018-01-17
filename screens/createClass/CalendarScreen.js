@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -22,8 +23,9 @@ class CalendarScreen extends React.Component {
     super(props);
     this.state = {
       showClassPlanner: false,
-      isTimePickerVisible: false,
       isTimeButtonVisible: false,
+      startTime: null,
+      endTime: null,
       markedDates: null,
       selectedDay: null, // dateString 2018-01-11
       data: null
@@ -40,7 +42,8 @@ class CalendarScreen extends React.Component {
       temp[this.state.selectedDay] = {startTime}
     }
     this.setState({
-      data: temp,
+      // data: temp,
+      startTime
     })
   };
 
@@ -54,14 +57,34 @@ class CalendarScreen extends React.Component {
       temp[this.state.selectedDay] = {endTime}
     }
     this.setState({
-      data: temp,
+      // data: temp,
+      endTime,
     })
   };
 
   _showTimeButton = () => this.setState({ isTimeButtonVisible: true });
 
+  handleValidateTimeSlot = () => {
+    let { startTime, endTime } = this.state;
+    if (!startTime) {
+      Alert.alert('Start time is empty!')
+    } else if (!endTime) {
+      Alert.alert('End time is empty!')
+    } else if (startTime > endTime) {
+      Alert.alert('Start time should not be later than end time!')
+    } else {
+      // store the data 
+      let temp = this.state.data || {};
+      temp[this.state.selectedDay] = {startTime, endTime}
+      this.setState({
+        data: temp,
+        showClassPlanner: false
+      });
+    }
+  } 
+
   render() {
-    let { data, selectedDay } = this.state;
+    let { data, selectedDay, startTime, endTime } = this.state;
 
     return (
       <View>
@@ -120,8 +143,8 @@ class CalendarScreen extends React.Component {
                   temp[this.state.selectedDay] = {marked: true, selected: true} 
                   this.setState({
                     markedDates: temp,
-                    showClassPlanner: false
                   })
+                  this.handleValidateTimeSlot();
                   // console.warn('markedDates', this.state.markedDates)
                 }}>
                   <Text style={[styles.text,{color: '#FF5A5F', }]}>
@@ -145,7 +168,7 @@ class CalendarScreen extends React.Component {
             <View style = {{height: 40, justifyContent: 'center', alignItems: 'center'}}>
               <Text style = {styles.text}>
                 {this.state.selectedDay}
-              </Text>
+              </Text> 
             </View>
             <View style={styles.rowContainer}>
               <View style={styles.innerRowContainer}>
@@ -153,14 +176,14 @@ class CalendarScreen extends React.Component {
                   <TimeButton 
                     buttonName={this.props.locale.common.start}
                     handleTimeName={this._handleStartTimePicked}
-                    time={data && data[selectedDay] && data[selectedDay].startTime}
+                    time={data && data[selectedDay] && data[selectedDay].startTime || startTime }
                   />
                 </View>
                 <View style={styles.innerRightRowContainer}>
                   <TimeButton 
                     buttonName={this.props.locale.common.end}
                     handleTimeName={this._handleEndTimePicked}
-                    time={data && data[selectedDay] && data[selectedDay].endTime}
+                    time={endTime}
                   />
                 </View>
               </View>
@@ -177,6 +200,7 @@ class CalendarScreen extends React.Component {
     );
   }
 }
+
 
 class TimeButton extends React.Component {
   constructor(props) {
