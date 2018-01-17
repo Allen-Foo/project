@@ -64,8 +64,7 @@ class CalendarScreen extends React.Component {
 
   _showTimeButton = () => this.setState({ isTimeButtonVisible: true });
 
-  handleValidateTimeSlot = () => {
-    let { startTime, endTime } = this.state;
+  handleValidateTimeSlot = (startTime, endTime) => {
     if (!startTime) {
       Alert.alert('Start time is empty!')
     } else if (!endTime) {
@@ -81,7 +80,24 @@ class CalendarScreen extends React.Component {
         showClassPlanner: false
       });
     }
-  } 
+  }
+
+  handleConfirm = (startTime, endTime) => {
+    let temp = this.state.markedDates;
+    // console.warn('markedDates, before setState', this.state.markedDates)
+
+    temp[this.state.selectedDay] = {marked: true, selected: true} 
+    this.setState({
+      markedDates: temp,
+    })
+    this.handleValidateTimeSlot(startTime, endTime);
+  }
+
+  handleCancel = () => this.hideClassPlanner()
+
+  showClassPlanner = () => {this.setState({ showClassPlanner: true })}
+  hideClassPlanner = () => {this.setState({ showClassPlanner: false })}
+
 
   render() {
     let { data, selectedDay, startTime, endTime } = this.state;
@@ -128,79 +144,102 @@ class CalendarScreen extends React.Component {
         </View>
         {
           this.state.showClassPlanner &&
-          <View style={styles.selectTimeContainer}>
-            <View style={[styles.rowContainer, styles.bottomLine, {backgroundColor: '#ddd'}]}>
-              <View style={styles.innerRowContainer}>
-                <TouchableOpacity onPress={() => this.setState({ showClassPlanner: false })}>
-                  <Text style={[styles.text,{color: '#666A6C', }]}>
-                    {this.props.locale.common.cancel} 
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
-                  let temp = this.state.markedDates;
-                  // console.warn('markedDates, before setState', this.state.markedDates)
-
-                  temp[this.state.selectedDay] = {marked: true, selected: true} 
-                  this.setState({
-                    markedDates: temp,
-                  })
-                  this.handleValidateTimeSlot();
-                  // console.warn('markedDates', this.state.markedDates)
-                }}>
-                  <Text style={[styles.text,{color: '#FF5A5F', }]}>
-                    {this.props.locale.common.confirm} 
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={[styles.rowContainer, styles.bottomLine, {backgroundColor: '#ccc'}]}>
-              <View style={styles.innerRowContainer}>
-                <Text style={[styles.text,{color: '#666A6C'}]}> 
-                  {this.props.locale.common.repeat} 
-                </Text>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
-                  <Text style={[styles.text,{color: '#999C9E'}]}>
-                    {this.props.locale.common.never}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style = {{height: 40, justifyContent: 'center', alignItems: 'center'}}>
-              <Text style = {styles.text}>
-                {this.state.selectedDay}
-              </Text> 
-            </View>
-            <View style={styles.rowContainer}>
-              <View style={styles.innerRowContainer}>
-                <View style={styles.innerLeftRowContainer}>
-                  <TimeButton 
-                    buttonName={this.props.locale.common.start}
-                    handleTimeName={this._handleStartTimePicked}
-                    time={data && data[selectedDay] && data[selectedDay].startTime || startTime }
-                  />
-                </View>
-                <View style={styles.innerRightRowContainer}>
-                  <TimeButton 
-                    buttonName={this.props.locale.common.end}
-                    handleTimeName={this._handleEndTimePicked}
-                    time={endTime}
-                  />
-                </View>
-              </View>
-            </View>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.text} onPress={() => this._showTimeButton}>
-                {this.props.locale.common.addTimeSlot}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <ClassPlanner
+            selectedDay={this.state.selectedDay}
+            onConfirm={this.handleConfirm}
+            onCancel={this.handleCancel}
+            locale={this.props.locale}
+          />
         }
-        
       </View>
     );
   }
 }
 
+class ClassPlanner extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      startTime: null,
+      endTime: null,
+    }
+  }
+
+  render() {
+    const { selectedDay, onConfirm, onCancel } = this.props;
+    let { startTime, endTime } = this.state;
+
+    return (
+      <View style={styles.selectTimeContainer}>
+        <View style={[styles.rowContainer, styles.bottomLine, {backgroundColor: '#ddd'}]}>
+          <View style={styles.innerRowContainer}>
+            <TouchableOpacity onPress={() => onCancel()}>
+              <Text style={[styles.text,{color: '#666A6C', }]}>
+                {this.props.locale.common.cancel} 
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+              // let temp = this.state.markedDates;
+              // // console.warn('markedDates, before setState', this.state.markedDates)
+
+              // temp[this.state.selectedDay] = {marked: true, selected: true} 
+              // this.setState({
+              //   markedDates: temp,
+              // })
+              // this.handleValidateTimeSlot();
+              onConfirm(startTime, endTime)
+              // console.warn('markedDates', this.state.markedDates)
+            }}>
+              <Text style={[styles.text,{color: '#FF5A5F', }]}>
+                {this.props.locale.common.confirm} 
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={[styles.rowContainer, styles.bottomLine, {backgroundColor: '#ccc'}]}>
+          <View style={styles.innerRowContainer}>
+            <Text style={[styles.text,{color: '#666A6C'}]}> 
+              {this.props.locale.common.repeat} 
+            </Text>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
+              <Text style={[styles.text,{color: '#999C9E'}]}>
+                {this.props.locale.common.never}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style = {{height: 40, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style = {styles.text}>
+            {this.state.selectedDay}
+          </Text> 
+        </View>
+        <View style={styles.rowContainer}>
+          <View style={styles.innerRowContainer}>
+            <View style={styles.innerLeftRowContainer}>
+              <TimeButton 
+                buttonName={this.props.locale.common.start}
+                handleTimeName={(startTime) => this.setState({startTime})}
+                time={ startTime }
+              />
+            </View>
+            <View style={styles.innerRightRowContainer}>
+              <TimeButton 
+                buttonName={this.props.locale.common.end}
+                handleTimeName={(endTime) => this.setState({endTime})}
+                time={endTime}
+              />
+            </View>
+          </View>
+        </View>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.text} onPress={() => this._showTimeButton}>
+            {this.props.locale.common.addTimeSlot}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+}
 
 class TimeButton extends React.Component {
   constructor(props) {
