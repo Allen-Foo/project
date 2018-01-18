@@ -53,28 +53,20 @@ class CalendarScreen extends React.Component {
     })
   }
 
-  handleConfirm = (startTime, endTime) => {
-    if (!startTime) {
-      Alert.alert('Start time is empty!')
-    } else if (!endTime) {
-      Alert.alert('End time is empty!')
-    } else if (startTime > endTime) {
-      Alert.alert('Start time should not be later than end time!')
-    } else {
-      // store the data 
-      let temp = this.state.data || {};
-      temp[this.state.selectedDay] = {startTime, endTime}
+  handleConfirm = (timeSlots) => {
+    // store the data 
+    let temp = this.state.data || {};
+    temp[this.state.selectedDay] = timeSlots
 
-      // mark the date with dot
-      let tempDate = this.state.markedDates;
-      tempDate[this.state.selectedDay] = {marked: true, selected: true}
+    // mark the date with dot
+    let tempDate = this.state.markedDates;
+    tempDate[this.state.selectedDay] = {marked: true, selected: true}
 
-      this.setState({
-        data: temp,
-        markedDates: tempDate,
-        showClassPlanner: false
-      });
-    }
+    this.setState({
+      data: temp,
+      markedDates: tempDate,
+      showClassPlanner: false
+    });
   }
 
   handleCancel = () => this.hideClassPlanner()
@@ -112,7 +104,7 @@ class CalendarScreen extends React.Component {
             onConfirm={this.handleConfirm}
             onCancel={this.handleCancel}
             locale={this.props.locale}
-            timeSlot={data && data[selectedDay]}
+            timeSlots={data && data[selectedDay] || []}
           />
         }
       </View>
@@ -125,28 +117,63 @@ class ClassPlanner extends React.Component {
     super(props);
 
     this.state = {
-      startTime: null,
-      endTime: null,
+      timeSlots: this.props.timeSlots,
     }
   }
 
   componentWillReceiveProps(nextProps) {
     // if change the day, the timeslot will change at the same time 
     // load the timeslot 
-    if (nextProps.timeSlot !== this.props.timeSlot &&
-      nextProps.timeSlot
-      ) {
-        console.warn('here', nextProps.timeSlot)
-        this.setState({
-          startTime: nextProps.timeSlot.startTime,
-          endTime: nextProps.timeSlot.endTime,
-        })
+    if (nextProps.timeSlots != this.state.timeSlots) {
+      this.setState({
+        timeSlots: nextProps.timeSlots,
+      })
     }
   }
 
+  handleStartTimeConfirm = (time, index) => {
+    let slot = {
+      ...this.state.timeSlots[index],
+      startTime: time
+    }
+    let temp = this.state.timeSlots;
+    temp[index] = slot;
+    this.setState({
+      timeSlots: temp
+    })
+  }
+
+  handleTimeConfirm = (time, index, key) => {
+     let slot = {
+      ...this.state.timeSlots[index],
+      [key]: time
+    }
+    let temp = this.state.timeSlots;
+    temp[index] = slot;
+    this.setState({
+      timeSlots: temp
+    })
+  }
+
+  handleAddTimeSlot() {
+    if (this.state.timeSlots.length === 3) {
+      Alert.alert('cannot add more than three time slots')
+      return
+    }
+    let temp = this.state.timeSlots;
+    temp.push({
+      startTime: moment(),
+      endTime: moment().add(1, 'hours')
+    })
+
+    this.setState({
+      timeSlots: temp
+    })
+  }
+
   render() {
-    const { selectedDay, onConfirm, onCancel, timeSlot } = this.props;
-    let { startTime, endTime } = this.state;
+    const { selectedDay, onConfirm, onCancel } = this.props;
+    let { timeSlots } = this.state;
 
     return (
       <View style={styles.selectTimeContainer}>
@@ -157,7 +184,7 @@ class ClassPlanner extends React.Component {
                 {this.props.locale.common.cancel} 
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {onConfirm(startTime, endTime)}}>
+            <TouchableOpacity onPress={() => {onConfirm(this.state.timeSlots)}}>
               <Text style={[styles.text,{color: '#FF5A5F', }]}>
                 {this.props.locale.common.confirm} 
               </Text>
@@ -181,32 +208,50 @@ class ClassPlanner extends React.Component {
             {selectedDay}
           </Text> 
         </View>
-        <View style={styles.rowContainer}>
-          <View style={styles.innerRowContainer}>
-            <View style={styles.innerLeftRowContainer}>
-              <TimeButton 
-                buttonName={this.props.locale.common.start}
-                handleTimeName={(startTime) => this.setState({startTime})}
-                time={ startTime }
-              />
-            </View>
-            <View style={styles.innerRightRowContainer}>
-              <TimeButton 
-                buttonName={this.props.locale.common.end}
-                handleTimeName={(endTime) => this.setState({endTime})}
-                time={endTime}
-              />
-            </View>
-          </View>
-        </View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.text} onPress={() => this._showTimeButton}>
+        {
+          timeSlots.map((timeSlot, i) => 
+            <TimeSlot
+              key={i}
+              startTime={timeSlot && timeSlot.startTime}
+              endTime={timeSlot && timeSlot.endTime}
+              onStartTimeConfirm={time => this.handleStartTimeConfirm(time, i)}
+              onEndTimeConfirm={time => this.handleEndTimeConfirm(time, i)}
+              locale={this.props.locale}
+            />
+          )
+        }
+        <TouchableOpacity style={styles.button} onPress={() => this.handleAddTimeSlot()}>
+          <Text style={styles.text} >
             {this.props.locale.common.addTimeSlot}
           </Text>
         </TouchableOpacity>
       </View>
     )
   }
+}
+
+const TimeSlot = props => {
+  let {startTime, endTime, onStartTimeConfirm, onEndTimeConfirm, locale} = props;
+  return (
+    <View style={styles.rowContainer}>
+      <View style={styles.innerRowContainer}>
+        <View style={styles.innerLeftRowContainer}>
+          <TimeButton 
+            buttonName={locale.common.start}
+            handleTimeName={(startTime) => onStartTimeConfirm(startTime)}
+            time={ startTime }
+          />
+        </View>
+        <View style={styles.innerRightRowContainer}>
+          <TimeButton 
+            buttonName={locale.common.end}
+            handleTimeName={(endTime) => onEndTimeConfirm(endTime)}
+            time={endTime}
+          />
+        </View>
+      </View>
+    </View>
+  )
 }
 
 class TimeButton extends React.Component {
