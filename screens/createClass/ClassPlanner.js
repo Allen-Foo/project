@@ -100,7 +100,7 @@ class ClassPlanner extends React.Component {
             <Text style={[styles.text, {color: '#666A6C'}]}> 
               {this.props.locale.common.repeat} 
             </Text>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Repeat')}>
               <Text style={[styles.text, {color: '#999C9E'}]}>
                 {this.props.locale.common.never}
               </Text>

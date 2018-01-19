@@ -14,11 +14,12 @@ import TutorDetail from '../screens/detail/TutorDetail';
 import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
+
 import Category from '../screens/createClass/CategoryScreen';
 import Skill from '../screens/createClass/SkillScreen';
 import TutionFee from '../screens/createClass/TutionFeeScreen';
 import Calendar from '../screens/createClass/CalendarScreen';
-
+import Repeat from '../screens/createClass/RepeatScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -102,6 +103,9 @@ const TutorStackNavigator = StackNavigator(
     },
     Calendar: {
       screen: Calendar,
+    },
+    Repeat: {
+      screen: Repeat,
     },
   },
   {

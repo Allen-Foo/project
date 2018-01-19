@@ -35,6 +35,7 @@ class CalendarScreen extends React.Component {
   handleDayPress = (day) => {
     // if press the same day, do nothing
     if (day.dateString === this.state.selectedDay) {
+      this.showClassPlanner();
       return
     }
 
@@ -108,6 +109,7 @@ class CalendarScreen extends React.Component {
         {
           this.state.showClassPlanner &&
           <ClassPlanner
+            navigation={this.props.navigation}
             selectedDay={selectedDay}
             onConfirm={this.handleConfirm}
             onCancel={this.handleCancel}
