@@ -10,6 +10,7 @@ import Colors from '../../constants/Colors';
 
 import { connect } from 'react-redux';
 import moment from 'moment';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 
 class RepeatScreen extends React.Component {
@@ -25,12 +26,19 @@ class RepeatScreen extends React.Component {
     super(props);
     this.state = {
       liked: false,
-      currentButton: 0
+      currentButton: 0,
+      endDate: null,
     }
   }
 
   handleTap = (index) => {
     this.setState({currentButton: index})
+  }
+
+  handleConfirmEndDate = (date) => {
+    this.setState({
+      endDate: date
+    })
   }
 
   render() {
@@ -53,6 +61,8 @@ class RepeatScreen extends React.Component {
           index={1}
           isSelected={this.state.currentButton === 1}
           locale={locale}
+          onConfirm={this.handleConfirmEndDate}
+          endDate={this.state.endDate}
         />
         <RepeatButton
           type={locale.repeat.label.everyWeek}
@@ -60,6 +70,8 @@ class RepeatScreen extends React.Component {
           index={2}
           isSelected={this.state.currentButton === 2}
           locale={locale}
+          onConfirm={this.handleConfirmEndDate}
+          endDate={this.state.endDate}
         />
         <RepeatButton
           type={locale.repeat.label.everyTwoWeek}
@@ -67,6 +79,8 @@ class RepeatScreen extends React.Component {
           index={3}
           isSelected={this.state.currentButton === 3}
           locale={locale}
+          onConfirm={this.handleConfirmEndDate}
+          endDate={this.state.endDate}
         />
         <RepeatButton
           type={locale.repeat.label.everyMonth}
@@ -74,6 +88,8 @@ class RepeatScreen extends React.Component {
           index={4}
           isSelected={this.state.currentButton === 4}
           locale={locale}
+          onConfirm={this.handleConfirmEndDate}
+          endDate={this.state.endDate}
         />
       </View>
     );
@@ -81,7 +97,7 @@ class RepeatScreen extends React.Component {
 }
 
 const RepeatButton = props => {
-  let { type, locale, onTap, index, isSelected, neverRepeat } = props;
+  let { type, locale, onTap, index, isSelected, neverRepeat, onConfirm, endDate} = props;
   let buttonStyle = styles.button
   if (isSelected) {
     buttonStyle = [buttonStyle, {borderColor: Colors.tintColor, borderWidth: 3}]
@@ -101,10 +117,44 @@ const RepeatButton = props => {
         <Text> {locale.repeat.label.until} </Text>
       </View>
       <View style={styles.rightContainer}>
-        <Text> {moment().format('DD/MM/YYYY')} </Text>
+        <DateTimePickerText
+          onConfirm={onConfirm}
+          endDate={endDate}
+        />
       </View>
     </TouchableOpacity>
   )
+}
+
+class DateTimePickerText extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isTimePickerVisible: false
+    }
+  }
+
+  render() {
+    return (
+      <View>
+        <Text onPress={() => this.setState({ isTimePickerVisible: true })}>
+          {moment(this.props.endDate).format('DD/MM/YYYY')}
+        </Text>
+
+        <DateTimePicker
+          isVisible={this.state.isTimePickerVisible}
+          onConfirm={(date) => {
+            this.setState({
+              isTimePickerVisible: false,
+            })
+            this.props.onConfirm(date)
+          }}
+          onCancel={() => this.setState({ isTimePickerVisible: false })}
+          mode={'date'}
+        />
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
