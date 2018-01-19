@@ -18,6 +18,8 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment from 'moment';
 
+import { MaterialIcons } from '@expo/vector-icons';
+
 class CalendarScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -54,6 +56,11 @@ class CalendarScreen extends React.Component {
   }
 
   handleConfirm = (timeSlots) => {
+    // if no time slots, do not mark
+    if (!timeSlots || timeSlots.length < 1) {
+      this.setState({showClassPlanner: false})
+      return
+    }
     // store the data 
     let temp = this.state.data || {};
     temp[this.state.selectedDay] = timeSlots
@@ -131,18 +138,6 @@ class ClassPlanner extends React.Component {
     }
   }
 
-  handleStartTimeConfirm = (time, index) => {
-    let slot = {
-      ...this.state.timeSlots[index],
-      startTime: time
-    }
-    let temp = this.state.timeSlots;
-    temp[index] = slot;
-    this.setState({
-      timeSlots: temp
-    })
-  }
-
   handleTimeConfirm = (time, index, key) => {
      let slot = {
       ...this.state.timeSlots[index],
@@ -155,7 +150,7 @@ class ClassPlanner extends React.Component {
     })
   }
 
-  handleAddTimeSlot() {
+  handleAddTimeSlot = () => {
     if (this.state.timeSlots.length === 3) {
       Alert.alert('cannot add more than three time slots')
       return
@@ -171,6 +166,14 @@ class ClassPlanner extends React.Component {
     })
   }
 
+  handleDeleteTimeSlot = (index) => {
+    let temp = this.state.timeSlots;
+    temp.splice(index, 1);
+    this.setState({
+      timeSlots: temp
+    })
+  }
+
   render() {
     const { selectedDay, onConfirm, onCancel } = this.props;
     let { timeSlots } = this.state;
@@ -180,12 +183,12 @@ class ClassPlanner extends React.Component {
         <View style={[styles.rowContainer, styles.bottomLine, {backgroundColor: '#ddd'}]}>
           <View style={styles.innerRowContainer}>
             <TouchableOpacity onPress={() => onCancel()}>
-              <Text style={[styles.text,{color: '#666A6C', }]}>
+              <Text style={[styles.text,{color: '#FF5A5F', }]}>
                 {this.props.locale.common.cancel} 
               </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {onConfirm(this.state.timeSlots)}}>
-              <Text style={[styles.text,{color: '#FF5A5F', }]}>
+              <Text style={[styles.text,{color: '#666', }]}>
                 {this.props.locale.common.confirm} 
               </Text>
             </TouchableOpacity>
@@ -203,7 +206,7 @@ class ClassPlanner extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        <View style = {{height: 40, justifyContent: 'center', alignItems: 'center'}}>
+        <View style = {styles.dateText}>
           <Text style = {styles.text}>
             {selectedDay}
           </Text> 
@@ -212,15 +215,23 @@ class ClassPlanner extends React.Component {
           timeSlots.map((timeSlot, i) => 
             <TimeSlot
               key={i}
+              index={i}
               startTime={timeSlot && timeSlot.startTime}
               endTime={timeSlot && timeSlot.endTime}
-              onStartTimeConfirm={time => this.handleStartTimeConfirm(time, i)}
-              onEndTimeConfirm={time => this.handleEndTimeConfirm(time, i)}
+              onStartTimeConfirm={time => this.handleTimeConfirm(time, i, 'startTime')}
+              onEndTimeConfirm={time => this.handleTimeConfirm(time, i, 'endTime')}
+              onDeleteTimeSlots={() => this.handleDeleteTimeSlot(i)}
               locale={this.props.locale}
             />
           )
         }
         <TouchableOpacity style={styles.button} onPress={() => this.handleAddTimeSlot()}>
+          <MaterialIcons
+            name={"add-circle"}
+            size={25}
+            style={{ paddingRight: 5 }}
+            color={Colors.tintColor}
+          />
           <Text style={styles.text} >
             {this.props.locale.common.addTimeSlot}
           </Text>
@@ -231,24 +242,31 @@ class ClassPlanner extends React.Component {
 }
 
 const TimeSlot = props => {
-  let {startTime, endTime, onStartTimeConfirm, onEndTimeConfirm, locale} = props;
+  let {startTime, endTime, onStartTimeConfirm, onEndTimeConfirm, onDeleteTimeSlots, locale} = props;
   return (
-    <View style={styles.rowContainer}>
-      <View style={styles.innerRowContainer}>
-        <View style={styles.innerLeftRowContainer}>
+    <View style={[styles.rowContainer, {paddingHorizontal: 0}]}>
+      <View style={[styles.innerRowContainer, {justifyContent: 'center'}]}>
+        <View style={[styles.innerLeftRowContainer, {backgroundColor: props.index % 2 == 0 ? '#fff': '#eee'}]}>
           <TimeButton 
             buttonName={locale.common.start}
             handleTimeName={(startTime) => onStartTimeConfirm(startTime)}
             time={ startTime }
           />
         </View>
-        <View style={styles.innerRightRowContainer}>
+        <View style={[styles.innerRightRowContainer, {backgroundColor: props.index % 2 == 0 ? '#fff': '#eee'}]}>
           <TimeButton 
             buttonName={locale.common.end}
             handleTimeName={(endTime) => onEndTimeConfirm(endTime)}
             time={endTime}
           />
         </View>
+          <MaterialIcons
+            name={"remove-circle"}
+            size={25}
+            color={'red'}
+            style={[styles.deleteButton, {backgroundColor: props.index % 2 == 0 ? '#fff': '#eee'}]}
+            onPress={()=>{onDeleteTimeSlots()}}
+          />
       </View>
     </View>
   )
@@ -271,7 +289,7 @@ class TimeButton extends React.Component {
         style={styles.timeButton}
       >
         <Text style={styles.text}>
-          {buttonName}
+          {buttonName + ' '}
         </Text>
         <Text style={styles.text}>
           { this.props.time && moment(this.props.time).format('LT') }
@@ -303,7 +321,6 @@ const styles = StyleSheet.create({
     color:'#666A6C',
   },
   timeButton: {
-    width: 150,
     height: 40,
     borderWidth:1,
     borderColor:'#DFE0DF',
@@ -311,14 +328,20 @@ const styles = StyleSheet.create({
     flexDirection:'row',
   },
   button: {
-    width: 300,
+    width: '60%',
     height:40,
     borderRadius: 5,
     borderColor:'#DFE0DF',
     borderWidth:1,
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    flexDirection: 'row',
+  },
+  dateText: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   selectTimeContainer:{
     height: 350,
@@ -326,12 +349,9 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom:0,
     width:'100%',
-    //alignItems: 'center',
   },
   rowContainer: {
     height:40,
-    // borderWidth: 1,
-    // borderColor: 'red',
     justifyContent: 'center',
     paddingHorizontal: 10,
   },
@@ -343,15 +363,19 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems: 'center',
-    // borderWidth: 1,
-    // borderColor: 'blue',
   },
   innerLeftRowContainer: {
-    paddingLeft: 28,
+    width: '50%',
+    justifyContent: 'flex-end',
   },
   innerRightRowContainer: {
-    paddingRight: 29,
-  }
+    width: '50%',
+    justifyContent: 'flex-start',
+  },
+  deleteButton: {
+    position: 'absolute',
+    right: 5,
+  },
 })
 
 const mapStateToProps = (state) => {
