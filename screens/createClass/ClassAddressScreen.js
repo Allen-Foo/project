@@ -11,69 +11,88 @@ import {
 
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
+const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
+const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+
 class ClassAddressScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state, props } = navigation;
 
     return {
-      tabBarLabel: screenProps.locale.classList.title,
-      headerTitle: screenProps.locale.classList.title,
+      tabBarLabel: screenProps.locale.classAddress.title,
+      headerTitle: screenProps.locale.classAddress.title,
       headerTintColor: 'black',
       headerStyle: {
         // backgroundColor: '#555',
       },
     }
   };
-  render() {
+ render() {
     return (
       <View style={styles.container}>
-        <GooglePlacesAutocomplete
-          placeholder='Enter Location'
-          minLength={2}
-          autoFocus={false}
-          returnKeyType={'default'}
-          fetchDetails={true}
-          styles={{
-            textInputContainer: {
-              backgroundColor: 'rgba(0,0,0,0)',
-              borderTopWidth: 0,
-              borderBottomWidth: 0
-            },
-            textInput: {
-              marginLeft: 0,
-              marginRight: 0,
-              height: 38,
-              color: '#5d5d5d',
-              fontSize: 16
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb'
-            },
-          }}
-          currentLocation={false}
-        />
+        <View style={styles.searchBox}>
+          <GooglePlacesAutocomplete
+            placeholder='Enter your address'
+            minLength={2} // minimum length of text to search
+            autoFocus={false}
+            returnKeyType={'search'} 
+            renderDescription={(row) => row.description} // custom description render
+            query={{
+              // available options: https://developers.google.com/places/web-service/autocomplete
+              key: 'AIzaSyBqwQcXoFKOxK0cx3qfuwhH_ryqsI-HlMI',
+              language: 'en', // language of the results
+               // default: 'geocode'
+            }}
+          />
+        </View>
       </View>
     );
   }
 }
 
+const searchInputStyle={
+  container: {
+    backgroundColor: '#fff',
+    //width: 300,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    marginBottom: 0,
+    opacity: 0.9,
+    borderRadius: 8,
+  },
+  description: {
+    fontWeight: 'bold',
+    color: "#007",
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    opacity: 0.9,
+  },
+  predefinedPlacesDescription: {
+    color: '#355',
+  },
+  textInputContainer: {
+    height: 50,
+  },
+  textInput: {
+    height: 33,
+    fontSize: 16
+  }
+}
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: '#F0F0F0',
   },
-  text: {
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
-  button: {
-    backgroundColor: '#FFF', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderRadius: 5, 
-    flexDirection: 'row',
-    marginTop: '5%',
-    marginHorizontal: '5%',
-  },
-});
+  searchBox: {
+    top: 0,
+    position: "absolute",
+    // flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+  }
+ });
+
+
 
 export default ClassAddressScreen
