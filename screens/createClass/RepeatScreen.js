@@ -11,24 +11,52 @@ import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { MaterialIcons } from '@expo/vector-icons';
 
+const REPEAT_TYPE = ['neverRepeat', 'everyDay', 'everyWeek', 'everyTwoWeek', 'everyMonth'];
 
 class RepeatScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} } = navigation.state;
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <MaterialIcons
+          name={"check"}
+          size={30}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
+
     return {
       headerTitle: screenProps.locale.repeat.title,
+      headerTintColor: '#000',
+      headerRight,
     }
   };
 
   constructor(props) {
     super(props);
+
+    let { repeat } = props.navigation.state.params
+
+    // init state with state passed from parent screen
+    let index = 0;
+    if (repeat && repeat.repeatType) {
+      index = REPEAT_TYPE.findIndex((type) => repeat.repeatType === type)
+    }
+
     this.state = {
       liked: false,
-      currentButton: 0,
-      endDate: null,
+      currentButton: index,
+      endDate: repeat && repeat.endDate || moment().add(1, 'months'),
     }
+  }
+
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
   }
 
   handleTap = (index) => {
@@ -41,13 +69,20 @@ class RepeatScreen extends React.Component {
     })
   }
 
+  _handleSubmit = () => {
+    let {currentButton, endDate} = this.state;
+    // call the returnData function passed from its parent screen
+    this.props.navigation.state.params.returnData({repeatType: REPEAT_TYPE[currentButton], endDate: endDate})
+    this.props.navigation.goBack();
+  }
+
   render() {
     let { locale } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.placeholder} />
 
-        <RepeatButton 
+        <RepeatButton
           type={locale.repeat.label.neverRepeat}
           onTap={this.handleTap}
           index={0}
@@ -55,42 +90,20 @@ class RepeatScreen extends React.Component {
           locale={locale}
           neverRepeat={true}
         />
-        <RepeatButton 
-          type={locale.repeat.label.everyDay}
-          onTap={this.handleTap}
-          index={1}
-          isSelected={this.state.currentButton === 1}
-          locale={locale}
-          onConfirm={this.handleConfirmEndDate}
-          endDate={this.state.endDate}
-        />
-        <RepeatButton
-          type={locale.repeat.label.everyWeek}
-          onTap={this.handleTap}
-          index={2}
-          isSelected={this.state.currentButton === 2}
-          locale={locale}
-          onConfirm={this.handleConfirmEndDate}
-          endDate={this.state.endDate}
-        />
-        <RepeatButton
-          type={locale.repeat.label.everyTwoWeek}
-          onTap={this.handleTap}
-          index={3}
-          isSelected={this.state.currentButton === 3}
-          locale={locale}
-          onConfirm={this.handleConfirmEndDate}
-          endDate={this.state.endDate}
-        />
-        <RepeatButton
-          type={locale.repeat.label.everyMonth}
-          onTap={this.handleTap}
-          index={4}
-          isSelected={this.state.currentButton === 4}
-          locale={locale}
-          onConfirm={this.handleConfirmEndDate}
-          endDate={this.state.endDate}
-        />
+        {
+          REPEAT_TYPE.slice(1).map((type, i) => 
+            <RepeatButton
+              key={i + 1} 
+              type={locale.repeat.label[type]}
+              onTap={this.handleTap}
+              index={i + 1}
+              isSelected={this.state.currentButton === i + 1}
+              locale={locale}
+              onConfirm={this.handleConfirmEndDate}
+              endDate={this.state.endDate}
+            />
+          )
+        }
       </View>
     );
   }
@@ -118,6 +131,7 @@ const RepeatButton = props => {
       </View>
       <View style={styles.rightContainer}>
         <DateTimePickerText
+          disabled={!isSelected}
           onConfirm={onConfirm}
           endDate={endDate}
         />
@@ -137,7 +151,7 @@ class DateTimePickerText extends React.Component {
   render() {
     return (
       <View>
-        <Text onPress={() => this.setState({ isTimePickerVisible: true })}>
+        <Text onPress={() => !this.props.disabled && this.setState({ isTimePickerVisible: true })}>
           {moment(this.props.endDate).format('DD/MM/YYYY')}
         </Text>
 

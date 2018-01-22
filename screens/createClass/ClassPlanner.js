@@ -26,6 +26,7 @@ class ClassPlanner extends React.Component {
 
     this.state = {
       timeSlots: this.props.timeSlots,
+      repeat: null
     }
   }
 
@@ -35,8 +36,15 @@ class ClassPlanner extends React.Component {
     if (nextProps.timeSlots !== this.state.timeSlots) {
       this.setState({
         timeSlots: nextProps.timeSlots,
+        repeat: null
       })
     }
+  }
+
+  handleReturnData = (data) => {
+    this.setState({
+      repeat: data
+    })
   }
 
   handleTimeConfirm = (time, index, key) => {
@@ -77,7 +85,7 @@ class ClassPlanner extends React.Component {
 
   render() {
     const { selectedDay, onConfirm, onCancel } = this.props;
-    let { timeSlots } = this.state;
+    let { timeSlots, repeat } = this.state;
 
     return (
       <View style={styles.selectTimeContainer}>
@@ -100,9 +108,13 @@ class ClassPlanner extends React.Component {
             <Text style={[styles.text, {color: '#666A6C'}]}> 
               {this.props.locale.common.repeat} 
             </Text>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Repeat')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Repeat', {returnData: this.handleReturnData, repeat: this.state.repeat})}>
               <Text style={[styles.text, {color: '#999C9E'}]}>
-                {this.props.locale.common.never}
+                {
+                  repeat && repeat.repeatType 
+                  ? this.props.locale.repeat.label[repeat.repeatType]
+                  : this.props.locale.common.never
+                } 
               </Text>
             </TouchableOpacity>
           </View>
@@ -242,7 +254,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectTimeContainer: {
-    height: 350,
+    height: '50%',
     backgroundColor: '#F0F0F0',
     position: 'absolute',
     bottom: 0,
