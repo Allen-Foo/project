@@ -20,6 +20,8 @@ import Skill from '../screens/createClass/SkillScreen';
 import TutionFee from '../screens/createClass/TutionFeeScreen';
 import Calendar from '../screens/createClass/CalendarScreen';
 import Repeat from '../screens/createClass/RepeatScreen';
+import ClassAddress from '../screens/createClass/ClassAddressScreen';
+
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -106,6 +108,9 @@ const TutorStackNavigator = StackNavigator(
     },
     Repeat: {
       screen: Repeat,
+    },
+    ClassAddress: {
+      screen: ClassAddress,
     },
   },
   {
