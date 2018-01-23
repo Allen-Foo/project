@@ -21,59 +21,30 @@ class TutionFee extends React.Component {
     super(props);
     this.state = {
       tutionFee: '',
-      teachingExp: ''
+      teachingExp: '',
+      text: '',
     }
   }
 
   validateInput() {
     if (!this.state.tutionFee) {
       Alert.alert('Tution Fee is empty!')
-    } else if (!this.state.teachingExp) {
-      Alert.alert('Teaching Experience is empty!')
     }
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={[styles.textInputRow, {paddingTop: '10%'}]}>
-          <Text style={styles.text}>
-            Tution Fee:
-          </Text>
+        <View style={styles.rowContainer}>
+          <Text style={{paddingLeft:10}}>每堂</Text>
+          <Text style={{marginLeft:15}}>價格</Text>
+          <Text style={{marginLeft:160, color:'#FF5A5F'}}>＄</Text>
           <TextInput 
-            style={styles.textInput}
-            onChangeText={tutionFee => {
-              // console.warn('text', text);
-              this.setState({tutionFee})
-            }}
-            value={this.state.tutionFee}
+            style={styles.textInput} 
+            keyboardType='number-pad'
+            onChangeText={(text) => this.setState({text})}
+            value={this.state.text}
           />
-        </View>
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity onPress={this._showDateTimePicker}>
-            <Text>Show DatePicker</Text>
-          </TouchableOpacity>
-          <DateTimePicker
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={this._handleDatePicked}
-            onCancel={this._hideDateTimePicker}
-          />
-        </View>
-        <View style={styles.textInputRow}>
-          <Text style={styles.text}>
-            Teaching Experience
-          </Text>
-          <TextInput 
-            style={[styles.textInput, {width: '15%'}]}
-            onChangeText={teachingExp => {
-              // console.warn('text', text);
-              this.setState({teachingExp})
-            }}
-            value={this.state.teachingExp}
-          />
-          <Text style={styles.text}>
-            year/years
-          </Text>
         </View>
       </View>
     );
@@ -83,8 +54,17 @@ class TutionFee extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F0F0F0',
     //justifyContent: 'center',
-    //alignItems: 'center',
+    alignItems: 'center',
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '90%',
+    borderRadius: 5,
+    marginTop: 50
   },
   text: {
     fontSize: 16,
@@ -94,28 +74,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 40, 
-    borderColor: 'grey', 
     //borderBottomWidth: 1, 
-    width: '50%',
+    width: '20%',
     fontSize: 14,
     backgroundColor: '#FFF',
-    paddingLeft: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  textInputRow: {
-    flexDirection: 'row',
-    marginLeft: 10,
-  },
-  button: {
-    height: 60, 
-    width: '100%',
-    backgroundColor: '#FFF', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderRadius: 15, 
-    flexDirection: 'row',
-    paddingVertical: '2%',
+    paddingLeft: 5,
   },
 });
 

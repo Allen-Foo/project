@@ -11,9 +11,6 @@ import {
 
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
-const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
-const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
-
 class ClassAddressScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state, props } = navigation;
@@ -35,13 +32,11 @@ class ClassAddressScreen extends React.Component {
             placeholder='Enter your address'
             minLength={2} // minimum length of text to search
             autoFocus={false}
-            returnKeyType={'search'} 
+            returnKeyType={'search'}
             renderDescription={(row) => row.description} // custom description render
             query={{
-              // available options: https://developers.google.com/places/web-service/autocomplete
               key: 'AIzaSyBqwQcXoFKOxK0cx3qfuwhH_ryqsI-HlMI',
-              language: 'en', // language of the results
-               // default: 'geocode'
+              language: 'en',
             }}
           />
         </View>
