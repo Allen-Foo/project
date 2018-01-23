@@ -1,93 +1,64 @@
 import React from 'react';
 import {
-  Image,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-
 class ClassAddressScreen extends React.Component {
-  static navigationOptions = ({navigation, screenProps}) => {
-    const { state, props } = navigation;
 
-    return {
-      tabBarLabel: screenProps.locale.classAddress.title,
-      headerTitle: screenProps.locale.classAddress.title,
-      headerTintColor: 'black',
-      headerStyle: {
-        // backgroundColor: '#555',
-      },
-    }
-  };
- render() {
+  render() {
     return (
       <View style={styles.container}>
-        <View style={styles.searchBox}>
-          <GooglePlacesAutocomplete
-            placeholder='Enter your address'
-            minLength={2} // minimum length of text to search
-            autoFocus={false}
-            returnKeyType={'search'}
-            renderDescription={(row) => row.description} // custom description render
-            query={{
-              key: 'AIzaSyBqwQcXoFKOxK0cx3qfuwhH_ryqsI-HlMI',
-              language: 'en',
-            }}
-          />
+        <View style={styles.rowContainer}>
+          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('ClassAddressAutocomplete')}>
+            <Text> class address </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
   }
 }
 
-const searchInputStyle={
-  container: {
-    backgroundColor: '#fff',
-    //width: 300,
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 20,
-    marginBottom: 0,
-    opacity: 0.9,
-    borderRadius: 8,
-  },
-  description: {
-    fontWeight: 'bold',
-    color: "#007",
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    opacity: 0.9,
-  },
-  predefinedPlacesDescription: {
-    color: '#355',
-  },
-  textInputContainer: {
-    height: 50,
-  },
-  textInput: {
-    height: 33,
-    fontSize: 16
-  }
-}
-
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#F0F0F0',
+    //justifyContent: 'center',
+    alignItems: 'center',
   },
-  searchBox: {
-    top: 0,
-    position: "absolute",
-    // flex: 1,
-    width: '100%',
+  button: {
+    height: 40, 
+    width: '90%',
+    backgroundColor: 'white', 
+    justifyContent: 'center', 
+    borderRadius: 5, 
+    paddingLeft: 5,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '90%',
+    borderRadius: 5,
+    marginTop: 50,
+  },
+  text: {
+    fontSize: 16,
     justifyContent: 'center',
-  }
- });
-
-
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  textInput: {
+    height: 40, 
+    //borderBottomWidth: 1, 
+    width: '20%',
+    fontSize: 14,
+    backgroundColor: '#FFF',
+    paddingLeft: 5,
+  },
+});
 
 export default ClassAddressScreen

@@ -1,19 +1,11 @@
 import React from 'react';
 import {
-  Image,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  Picker,
 } from 'react-native';
-
-import DateTimePicker from 'react-native-modal-datetime-picker';
-
-import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 class TutionFee extends React.Component {
 
