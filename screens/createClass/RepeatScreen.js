@@ -39,7 +39,7 @@ class RepeatScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    let { repeat } = props.navigation.state.params
+    let { repeat, selectedDay } = props.navigation.state.params
 
     // init state with state passed from parent screen
     let index = 0;
@@ -50,7 +50,7 @@ class RepeatScreen extends React.Component {
     this.state = {
       liked: false,
       currentButton: index,
-      endDate: repeat && repeat.endDate || moment().add(1, 'months'),
+      endDate: repeat && repeat.endDate || moment(selectedDay).add(1, 'months'),
     }
   }
 
@@ -78,6 +78,8 @@ class RepeatScreen extends React.Component {
 
   render() {
     let { locale } = this.props;
+    let { selectedDay } = this.props.navigation.state.params
+
     return (
       <View style={styles.container}>
         <View style={styles.placeholder} />
@@ -100,6 +102,7 @@ class RepeatScreen extends React.Component {
               isSelected={this.state.currentButton === i + 1}
               locale={locale}
               onConfirm={this.handleConfirmEndDate}
+              startDate={selectedDay}
               endDate={this.state.endDate}
             />
           )
@@ -110,7 +113,7 @@ class RepeatScreen extends React.Component {
 }
 
 const RepeatButton = props => {
-  let { type, locale, onTap, index, isSelected, neverRepeat, onConfirm, endDate} = props;
+  let { type, locale, onTap, index, isSelected, neverRepeat, onConfirm, startDate, endDate} = props;
   let buttonStyle = styles.button
   if (isSelected) {
     buttonStyle = [buttonStyle, {borderColor: Colors.tintColor, borderWidth: 3}]
@@ -133,6 +136,7 @@ const RepeatButton = props => {
         <DateTimePickerText
           disabled={!isSelected}
           onConfirm={onConfirm}
+          startDate={startDate}
           endDate={endDate}
         />
       </View>
@@ -156,6 +160,7 @@ class DateTimePickerText extends React.Component {
         </Text>
 
         <DateTimePicker
+          minimumDate={moment(this.props.startDate).toDate()}
           isVisible={this.state.isTimePickerVisible}
           onConfirm={(date) => {
             this.setState({

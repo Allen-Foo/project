@@ -96,7 +96,7 @@ class ClassPlanner extends React.Component {
                 {this.props.locale.common.cancel} 
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {onConfirm(this.state.timeSlots)}}>
+            <TouchableOpacity onPress={() => {onConfirm(this.state.timeSlots, this.state.repeat)}}>
               <Text style={[styles.text, {color: '#666', }]}>
                 {this.props.locale.common.confirm} 
               </Text>
@@ -108,7 +108,10 @@ class ClassPlanner extends React.Component {
             <Text style={[styles.text, {color: '#666A6C'}]}> 
               {this.props.locale.common.repeat} 
             </Text>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Repeat', {returnData: this.handleReturnData, repeat: this.state.repeat})}>
+            <TouchableOpacity onPress={() => 
+                this.props.navigation.navigate('Repeat', {returnData: this.handleReturnData, selectedDay, repeat})
+              }
+            >
               <Text style={[styles.text, {color: '#999C9E'}]}>
                 {
                   repeat && repeat.repeatType 

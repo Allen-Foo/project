@@ -39,7 +39,6 @@ class CalendarScreen extends React.Component {
       return
     }
 
-    // console.warn('selected day', day.dateString)
     let temp = this.state.markedDates || {};
     Object.keys(temp).forEach(key => {
       if (temp[key].selected && temp[key].marked) {
@@ -49,7 +48,6 @@ class CalendarScreen extends React.Component {
       }
     })
     temp[day.dateString] = Object.assign({}, temp[day.dateString], {selected: true})
-    // console.warn('temp', temp)
     this.setState({
       markedDates: temp,
       selectedDay: day.dateString,
@@ -57,20 +55,31 @@ class CalendarScreen extends React.Component {
     })
   }
 
-  handleConfirm = (timeSlots) => {
+  handleConfirm = (timeSlots, repeat) => {
     // if no time slots, do not mark
     if (!timeSlots || timeSlots.length < 1) {
       this.setState({showClassPlanner: false})
       return
     }
-    // store the data 
+
+    let allMarkedDates = [this.state.selectedDay];
+    if (repeat && repeat.endDate && repeat.repeatType) {
+      allMarkedDates = getRepeatedDates(this.state.selectedDay, repeat.endDate, repeat.repeatType)
+    }
+
     let temp = this.state.data || {};
-    temp[this.state.selectedDay] = timeSlots
-
-    // mark the date with dot
     let tempDate = this.state.markedDates;
-    tempDate[this.state.selectedDay] = {marked: true, selected: true}
-
+    allMarkedDates.forEach(day => {
+      // store the data 
+      temp[day] = timeSlots;
+      // mark the date with dot
+      if (day == this.state.selectedDay) {
+        tempDate[day] = {marked: true, selected: true}
+      } else {
+        tempDate[day] = {marked: true}
+      }
+    }) 
+    
     this.setState({
       data: temp,
       markedDates: tempDate,
@@ -120,6 +129,33 @@ class CalendarScreen extends React.Component {
       </View>
     );
   }
+}
+
+const getRepeatedDates = (startDate, endDate, repeatType) => {
+  switch (repeatType) {
+    case 'everyDay':
+      return calculateRepeatedDates(startDate, endDate, 1, 'days')
+    case 'everyWeek':
+      return calculateRepeatedDates(startDate, endDate, 7, 'days')
+    case 'everyTwoWeek':
+      return calculateRepeatedDates(startDate, endDate, 14, 'days')
+    case 'everyMonth':
+      return calculateRepeatedDates(startDate, endDate, 1, 'months')
+    default:
+      return []
+  }
+}
+
+// note that the unit of repeatInterval is 'day', but the unit of diff is 'ms'
+const calculateRepeatedDates = (startDate, endDate, repeatInterval, type) => {
+  let diff = moment(endDate).endOf('day') - moment(startDate).startOf('day');
+  let num = Math.floor(moment(endDate).endOf('day').diff(moment(startDate).startOf('day'), type) / repeatInterval)
+  if (moment(endDate).endOf('day').diff(moment(startDate).startOf('day').add(num + 1, type))) {
+    num = num + 1
+  }
+  return new Array(num).fill(0).map((n, i) => 
+    moment(startDate).add(repeatInterval * i , type).format('YYYY-MM-DD')
+  )
 }
 
 const mapStateToProps = (state) => {
