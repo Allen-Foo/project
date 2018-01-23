@@ -56,33 +56,32 @@ class CalendarScreen extends React.Component {
   }
 
   handleConfirm = (timeSlots, repeat) => {
-    // if no time slots, do not mark
-    if (!timeSlots || timeSlots.length < 1) {
-      this.setState({showClassPlanner: false})
-      return
-    }
-
     let allMarkedDates = [this.state.selectedDay];
     if (repeat && repeat.endDate && repeat.repeatType) {
       allMarkedDates = getRepeatedDates(this.state.selectedDay, repeat.endDate, repeat.repeatType)
     }
 
     let temp = this.state.data || {};
-    let tempDate = this.state.markedDates;
+    let tempDates = this.state.markedDates;
     allMarkedDates.forEach(day => {
       // store the data 
       temp[day] = timeSlots;
+
       // mark the date with dot
-      if (day == this.state.selectedDay) {
-        tempDate[day] = {marked: true, selected: true}
+      if (!timeSlots || timeSlots.length < 1) {
+        tempDates[day] && (delete tempDates[day].marked)
       } else {
-        tempDate[day] = {marked: true}
+        if (day == this.state.selectedDay) {
+          tempDates[day] = {marked: true, selected: true}
+        } else {
+          tempDates[day] = {marked: true}
+        }
       }
     }) 
     
     this.setState({
       data: temp,
-      markedDates: tempDate,
+      markedDates: tempDates,
       showClassPlanner: false
     });
   }

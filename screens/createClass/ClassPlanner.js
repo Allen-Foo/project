@@ -36,8 +36,10 @@ class ClassPlanner extends React.Component {
     if (nextProps.timeSlots !== this.state.timeSlots) {
       this.setState({
         timeSlots: nextProps.timeSlots,
-        repeat: null
       })
+    }
+    if (nextProps.repeat !== this.state.repeat) {
+      this.setState({repeat: null})
     }
   }
 
