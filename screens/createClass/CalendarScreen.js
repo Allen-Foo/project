@@ -13,7 +13,7 @@ import {
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
-import { Hr } from '../../components';
+import { Hr, NextButton} from '../../components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment from 'moment';
@@ -127,9 +127,10 @@ class CalendarScreen extends React.Component {
         }
         {
           !this.state.showClassPlanner && this.state.data &&
-          <TouchableOpacity style={styles.nextButton}>
-            <Text style={styles.nextText}>{this.props.locale.common.next}</Text>
-          </TouchableOpacity>
+          <NextButton 
+            onPress={()=>{}}
+            locale={this.props.locale}
+          />
         }
       </View>
     );
@@ -162,22 +163,6 @@ const calculateRepeatedDates = (startDate, endDate, repeatInterval, type) => {
     moment(startDate).add(repeatInterval * i , type).format('YYYY-MM-DD')
   )
 }
-
-const styles = StyleSheet.create({
-  nextButton: {
-    position: 'absolute',
-    bottom: '5%',
-    left: '10%',
-    right: '10%',
-    backgroundColor: Colors.tintColor,
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-  nextText: {
-    color: '#fff',
-    paddingVertical: 10,
-  }
-})
 
 const mapStateToProps = (state) => {
   return {
