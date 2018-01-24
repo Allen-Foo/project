@@ -24,6 +24,8 @@ class ClassPlanner extends React.Component {
   constructor(props) {
     super(props);
 
+    this.initialTimeSlots = [...this.props.timeSlots];
+
     this.state = {
       timeSlots: this.props.timeSlots,
       repeat: null
@@ -98,11 +100,14 @@ class ClassPlanner extends React.Component {
                 {this.props.locale.common.cancel} 
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {onConfirm(this.state.timeSlots, this.state.repeat)}}>
-              <Text style={[styles.text, {color: '#666', }]}>
-                {this.props.locale.common.confirm} 
-              </Text>
-            </TouchableOpacity>
+            {
+              JSON.stringify(timeSlots) !== JSON.stringify(this.initialTimeSlots) &&
+              <TouchableOpacity onPress={() => {onConfirm(this.state.timeSlots, this.state.repeat)}}>
+                <Text style={[styles.text, {color: '#666', }]}>
+                  {this.props.locale.common.confirm} 
+                </Text>
+              </TouchableOpacity>  
+            }
           </View>
         </View>
         <View style={[styles.rowContainer, styles.bottomLine, {backgroundColor: '#ccc'}]}>
