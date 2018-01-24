@@ -125,6 +125,12 @@ class CalendarScreen extends React.Component {
             timeSlots={data && data[selectedDay] || []}
           />
         }
+        {
+          !this.state.showClassPlanner && this.state.data &&
+          <TouchableOpacity style={styles.nextButton}>
+            <Text style={styles.nextText}>{this.props.locale.common.next}</Text>
+          </TouchableOpacity>
+        }
       </View>
     );
   }
@@ -156,6 +162,22 @@ const calculateRepeatedDates = (startDate, endDate, repeatInterval, type) => {
     moment(startDate).add(repeatInterval * i , type).format('YYYY-MM-DD')
   )
 }
+
+const styles = StyleSheet.create({
+  nextButton: {
+    position: 'absolute',
+    bottom: '5%',
+    left: '10%',
+    right: '10%',
+    backgroundColor: Colors.tintColor,
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  nextText: {
+    color: '#fff',
+    paddingVertical: 10,
+  }
+})
 
 const mapStateToProps = (state) => {
   return {
