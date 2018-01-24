@@ -24,7 +24,7 @@ class ClassPlanner extends React.Component {
   constructor(props) {
     super(props);
 
-    this.initialTimeSlots = [...this.props.timeSlots];
+    this.initialTimeSlots = [...props.timeSlots];
 
     this.state = {
       timeSlots: this.props.timeSlots,
@@ -36,6 +36,8 @@ class ClassPlanner extends React.Component {
     // if change the day, the timeslot will change at the same time 
     // load the timeslot 
     if (nextProps.timeSlots !== this.state.timeSlots) {
+      this.initialTimeSlots = [...nextProps.timeSlots];
+
       this.setState({
         timeSlots: nextProps.timeSlots,
       })
@@ -56,7 +58,7 @@ class ClassPlanner extends React.Component {
       ...this.state.timeSlots[index],
       [key]: time
     }
-    let temp = this.state.timeSlots;
+    let temp = [...this.state.timeSlots];
     temp[index] = slot;
     this.setState({
       timeSlots: temp
@@ -68,7 +70,7 @@ class ClassPlanner extends React.Component {
       Alert.alert('cannot add more than three time slots')
       return
     }
-    let temp = this.state.timeSlots;
+    let temp = [...this.state.timeSlots];
     temp.push({
       startTime: moment(),
       endTime: moment().add(1, 'hours')
@@ -80,7 +82,7 @@ class ClassPlanner extends React.Component {
   }
 
   handleDeleteTimeSlot = (index) => {
-    let temp = this.state.timeSlots;
+    let temp = [...this.state.timeSlots];
     temp.splice(index, 1);
     this.setState({
       timeSlots: temp
