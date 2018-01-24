@@ -69,7 +69,8 @@ class CalendarScreen extends React.Component {
 
       // mark the date with dot
       if (!timeSlots || timeSlots.length < 1) {
-        tempDates[day] && (delete tempDates[day].marked)
+        tempDates[day] && (delete tempDates[day].marked);
+        delete temp[day]
       } else {
         if (day == this.state.selectedDay) {
           tempDates[day] = {marked: true, selected: true}
@@ -126,7 +127,7 @@ class CalendarScreen extends React.Component {
           />
         }
         {
-          !this.state.showClassPlanner && this.state.data &&
+          !this.state.showClassPlanner && this.state.data && Object.keys(this.state.data).length > 0 &&
           <NextButton 
             onPress={()=>{}}
             locale={this.props.locale}
