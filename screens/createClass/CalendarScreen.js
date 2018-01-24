@@ -129,7 +129,7 @@ class CalendarScreen extends React.Component {
         {
           !this.state.showClassPlanner && this.state.data && Object.keys(this.state.data).length > 0 &&
           <NextButton 
-            onPress={()=>{}}
+            onPress={() => this.props.navigation.navigate('ClassAddress')}
             locale={this.props.locale}
           />
         }

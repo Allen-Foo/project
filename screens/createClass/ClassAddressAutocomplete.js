@@ -24,7 +24,7 @@ class ClassAddressScreen extends React.Component {
       },
     }
   };
- render() {
+  render() {
     return (
       <View style={styles.container}>
         <View style={styles.searchBox}>
@@ -51,7 +51,7 @@ class ClassAddressScreen extends React.Component {
   }
 }
 
-const searchInputStyle={
+const searchInputStyle = {
   container: {
     backgroundColor: '#f0f0f0',
     //width: 300,
@@ -92,8 +92,6 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
   }
- });
-
-
+});
 
 export default ClassAddressScreen

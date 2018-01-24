@@ -7,6 +7,9 @@ import {
   View,
 } from 'react-native';
 
+import { connect } from 'react-redux';
+import { Hr, NextButton} from '../../components';
+
 class ClassAddressScreen extends React.Component {
 
   constructor(props) {
@@ -31,6 +34,13 @@ class ClassAddressScreen extends React.Component {
             <Text>{this.state.data && this.state.data.description}</Text>
           </TouchableOpacity>
         </View>
+        {
+          this.state.data && this.state.data.description &&
+          <NextButton 
+            onPress={() => this.props.navigation.navigate('TutionFee')}
+            locale={this.props.locale}
+          />
+        }
       </View>
     );
   }
@@ -74,4 +84,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ClassAddressScreen
+const mapStateToProps = (state) => {
+  return {
+    locale: state.language.locale
+  }
+}
+
+export default connect(mapStateToProps)(ClassAddressScreen)
+

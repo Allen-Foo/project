@@ -7,6 +7,9 @@ import {
   View,
 } from 'react-native';
 
+import { connect } from 'react-redux';
+import { Hr, NextButton} from '../../components';
+
 class TutionFee extends React.Component {
 
   constructor(props) {
@@ -28,9 +31,9 @@ class TutionFee extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.rowContainer}>
-          <Text style={{paddingLeft:10}}>每堂</Text>
-          <Text style={{marginLeft:15}}>價格</Text>
-          <Text style={{marginLeft:160, color:'#FF5A5F'}}>＄</Text>
+          <Text style={{paddingLeft: 10}}>每堂</Text>
+          <Text style={{marginLeft: 15}}>價格</Text>
+          <Text style={{marginLeft: 160, color: '#FF5A5F'}}>＄</Text>
           <TextInput 
             style={styles.textInput} 
             keyboardType='number-pad'
@@ -38,6 +41,13 @@ class TutionFee extends React.Component {
             value={this.state.text}
           />
         </View>
+        {
+          this.state.tutionFee &&
+          <NextButton 
+            onPress={() => {}}
+            locale={this.props.locale}
+          />
+        }
       </View>
     );
   }
@@ -74,4 +84,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TutionFee
+const mapStateToProps = (state) => {
+  return {
+    locale: state.language.locale
+  }
+}
+
+export default connect(mapStateToProps)(TutionFee)
