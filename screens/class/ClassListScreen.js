@@ -30,7 +30,7 @@ class ClassList extends React.Component {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.props.navigation.navigate('Calendar')}
+          onPress={() => this.props.navigation.navigate('Category')}
         >
           <Ionicons
             name={'ios-add-circle-outline'}
