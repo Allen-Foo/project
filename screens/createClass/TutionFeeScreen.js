@@ -23,12 +23,13 @@ class TutionFee extends React.Component {
   render() {
     let { params } = this.props.navigation.state;
     params.fee = this.state.tutionFee
-
+    let { locale } = this.props;
+    
     return (
       <View style={styles.container}>
         <View style={styles.rowContainer}>
-          <Text style={{paddingLeft: 10}}>每堂</Text>
-          <Text style={{marginLeft: 15}}>價格</Text>
+          <Text style={{paddingLeft: 10}}>{this.props.locale.tutionFee.text.perLesson}</Text>
+          <Text style={{marginLeft: 15}}>{this.props.locale.tutionFee.text.price}</Text>
           <Text style={{marginLeft: 160, color: '#FF5A5F'}}>＄</Text>
           <TextInput 
             style={styles.textInput}
