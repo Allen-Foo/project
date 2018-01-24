@@ -34,7 +34,11 @@ class ClassAddressScreen extends React.Component {
             autoFocus={false}
             returnKeyType={'search'}
             textInputProps={{onSubmitEditing: () => console.warn('clicked')}}
-            onPress={() => this.props.navigation.goBack()}
+            onPress={(data, details) => {
+              this.props.navigation.state.params.returnData(data, details);
+              this.props.navigation.goBack();
+            }}
+
             renderDescription={(row) => row.description} // custom description render
             query={{
               key: 'AIzaSyBqwQcXoFKOxK0cx3qfuwhH_ryqsI-HlMI',

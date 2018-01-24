@@ -9,12 +9,26 @@ import {
 
 class ClassAddressScreen extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: null,
+      details: null
+    }
+  }
+  returnData = (data, details) => {
+    this.setState({data, details});
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.rowContainer}>
-          <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('ClassAddressAutocomplete')}>
-            <Text> class address </Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('ClassAddressAutocomplete', {returnData: this.returnData})}
+          >
+            <Text>{this.state.data && this.state.data.description}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -32,10 +46,9 @@ const styles = StyleSheet.create({
   button: {
     height: 40, 
     width: '90%',
-    backgroundColor: 'white', 
-    justifyContent: 'center', 
+    backgroundColor: 'white',
+    justifyContent: 'center',
     borderRadius: 5, 
-    paddingLeft: 5,
   },
   rowContainer: {
     flexDirection: 'row',
