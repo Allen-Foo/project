@@ -22,6 +22,14 @@ import ClassPlanner from './ClassPlanner';
 import { MaterialIcons } from '@expo/vector-icons';
 
 class CalendarScreen extends React.Component {
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      title: screenProps.locale.calendar.title,
+      headerTintColor: 'black',
+    }
+  };
+
   constructor(props) {
     super(props);
     this.state = {
