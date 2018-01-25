@@ -9,14 +9,14 @@ import {
   View,
 } from 'react-native';
 
+import { connect } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
-class ClassAddressScreen extends React.Component {
+class ClassAddressAutocomplete extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state, props } = navigation;
 
     return {
-      tabBarLabel: screenProps.locale.classAddress.title,
       headerTitle: screenProps.locale.classAddress.title,
       headerTintColor: 'black',
       headerStyle: {
@@ -31,19 +31,32 @@ class ClassAddressScreen extends React.Component {
           <GooglePlacesAutocomplete
             placeholder='Enter your address'
             minLength={2} // minimum length of text to search
-            autoFocus={false}
+            autoFocus={true}
+            fetchDetails={true}
+            listViewDisplayed='auto'
             returnKeyType={'search'}
             textInputProps={{onSubmitEditing: () => console.warn('clicked')}}
             onPress={(data, details) => {
               this.props.navigation.state.params.returnData(data, details);
               this.props.navigation.goBack();
             }}
-
-            renderDescription={(row) => row.description} // custom description render
+            renderDescription={(row) =>row.description} // custom description render
             query={{
               key: 'AIzaSyBqwQcXoFKOxK0cx3qfuwhH_ryqsI-HlMI',
-              language: 'en',
+              language: this.props.languageKey,
             }}
+            GoogleReverseGeocodingQuery={{
+              // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+            }}
+            GooglePlacesSearchQuery={{
+              // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+              rankby: 'distance'
+            }}
+            // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+            filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']}
+            enablePoweredByContainer={false}
+            nearbyPlacesAPI='GooglePlacesSearch'
+            debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
           />
         </View>
       </View>
@@ -94,4 +107,11 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ClassAddressScreen
+const mapStateToProps = (state) => {
+  return {
+    locale: state.language.locale,
+    languageKey: state.language.key
+  }
+}
+
+export default connect(mapStateToProps)(ClassAddressAutocomplete)
