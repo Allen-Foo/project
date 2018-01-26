@@ -5,12 +5,15 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image
+  Image,
+  Dimensions,
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
 import { ImagePicker } from 'expo';
+
+let {width, height} = Dimensions.get('window');
 
 class ClassAddressScreen extends React.Component {
 
@@ -18,43 +21,78 @@ class ClassAddressScreen extends React.Component {
     super(props);
     this.state = {
       image: null,
+      photoList: [],
     }
   }
 
+  handleDeletePhoto = (index) => {
+    let temp = [...this.state.photoList];
+    temp.splice(index, 1);
+    this.setState({
+      photos: temp
+    })
+  }
 
   render() {
-    let { image } = this.state;
+    let { image, photoList } = this.state;
     return (
       <View style={styles.container}>
-        <View style={styles.uploadPhotoButton}>
-            {<Image source={{ uri: image }} style={{ width: '90%', height: '40%' }} />}
-        </View>
+        <View style={styles.photoContainer}>
         {
-          image && <Image source={{ uri: image }} style={{ width: '90%', height: '40%' }} />
+          photoList.map((photo, index) => 
+            <ImageBox
+              key={index}
+              uri={photo.uri}
+            />
+          )
         }
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={this._pickImage}
-          >
-            <Text>add more photo</Text>
-          </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={this._pickImage}
+        >
+          <Text style={styles.addButton}>+</Text>
+        </TouchableOpacity>
       </View>
     );
   }
+
   _pickImage = async () => {
+    if (this.state.photoList.length === 4) {
+      Alert.alert('cannot add more than four photos')
+      return
+    }
+
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      let temp = [...this.state.photoList];
+      temp.push({uri: result.uri})
+
+      console.warn('temp', temp)
+
+      this.setState({
+        photoList: temp
+      })
     }
   };
+}
+
+const ImageBox = props => {
+  let { uri } = props;
+
+  return (
+    <View style={styles.imageContainer}>
+      <Image
+       ImageResizeMode={'cover'}
+       source={{ uri: uri }} 
+       style={{ width: '100%', height: '100%' }} 
+      />
+    </View>
+  )  
 }
 
 const styles = StyleSheet.create({
@@ -63,43 +101,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F0F0',
     //justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 20,
   },
-  uploadPhotoButton: {
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    borderRadius: 5, 
+  photoContainer: {
+    marginHorizontal: width * 0.05,
     alignItems: 'center',
-    marginTop: 50,
+    // justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  imageContainer: {
+    width: width * 0.4,
+    height: width * 0.3,
+    marginHorizontal: width * 0.025,
+    marginVertical: 5,
   },
   button: {
-    height: 40, 
     width: '90%',
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5, 
+    marginTop: 20,
   },
-  rowContainer: {
-    alignItems: 'center',
-    backgroundColor: 'white',
-    width: '90%',
-    borderRadius: 5,
-    marginTop: 50,
-  },
-  text: {
-    fontSize: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  textInput: {
-    height: 40, 
-    //borderBottomWidth: 1, 
-    width: '20%',
-    fontSize: 14,
-    backgroundColor: '#FFF',
-    paddingLeft: 5,
-  },
+  addButton: {
+    fontSize: 50
+  }
 });
 
 const mapStateToProps = (state) => {

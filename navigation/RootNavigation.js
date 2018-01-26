@@ -23,7 +23,7 @@ import Repeat from '../screens/createClass/RepeatScreen';
 import ClassAddressAutocomplete from '../screens/createClass/ClassAddressAutocomplete';
 import ClassAddress from '../screens/createClass/ClassAddressScreen';
 import ClassSummary from '../screens/createClass/ClassSummaryScreen';
-
+import UploadPhoto from '../screens/createClass/UploadPhotoScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -119,6 +119,9 @@ const TutorStackNavigator = StackNavigator(
     },
     ClassSummary: {
       screen: ClassSummary,
+    },
+    UploadPhoto: {
+      screen: UploadPhoto
     },
   },
   {
