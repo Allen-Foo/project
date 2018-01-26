@@ -91,7 +91,7 @@ class ClassAddressScreen extends React.Component {
 
   render() {
     let { photoList } = this.state;
-
+    
     return (
       <View style={styles.container}>
         <View style={styles.photoContainer}>
