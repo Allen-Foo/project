@@ -70,10 +70,13 @@ class ClassPlanner extends React.Component {
       Alert.alert('cannot add more than three time slots')
       return
     }
+    let {selectedDay} = this.props;
     let temp = [...this.state.timeSlots];
+    let st = moment().add(moment(selectedDay).diff(moment().startOf('day'), 'days'), 'days');
+    
     temp.push({
-      startTime: moment(),
-      endTime: moment().add(1, 'hours')
+      startTime: st,
+      endTime: moment(st).add(1, 'hours')
     })
 
     this.setState({
@@ -189,7 +192,7 @@ const TimeSlot = props => {
           name={"remove-circle"}
           size={25}
           color={'red'}
-          style={[styles.deleteButton, {backgroundColor: props.index % 2 === 0 ? '#fff' : '#eee'}]}
+          style={styles.deleteButton}
           onPress={()=>{onDeleteTimeSlots()}}
         />
       </View>
@@ -297,6 +300,7 @@ const styles = StyleSheet.create({
   deleteButton: {
     position: 'absolute',
     right: 5,
+    backgroundColor: 'transparent',
   },
 })
 

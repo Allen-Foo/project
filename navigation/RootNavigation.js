@@ -22,6 +22,7 @@ import Calendar from '../screens/createClass/CalendarScreen';
 import Repeat from '../screens/createClass/RepeatScreen';
 import ClassAddressAutocomplete from '../screens/createClass/ClassAddressAutocomplete';
 import ClassAddress from '../screens/createClass/ClassAddressScreen';
+import ClassSummary from '../screens/createClass/ClassSummaryScreen';
 
 
 import MainTabNavigator from './MainTabNavigator';
@@ -115,6 +116,9 @@ const TutorStackNavigator = StackNavigator(
     },
     ClassAddress: {
       screen: ClassAddress,
+    },
+    ClassSummary: {
+      screen: ClassSummary,
     },
   },
   {

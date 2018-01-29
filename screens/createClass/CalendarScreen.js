@@ -73,7 +73,8 @@ class CalendarScreen extends React.Component {
     let tempDates = this.state.markedDates;
     allMarkedDates.forEach(day => {
       // store the data 
-      temp[day] = timeSlots;
+      let str = JSON.stringify(timeSlots).replace(this.state.selectedDay, day)
+      temp[day] = JSON.parse(str);
 
       // mark the date with dot
       if (!timeSlots || timeSlots.length < 1) {
@@ -103,6 +104,8 @@ class CalendarScreen extends React.Component {
 
   render() {
     let { data, selectedDay, startTime, endTime } = this.state;
+
+    let { category, skill } = this.props.navigation.state.params;
 
     return (
       <View>
@@ -137,7 +140,11 @@ class CalendarScreen extends React.Component {
         {
           !this.state.showClassPlanner && this.state.data && Object.keys(this.state.data).length > 0 &&
           <NextButton 
-            onPress={() => this.props.navigation.navigate('ClassAddress')}
+            onPress={() => this.props.navigation.navigate('ClassAddress', {
+              category,
+              skill,
+              time: this.state.data
+            })}
             locale={this.props.locale}
           />
         }

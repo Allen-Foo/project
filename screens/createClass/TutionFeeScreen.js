@@ -21,8 +21,6 @@ class TutionFee extends React.Component {
   }
 
   render() {
-    console.warn('params', this.props.navigation.state.params)
-
     let { params } = this.props.navigation.state;
     params.fee = this.state.tutionFee
 

@@ -27,15 +27,13 @@ class ClassAddressScreen extends React.Component {
       this.address = details.formatted_address;
     }
     if (details && details.geometry && details.geometry.location) {
-      console.warn('location', details.geometry.location);
+      // console.warn('location', details.geometry.location);
       this.latlng = details.geometry.location;
     }
   }
 
   render() {
     let { data, details } = this.state;
-
-    console.warn('params', this.props.navigation.state.params)
     let { params } = this.props.navigation.state;
 
     let address = {

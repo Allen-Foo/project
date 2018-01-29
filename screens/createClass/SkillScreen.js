@@ -30,7 +30,10 @@ class Skill extends React.Component {
             <SkillButton
               key={i}
               text={this.props.locale.skill.types[categoryIndex][x]}
-              onPress= {() => this.props.navigation.navigate('Calendar')}
+              onPress= {() => this.props.navigation.navigate('Calendar', {
+                category: categoryIndex,
+                skill: x,
+              })}
             />
           )
         }
