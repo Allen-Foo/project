@@ -15,19 +15,17 @@ class TutionFee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tutionFee: '',
+      tutionFee: null,
       teachingExp: '',
-      text: '',
-    }
-  }
-
-  validateInput() {
-    if (!this.state.tutionFee) {
-      Alert.alert('Tution Fee is empty!')
     }
   }
 
   render() {
+    console.warn('params', this.props.navigation.state.params)
+
+    let { params } = this.props.navigation.state;
+    params.fee = this.state.tutionFee
+
     return (
       <View style={styles.container}>
         <View style={styles.rowContainer}>
@@ -35,16 +33,17 @@ class TutionFee extends React.Component {
           <Text style={{marginLeft: 15}}>價格</Text>
           <Text style={{marginLeft: 160, color: '#FF5A5F'}}>＄</Text>
           <TextInput 
-            style={styles.textInput} 
+            style={styles.textInput}
             keyboardType='number-pad'
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
+            onChangeText={(tutionFee) => this.setState({tutionFee})}
+            onSubmitEditing={this.handleNext}
+            value={this.state.tutionFee}
           />
         </View>
         {
           this.state.tutionFee &&
           <NextButton 
-            onPress={() => {}}
+            onPress={() => this.props.navigation.navigate('ClassSummary', params)}
             locale={this.props.locale}
           />
         }
@@ -67,12 +66,6 @@ const styles = StyleSheet.create({
     width: '90%',
     borderRadius: 5,
     marginTop: 50
-  },
-  text: {
-    fontSize: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
   },
   textInput: {
     height: 40, 

@@ -15,7 +15,6 @@ class CategoryScreen extends React.Component {
     const { state, props } = navigation;
 
     return {
-      tabBarLabel: screenProps.locale.category.title,
       headerTitle: screenProps.locale.category.title,
       headerTintColor: 'black',
       headerStyle: {
