@@ -19,11 +19,11 @@ class ClassAddressScreen extends React.Component {
       details: null
     }
   }
+
   returnData = (data, details) => {
     this.setState({data, details});
 
     if (details && details.formatted_address) {
-      console.warn('details', details.formatted_address);
       this.address = details.formatted_address;
     }
     if (details && details.geometry && details.geometry.location) {
@@ -35,6 +35,15 @@ class ClassAddressScreen extends React.Component {
   render() {
     let { data, details } = this.state;
 
+    console.warn('params', this.props.navigation.state.params)
+    let { params } = this.props.navigation.state;
+
+    let address = {
+      description: data && data.description,
+      formatted_address: details && details.formatted_address
+    }
+    params.address = address;
+
     return (
       <View style={styles.container}>
         <Text style={styles.label}>{'Please input your address'}</Text>
@@ -42,7 +51,7 @@ class ClassAddressScreen extends React.Component {
           style={styles.details}
           onPress={() => this.props.navigation.navigate('ClassAddressAutocomplete', {returnData: this.returnData})}
         >
-          <Text>{this.state.data && this.state.data.description}</Text>
+          <Text>{data && data.description}</Text>
         </TouchableOpacity>
         {
           details && details.formatted_address &&
@@ -54,9 +63,9 @@ class ClassAddressScreen extends React.Component {
           </View>
         }
         {
-          this.state.data && this.state.data.description &&
+          data && data.description &&
           <NextButton 
-            onPress={() => this.props.navigation.navigate('TutionFee')}
+            onPress={() => this.props.navigation.navigate('TutionFee', params)}
             locale={this.props.locale}
           />
         }
@@ -80,6 +89,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     marginHorizontal: '5%',
     backgroundColor: 'white',
+    borderRadius: 5,
   }
 });
 
