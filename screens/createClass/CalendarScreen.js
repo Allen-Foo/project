@@ -145,7 +145,7 @@ class CalendarScreen extends React.Component {
               skill,
               time: this.state.data
             })}
-            locale={this.props.locale}
+            text={this.props.locale.common.next}
           />
         }
       </View>

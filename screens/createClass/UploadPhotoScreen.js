@@ -78,7 +78,7 @@ class ClassAddressScreen extends React.Component {
           this.state.photoList && this.state.photoList.length > 0 &&
           <NextButton 
             onPress={() => this.props.navigation.navigate('ClassSummary', params)}
-            locale={this.props.locale}
+            text={this.props.locale.common.next}
           />
         }
       </View>

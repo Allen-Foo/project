@@ -64,7 +64,7 @@ class ClassAddressScreen extends React.Component {
           data && data.description &&
           <NextButton 
             onPress={() => this.props.navigation.navigate('TutionFee', params)}
-            locale={this.props.locale}
+            text={this.props.locale.common.next}
           />
         }
       </View>

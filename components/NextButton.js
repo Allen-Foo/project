@@ -11,7 +11,7 @@ import Colors from '../constants/Colors';
 export default NextButton = props => {
   return (
     <TouchableOpacity onPress={props.onPress} style={styles.nextButton}>
-      <Text style={styles.nextText}>{props.locale.common.next}</Text>
+      <Text style={styles.nextText}>{props.text}</Text>
     </TouchableOpacity>
   )
 }

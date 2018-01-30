@@ -42,7 +42,7 @@ class TutionFee extends React.Component {
           this.state.tutionFee &&
           <NextButton 
             onPress={() => this.props.navigation.navigate('UploadPhoto', params)}
-            locale={this.props.locale}
+            text={this.props.locale.common.next}
           />
         }
       </View>

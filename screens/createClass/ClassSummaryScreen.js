@@ -113,7 +113,7 @@ class ClassSummaryScreen extends React.Component {
         />
         <NextButton 
           onPress={() => this.handleSubmit()}
-          locale={this.props.locale}
+          text={this.props.locale.common.submit}
         />
       </View>
     );
