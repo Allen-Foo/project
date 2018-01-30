@@ -18,7 +18,14 @@ import { Entypo } from '@expo/vector-icons';
 let {width, height} = Dimensions.get('window');
 
 class ClassAddressScreen extends React.Component {
-
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      title: screenProps.locale.calendar.title,
+      headerTintColor: 'black',
+    }
+  };
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -45,6 +52,9 @@ class ClassAddressScreen extends React.Component {
 
   render() {
     let { photoList } = this.state;
+    let { params } = this.props.navigation.state;
+    params.photoList = photoList
+
     return (
       <View style={styles.container}>
         <View style={styles.photoContainer}>
@@ -67,7 +77,7 @@ class ClassAddressScreen extends React.Component {
         {
           this.state.photoList && this.state.photoList.length > 0 &&
           <NextButton 
-            onPress={() => this.props.navigation.navigate('SummaryScreen')}
+            onPress={() => this.props.navigation.navigate('ClassSummary', params)}
             locale={this.props.locale}
           />
         }
@@ -146,7 +156,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   addButton: {
-    fontSize: 50
+    fontSize: 50,
+    fontWeight: '500'
   },
   deleButton: {
     position: 'absolute',

@@ -6,6 +6,7 @@ import Hr from './Hr';
 import KohanaTextInput from './KohanaTextInput';
 import HideoTextInput from'./HideoTextInput';
 import NextButton from'./NextButton';
+import Slideshow from'./Slideshow';
 
 export {
   Separator,
@@ -14,6 +15,7 @@ export {
   Spinner,
   Hr,
   KohanaTextInput,
-  NextButton,
+  Slideshow,
   HideoTextInput,
+  NextButton,
 }

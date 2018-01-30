@@ -5,11 +5,14 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
+  Dimensions,
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Hr, NextButton} from '../../components';
+import { Hr, NextButton, Slideshow} from '../../components';
 import moment from 'moment';
+let {width, height} = Dimensions.get('window');
 
 class ClassSummaryScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -77,6 +80,8 @@ class ClassSummaryScreen extends React.Component {
     let { props } = this.props;
     let { params } = this.props.navigation.state;
 
+    // console.warn('params', params)
+
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{'Please confirm the following information:'}</Text>
@@ -101,6 +106,11 @@ class ClassSummaryScreen extends React.Component {
           <Text style={styles.label}>{locale.classSummary.label.fee}</Text>
           <Text style={styles.price}>{`＄ ${params.fee} HKD / hr`}</Text>
         </TouchableOpacity>
+        <Slideshow 
+          dataSource={params.photoList}
+          containerStyle={styles.sliderContainer}
+          scrollEnabled={params.photoList.length > 1}
+        />
         <NextButton 
           onPress={() => this.handleSubmit()}
           locale={this.props.locale}
@@ -116,7 +126,7 @@ const ClassInfoRow = props => {
   return (
     <TouchableOpacity
       style={styles.rowContainer}
-      onPress={() => onPress()}
+      onPress={() => onPress && onPress()}
     >
       <View style={styles.leftContainer}>
         <Text style={styles.label}>{label}</Text>
@@ -167,7 +177,11 @@ const styles = StyleSheet.create({
     flex: 4,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-  }
+  },
+  sliderContainer: {
+    width: width * 0.9,
+    height: width * 0.9 * 3 / 4,
+  },
 });
 
 const mapStateToProps = (state) => {

@@ -24,25 +24,24 @@ class TutionFee extends React.Component {
     let { params } = this.props.navigation.state;
     params.fee = this.state.tutionFee
     let { locale } = this.props;
-    
+
     return (
       <View style={styles.container}>
         <View style={styles.rowContainer}>
           <Text style={{paddingLeft: 10}}>{this.props.locale.tutionFee.text.perLesson}</Text>
           <Text style={{marginLeft: 15}}>{this.props.locale.tutionFee.text.price}</Text>
-          <Text style={{marginLeft: 160, color: '#FF5A5F'}}>＄</Text>
+          <Text style={{marginLeft: 100, color: '#FF5A5F'}}>＄</Text>
           <TextInput 
             style={styles.textInput}
             keyboardType='number-pad'
             onChangeText={(tutionFee) => this.setState({tutionFee})}
-            onSubmitEditing={this.handleNext}
             value={this.state.tutionFee}
           />
         </View>
         {
           this.state.tutionFee &&
           <NextButton 
-            onPress={() => this.props.navigation.navigate('ClassSummary', params)}
+            onPress={() => this.props.navigation.navigate('UploadPhoto', params)}
             locale={this.props.locale}
           />
         }
