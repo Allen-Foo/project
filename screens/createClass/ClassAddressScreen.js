@@ -11,7 +11,14 @@ import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
 
 class ClassAddressScreen extends React.Component {
-
+   static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      title: screenProps.locale.classAddress.title,
+      headerTintColor: 'black',
+    }
+  };
+  
   constructor(props) {
     super(props);
     this.state = {

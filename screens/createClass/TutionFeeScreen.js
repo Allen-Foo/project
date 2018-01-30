@@ -11,7 +11,14 @@ import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
 
 class TutionFee extends React.Component {
-
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      title: screenProps.locale.tutionFee.title,
+      headerTintColor: 'black',
+    }
+  };
+  
   constructor(props) {
     super(props);
     this.state = {

@@ -21,7 +21,7 @@ class ClassAddressScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
     return {
-      title: screenProps.locale.calendar.title,
+      title: screenProps.locale.uploadPhoto.title,
       headerTintColor: 'black',
     }
   };

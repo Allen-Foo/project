@@ -108,7 +108,7 @@ class ClassSummaryScreen extends React.Component {
         </TouchableOpacity>
         <Slideshow 
           dataSource={params.photoList}
-          containerStyle={styles.sliderContainer}
+          containerStyle={sliderContainer}
           scrollEnabled={params.photoList.length > 1}
         />
         <NextButton 
@@ -136,6 +136,11 @@ const ClassInfoRow = props => {
       </View>
     </TouchableOpacity>
   )
+}
+
+const sliderContainer = {
+  width: width * 0.9,
+  height: width * 0.9 * 3 / 4,
 }
 
 const styles = StyleSheet.create({
@@ -177,10 +182,6 @@ const styles = StyleSheet.create({
     flex: 4,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-  },
-  sliderContainer: {
-    width: width * 0.9,
-    height: width * 0.9 * 3 / 4,
   },
 });
 

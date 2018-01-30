@@ -12,7 +12,6 @@ class Skill extends React.Component {
     const { state, props } = navigation;
 
     return {
-      tabBarLabel: screenProps.locale.skill.title,
       headerTitle: screenProps.locale.skill.title,
       headerTintColor: 'black',
       headerStyle: {
@@ -20,6 +19,7 @@ class Skill extends React.Component {
       },
     }
   };
+  
   render() {
     let categoryIndex = this.props.navigation.state.params.category;
     let skillList = classData.category[categoryIndex];
