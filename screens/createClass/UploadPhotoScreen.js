@@ -14,6 +14,8 @@ import { connect } from 'react-redux';
 import { Hr, NextButton } from '../../components';
 import { ImagePicker } from 'expo';
 import { Entypo } from '@expo/vector-icons';
+import axios from 'axios';
+import appSecrets from '../../appSecrets';
 
 let {width, height} = Dimensions.get('window');
 
@@ -31,6 +33,20 @@ class ClassAddressScreen extends React.Component {
     this.state = {
       photoList: [],
     }
+  }
+
+  uploadPhoto(data) {
+    let baseURL = appSecrets.aws.apiURL;
+    axios({
+      method: 'post',
+      url: baseURL + '/upload',
+      data: {
+        key: 'testKey',
+        file: data.base64,
+      }
+    }).then(res => {
+      console.warn('res', res)
+    }).catch(err => console.warn(err))
   }
 
   handleDeletePhoto = (index) => {
@@ -94,11 +110,15 @@ class ClassAddressScreen extends React.Component {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
+      base64: true,
     });
 
     if (!result.cancelled) {
       let temp = [...this.state.photoList];
-      temp.push({uri: result.uri})
+      console.warn('result', result)
+      temp.push(result)
+
+      this.uploadPhoto(result);
 
       this.setState({
         photoList: temp
