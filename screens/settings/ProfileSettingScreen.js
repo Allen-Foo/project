@@ -12,6 +12,9 @@ import { ImagePicker } from 'expo';
 
 let {width, height} = Dimensions.get('window');
 
+import axios from 'axios';
+import appSecrets from '../../appSecrets';
+
 
 class ProfileSettingScreen extends React.Component {
   static navigationOptions = {
@@ -22,7 +25,7 @@ class ProfileSettingScreen extends React.Component {
     },
   };
 
-constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
       image: null,
@@ -30,26 +33,63 @@ constructor(props) {
     }
   }
 
+  static defaultProps = {
+    uploadedImage: false
+  }
+
+  renderHeader() {
+    let avatar = 
+      <Avatar
+        xlarge
+        rounded
+        icon={{name: 'account-box'}}
+        onPress={this._pickImage}
+        activeOpacity={0.7}
+        containerStyle={styles.avatarContainer}
+      />
+    if (this.props.user && this.props.user.avatarUrl) {
+      avatar = 
+        <Avatar
+          xlarge
+          rounded
+          source={{url: image}}
+          onPress={this._pickImage}
+          activeOpacity={0.7}
+          containerStyle={styles.avatarContainer}
+        />
+    }
+    return (
+      <View style={styles.loginContainer}>
+        { avatar }
+        <TouchableOpacity style={styles.button} onPress={this._pickImage}>
+          <Text style={styles.text}>click here to edit icon </Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  uploadedPhoto = (data) => {
+    let baseUrl = appSecrets.aws.apiURL;
+    axios({
+      method: 'post',
+      url: baseUrl + '/updateAvatar',
+      data: {
+        key: 'test',
+        file: data.base64,
+        awsId: 'us-east-1:8f2f24ab-a1fc-4a48-a5f8-f20be75be0d8'//this.props.user.awsId
+      }
+    }).then(res => {
+      console.warn('res', res);
+
+    }).catch(err => console.warn('err', err))
+  }
+
   render() {
     let { image } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.photoContainer}>
-          <TouchableOpacity style={styles.button} onPress={this._pickImage}>
-            {image &&
-              <Avatar
-                xlarge
-                rounded
-                source={{url: image}}
-                onPress={this._pickImage}
-                activeOpacity={0.7}
-                containerStyle={styles.avatarContainer}
-              />
-            }
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this._pickImage}>
-            <Text style={styles.text}>click here to edit icon </Text>
-          </TouchableOpacity>
+          {this.renderHeader()}
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.rowContainer}>
@@ -93,9 +133,11 @@ constructor(props) {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
+      base64: true,
     });
+    console.warn('photo', result);
 
-    console.log(result);
+    this.uploadedPhoto(result)
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });
@@ -152,6 +194,13 @@ const styles = StyleSheet.create({
   itemContainer: {
     height: 50,
     justifyContent: 'center',
+  },
+  loginContainer: {
+    width: '100%',
+    backgroundColor: Colors.tintColor,
+    alignItems: 'center',
+    paddingVertical: '20%',
+    backgroundColor: 'green',
   },
   signOutContainer: {
     backgroundColor: '#fff',

@@ -1,11 +1,12 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 
 import { List, ListItem } from 'react-native-elements';
 import { Constants } from 'expo'
+import { onSignOut } from '../../lib/Auth/AWS_Auth';
 
 
 class SettingsScreen extends React.Component {
@@ -37,7 +38,23 @@ class SettingsScreen extends React.Component {
             hideChevron
             onPress={() => {this.props.navigation.navigate('ApiTest')}}
           />
+          <ListItem
+            containerStyle={styles.itemContainer}
+            title={'Change Password'}
+            onPress={() => {this.props.navigation.navigate('Language')}}
+          />
         </List>
+        <TouchableOpacity 
+          style={styles.signOutContainer}
+          onPress={() => {
+            onSignOut(this.props.user, this.props.signOut)
+            this.props.navigation.goBack()
+          }}
+        >
+          <Text style={styles.signOut}>
+            {'Sign out'}
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
