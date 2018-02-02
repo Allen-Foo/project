@@ -34,11 +34,13 @@ import {
   GET_IDENTITY_ID,
   GET_IDENTITY_ID_SUCCESS,
   GET_IDENTITY_ID_FAIL,
+  UPDATE_AVATAR,
+  UPDATE_AVATAR_SUCCESS,
+  UPDATE_AVATAR_FAIL
 } from '../types';
 
 import AWS from 'aws-sdk';
 import awsmobile from '../../aws-exports';
-
 import appSecrets from '../../appSecrets';
 import { Observable } from 'rxjs/Observable';
 import Expo from 'expo';
@@ -76,6 +78,13 @@ export const signInEmail = (username, password) => ({
     password,
   }
 })
+
+export const updateAvatar = (avatar) => {
+  return {
+    type: UPDATE_AVATAR,
+    payload: avatar
+  }
+}
 
 export const signInFacebook = () => ({
   type: SIGN_IN_FACEBOOK
@@ -359,4 +368,29 @@ export const signInGoogleEpic = (action$, store, { request }) =>
         type: SIGN_IN_GOOGLE_FAIL,
         payload: 'login failed'
       })),
+    )
+
+export const updateAvatarEpic = (action$, store, { request }) =>
+  action$.ofType(UPDATE_AVATAR)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        method: 'post',
+        url: '/updateAvatar',
+        data: {
+          key: 'test',
+          file: action.payload.avatar.base64,
+          awsId: 'us-east-1:8f2f24ab-a1fc-4a48-a5f8-f20be75be0d8'//this.props.user.awsId
+        }
+       }))
+      .map(res => {
+        // console.warn('register success', res)
+        return {
+          type: UPDATE_AVATAR_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: UPDATE_AVATAR_FAIL,
+        payload: err.message
+      }))
     )

@@ -30,6 +30,9 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  UPDATE_AVATAR,
+  UPDATE_AVATAR_SUCCESS,
+  UPDATE_AVATAR_FAIL
 } from '../types';
 
 
@@ -258,6 +261,27 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'DO_GET_SUCCESS', action.payload)
       return {
         ...state,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+
+    case UPDATE_AVATAR:
+      // console.warn('here', 'SIGN_UP')
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case UPDATE_AVATAR_SUCCESS:
+      // console.warn('here', 'SIGN_UP_SUCCESS')
+      return {
+        ...state,
+        isLoading: false,
+        ...action.payload,
+      };
+    case UPDATE_AVATAR_FAIL:
+      return {
+        ...state,
+        isLoading: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
