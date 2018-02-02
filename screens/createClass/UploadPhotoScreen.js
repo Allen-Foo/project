@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Hr, NextButton } from '../../components';
+import { Hr, NextButton, Spinner } from '../../components';
 import { ImagePicker } from 'expo';
 import { Entypo } from '@expo/vector-icons';
 import axios from 'axios';
@@ -35,7 +35,7 @@ class ClassAddressScreen extends React.Component {
     }
   }
 
-  uploadPhoto(data) {
+  uploadPhoto(data, index) {
     let baseURL = appSecrets.aws.apiURL;
     axios({
       method: 'post',
@@ -45,7 +45,18 @@ class ClassAddressScreen extends React.Component {
         file: data.base64,
       }
     }).then(res => {
-      console.warn('res', res)
+      let newstate = this.state.photoList.map((photo, i) => {
+        if (i === index) {
+          return {
+            ...photo,
+            Location: res.Location,
+            isLoading: false
+          }
+        }
+        return photo
+      })
+
+      this.setState({photoList: newstate})
     }).catch(err => console.warn(err))
   }
 
@@ -79,6 +90,7 @@ class ClassAddressScreen extends React.Component {
             <ImageBox
               key={index}
               uri={photo.uri}
+              isLoading={photo.isLoading}
               onDelete={() => this.handleDeletePhoto(index)}
             />
           )
@@ -115,20 +127,17 @@ class ClassAddressScreen extends React.Component {
 
     if (!result.cancelled) {
       let temp = [...this.state.photoList];
-      console.warn('result', result)
+      result.isLoading = true
       temp.push(result)
-
-      this.uploadPhoto(result);
-
       this.setState({
         photoList: temp
-      })
+      }, () => this.uploadPhoto(result, this.state.photoList.length - 1))
     }
   };
 }
 
 const ImageBox = props => {
-  let { uri, onDelete } = props;
+  let { uri, onDelete, isLoading } = props;
 
   return (
     <View style={styles.imageContainer}>
@@ -137,13 +146,17 @@ const ImageBox = props => {
        source={{ uri: uri }} 
        style={{ width: '100%', height: '100%' }} 
       />
-      <Entypo
-        name={"circle-with-cross"}
-        size={25}
-        style={styles.deleButton}
-        color={'red'}
-        onPress={() => onDelete()}
-      />
+      {isLoading && <Spinner intensity={80}/> }
+      {
+        !isLoading &&
+        <Entypo
+          name={"circle-with-cross"}
+          size={25}
+          style={styles.deleButton}
+          color={'red'}
+          onPress={() => onDelete()}
+        />
+      }
     </View>
   )  
 }
