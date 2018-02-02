@@ -14,6 +14,9 @@ import { Hr, NextButton, Slideshow} from '../../components';
 import moment from 'moment';
 let {width, height} = Dimensions.get('window');
 
+import axios from 'axios';
+import appSecrets from '../../appSecrets';
+
 class ClassSummaryScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
@@ -31,8 +34,15 @@ class ClassSummaryScreen extends React.Component {
     }
   }
 
-  handleSubmit = () => {
-
+  handleSubmit = (data) => {
+    let baseURL = appSecrets.aws.apiURL;
+    axios({
+      method: 'post',
+      url: baseURL + '/createClass',
+      data: data
+    }).then(res => {
+      console.warn('response', res.data)
+    }).catch(err => console.warn(err))
   }
 
   /* the format of time is like this 
@@ -112,7 +122,7 @@ class ClassSummaryScreen extends React.Component {
           scrollEnabled={params.photoList.length > 1}
         />
         <NextButton 
-          onPress={() => this.handleSubmit()}
+          onPress={() => this.handleSubmit(params)}
           text={this.props.locale.common.submit}
         />
       </View>
