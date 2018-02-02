@@ -1,5 +1,8 @@
 import { setLanguage } from './setLanguage';
 import { setAppType } from './setAppType';
+import {
+  createClass,
+} from './classes';
 
 import { signInEmail,
   signInFacebook,
@@ -24,4 +27,5 @@ export {
   signUpFail,
   verifyCode,
   verifyCodeCancel,
+  createClass,
 }

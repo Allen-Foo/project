@@ -10,12 +10,14 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Hr, NextButton, Slideshow} from '../../components';
+import { Hr, NextButton, Slideshow, Spinner, Toast} from '../../components';
+
 import moment from 'moment';
 let {width, height} = Dimensions.get('window');
 
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
+import { createClass } from '../../redux/actions';
 
 class ClassSummaryScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -122,9 +124,11 @@ class ClassSummaryScreen extends React.Component {
           scrollEnabled={params.photoList.length > 1}
         />
         <NextButton 
-          onPress={() => this.handleSubmit(params)}
+          onPress={() => this.props.createClass(params)}
           text={this.props.locale.common.submit}
         />
+
+        { this.props.isLoading && <Spinner /> }
       </View>
     );
   }
@@ -197,8 +201,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    isLoading: state.classes.isLoading,
   }
 }
 
-export default connect(mapStateToProps)(ClassSummaryScreen)
+export default connect(mapStateToProps, {
+  createClass,
+})(ClassSummaryScreen)
