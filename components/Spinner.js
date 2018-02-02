@@ -19,21 +19,26 @@ class Spinner extends Component {
   static propTypes = {
     color: PropTypes.string,
     intensity: PropTypes.number,
+    showText: PropTypes.bool,
   };
 
   static defaultProps = {
     color: Colors.tintColor,
     intensity: 80,
+    showText: true,
   };
 
   render() {
-    const { intensity, color } = this.props;
+    const { intensity, color, showText } = this.props;
     return (
       <BlurView tint="light" intensity={intensity} style={styles.container}>
         <ActivityIndicator color={color} />
-        <Text style={[styles.text, {color: color}]}>
-          {this.props.locale.common.loading}
-        </Text>
+        {
+          showText &&
+          <Text style={[styles.text, {color: color}]}>
+            {this.props.locale.common.loading}
+          </Text>
+        }
       </BlurView>
     )
   }

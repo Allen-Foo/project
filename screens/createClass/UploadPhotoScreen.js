@@ -49,7 +49,7 @@ class ClassAddressScreen extends React.Component {
         if (i === index) {
           return {
             ...photo,
-            Location: res.Location,
+            location: res.data.Location,
             isLoading: false
           }
         }
@@ -77,10 +77,20 @@ class ClassAddressScreen extends React.Component {
     )
   }
 
+  handNext = () => {
+    let { params } = this.props.navigation.state;
+    params.photoList = this.state.photoList.map(photo => ({
+      location: photo.location,
+      uri: photo.uri,
+      width: photo.width,
+      height: photo.height
+    }))
+
+    this.props.navigation.navigate('ClassSummary', params)
+  }
+
   render() {
     let { photoList } = this.state;
-    let { params } = this.props.navigation.state;
-    params.photoList = photoList
 
     return (
       <View style={styles.container}>
@@ -104,8 +114,9 @@ class ClassAddressScreen extends React.Component {
         </TouchableOpacity>
         {
           this.state.photoList && this.state.photoList.length > 0 &&
+          this.state.photoList.every(photo => !photo.isLoading) &&
           <NextButton 
-            onPress={() => this.props.navigation.navigate('ClassSummary', params)}
+            onPress={() => this.handNext()}
             text={this.props.locale.common.next}
           />
         }
@@ -146,7 +157,7 @@ const ImageBox = props => {
        source={{ uri: uri }} 
        style={{ width: '100%', height: '100%' }} 
       />
-      {isLoading && <Spinner intensity={80}/> }
+      {isLoading && <Spinner intensity={80} showText={false}/> }
       {
         !isLoading &&
         <Entypo
