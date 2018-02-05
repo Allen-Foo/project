@@ -266,17 +266,17 @@ export default (state = {...defaultState}, action) => {
       }
 
     case UPDATE_AVATAR:
-      // console.warn('here', 'SIGN_UP')
+      console.warn('here', 'UPDATE_AVATAR')
       return {
         ...state,
         isLoading: true,
       }
     case UPDATE_AVATAR_SUCCESS:
-      // console.warn('here', 'SIGN_UP_SUCCESS')
+      console.warn('here', 'UPDATE_AVATAR_SUCCESS')
       return {
         ...state,
         isLoading: false,
-        ...action.payload,
+        user: action.payload
       };
     case UPDATE_AVATAR_FAIL:
       return {

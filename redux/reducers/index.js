@@ -19,6 +19,7 @@ import {
   getFacebookPictureEpic,
   loginEpic,
   getIdentityIdEpic,
+  updateAvatarEpic,
 } from '../actions/socialLogin';
 
 import {
@@ -49,4 +50,5 @@ export const rootEpic = combineEpics(
   getIdentityIdEpic,
   createClassEpic,
   getClassListEpic,
+  updateAvatarEpic,
 )

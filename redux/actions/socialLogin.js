@@ -80,9 +80,12 @@ export const signInEmail = (username, password) => ({
 })
 
 export const updateAvatar = (avatar) => {
+  console.warn('avatar', avatar)
   return {
     type: UPDATE_AVATAR,
-    payload: avatar
+    payload: {
+      avatar
+    }
   }
 }
 
@@ -383,7 +386,7 @@ export const updateAvatarEpic = (action$, store, { request }) =>
         }
        }))
       .map(res => {
-        // console.warn('register success', res)
+        console.warn('update avatar success', res.data)
         return {
           type: UPDATE_AVATAR_SUCCESS,
           payload: res.data

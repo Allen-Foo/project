@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Dimensions, Image
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { List, ListItem } from 'react-native-elements';
-import { signOut } from '../../redux/actions';
+import { signOut, updateAvatar } from '../../redux/actions';
 import { onSignOut } from '../../lib/Auth/AWS_Auth';
 import { Avatar } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
@@ -28,7 +28,6 @@ class ProfileSettingScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: null,
       text: null,
     }
   }
@@ -52,7 +51,7 @@ class ProfileSettingScreen extends React.Component {
         <Avatar
           xlarge
           rounded
-          source={{url: image}}
+          source={{url: this.props.user.avatarUrl}}
           onPress={this._pickImage}
           activeOpacity={0.7}
           containerStyle={styles.avatarContainer}
@@ -69,23 +68,10 @@ class ProfileSettingScreen extends React.Component {
   }
 
   uploadedPhoto = (data) => {
-    let baseUrl = appSecrets.aws.apiURL;
-    axios({
-      method: 'post',
-      url: baseUrl + '/updateAvatar',
-      data: {
-        key: 'test',
-        file: data.base64,
-        awsId: 'us-east-1:8f2f24ab-a1fc-4a48-a5f8-f20be75be0d8'//this.props.user.awsId
-      }
-    }).then(res => {
-      console.warn('res', res);
-
-    }).catch(err => console.warn('err', err))
+    this.props.updateAvatar(data)
   }
 
   render() {
-    let { image } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.photoContainer}>
@@ -137,10 +123,8 @@ class ProfileSettingScreen extends React.Component {
     });
     console.warn('photo', result);
 
-    this.uploadedPhoto(result)
-
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.uploadedPhoto(result)
     }
   };
 }
@@ -225,4 +209,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   signOut,
+  updateAvatar
 })(ProfileSettingScreen)
