@@ -7,13 +7,13 @@ import Colors from '../constants/Colors';
 
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import ScheduleScreen from '../screens/schedule/ScheduleScreen';
-import ClassList from '../screens/class/ClassListScreen';
+import ClassListScreen from '../screens/class/ClassListScreen';
 
 
 export default MainTab = TabNavigator(
   {
     ClassList: {
-      screen: ClassList,
+      screen: ClassListScreen,
     },
     Schedule: {
       screen: ScheduleScreen,

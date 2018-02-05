@@ -2,6 +2,7 @@ import { setLanguage } from './setLanguage';
 import { setAppType } from './setAppType';
 import {
   createClass,
+  getClassList,
 } from './classes';
 
 import { signInEmail,
@@ -28,4 +29,5 @@ export {
   verifyCode,
   verifyCodeCancel,
   createClass,
+  getClassList,
 }

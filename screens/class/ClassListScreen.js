@@ -9,10 +9,11 @@ import {
   View,
 } from 'react-native';
 
-
+import { connect } from 'react-redux';
+import { getClassList } from '../../redux/actions';
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
-class ClassList extends React.Component {
+class ClassListScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state, props } = navigation;
 
@@ -25,6 +26,10 @@ class ClassList extends React.Component {
       },
     }
   };
+
+  componentWillMount() {
+    this.props.getClassList()
+  }
 
   render() {
     return (
@@ -65,4 +70,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ClassList
+
+const mapStateToProps = (state) => {
+  return {
+    locale: state.language.locale,
+    isLoading: state.classes.isLoading,
+    createClassSuccess: state.classes.createClassSuccess,
+    fetchErrorMsg: state.classes.fetchErrorMsg,
+    fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
+  }
+}
+
+export default connect(mapStateToProps, {
+  getClassList,
+})(ClassListScreen)
