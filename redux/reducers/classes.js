@@ -7,7 +7,8 @@ import {
 
 const defaultState = {
   classList: [],
-  classDetail: null
+  classDetail: null,
+  createClassSuccess: null,
 }
 
 
@@ -18,6 +19,7 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'CREATE_CLASS')
       return {
         ...state,
+        createClassSuccess: false,
         isLoading: true,
       }
     case CREATE_CLASS_SUCCESS:
@@ -25,12 +27,14 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
+        createClassSuccess: true,
         ...action.payload,
       };
     case CREATE_CLASS_FAIL:
       return {
         ...state,
         isLoading: false,
+        createClassSuccess: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }

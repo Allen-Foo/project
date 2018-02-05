@@ -18,6 +18,7 @@ let {width, height} = Dimensions.get('window');
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
 import { createClass } from '../../redux/actions';
+import { NavigationActions } from 'react-navigation';
 
 class ClassSummaryScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -33,6 +34,27 @@ class ClassSummaryScreen extends React.Component {
     this.state = {
       data: null,
       rowContainer: null
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // if login success, go to main page
+    if (nextProps.createClassSuccess && !this.props.createClassSuccess) {
+      const resetAction = NavigationActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'TutorMain' })],
+      });
+
+      this.props.navigation.dispatch(resetAction);
+    }
+
+    // if login fail, show message 
+    if (nextProps.fetchErrorLastUpdate instanceof Date) {
+      if (!(this.props.fetchErrorLastUpdate instanceof Date) ||
+        nextProps.fetchErrorLastUpdate.getTime() !== this.props.fetchErrorLastUpdate.getTime()
+      ) {
+        this.Toast.show();
+      }
     }
   }
 
@@ -129,6 +151,7 @@ class ClassSummaryScreen extends React.Component {
         />
 
         { this.props.isLoading && <Spinner /> }
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>
     );
   }
@@ -203,6 +226,9 @@ const mapStateToProps = (state) => {
   return {
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
+    createClassSuccess: state.classes.createClassSuccess,
+    fetchErrorMsg: state.classes.fetchErrorMsg,
+    fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
 }
 
