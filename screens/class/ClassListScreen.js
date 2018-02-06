@@ -5,13 +5,18 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  FlatList,
   TouchableOpacity,
   View,
+  Dimensions,
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import { getClassList } from '../../redux/actions';
+import { Separator, Spinner, Toast } from '../../components';
+
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+const {width, height} = Dimensions.get('window');
 
 class ClassListScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -27,11 +32,48 @@ class ClassListScreen extends React.Component {
     }
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      classList: [],
+    }
+  }
+
   componentWillMount() {
     this.props.getClassList()
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.classList && nextProps.classList !== this.props.classList) {
+      this.setState({classList: nextProps.classList})
+    }
+  }
+
+  renderClassList = (classList) => {
+    return (
+      <FlatList
+        contentContainerStyle={styles.listContainer}
+        data={classList}
+        keyExtractor={(item) => (item.classId)}
+        renderItem={({item}) => {
+          console.warn('item photoList', item.photoList[0].location)
+          return (
+            <View style={{width: '100%'}}>
+              <Image source={{uri: item.photoList[0].location}} style={styles.image}/>
+              <Separator />
+            </View>
+          )
+        }}
+      />
+    )
+  }
+
   render() {
+    console.warn('classList', this.state.classList)
+    const { classList } = this.state;
+    if (classList.length > 1) {
+      return this.renderClassList(classList)
+    }
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -45,7 +87,9 @@ class ClassListScreen extends React.Component {
             color={'black'}
           />
           <Text style={styles.text}> Add a Class</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>  
+        { this.props.isLoading && <Spinner intensity={100}/> }
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>
     );
   }
@@ -54,6 +98,18 @@ class ClassListScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F0F0F0',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  listContainer: {
+    backgroundColor: '#F0F0F0',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: width * 0.8,
+    height: width * 0.8 * 3 / 4,
   },
   text: {
     fontSize: 18,
@@ -66,7 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: 5, 
     flexDirection: 'row',
     marginTop: '5%',
-    marginHorizontal: '5%',
+    paddingHorizontal: '5%',
   },
 });
 
@@ -75,7 +131,7 @@ const mapStateToProps = (state) => {
   return {
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    createClassSuccess: state.classes.createClassSuccess,
+    classList: state.classes.classList,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
