@@ -27,11 +27,16 @@ class ProfileSettingScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    let {username, firstName, lastName, email, gender} = props.user;
+
+    console.warn('user', props.user)
+
     this.state = {
-      firstName: null,
-      lastName: null,
-      email: null,
-      gender: null,
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      email: email,
+      gender: gender,
     }
   }
 
@@ -111,6 +116,14 @@ class ProfileSettingScreen extends React.Component {
               style={styles.TextInput}
               onChangeText={(gender) => this.setState({gender})}
               value={this.state.gender}
+          />
+          </View>
+          <View style={styles.rowContainer}>
+            <Text style={styles.textTag}>Username</Text>
+            <TextInput 
+              style={styles.TextInput}
+              onChangeText={(username) => this.setState({username})}
+              value={this.state.username}
           />
           </View>
             <View style={styles.rowContainer}>
