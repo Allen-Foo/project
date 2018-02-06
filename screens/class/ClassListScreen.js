@@ -40,7 +40,7 @@ class ClassListScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getClassList()
+    this.props.getClassList(this.props.userId)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,7 +56,6 @@ class ClassListScreen extends React.Component {
         data={classList}
         keyExtractor={(item) => (item.classId)}
         renderItem={({item}) => {
-          console.warn('item photoList', item.photoList[0].location)
           return (
             <View style={{width: '100%'}}>
               <Image source={{uri: item.photoList[0].location}} style={styles.image}/>
@@ -69,9 +68,9 @@ class ClassListScreen extends React.Component {
   }
 
   render() {
-    console.warn('classList', this.state.classList)
+    // console.warn('classList', this.state.classList, this.props.userId)
     const { classList } = this.state;
-    if (classList.length > 1) {
+    if (classList.length > 0) {
       return this.renderClassList(classList)
     }
     return (
@@ -129,6 +128,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    userId: state.socialLogin.user && state.socialLogin.user.userId,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     classList: state.classes.classList,

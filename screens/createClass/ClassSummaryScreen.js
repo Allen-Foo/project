@@ -58,17 +58,6 @@ class ClassSummaryScreen extends React.Component {
     }
   }
 
-  handleSubmit = (data) => {
-    let baseURL = appSecrets.aws.apiURL;
-    axios({
-      method: 'post',
-      url: baseURL + '/createClass',
-      data: data
-    }).then(res => {
-      console.warn('response', res.data)
-    }).catch(err => console.warn(err))
-  }
-
   /* the format of time is like this 
 
     time: {
@@ -113,6 +102,7 @@ class ClassSummaryScreen extends React.Component {
     let { data, details,  } = this.state;
     let { props } = this.props;
     let { params } = this.props.navigation.state;
+    params.userId = this.props.userId;
 
     // console.warn('params', params)
 
@@ -224,6 +214,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    userId: state.socialLogin.user && state.socialLogin.user.userId,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     createClassSuccess: state.classes.createClassSuccess,
