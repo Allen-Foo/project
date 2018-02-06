@@ -5,6 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Keyboard,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -33,26 +35,29 @@ class TutionFee extends React.Component {
     let { locale } = this.props;
 
     return (
-      <View style={styles.container}>
-        <View style={styles.rowContainer}>
-          <Text style={{paddingLeft: 10}}>{this.props.locale.tutionFee.text.perLesson}</Text>
-          <Text style={{marginLeft: 15}}>{this.props.locale.tutionFee.text.price}</Text>
-          <Text style={{marginLeft: 100, color: '#FF5A5F'}}>＄</Text>
-          <TextInput 
-            style={styles.textInput}
-            keyboardType='number-pad'
-            onChangeText={(tutionFee) => this.setState({tutionFee})}
-            value={this.state.tutionFee}
-          />
+      <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <View style={styles.rowContainer}>
+            <Text style={{paddingLeft: 10}}>{this.props.locale.tutionFee.text.perLesson}</Text>
+            <Text style={{marginLeft: 15}}>{this.props.locale.tutionFee.text.price}</Text>
+            <Text style={{marginLeft: 100, color: '#FF5A5F'}}>＄</Text>
+            <TextInput
+              autoFocus
+              style={styles.textInput}
+              keyboardType='numeric'
+              onChangeText={(tutionFee) => this.setState({tutionFee})}
+              value={this.state.tutionFee}
+            />
+          </View>
+          {
+            this.state.tutionFee &&
+            <NextButton 
+              onPress={() => this.props.navigation.navigate('UploadPhoto', params)}
+              text={this.props.locale.common.next}
+            />
+          }
         </View>
-        {
-          this.state.tutionFee &&
-          <NextButton 
-            onPress={() => this.props.navigation.navigate('UploadPhoto', params)}
-            text={this.props.locale.common.next}
-          />
-        }
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
