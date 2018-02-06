@@ -32,11 +32,15 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   GET_IDENTITY_ID,
-  GET_IDENTITY_ID_SUCCESS,
+  GET_IDENTITY_ID_SUCCESS,   
   GET_IDENTITY_ID_FAIL,
   UPDATE_AVATAR,
   UPDATE_AVATAR_SUCCESS,
-  UPDATE_AVATAR_FAIL
+  UPDATE_AVATAR_FAIL,
+  UPDATE_PROFILE,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
+
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -89,6 +93,16 @@ export const updateAvatar = (avatar) => {
   }
 }
 
+export const updateProfile = (profile) => {
+  console.warn('profile', profile)
+  return {
+    type: UPDATE_PROFILE,
+    payload: {
+      profile
+    }
+  }
+}
+
 export const signInFacebook = () => ({
   type: SIGN_IN_FACEBOOK
 })
@@ -132,7 +146,7 @@ export const signInEmailEpic = (action$, store, { request }) =>
 // this epic will sign up user through AWS Cognito
 export const signUpEmailEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_UP)
-    .mergeMap(action => 
+    .mergeMap(action =>
       Observable.fromPromise(onSignUpEmail(action.payload.profile))
       .map(res => {
         // console.warn('signUpEmailEpic', res)
@@ -394,6 +408,31 @@ export const updateAvatarEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: UPDATE_AVATAR_FAIL,
+        payload: err.message
+      }))
+    )
+
+export const updateProfileEpic = (action$, store, { request }) =>
+  action$.ofType(UPDATE_PROFILE)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        method: 'post',
+        url: '/updateProfile',
+        data: {
+          key: 'test',
+          awsId: 'us-east-1:8f2f24ab-a1fc-4a48-a5f8-f20be75be0d8',//this.props.user.awsId
+          user: action.payload.profile
+        }
+       }))
+      .map(res => {
+        // console.warn('update profile success', res.data)
+        return {
+          type: UPDATE_PROFILE_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: UPDATE_PROFILE_FAIL,
         payload: err.message
       }))
     )

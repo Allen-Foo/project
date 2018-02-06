@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Dimensions, Image
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { List, ListItem } from 'react-native-elements';
-import { signOut, updateAvatar } from '../../redux/actions';
+import { signOut, updateAvatar, updateProfile } from '../../redux/actions';
 import { onSignOut } from '../../lib/Auth/AWS_Auth';
 import { Avatar } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
@@ -28,7 +28,10 @@ class ProfileSettingScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: null,
+      firstName: null,
+      lastName: null,
+      email: null,
+      gender: null,
     }
   }
 
@@ -82,34 +85,39 @@ class ProfileSettingScreen extends React.Component {
             <Text style={styles.textTag}>First name</Text>
             <TextInput 
               style={styles.TextInput}
-              onChangeText={(text) => this.setState({text})}
-              value={this.state.text}
+              onChangeText={(firstName) => this.setState({firstName})}
+              value={this.state.firstName}
             />
           </View>
           <View style={styles.rowContainer}>
             <Text style={styles.textTag}>Last name</Text>
             <TextInput 
               style={styles.TextInput}
-              onChangeText={(text) => this.setState({text})}
-              value={this.state.text}
+              onChangeText={(lastName) => this.setState({lastName})}
+              value={this.state.lastName}
             />
           </View>
           <View style={styles.rowContainer}>
             <Text style={styles.textTag}>Email</Text>
             <TextInput 
               style={styles.TextInput}
-              onChangeText={(text) => this.setState({text})}
-              value={this.state.text}
+              onChangeText={(email) => this.setState({email})}
+              value={this.state.email}
             />
             </View>
-            <View style={styles.rowContainer}>
-              <Text style={styles.textTag}>Gender</Text>
-              <TextInput 
-                style={styles.TextInput}
-                onChangeText={(text) => this.setState({text})}
-                value={this.state.text}
-            />
+          <View style={styles.rowContainer}>
+            <Text style={styles.textTag}>Gender</Text>
+            <TextInput 
+              style={styles.TextInput}
+              onChangeText={(gender) => this.setState({gender})}
+              value={this.state.gender}
+          />
           </View>
+            <View style={styles.rowContainer}>
+            <TouchableOpacity style={styles.button} onPress={() => this.props.updateProfile(this.state)}>
+              <Text style={styles.text}>Submit</Text>
+            </TouchableOpacity>
+            </View>
         </View>
       </View>
     );
@@ -121,7 +129,7 @@ class ProfileSettingScreen extends React.Component {
       aspect: [4, 3],
       base64: true,
     });
-    console.warn('photo', result);
+    // console.warn('photo', result);
 
     if (!result.cancelled) {
       this.uploadedPhoto(result)
@@ -209,5 +217,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   signOut,
-  updateAvatar
+  updateAvatar,
+  updateProfile,
 })(ProfileSettingScreen)

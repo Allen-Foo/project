@@ -32,7 +32,10 @@ import {
   LOGIN_FAIL,
   UPDATE_AVATAR,
   UPDATE_AVATAR_SUCCESS,
-  UPDATE_AVATAR_FAIL
+  UPDATE_AVATAR_FAIL,
+  UPDATE_PROFILE,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
 } from '../types';
 
 
@@ -266,13 +269,13 @@ export default (state = {...defaultState}, action) => {
       }
 
     case UPDATE_AVATAR:
-      console.warn('here', 'UPDATE_AVATAR')
+      // console.warn('here', 'UPDATE_AVATAR')
       return {
         ...state,
         isLoading: true,
       }
     case UPDATE_AVATAR_SUCCESS:
-      console.warn('here', 'UPDATE_AVATAR_SUCCESS')
+      // console.warn('here', 'UPDATE_AVATAR_SUCCESS')
       return {
         ...state,
         isLoading: false,
@@ -285,6 +288,29 @@ export default (state = {...defaultState}, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
+
+    case UPDATE_PROFILE:
+      // console.warn('here', 'UPDATE_PROFILE')
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case UPDATE_PROFILE_SUCCESS:
+      // console.warn('here', 'UPDATE_PROFILE_SUCCESS')
+      return {
+        ...state,
+        isLoading: false,
+        user: action.payload
+      };
+    case UPDATE_PROFILE_FAIL:
+      // console.warn('here', 'UPDATE_PROFILE_FAIL', action.payload)
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+
     default:
       return state
   }

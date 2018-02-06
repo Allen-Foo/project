@@ -14,7 +14,8 @@ import { signInEmail,
   signUpFail,
   verifyCode,
   verifyCodeCancel,
-  updateAvatar
+  updateAvatar,
+  updateProfile,
 } from './socialLogin';
 
 export {
@@ -31,5 +32,6 @@ export {
   verifyCodeCancel,
   createClass,
   getClassList,
-  updateAvatar
+  updateAvatar,
+  updateProfile,
 }

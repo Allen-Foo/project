@@ -20,6 +20,7 @@ import {
   loginEpic,
   getIdentityIdEpic,
   updateAvatarEpic,
+  updateProfileEpic,
 } from '../actions/socialLogin';
 
 import {
@@ -51,4 +52,5 @@ export const rootEpic = combineEpics(
   createClassEpic,
   getClassListEpic,
   updateAvatarEpic,
+  updateProfileEpic,
 )
