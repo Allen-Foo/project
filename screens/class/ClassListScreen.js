@@ -11,24 +11,32 @@ import {
   Dimensions,
 } from 'react-native';
 
+import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { getClassList } from '../../redux/actions';
 import { Separator, Spinner, Toast, ClassItem} from '../../components';
 
-import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
 const {width, height} = Dimensions.get('window');
 
 class ClassListScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state, props } = navigation;
+    const { params = {} } = navigation.state;
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.handleAddClass ? params.handleAddClass() : () => console.warn('not define')}}>
+        <MaterialIcons
+          name={"add"}
+          size={30}
+          style={{ paddingRight: 15, paddingTop: 5 }}
+        />
+      </TouchableOpacity>
+    );
 
     return {
       tabBarLabel: screenProps.locale.classList.title,
       headerTitle: screenProps.locale.classList.title,
-      headerTintColor: 'black',
-      headerStyle: {
-        // backgroundColor: '#555',
-      },
+      headerTintColor: '#000',
+      headerRight,
     }
   };
 
@@ -43,10 +51,19 @@ class ClassListScreen extends React.Component {
     this.props.getClassList(this.props.userId)
   }
 
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleAddClass: this.handleAddClass });
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.classList && nextProps.classList !== this.props.classList) {
       this.setState({classList: nextProps.classList})
     }
+  }
+
+  handleAddClass = () => {
+    this.props.navigation.navigate('Category')
   }
 
   renderClassList = (classList) => {
@@ -76,9 +93,14 @@ class ClassListScreen extends React.Component {
     }
     return (
       <View style={styles.container}>
+        <Entypo
+          name={"open-book"}
+          size={60}
+          color={Colors.tintColor}
+        />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.props.navigation.navigate('Category')}
+          onPress={() => this.handleAddClass()}
         >
           <Ionicons
             name={'ios-add-circle-outline'}
