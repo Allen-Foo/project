@@ -49,7 +49,7 @@ export default (state = {...defaultState}, action) => {
         isLoading: true,
       }
     case GET_CLASS_LIST_SUCCESS:
-      console.warn('here', 'GET_CLASS_LIST_SUCCESS', action.payload)
+      // console.warn('here', 'GET_CLASS_LIST_SUCCESS', action.payload)
       return {
         ...state,
         isLoading: false,

@@ -7,6 +7,8 @@ import KohanaTextInput from './KohanaTextInput';
 import HideoTextInput from'./HideoTextInput';
 import NextButton from'./NextButton';
 import Slideshow from'./Slideshow';
+import ClassItem from'./ClassItem';
+
 
 export {
   Separator,
@@ -18,4 +20,5 @@ export {
   Slideshow,
   HideoTextInput,
   NextButton,
+  ClassItem,
 }

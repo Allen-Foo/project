@@ -13,7 +13,7 @@ import {
 
 import { connect } from 'react-redux';
 import { getClassList } from '../../redux/actions';
-import { Separator, Spinner, Toast } from '../../components';
+import { Separator, Spinner, Toast, ClassItem} from '../../components';
 
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 const {width, height} = Dimensions.get('window');
@@ -56,9 +56,10 @@ class ClassListScreen extends React.Component {
         data={classList}
         keyExtractor={(item) => (item.classId)}
         renderItem={({item}) => {
+          item.uri = item.photoList[0].location
           return (
             <View style={{width: '100%'}}>
-              <Image source={{uri: item.photoList[0].location}} style={styles.image}/>
+              <ClassItem data={item} onPress={() => this.props.navigation.navigate('TutorDetail')} />
               <Separator />
             </View>
           )
@@ -97,18 +98,12 @@ class ClassListScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   listContainer: {
-    backgroundColor: '#F0F0F0',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    width: width * 0.8,
-    height: width * 0.8 * 3 / 4,
+    backgroundColor: '#f0f0f0',
   },
   text: {
     fontSize: 18,
