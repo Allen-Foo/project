@@ -59,7 +59,7 @@ class ClassListScreen extends React.Component {
           item.uri = item.photoList[0].location
           return (
             <View style={{width: '100%'}}>
-              <ClassItem data={item} onPress={() => this.props.navigation.navigate('TutorDetail')} />
+              <ClassItem data={item} onPress={() => this.props.navigation.navigate('ClassSummary', item)} />
               <Separator />
             </View>
           )

@@ -100,7 +100,6 @@ class ClassSummaryScreen extends React.Component {
  
   render() {
     let { data, details,  } = this.state;
-    let { props } = this.props;
     let { params } = this.props.navigation.state;
     params.userId = this.props.userId;
 

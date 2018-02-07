@@ -265,7 +265,7 @@ export default class Slideshow extends Component {
             { height: height }
           ]}>
           {this.props.dataSource.map((image, index) => {
-            const imageObject = typeof image.uri === 'string' ? {uri: image.uri} : image.uri;
+            const imageObject = typeof image.location === 'string' ? {uri: image.location} : {uri: image.uri};
             const textComponent = (
               <View style={styles.layoutText}>
                 {image.title === undefined ? null : <Text style={styles.textTitle}>{image.title}</Text>}
