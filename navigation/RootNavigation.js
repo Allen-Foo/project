@@ -25,6 +25,7 @@ import ClassAddress from '../screens/createClass/ClassAddressScreen';
 import ClassSummary from '../screens/createClass/ClassSummaryScreen';
 import UploadPhoto from '../screens/createClass/UploadPhotoScreen';
 import ClassDescription from '../screens/createClass/ClassDescriptionScreen';
+import ClassType from '../screens/createClass/ClassTypeScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -114,6 +115,9 @@ const TutorStackNavigator = StackNavigator(
     },
     ClassDescription: {
       screen: ClassDescription
+    },
+    ClassType: {
+      screen: ClassType
     },
     ClassAddressAutocomplete: {
       screen: ClassAddressAutocomplete
