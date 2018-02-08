@@ -43,7 +43,7 @@ class ClassDescriptionScreen extends React.Component {
     let { title, description } = this.state;
     params.description = description
     params.title = title
-    this.props.navigation.navigate('UploadPhoto', params)
+    this.props.navigation.navigate('ClassType', params)
   }
 
   render() {
@@ -54,18 +54,17 @@ class ClassDescriptionScreen extends React.Component {
     return (
       <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
-          <Text style={{paddingLeft: 10}}>{"What's the title of this course?"}</Text>
+          <Text style={{fontSize: 15}}>{locale.classDescription.question.titleMsg}</Text>
           <TextInput
             style={styles.textInput}
             autoCapitalize={'words'}
             onChangeText={(title) => this.setState({title})}
             value={this.state.title}
           />
-          <Text style={{paddingLeft: 10, paddingVertical: 10}}>{"How do you discribe this course? (optional)"}</Text>
+          <Text style={{fontSize: 15, paddingVertical: 10}}>{locale.classDescription.question.descriptionMsg}</Text>
           <TextInput
             multiline
             style={styles.textArea}
-            keyboardType='numeric'
             onChangeText={(description) => this.setState({description})}
             value={this.state.description}
           />
