@@ -24,6 +24,7 @@ import ClassAddressAutocomplete from '../screens/createClass/ClassAddressAutocom
 import ClassAddress from '../screens/createClass/ClassAddressScreen';
 import ClassSummary from '../screens/createClass/ClassSummaryScreen';
 import UploadPhoto from '../screens/createClass/UploadPhotoScreen';
+import ClassDescription from '../screens/createClass/ClassDescriptionScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -110,6 +111,9 @@ const TutorStackNavigator = StackNavigator(
     },
     Repeat: {
       screen: Repeat,
+    },
+    ClassDescription: {
+      screen: ClassDescription
     },
     ClassAddressAutocomplete: {
       screen: ClassAddressAutocomplete

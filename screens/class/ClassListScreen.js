@@ -63,7 +63,7 @@ class ClassListScreen extends React.Component {
   }
 
   handleAddClass = () => {
-    this.props.navigation.navigate('Category')
+    this.props.navigation.navigate('ClassDescription')
   }
 
   renderClassList = (classList) => {
