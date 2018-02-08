@@ -6,38 +6,66 @@ import { List, ListItem } from 'react-native-elements';
 import { signOut, updateAvatar, updateProfile } from '../../redux/actions';
 import { onSignOut } from '../../lib/Auth/AWS_Auth';
 import { Avatar } from 'react-native-elements';
-import { FontAwesome } from '@expo/vector-icons';
-
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
-
 let {width, height} = Dimensions.get('window');
-
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+const maxLength = 255;
 
 class ProfileSettingScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Me',
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
-  };
+
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { params = {} } = navigation.state;
+      let headerRight = (
+        <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+          <MaterialIcons
+            name={"check"}
+            size={30}
+            style={{ paddingRight: 15 }}
+          />
+        </TouchableOpacity>
+      );
+
+      return {
+        headerTitle: screenProps.locale.profileSetting.title,
+        headerTintColor: '#000',
+        headerRight,
+      }
+    };
+
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  }
+
+  _handleSubmit = () => {
+    this.props.updateProfile(this.state)
+    this.props.navigation.goBack();
+  }
 
   constructor(props) {
     super(props);
-    let {username, firstName, lastName, email, gender} = props.user;
-
-    console.warn('user', props.user)
+    let {name, email, website, introduction, changePw, phone} = props.user;
 
     this.state = {
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
+      textLength: 0,
+      name: name,
       email: email,
-      gender: gender,
+      website: website,
+      introduction: introduction,
+      changePw: changePw,
+      phone: phone,
     }
+  }
+
+  handleChangeText = (text) => {
+    this.setState({
+      textLength: text.length,
+      introduction: text,
+    });
   }
 
   static defaultProps = {
@@ -45,6 +73,7 @@ class ProfileSettingScreen extends React.Component {
   }
 
   renderHeader() {
+    let { locale } = this.props
     let avatar = 
       <Avatar
         xlarge
@@ -55,6 +84,7 @@ class ProfileSettingScreen extends React.Component {
         containerStyle={styles.avatarContainer}
       />
     if (this.props.user && this.props.user.avatarUrl) {
+      // console.warn('avatarUrl', this.props.user.avatarUrl)
       avatar = 
         <Avatar
           xlarge
@@ -68,9 +98,9 @@ class ProfileSettingScreen extends React.Component {
     return (
       <View style={styles.loginContainer}>
         { avatar }
-        <TouchableOpacity style={styles.button} onPress={this._pickImage}>
-          <Text style={styles.text}>click here to edit icon </Text>
-        </TouchableOpacity>
+        <View>
+          <Text style={styles.text} onPress={this._pickImage}>{locale.profileSetting.text.editIcon}</Text>
+        </View>
       </View>
     )
   }
@@ -82,55 +112,58 @@ class ProfileSettingScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.photoContainer}>
           {this.renderHeader()}
-        </View>
         <View style={styles.bottomContainer}>
           <View style={styles.rowContainer}>
-            <Text style={styles.textTag}>First name</Text>
+            <Text style={styles.textTag}>{locale.profileSetting.text.name}</Text>
             <TextInput 
-              style={styles.TextInput}
-              onChangeText={(firstName) => this.setState({firstName})}
-              value={this.state.firstName}
+              style={styles.textInput}
+              onChangeText={(name) => this.setState({name})}
+              value={this.state.name}
             />
           </View>
           <View style={styles.rowContainer}>
-            <Text style={styles.textTag}>Last name</Text>
+            <Text style={styles.textTag}>{locale.profileSetting.text.email}</Text>
             <TextInput 
-              style={styles.TextInput}
-              onChangeText={(lastName) => this.setState({lastName})}
-              value={this.state.lastName}
-            />
-          </View>
-          <View style={styles.rowContainer}>
-            <Text style={styles.textTag}>Email</Text>
-            <TextInput 
-              style={styles.TextInput}
+              style={styles.textInput}
               onChangeText={(email) => this.setState({email})}
               value={this.state.email}
             />
-            </View>
-          <View style={styles.rowContainer}>
-            <Text style={styles.textTag}>Gender</Text>
-            <TextInput 
-              style={styles.TextInput}
-              onChangeText={(gender) => this.setState({gender})}
-              value={this.state.gender}
-          />
           </View>
           <View style={styles.rowContainer}>
-            <Text style={styles.textTag}>Username</Text>
+            <Text style={styles.textTag}>{locale.profileSetting.text.phone}</Text>
             <TextInput 
-              style={styles.TextInput}
-              onChangeText={(username) => this.setState({username})}
-              value={this.state.username}
-          />
+              style={styles.textInput}
+              onChangeText={(phone) => this.setState({phone})}
+              value={this.state.phone}
+            />
           </View>
-            <View style={styles.rowContainer}>
-            <TouchableOpacity style={styles.button} onPress={() => this.props.updateProfile(this.state)}>
-              <Text style={styles.text}>Submit</Text>
+          <View style={styles.rowContainer}>
+            <Text style={styles.textTag}>{locale.profileSetting.text.introduction}</Text>
+              <TextInput 
+                multiline={true}
+                numberOfLines={4}
+                style={styles.introBox}
+                onChangeText={(t) => this.handleChangeText(t)}
+                value={this.state.introduction}
+              />
+          </View>
+          <View style={[styles.rowContainer, {justifyContent: 'flex-end'}]}>
+            <Text style={[styles.textTag, {fontSize: 12}]}>{`${this.state.textLength}/255`}</Text>
+          </View>
+          <View style={styles.rowContainer}>
+            <Text style={styles.textTag}>{locale.profileSetting.text.website}</Text>
+            <TextInput 
+              style={styles.textInput}
+              onChangeText={(website) => this.setState({website})}
+              value={this.state.website}
+            />
+          </View>
+          <View style={styles.rowContainer}>
+            <TouchableOpacity style={styles.changePwButton}>
+              <Text style={{textAlign: 'center', paddingVertical: 10}}>{locale.profileSetting.text.changePw}</Text>
             </TouchableOpacity>
-            </View>
+          </View>
         </View>
       </View>
     );
@@ -156,56 +189,60 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
   },
   text: {
-    color: '#3B85BE',
+    color: '#3b85be',
     fontSize: 16,
+    marginTop: 10
   },
   textTag: {
     width: 80,
     color: '#262525',
+    fontSize: 14
   },
-  TextInput: {
+  changePwButton: {
+    borderWidth: 1,
+    borderColor: '#d9d9d9',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  introBox: {
+    borderWidth: 1,
+    height: 80,
+    color: '#43484A',
+    borderRadius: 10,
+    width: 200, 
+    borderColor: '#d9d9d9',
     marginHorizontal: width * 0.05,
+  },
+  textInput: {
+    marginHorizontal: width * 0.05,
+    fontSize: 14,
+    color: '#43484A',
     height: 18, 
     width: 200, 
-    borderColor: '#D9D9D9',
+    borderColor: '#d9d9d9',
     borderBottomWidth: 1,
   },
   avatarContainer: {
-    marginTop: '10%',
-    marginBottom: '5%',
-    backgroundColor: '#eee'
+    backgroundColor: '#eee',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10
   },
   rowContainer: {
     flexDirection: 'row',
     marginTop: 20,
   },
   bottomContainer: {
-    height: '40%',
+    marginTop: 10,
     width: '100%',
-    justifyContent: 'flex-start',
     paddingHorizontal: 10,
-    position: 'absolute',
-    bottom: 180,
-  },
-  photoContainer: {
-    alignItems: 'center',
-    marginHorizontal: width * 0.05,
-  },
-  listContainer: {
-    width: '100%',
-    marginTop: 30,
-    backgroundColor: '#fff',
-  },
-  itemContainer: {
-    height: 50,
-    justifyContent: 'center',
   },
   loginContainer: {
     width: '100%',
-    backgroundColor: Colors.tintColor,
+    backgroundColor: '#eee',
     alignItems: 'center',
-    paddingVertical: '20%',
-    backgroundColor: 'green',
+    justifyContent: 'center',
   },
   signOutContainer: {
     backgroundColor: '#fff',
@@ -217,7 +254,8 @@ const styles = StyleSheet.create({
   signOut: {
     color: 'red',
     fontSize: 18
-  }
+  },
+
 });
 
 const mapStateToProps = (state) => {
