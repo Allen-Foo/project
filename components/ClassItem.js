@@ -30,9 +30,9 @@ class ClassItem extends React.Component {
     const { data, onPress } = this.props;
     return (
       <View style={styles.rowContainer}>
-        <View style={styles.avatarContainer}>
+        <TouchableOpacity style={styles.avatarContainer} onPress={onPress}>
           <Image source={{uri: data.uri}} style={styles.avatar}/>
-        </View>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
           <Text style={styles.className}> {data.className} </Text>
