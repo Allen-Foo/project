@@ -14,6 +14,7 @@ import TutorDetail from '../screens/detail/TutorDetail';
 import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
+import ChangePassword from '../screens/settings/ChangePasswordScreen';
 
 import Category from '../screens/createClass/CategoryScreen';
 import Skill from '../screens/createClass/SkillScreen';
@@ -71,6 +72,9 @@ const RootStackNavigator = StackNavigator(
     ForgotPassword: {
       screen: ForgotPassword,
     },
+    ChangePassword: {
+      screen: ChangePassword,
+    }
   },
   {
     navigationOptions: () => ({
