@@ -111,8 +111,8 @@ class ProfileSettingScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-          {this.renderHeader()}
+      <KeyboardAwareScrollView style={styles.container} behavior="padding">
+        {this.renderHeader()}
         <View style={styles.bottomContainer}>
           <View style={styles.rowContainer}>
             <Text style={styles.textTag}>{locale.profileSetting.text.name}</Text>
@@ -161,11 +161,11 @@ class ProfileSettingScreen extends React.Component {
           </View>
           <View style={styles.rowContainer}>
             <TouchableOpacity style={styles.changePwButton}>
-              <Text style={{textAlign: 'center', paddingVertical: 10}}>{locale.profileSetting.text.changePw}</Text>
+              <Text style={{textAlign: 'left', paddingVertical: 10}}>{locale.profileSetting.text.changePw}</Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 
@@ -202,8 +202,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#d9d9d9',
     width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: 10
   },
   introBox: {
     borderWidth: 1,
