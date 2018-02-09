@@ -107,14 +107,17 @@ class ClassSummaryScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>{'Please confirm the following information:'}</Text>
         <ClassInfoRow
-          label={locale.classSummary.label.category}
-          value={params.category}
+          label={locale.classSummary.label.title}
+          value={params.title}
         />
         <ClassInfoRow
-          label={locale.classSummary.label.skill}
-          value={params.skill}
+          label={locale.classSummary.label.description}
+          value={params.description}
+        />
+        <ClassInfoRow
+          label={locale.classSummary.label.category}
+          value={`${params.category} - ${params.skill}`}
         />
         <ClassInfoRow
           label={locale.classSummary.label.time}
@@ -127,7 +130,7 @@ class ClassSummaryScreen extends React.Component {
         />
         <TouchableOpacity style={styles.rowContainer}>
           <Text style={styles.label}>{locale.classSummary.label.fee}</Text>
-          <Text style={styles.price}>{`＄ ${params.fee} HKD / hr`}</Text>
+          <Text style={styles.price}>{`＄ ${params.fee} HKD / lesson`}</Text>
         </TouchableOpacity>
         <Slideshow 
           dataSource={params.photoList}
@@ -174,6 +177,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F0F0F0',
     alignItems: 'center',
+    paddingTop: 20,
   },
   title: {
     paddingVertical: 20,

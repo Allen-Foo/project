@@ -26,6 +26,8 @@ class ClassTypeScreen extends React.Component {
     super(props);
     this.state = {
       classType: '',
+      category: '',
+      skill: '',
     }
   }
 
@@ -40,16 +42,16 @@ class ClassTypeScreen extends React.Component {
 
   handleReturnData = (data) => {
     this.setState({
-      classType: `${data.category} - ${data.skill}`
+      classType: `${data.category} - ${data.skill}`,
+      ...data
     })
   }
 
   handleNext() {
     let { params = {} } = this.props.navigation.state;
-    let { title, description } = this.state;
-    params.description = description
-    params.title = title
-    this.props.navigation.navigate('UploadPhoto', params)
+    params.category = this.state.category
+    params.skill = this.state.skill
+    this.props.navigation.navigate('Calendar', params)
   }
 
   render() {
@@ -94,6 +96,7 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingBottom: 20,
+    fontSize: 15,
   },
   button: {
     flexDirection: 'row',
@@ -104,10 +107,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#999',
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
   text: {
-    fontSize: 14,
+    fontSize: 15,
     paddingLeft: 5,
   }
 });

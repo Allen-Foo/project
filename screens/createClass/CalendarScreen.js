@@ -101,11 +101,15 @@ class CalendarScreen extends React.Component {
   showClassPlanner = () => {this.setState({ showClassPlanner: true })}
   hideClassPlanner = () => {this.setState({ showClassPlanner: false })}
 
+  handleNext() {
+    let { params = {} } = this.props.navigation.state;
+    params.time = this.state.data
+    this.props.navigation.navigate('ClassAddress', params)
+  }
+
 
   render() {
     let { data, selectedDay, startTime, endTime } = this.state;
-
-    let { category, skill } = this.props.navigation.state.params;
 
     return (
       <View>
@@ -140,11 +144,7 @@ class CalendarScreen extends React.Component {
         {
           !this.state.showClassPlanner && this.state.data && Object.keys(this.state.data).length > 0 &&
           <NextButton 
-            onPress={() => this.props.navigation.navigate('ClassAddress', {
-              category,
-              skill,
-              time: this.state.data
-            })}
+            onPress={() => this.handleNext()}
             text={this.props.locale.common.next}
           />
         }
