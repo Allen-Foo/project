@@ -38,6 +38,12 @@ class ClassTypeScreen extends React.Component {
     return false;
   }
 
+  handleReturnData = (data) => {
+    this.setState({
+      classType: `${data.category} - ${data.skill}`
+    })
+  }
+
   handleNext() {
     let { params = {} } = this.props.navigation.state;
     let { title, description } = this.state;
@@ -56,19 +62,19 @@ class ClassTypeScreen extends React.Component {
           <Text style={styles.title}>{locale.classType.question.typeMsg}</Text>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigation.navigate('Category')}
+            onPress={() => this.props.navigation.navigate('Category', {returnData: this.handleReturnData})}
           >
             <Text style={styles.text}> {classType} </Text>
             <Entypo
               name={"chevron-thin-right"}
-              size={25}
+              size={20}
               style={{ paddingRight: 15 }}
               color={'#555'}
             />
           </TouchableOpacity>
           {
             !this.isEmpty(classType) &&
-            <NextButton 
+            <NextButton
               onPress={() => this.handleNext()}
               text={this.props.locale.common.next}
             />
@@ -92,12 +98,13 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     backgroundColor: '#FFF',
     width: '90%',
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#999',
-    paddingVertical: 5,
+    paddingVertical: 8,
   },
   text: {
     fontSize: 14,

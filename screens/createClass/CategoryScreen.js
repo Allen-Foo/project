@@ -23,7 +23,14 @@ class CategoryScreen extends React.Component {
     }
   };
 
+  constructor(props) {
+    super(props)
+    this.props.navigation.state.key = 'Category'
+  }
+
   render() {
+    let { returnData } = this.props.navigation.state.params;
+
     return (
       <View>
         {
@@ -34,7 +41,7 @@ class CategoryScreen extends React.Component {
               onPress={
                 () => this.props.navigation.navigate(
                   'Skill',
-                  {category: x}
+                  {category: x, returnData: returnData}
                 )
               }
             />

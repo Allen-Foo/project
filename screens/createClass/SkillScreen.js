@@ -19,6 +19,14 @@ class Skill extends React.Component {
       },
     }
   };
+
+  handleSelect = (category, skill) => {
+    let { returnData } = this.props.navigation.state.params;
+
+    returnData({category: category, skill: skill})
+  
+    this.props.navigation.goBack('Category');
+  }
   
   render() {
     let categoryIndex = this.props.navigation.state.params.category;
@@ -30,10 +38,7 @@ class Skill extends React.Component {
             <SkillButton
               key={i}
               text={this.props.locale.skill.types[categoryIndex][x]}
-              onPress= {() => this.props.navigation.navigate('Calendar', {
-                category: categoryIndex,
-                skill: x,
-              })}
+              onPress= {() => this.handleSelect(categoryIndex, x)}
             />
           )
         }
