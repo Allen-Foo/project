@@ -160,7 +160,7 @@ class ProfileSettingScreen extends React.Component {
             />
           </View>
           <View style={styles.rowContainer}>
-            <TouchableOpacity style={styles.changePwButton}>
+            <TouchableOpacity style={styles.changePwButton} onPress={()=> this.props.navigation.navigate('ChangePassword')}>
               <Text style={{textAlign: 'left', paddingVertical: 10}}>{locale.profileSetting.text.changePw}</Text>
             </TouchableOpacity>
           </View>
@@ -196,7 +196,8 @@ const styles = StyleSheet.create({
   textTag: {
     width: 80,
     color: '#262525',
-    fontSize: 14
+    fontSize: 13,
+    fontWeight: '500'
   },
   changePwButton: {
     borderWidth: 1,
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginHorizontal: width * 0.05,
-    fontSize: 14,
+    fontSize: 13,
     color: '#43484A',
     height: 18, 
     width: 200, 

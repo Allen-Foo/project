@@ -9,32 +9,33 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 class ChangePasswordScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { params = {} } = navigation.state;
-      let headerRight = (
-        <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
-          <MaterialIcons
-            name={"check"}
-            size={30}
-            style={{ paddingRight: 15 }}
-          />
-        </TouchableOpacity>
-      );
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <MaterialIcons
+          name={"check"}
+          size={30}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
 
-      return {
-        headerTitle: screenProps.locale.changePw.title,
-        headerTintColor: Colors,
-        headerRight,
-      }
-    };
-
-    componentDidMount() {
-        // We can only set the function after the component has been initialized
-      this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+    return {
+      headerTitle: screenProps.locale.changePw.title,
+      headerTintColor: Colors,
+      headerRight,
     }
+  };
 
-    _handleSubmit = () => {
-      //this.props.updateProfile(this.state)
-      this.props.navigation.goBack();
-    }
+  componentDidMount() {
+      // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  }
+
+  _handleSubmit = () => {
+    //this.props.updateProfile(this.state)
+    this.props.navigation.goBack();
+  }
+
   constructor(props) {
     super(props);
 
@@ -58,7 +59,7 @@ class ChangePasswordScreen extends React.Component {
             value={this.state.currentPw}
           />
         </View>
-        <View style={[styles.rowContainer,{marginTop: 40}]}>
+        <View style={styles.rowContainer}>
           <Text style={styles.textTag}>{locale.changePw.text.newPw}</Text>
           <TextInput 
             style={styles.textInput}
@@ -88,13 +89,14 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 30,
     paddingHorizontal: 10
   },
   textTag: {
     width: 120,
-    color: '#262525',
-    fontSize: 12
+    color: '#333',
+    fontSize: 14,
+    fontWeight: '400',
   },
   textInput: {
     marginHorizontal: width * 0.05,
