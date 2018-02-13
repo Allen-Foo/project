@@ -130,7 +130,7 @@ export const signInEmailEpic = (action$, store, { request }) =>
           }  
         } else {
           return {
-            type: "LOGIN",
+            type: LOGIN,
             payload: {
               awsId: res
             }

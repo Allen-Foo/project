@@ -23,6 +23,7 @@ class ClassDescriptionScreen extends React.Component {
   
   constructor(props) {
     super(props);
+    this.props.navigation.state.key = 'ClassDescription'
     this.state = {
       description: '',
       title: '',

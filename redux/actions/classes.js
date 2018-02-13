@@ -67,12 +67,12 @@ export const getClassListEpic = (action$, store, { request }) =>
       .map(res => {
         console.warn('GET_CLASS_LIST success', res.data)
         return {
-          type: CREATE_CLASS_SUCCESS,
+          type: GET_CLASS_LIST_SUCCESS,
           payload: res.data
         }
       })
       .catch(err => Observable.of({
-        type: CREATE_CLASS_FAIL,
+        type: GET_CLASS_LIST_FAIL,
         payload: err.message
       }))
     )

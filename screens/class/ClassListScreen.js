@@ -57,9 +57,18 @@ class ClassListScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.classList && nextProps.classList !== this.props.classList) {
+    if (nextProps.classList.length > 0 && nextProps.classList !== this.state.classList) {
       this.setState({classList: nextProps.classList})
     }
+
+    // after create class, fetch the new classes
+    if (nextProps.createClassSuccess && !this.props.createClassSuccess) {
+      this.props.getClassList(this.props.userId)
+    }
+  }
+
+  componentWillUnmount() {
+    console.warn('componentWillUnmount')
   }
 
   handleAddClass = () => {
@@ -85,12 +94,7 @@ class ClassListScreen extends React.Component {
     )
   }
 
-  render() {
-    // console.warn('classList', this.state.classList, this.props.userId)
-    const { classList } = this.state;
-    if (classList.length > 0) {
-      return this.renderClassList(classList)
-    }
+  renderEmptyPage = () => {
     return (
       <View style={styles.container}>
         <Entypo
@@ -113,7 +117,15 @@ class ClassListScreen extends React.Component {
         { this.props.isLoading && <Spinner intensity={100}/> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>
-    );
+    )
+  }
+
+  render() {
+    const { classList } = this.state;
+    if (classList.length > 0) {
+      return this.renderClassList(classList)
+    }
+    return this.renderEmptyPage()
   }
 }
 
@@ -149,6 +161,7 @@ const mapStateToProps = (state) => {
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     classList: state.classes.classList,
+    createClassSuccess: state.classes.createClassSuccess,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }

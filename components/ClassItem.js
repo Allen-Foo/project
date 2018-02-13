@@ -21,7 +21,7 @@ class ClassItem extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       liked: false
     }
   }
@@ -35,7 +35,7 @@ class ClassItem extends React.Component {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
-          <Text style={styles.className}> {data.className} </Text>
+          <Text style={styles.className}> {data.title} </Text>
           <Text style={styles.tutorName}> {data.tutorName} </Text>
           <View style={styles.ratingRow}>
             <StarRating

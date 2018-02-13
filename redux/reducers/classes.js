@@ -45,22 +45,20 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'GET_CLASS_LIST')
       return {
         ...state,
-        createClassSuccess: false,
         isLoading: true,
+        classList: [],
       }
     case GET_CLASS_LIST_SUCCESS:
       // console.warn('here', 'GET_CLASS_LIST_SUCCESS', action.payload)
       return {
         ...state,
         isLoading: false,
-        createClassSuccess: true,
         classList: action.payload.classList,
       };
     case GET_CLASS_LIST_FAIL:
       return {
         ...state,
         isLoading: false,
-        createClassSuccess: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }

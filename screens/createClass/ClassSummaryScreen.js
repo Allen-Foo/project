@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  InteractionManager,
   Dimensions,
 } from 'react-native';
 
@@ -40,12 +41,17 @@ class ClassSummaryScreen extends React.Component {
   componentWillReceiveProps(nextProps) {
     // if login success, go to main page
     if (nextProps.createClassSuccess && !this.props.createClassSuccess) {
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'TutorMain' })],
-      });
+      // const resetAction = NavigationActions.reset({
+      //   index: 0,
+      //   actions: [NavigationActions.navigate({ routeName: 'TutorMain' })],
+      // });
+      // const resetAction = NavigationActions.popToTop()
+      
 
-      this.props.navigation.dispatch(resetAction);
+      // InteractionManager.runAfterInteractions(() => {
+      //   this.props.navigation.dispatch(resetAction);
+      // });
+      this.props.navigation.goBack('ClassDescription');
     }
 
     // if login fail, show message 
