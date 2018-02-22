@@ -32,7 +32,7 @@ class Skill extends React.Component {
     let categoryIndex = this.props.navigation.state.params.category;
     let skillList = classData.category[categoryIndex];
     return (
-      <View>
+      <ScrollView contentContainerStyle={styles.container}>
         {
           skillList.map((x, i) => 
             <SkillButton
@@ -42,7 +42,7 @@ class Skill extends React.Component {
             />
           )
         }
-      </View>
+      </ScrollView>
     );
   }
 }
