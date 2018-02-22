@@ -32,26 +32,22 @@ class Tutor extends React.Component {
     return (
       <View style={styles.rowContainer}>
         <View style={styles.avatarContainer}>
-          <Avatar
-            large
-            rounded
-            title={data.avatar}
-            onPress={onPress}
-            activeOpacity={0.7}
-            style= {styles.avatar}
+          <Image
+            source={{uri: data.uri}}
+            style={{width: '100%', height: 100}}
+            resizeMode={'cover'}
           />
         </View>
 
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
           <Text style={styles.className}> {data.className} </Text>
-          <Text style={styles.tutorName}> {data.tutorName} </Text>
           <View style={styles.ratingRow}>
             <StarRating
               disabled
               emptyStar={'ios-star-outline'}
               fullStar={'ios-star'}
               halfStar={'ios-star-half'}
-              starSize={30}
+              starSize={15}
               iconSet={'Ionicons'}
               maxStars={5}
               rating={data.rating}
@@ -69,27 +65,34 @@ class Tutor extends React.Component {
             />
             <Text> {`${data.fee}/lesson`}</Text>
           </Text>
-          <Text>
-            <MaterialIcons
-              name={'location-on'} 
-              size={14}
-              color={'#ff0000'}
-            />
-            <Text style={styles.tutorName}> {data.address} </Text>
-          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.heart} 
+          style={styles.whiteHeart} 
           onPress={() => this.setState({liked: !this.state.liked})}
         >
           <Ionicons
-            name={this.state.liked ? 'ios-heart' : 'ios-heart-outline'}
-            size={28}
-            style={{ padding: '3%'}}
-            color={'red'}
+            name={'ios-heart-outline'}
+            size={24}
+            style={{ padding: '3%', backgroundColor: 'transparent'}}
+            color={'white'}
           />
         </TouchableOpacity>
+        {
+          this.state.liked &&
+          <TouchableOpacity
+            style={styles.redHeart} 
+            onPress={() => this.setState({liked: !this.state.liked})}
+          >
+            <Ionicons
+              name={ 'ios-heart'}
+              size={21}
+              style={{padding: '3%',backgroundColor: 'transparent'}}
+              color={'red'}
+            />
+          </TouchableOpacity>
+        }
+        
       </View>
     );
   }
@@ -98,8 +101,9 @@ class Tutor extends React.Component {
 const styles = StyleSheet.create({
   rowContainer: {
     width: '100%',
-    flexDirection: 'row',
-    paddingVertical: '2%',
+    backgroundColor: '#fff',
+    paddingBottom: 10,
+    marginTop: 20,
   },
   avatarContainer: {
     justifyContent: 'center',
@@ -114,7 +118,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     justifyContent: 'center',
-    flex: 2
+    flex: 2,
+    paddingLeft: 10,
   },
   ratingRow: {
     flexDirection: 'row',
@@ -125,9 +130,9 @@ const styles = StyleSheet.create({
     paddingRight: '2%',
   },
   className: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#555',
-    fontWeight: '400',
+    fontWeight: '600',
   },
   tutorName: {
     color: '#555',
@@ -139,11 +144,17 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '500'
   },
-  heart: {
+  whiteHeart: {
     position: 'absolute',
-    right: '3%',
-    top: '10%',
-  }
+    right: '0%',
+    top: '-1%',
+  },
+  redHeart: {
+    position: 'absolute',
+    right: '0.2%',
+    top: '-0.1%',
+    
+  },
 });
 
 export default Tutor
