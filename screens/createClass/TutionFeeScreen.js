@@ -11,6 +11,9 @@ import {
 
 import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
+import { Dropdown } from 'react-native-material-dropdown';
+
+const CHARGE_TYPES = ['perHour', 'perLesson']
 
 class TutionFee extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -25,22 +28,37 @@ class TutionFee extends React.Component {
     super(props);
     this.state = {
       tutionFee: null,
-      teachingExp: '',
+      chargeType: 'perHour',
     }
   }
 
   render() {
-    let { params } = this.props.navigation.state;
+    let { params = {} } = this.props.navigation.state;
     params.fee = this.state.tutionFee
-    let { locale } = this.props;
+    params.chargeType = this.state.chargeType
+    let { locale, navigation } = this.props;
+    let { tutionFee, chargeType } = this.state;
+
+    let dropDownData = CHARGE_TYPES.map(x => ({value: locale.tutionFee.text[x]}))
 
     return (
-      <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss} accessible={false}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            <Text style={{paddingLeft: 10}}>{this.props.locale.tutionFee.text.perLesson}</Text>
-            <Text style={{marginLeft: 15}}>{this.props.locale.tutionFee.text.price}</Text>
-            <Text style={{marginLeft: 100, color: '#FF5A5F'}}>＄</Text>
+            <Text style={{paddingLeft: 10}}>{locale.tutionFee.text.price}</Text>
+            <View style={styles.dropDownStyle}>
+              <Dropdown 
+                label={''}
+                data={dropDownData} 
+                fontSize={14} 
+                labelFontSize={14} 
+                itemCount={2} 
+                containerStyle={styles.dropDownList}
+                onChangeText={(type, index) => this.setState({chargeType: CHARGE_TYPES[0]})}
+                value={locale.tutionFee.text[chargeType]}
+              />
+            </View>
+            <Text style={{color: '#FF5A5F'}}>＄</Text>
             <TextInput
               autoFocus
               style={styles.textInput}
@@ -50,10 +68,10 @@ class TutionFee extends React.Component {
             />
           </View>
           {
-            this.state.tutionFee &&
+            this.state.tutionFee && this.state.chargeType &&
             <NextButton 
-              onPress={() => this.props.navigation.navigate('UploadPhoto', params)}
-              text={this.props.locale.common.next}
+              onPress={() => navigation.navigate('UploadPhoto', params)}
+              text={locale.common.next}
             />
           }
         </View>
@@ -69,6 +87,18 @@ const styles = StyleSheet.create({
     //justifyContent: 'center',
     alignItems: 'center',
   },
+  dropDownStyle: {
+    width: '50%',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // height: 20,
+    marginBottom: 20,
+  },
+  dropDownList: {
+    marginLeft: 15,
+    // width: '35%',
+    justifyContent: 'center',
+  },
   rowContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -78,7 +108,7 @@ const styles = StyleSheet.create({
     marginTop: 50
   },
   textInput: {
-    height: 40, 
+    // height: 40, 
     //borderBottomWidth: 1, 
     width: '20%',
     fontSize: 14,
