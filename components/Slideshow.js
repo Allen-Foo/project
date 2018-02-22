@@ -307,8 +307,12 @@ export default class Slideshow extends Component {
         </ScrollView>
         {/* END SECTION IMAGE */}
         {dataSource.length > 1 && this.renderIndicator()}
-        {dataSource.length > 1 && this.renderLeftArrow()}
-        {dataSource.length > 1 && this.renderRightArrow()}
+        {
+          //dataSource.length > 1 && this.renderLeftArrow()
+        }
+        {
+          //dataSource.length > 1 && this.renderRightArrow()
+        }
       </View>
     );
   }
