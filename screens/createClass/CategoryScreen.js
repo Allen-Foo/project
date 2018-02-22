@@ -7,7 +7,20 @@ const { height, width } = Dimensions.get('window')
 import Colors from '../../constants/Colors';
 import { classData } from '../../constants/classData';
 
-const categoryList = ['languages', 'music', 'sports']
+const categoryList = [
+  'education', 
+  'music', 
+  'sports', 
+  'beauty', 
+  'designAndDevelopment', 
+  'petTraining', 
+  'carDriving', 
+  'interestClasses', 
+  'personal', 
+  'photography', 
+  'recover', 
+  'talent'
+  ]
 const languages = 'languages'
 
 class CategoryScreen extends React.Component {
@@ -32,7 +45,7 @@ class CategoryScreen extends React.Component {
     let { returnData } = this.props.navigation.state.params;
 
     return (
-      <View>
+      <ScrollView contentContainerStyle={styles.container}>
         {
           categoryList.map((x, i) => 
             <CategoryButton
@@ -47,7 +60,7 @@ class CategoryScreen extends React.Component {
             />
           )
         }
-      </View>
+      </ScrollView>
     );
   }
 }
