@@ -27,6 +27,7 @@ import ClassSummary from '../screens/createClass/ClassSummaryScreen';
 import UploadPhoto from '../screens/createClass/UploadPhotoScreen';
 import ClassDescription from '../screens/createClass/ClassDescriptionScreen';
 import ClassType from '../screens/createClass/ClassTypeScreen';
+import EditClass from '../screens/createClass/EditClassScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -131,6 +132,9 @@ const TutorStackNavigator = StackNavigator(
     },
     ClassSummary: {
       screen: ClassSummary,
+    },
+    EditClass: {
+      screen: EditClass,
     },
     UploadPhoto: {
       screen: UploadPhoto
