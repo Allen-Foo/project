@@ -18,15 +18,28 @@ let {width, height} = Dimensions.get('window');
 
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
-import { createClass } from '../../redux/actions';
+import { createClass, updateClass } from '../../redux/actions';
 import { NavigationActions } from 'react-navigation';
+import { MaterialIcons } from '@expo/vector-icons';
 
 class ClassSummaryScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <MaterialIcons
+          name={"check"}
+          size={30}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
+
     return {
-      title: screenProps.locale.classSummary.title,
+      title: params.isEditMode ? null : screenProps.locale.classSummary.title,
       headerTintColor: 'black',
+      headerRight: params.isEditMode ? headerRight : null
     }
   };
 
@@ -62,6 +75,15 @@ class ClassSummaryScreen extends React.Component {
         this.Toast.show();
       }
     }
+  }
+
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  }
+
+  _handleSubmit = () => {
+    this.props.navigation.goBack();
   }
 
   /* the format of time is like this 
@@ -146,8 +168,7 @@ class ClassSummaryScreen extends React.Component {
         <NextButton 
           onPress={() => this.props.createClass(params)}
           text={this.props.locale.common.submit}
-        />
-
+        /> 
         { this.props.isLoading && <Spinner /> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>

@@ -9,22 +9,53 @@ import {
 
 import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
+import { updateClass } from '../../redux/actions';
+import { MaterialIcons } from '@expo/vector-icons';
 
 class ClassAddressScreen extends React.Component {
    static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <MaterialIcons
+          name={"check"}
+          size={30}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
+
     return {
-      title: screenProps.locale.classAddress.title,
+      title: params.isEditMode ? null : screenProps.locale.classAddress.title,
       headerTintColor: 'black',
+      headerRight: params.isEditMode ? headerRight : null
     }
   };
   
   constructor(props) {
     super(props);
+    let { params = {} } = this.props.navigation.state;
     this.state = {
-      data: null,
-      details: null
+      data: params.address,
+      details: params.address,
     }
+  }
+
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  }
+
+  _handleSubmit = () => {
+    let { data, details } = this.state;
+    let address = {
+      description: data && data.description,
+      formatted_address: details && details.formatted_address
+    }
+
+    this.props.updateClass({address})
+    this.props.navigation.goBack();
   }
 
   returnData = (data, details) => {
@@ -104,5 +135,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(ClassAddressScreen)
+export default connect(mapStateToProps, {
+  updateClass,
+})(ClassAddressScreen)
 

@@ -10,24 +10,50 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
+import { createClass, updateClass } from '../../redux/actions';
+import { MaterialIcons } from '@expo/vector-icons';
 import { Hr, NextButton} from '../../components';
 
 class ClassDescriptionScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <MaterialIcons
+          name={"check"}
+          size={30}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
+
     return {
-      title: screenProps.locale.classDescription.title,
+      title: params.isEditMode ? null : screenProps.locale.classDescription.title,
       headerTintColor: 'black',
+      headerRight: params.isEditMode ? headerRight : null
     }
   };
   
   constructor(props) {
     super(props);
+    let { params = {} } = this.props.navigation.state;
     this.props.navigation.state.key = 'ClassDescription'
     this.state = {
-      description: '',
-      title: '',
+      description: params.description || '',
+      title: params.title || '',
     }
+  }
+
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  }
+
+  _handleSubmit = () => {
+    let { title, description } = this.state;
+    this.props.updateClass({title, description})
+    this.props.navigation.goBack();
   }
 
   isEmpty(str) {
@@ -70,7 +96,7 @@ class ClassDescriptionScreen extends React.Component {
             value={this.state.description}
           />
           {
-            !this.isEmpty(title) &&
+            !this.isEmpty(title) && !params.isEditMode &&
             <NextButton 
               onPress={() => this.handleNext()}
               text={this.props.locale.common.next}
@@ -112,4 +138,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(ClassDescriptionScreen)
+export default connect(mapStateToProps, {
+  updateClass
+})(ClassDescriptionScreen)

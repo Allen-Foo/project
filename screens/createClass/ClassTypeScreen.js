@@ -11,24 +11,50 @@ import {
 
 import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
-import { Entypo } from '@expo/vector-icons';
+import { updateClass } from '../../redux/actions';
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
 
 class ClassTypeScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <MaterialIcons
+          name={"check"}
+          size={30}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
+
     return {
-      title: screenProps.locale.classType.title,
+      title: params.isEditMode ? null : screenProps.locale.classType.title,
       headerTintColor: 'black',
+      headerRight: params.isEditMode ? headerRight : null
     }
   };
   
   constructor(props) {
     super(props);
+    let { params = {} } = this.props.navigation.state;
+
     this.state = {
-      classType: '',
-      category: '',
-      skill: '',
+      classType: params.category && params.skill && `${params.category} - ${params.skill}`,
+      category: params.category || '',
+      skill: params.skill || '',
     }
+  }
+
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  }
+
+  _handleSubmit = () => {
+    let { category, skill } = this.state;
+    this.props.updateClass({category, skill})
+    this.props.navigation.goBack();
   }
 
   isEmpty(str) {
@@ -121,4 +147,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(ClassTypeScreen)
+export default connect(mapStateToProps, {
+  updateClass,
+})(ClassTypeScreen)

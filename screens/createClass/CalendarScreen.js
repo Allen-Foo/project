@@ -13,6 +13,7 @@ import {
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
+import { createClass, updateClass } from '../../redux/actions';
 import { Hr, NextButton} from '../../components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
@@ -23,21 +24,49 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 class CalendarScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <MaterialIcons
+          name={"check"}
+          size={30}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
+
     return {
-      title: screenProps.locale.calendar.title,
+      title: params.isEditMode ? null : screenProps.locale.calendar.title,
       headerTintColor: 'black',
+      headerRight: params.isEditMode ? headerRight : null
     }
   };
 
   constructor(props) {
     super(props);
+    let { params = {} } = this.props.navigation.state;
+    let markedDates = {};
+    if (params.time) {
+      Object.keys(params.time).forEach(key => markedDates[key] = {marked: true})
+    }
+
     this.state = {
       showClassPlanner: false,
-      markedDates: null,
+      markedDates: markedDates,
       selectedDay: null, // dateString 2018-01-11
-      data: null
+      time: params.time
     }
+  }
+
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  }
+
+  _handleSubmit = () => {
+    this.props.updateClass({time: this.state.time})
+    this.props.navigation.goBack();
   }
 
   handleDayPress = (day) => {
@@ -69,10 +98,10 @@ class CalendarScreen extends React.Component {
       allMarkedDates = getRepeatedDates(this.state.selectedDay, repeat.endDate, repeat.repeatType)
     }
 
-    let temp = this.state.data || {};
+    let temp = this.state.time || {};
     let tempDates = this.state.markedDates;
     allMarkedDates.forEach(day => {
-      // store the data 
+      // store the time 
       let str = JSON.stringify(timeSlots).replace(this.state.selectedDay, day)
       temp[day] = JSON.parse(str);
 
@@ -90,7 +119,7 @@ class CalendarScreen extends React.Component {
     }) 
     
     this.setState({
-      data: temp,
+      time: temp,
       markedDates: tempDates,
       showClassPlanner: false
     });
@@ -103,13 +132,13 @@ class CalendarScreen extends React.Component {
 
   handleNext() {
     let { params = {} } = this.props.navigation.state;
-    params.time = this.state.data
+    params.time = this.state.time
     this.props.navigation.navigate('ClassAddress', params)
   }
 
 
   render() {
-    let { data, selectedDay, startTime, endTime } = this.state;
+    let { time, selectedDay, startTime, endTime } = this.state;
 
     return (
       <View>
@@ -138,11 +167,11 @@ class CalendarScreen extends React.Component {
             onConfirm={this.handleConfirm}
             onCancel={this.handleCancel}
             locale={this.props.locale}
-            timeSlots={data && data[selectedDay] || []}
+            timeSlots={time && time[selectedDay] || []}
           />
         }
         {
-          !this.state.showClassPlanner && this.state.data && Object.keys(this.state.data).length > 0 &&
+          !this.state.showClassPlanner && this.state.time && Object.keys(this.state.time).length > 0 &&
           <NextButton 
             onPress={() => this.handleNext()}
             text={this.props.locale.common.next}
@@ -186,4 +215,6 @@ const mapStateToProps = (state) => {
 
   }
 }
-export default connect(mapStateToProps)(CalendarScreen)
+export default connect(mapStateToProps, {
+  updateClass,
+})(CalendarScreen)
