@@ -3,6 +3,8 @@ import { setAppType } from './setAppType';
 import {
   createClass,
   getClassList,
+  updateClass,
+  getClassDetail,
 } from './classes';
 
 import { signInEmail,
@@ -32,6 +34,8 @@ export {
   verifyCodeCancel,
   createClass,
   getClassList,
+  updateClass,
+  getClassDetail,
   updateAvatar,
   updateProfile,
 }

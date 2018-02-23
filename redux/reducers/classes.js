@@ -5,6 +5,10 @@ import {
   GET_CLASS_LIST,
   GET_CLASS_LIST_SUCCESS,
   GET_CLASS_LIST_FAIL,
+  UPDATE_CLASS,
+  GET_CLASS_DETAIL,
+  GET_CLASS_DETAIL_SUCCESS,
+  GET_CLASS_DETAIL_FAIL,
 } from '../types';
 
 
@@ -56,6 +60,35 @@ export default (state = {...defaultState}, action) => {
         classList: action.payload.classList,
       };
     case GET_CLASS_LIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case UPDATE_CLASS:
+      return {
+        ...state,
+        classDetail: {
+          ...state.classDetail,
+          ...action.payload
+        }
+      }
+     case GET_CLASS_DETAIL:
+      // console.warn('here', 'GET_CLASS_DETAIL')
+      return {
+        ...state,
+        isLoading: true,
+        classDetail: null,
+      }
+    case GET_CLASS_DETAIL_SUCCESS:
+      // console.warn('here', 'GET_CLASS_DETAIL_SUCCESS', action.payload)
+      return {
+        ...state,
+        isLoading: false,
+        classDetail: action.payload,
+      };
+    case GET_CLASS_DETAIL_FAIL:
       return {
         ...state,
         isLoading: false,

@@ -26,6 +26,7 @@ import {
 import {
   createClassEpic,
   getClassListEpic,
+  getClassDetailEpic,
 } from '../actions/classes';
 
 export const rootReducer = combineReducers({
@@ -51,6 +52,7 @@ export const rootEpic = combineEpics(
   getIdentityIdEpic,
   createClassEpic,
   getClassListEpic,
+  getClassDetailEpic,
   updateAvatarEpic,
   updateProfileEpic,
 )
