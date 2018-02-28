@@ -7,6 +7,7 @@ import {
   editClass,
   getClassDetail,
   deleteClass,
+  getAllClassList,
 } from './classes';
 
 import { signInEmail,
@@ -40,6 +41,7 @@ export {
   editClass,
   deleteClass,
   getClassDetail,
+  getAllClassList,
   updateAvatar,
   updateProfile,
 }

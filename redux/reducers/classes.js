@@ -15,11 +15,15 @@ import {
   DELETE_CLASS,
   DELETE_CLASS_SUCCESS,
   DELETE_CLASS_FAIL,
+  GET_ALL_CLASS_LIST,
+  GET_ALL_CLASS_LIST_SUCCESS,
+  GET_ALL_CLASS_LIST_FAIL,
 } from '../types';
 
 
 const defaultState = {
   classList: [],
+  allClassList: [],
   classDetail: null,
   requireUpdateClassList: null,
 }
@@ -144,6 +148,29 @@ export default (state = {...defaultState}, action) => {
         isLoading: false,
         fetchErrorMsg: action.payload,
         requireUpdateClassList: false,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case GET_ALL_CLASS_LIST:
+      // console.warn('here', 'GET_CLASS_LIST')
+      return {
+        ...state,
+        createClassSuccess: false,
+        isLoading: true,
+      }
+    case GET_ALL_CLASS_LIST_SUCCESS:
+       console.warn('here', 'GET_ALL_CLASS_LIST_SUCCESS', action.payload.classList)
+      return {
+        ...state,
+        isLoading: false,
+        createClassSuccess: true,
+        allClassList: action.payload.classList,
+      };
+    case GET_ALL_CLASS_LIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        createClassSuccess: false,
+        fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
     default:
