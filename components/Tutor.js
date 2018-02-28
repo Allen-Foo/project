@@ -32,15 +32,16 @@ class Tutor extends React.Component {
     return (
       <View style={styles.rowContainer}>
         <View style={styles.avatarContainer}>
+
           <Image
-            source={{uri: data.uri}}
+            source={{uri: data.photoList && data.photoList[0].location}}
             style={{width: '100%', height: 100}}
             resizeMode={'cover'}
           />
         </View>
 
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
-          <Text style={styles.className}> {data.className} </Text>
+          <Text style={styles.className}> {data.title} </Text>
           <View style={styles.ratingRow}>
             <StarRating
               disabled
@@ -58,12 +59,12 @@ class Tutor extends React.Component {
           </View>
           <Text>
             <FontAwesome 
-              name={'dollar'} 
+              name={'dollar'}
               size={14}
               style={{marginLeft: '5%'}}
               color={'#E8DA3A'}
             />
-            <Text> {`${data.fee}/lesson`}</Text>
+            <Text> {`${data.fee}/${data.chargeType}`}</Text>
           </Text>
         </TouchableOpacity>
 
