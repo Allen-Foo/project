@@ -21,7 +21,7 @@ import { mockData } from '../../constants/mockData';
 import { Tutor, Separator } from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
-
+import { getAllClassList } from '../../redux/actions';
 
 class NewsFeedScreen extends React.Component {
 
@@ -41,6 +41,7 @@ class NewsFeedScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state={
+      allClassList: [],
       liked: false,
       bannerList: [],
       position: 0,
@@ -60,19 +61,22 @@ class NewsFeedScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({
-      interval: setInterval(() => {
-        this.setState({
-          position: this.state.position === this.state.dataSource.length - 1 ? 0 : this.state.position + 1
-        });
-      }, 3000)
-    });
+    this.props.getAllClassList()
+
+    // this.setState({
+    //   interval: setInterval(() => {
+    //     this.setState({
+    //       position: this.state.position === this.state.dataSource.length - 1 ? 0 : this.state.position + 1
+    //     });
+    //   }, 3000)
+    // });
   }
+
+
 
   componentWillUnmount() {
     clearInterval(this.state.interval);
   }
-
 
   render() {
     let { bannerList } = this.state
@@ -126,7 +130,8 @@ class NewsFeedScreen extends React.Component {
           </View>
         </Swiper>
         {
-          mockData.class.map((cls, index) => (
+           this.props.allClassList &&
+           this.props.allClassList.map((cls, index) => (
               <View key={index} style={{width: '100%'}}>
                 <Tutor data={cls} onPress={() => this.props.navigation.navigate('TutorDetail')} />
                 <Separator style={{backgroundColor: '#aaa'}}/>
@@ -154,7 +159,7 @@ const IconBox = props => {
 }
 
 const sliderContainer = {
-  width: width, 
+  width: width,
   height: width * 3 / 4,
   marginBottom: 20,
 }
@@ -219,8 +224,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     languageKey: state.language.key,
-    locale: state.language.locale
+    locale: state.language.locale,
+    isLoading: state.classes.isLoading,
+    allClassList: state.classes.allClassList,
+    fetchErrorMsg: state.classes.fetchErrorMsg,
+    fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
 }
 
-export default connect(mapStateToProps)(NewsFeedScreen)
+export default connect(mapStateToProps, {
+  getAllClassList,
+})(NewsFeedScreen)

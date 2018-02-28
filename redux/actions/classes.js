@@ -203,7 +203,7 @@ export const getAllClassListEpic = (action$, store, { request }) =>
         } 
       }))
       .map(res => {
-        console.warn('GET_ALL_CLASS_LIST success', res.data.classList)
+        //console.warn('GET_ALL_CLASS_LIST success', res.data.classList)
         return {
           type: GET_ALL_CLASS_LIST_SUCCESS,
           payload: res.data
