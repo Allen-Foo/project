@@ -13,7 +13,8 @@ import {
 import { connect } from 'react-redux';
 import { Hr, NextButton, Spinner } from '../../components';
 import { ImagePicker } from 'expo';
-import { Entypo } from '@expo/vector-icons';
+import { editClass } from '../../redux/actions';
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
 
@@ -21,18 +22,46 @@ let {width, height} = Dimensions.get('window');
 
 class ClassAddressScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <MaterialIcons
+          name={"check"}
+          size={30}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
+
     return {
-      title: screenProps.locale.uploadPhoto.title,
+      title: params.isEditMode ? null : screenProps.locale.uploadPhoto.title,
       headerTintColor: 'black',
+      headerRight: params.isEditMode ? headerRight : null
     }
   };
   
   constructor(props) {
     super(props);
+    let { params = {} } = this.props.navigation.state;
+
     this.state = {
-      photoList: [],
+      photoList: params.photoList || [],
     }
+  }
+
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  }
+
+  _handleSubmit = () => {
+    if (this.state.photoList.length < 1) {
+      Alert.alert('please upload at least one photo!')
+      return
+    }
+    this.props.editClass(this.state)
+    this.props.navigation.goBack();
   }
 
   uploadPhoto(data, index) {
@@ -91,6 +120,7 @@ class ClassAddressScreen extends React.Component {
 
   render() {
     let { photoList } = this.state;
+    let { params = {} } = this.props.navigation.state;
     
     return (
       <View style={styles.container}>
@@ -99,7 +129,7 @@ class ClassAddressScreen extends React.Component {
           photoList.map((photo, index) => 
             <ImageBox
               key={index}
-              uri={photo.uri}
+              uri={photo.location}
               isLoading={photo.isLoading}
               onDelete={() => this.handleDeletePhoto(index)}
             />
@@ -115,6 +145,7 @@ class ClassAddressScreen extends React.Component {
         {
           this.state.photoList && this.state.photoList.length > 0 &&
           this.state.photoList.every(photo => !photo.isLoading) &&
+          !params.isEditMode &&
           <NextButton 
             onPress={() => this.handNext()}
             text={this.props.locale.common.next}
@@ -217,5 +248,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(ClassAddressScreen)
+export default connect(mapStateToProps, {
+  editClass,
+})(ClassAddressScreen)
 

@@ -11,33 +11,72 @@ import {
 
 import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
+import { createClass, editClass } from '../../redux/actions';
 import { Dropdown } from 'react-native-material-dropdown';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const CHARGE_TYPES = ['perHour', 'perLesson']
 
 class TutionFee extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <MaterialIcons
+          name={"check"}
+          size={30}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
+
     return {
-      title: screenProps.locale.tutionFee.title,
+      title: params.isEditMode ? null : screenProps.locale.tutionFee.title,
       headerTintColor: 'black',
+      headerRight: params.isEditMode ? headerRight : null
     }
   };
   
   constructor(props) {
     super(props);
+    let { params = {} } = this.props.navigation.state;
     this.state = {
-      tutionFee: null,
-      chargeType: 'perHour',
+      fee: params.fee,
+      chargeType: params.chargeType || 'perHour',
     }
   }
 
-  render() {
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  }
+
+  _handleSubmit = () => {
+    this.props.editClass(this.state)
+    this.props.navigation.goBack();
+  }
+
+  isEmpty(str) {
+    if (typeof str == 'undefined' || !str || str.length === 0 ||
+       str === "" || !/[^\s]/.test(str) || /^\s*$/.test(str) || str.replace(/\s/g,"") === ""
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  handleNext = () => {
     let { params = {} } = this.props.navigation.state;
-    params.fee = this.state.tutionFee
+    params.fee = this.state.fee
     params.chargeType = this.state.chargeType
-    let { locale, navigation } = this.props;
-    let { tutionFee, chargeType } = this.state;
+    this.props.navigation.navigate('UploadPhoto', params)
+  }
+
+  render() {
+    let { locale } = this.props;
+    let { fee, chargeType } = this.state;
+    let { params = {} } = this.props.navigation.state;
 
     let dropDownData = CHARGE_TYPES.map(x => ({value: locale.tutionFee.text[x]}))
 
@@ -54,23 +93,24 @@ class TutionFee extends React.Component {
                 labelFontSize={14} 
                 itemCount={2} 
                 containerStyle={styles.dropDownList}
-                onChangeText={(type, index) => this.setState({chargeType: CHARGE_TYPES[0]})}
+                onChangeText={(type, index) => this.setState({chargeType: CHARGE_TYPES[index]})}
                 value={locale.tutionFee.text[chargeType]}
               />
             </View>
             <Text style={{color: '#FF5A5F'}}>＄</Text>
             <TextInput
+              maxLength={4}
               autoFocus
               style={styles.textInput}
               keyboardType='numeric'
-              onChangeText={(tutionFee) => this.setState({tutionFee})}
-              value={this.state.tutionFee}
+              onChangeText={(fee) => this.setState({fee})}
+              value={fee}
             />
           </View>
           {
-            this.state.tutionFee && this.state.chargeType &&
+            !this.isEmpty(fee) && chargeType && !params.isEditMode &&
             <NextButton 
-              onPress={() => navigation.navigate('UploadPhoto', params)}
+              onPress={() => this.handleNext()}
               text={locale.common.next}
             />
           }
@@ -84,19 +124,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F0F0F0',
-    //justifyContent: 'center',
     alignItems: 'center',
   },
   dropDownStyle: {
-    width: '50%',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // height: 20,
+    width: '40%',
     marginBottom: 20,
   },
   dropDownList: {
     marginLeft: 15,
-    // width: '35%',
     justifyContent: 'center',
   },
   rowContainer: {
@@ -108,8 +143,6 @@ const styles = StyleSheet.create({
     marginTop: 50
   },
   textInput: {
-    // height: 40, 
-    //borderBottomWidth: 1, 
     width: '20%',
     fontSize: 14,
     backgroundColor: '#FFF',
@@ -123,4 +156,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(TutionFee)
+export default connect(mapStateToProps, {
+  editClass,
+})(TutionFee)

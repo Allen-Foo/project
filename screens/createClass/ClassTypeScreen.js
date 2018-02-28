@@ -11,7 +11,7 @@ import {
 
 import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
-import { updateClass } from '../../redux/actions';
+import { editClass } from '../../redux/actions';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 
 class ClassTypeScreen extends React.Component {
@@ -38,6 +38,7 @@ class ClassTypeScreen extends React.Component {
   constructor(props) {
     super(props);
     let { params = {} } = this.props.navigation.state;
+    this.props.navigation.state.key = 'ClassType'
 
     this.state = {
       classType: params.category && params.skill && `${params.category} - ${params.skill}`,
@@ -53,7 +54,7 @@ class ClassTypeScreen extends React.Component {
 
   _handleSubmit = () => {
     let { category, skill } = this.state;
-    this.props.updateClass({category, skill})
+    this.props.editClass({category, skill})
     this.props.navigation.goBack();
   }
 
@@ -77,10 +78,11 @@ class ClassTypeScreen extends React.Component {
     let { params = {} } = this.props.navigation.state;
     params.category = this.state.category
     params.skill = this.state.skill
-    this.props.navigation.navigate('Calendar', params)
+    this.props.navigation.navigate('ClassDescription', params)
   }
 
   render() {
+    let { params = {} } = this.props.navigation.state;
     let { classType } = this.state;
     let { locale } = this.props;
 
@@ -101,7 +103,7 @@ class ClassTypeScreen extends React.Component {
             />
           </TouchableOpacity>
           {
-            !this.isEmpty(classType) &&
+            !this.isEmpty(classType) && !params.isEditMode &&
             <NextButton
               onPress={() => this.handleNext()}
               text={this.props.locale.common.next}
@@ -148,5 +150,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  updateClass,
+  editClass,
 })(ClassTypeScreen)

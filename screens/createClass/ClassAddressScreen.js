@@ -9,7 +9,7 @@ import {
 
 import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
-import { updateClass } from '../../redux/actions';
+import { editClass } from '../../redux/actions';
 import { MaterialIcons } from '@expo/vector-icons';
 
 class ClassAddressScreen extends React.Component {
@@ -54,7 +54,7 @@ class ClassAddressScreen extends React.Component {
       formatted_address: details && details.formatted_address
     }
 
-    this.props.updateClass({address})
+    this.props.editClass({address})
     this.props.navigation.goBack();
   }
 
@@ -99,7 +99,7 @@ class ClassAddressScreen extends React.Component {
           </View>
         }
         {
-          data && data.description &&
+          data && data.description && !params.isEditMode &&
           <NextButton 
             onPress={() => this.props.navigation.navigate('TutionFee', params)}
             text={this.props.locale.common.next}
@@ -136,6 +136,6 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  updateClass,
+  editClass,
 })(ClassAddressScreen)
 

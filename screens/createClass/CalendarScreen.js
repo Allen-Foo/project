@@ -13,7 +13,7 @@ import {
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
-import { createClass, updateClass } from '../../redux/actions';
+import { createClass, editClass } from '../../redux/actions';
 import { Hr, NextButton} from '../../components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
@@ -65,7 +65,7 @@ class CalendarScreen extends React.Component {
   }
 
   _handleSubmit = () => {
-    this.props.updateClass({time: this.state.time})
+    this.props.editClass({time: this.state.time})
     this.props.navigation.goBack();
   }
 
@@ -139,6 +139,7 @@ class CalendarScreen extends React.Component {
 
   render() {
     let { time, selectedDay, startTime, endTime } = this.state;
+    let { params = {} } = this.props.navigation.state;
 
     return (
       <View>
@@ -171,7 +172,7 @@ class CalendarScreen extends React.Component {
           />
         }
         {
-          !this.state.showClassPlanner && this.state.time && Object.keys(this.state.time).length > 0 &&
+          !this.state.showClassPlanner && this.state.time && Object.keys(this.state.time).length > 0 && !params.isEditMode &&
           <NextButton 
             onPress={() => this.handleNext()}
             text={this.props.locale.common.next}
@@ -216,5 +217,5 @@ const mapStateToProps = (state) => {
   }
 }
 export default connect(mapStateToProps, {
-  updateClass,
+  editClass,
 })(CalendarScreen)

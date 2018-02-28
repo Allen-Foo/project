@@ -6,10 +6,13 @@ import {
   GET_CLASS_LIST,
   GET_CLASS_LIST_SUCCESS,
   GET_CLASS_LIST_FAIL,
-  UPDATE_CLASS,
+  EDIT_CLASS,
   GET_CLASS_DETAIL,
   GET_CLASS_DETAIL_SUCCESS,
   GET_CLASS_DETAIL_FAIL,
+  UPDATE_CLASS,
+  UPDATE_CLASS_SUCCESS,
+  UPDATE_CLASS_FAIL,
 } from '../types';
 
 import { Observable } from 'rxjs/Observable';
@@ -32,10 +35,20 @@ export function getClassList(userId = 'testid') {
   }
 }
 
-export function updateClass(params) {
+// this is for local use,
+// only edit class temporarily
+export function editClass(params) {
+  return {
+    type: EDIT_CLASS,
+    payload: params
+  }
+}
+
+// this will update the class info in the dynamoDb
+export function updateClass(newClass) {
   return {
     type: UPDATE_CLASS,
-    payload: params
+    payload: newClass
   }
 }
 
@@ -69,6 +82,28 @@ export const createClassEpic = (action$, store, { request }) =>
       }))
     )
 
+export const updateClassEpic = (action$, store, { request }) =>
+  action$.ofType(UPDATE_CLASS)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: `/updateClass/${action.payload.classId}`,
+        method: 'post',
+        data: {
+          ...action.payload
+        } 
+      }))
+      .map(res => {
+        return {
+          type: UPDATE_CLASS_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: UPDATE_CLASS_FAIL,
+        payload: err.message
+      }))
+    )
+
 
 // this epic will create a class at dynamoDb
 export const getClassListEpic = (action$, store, { request }) =>
@@ -82,7 +117,7 @@ export const getClassListEpic = (action$, store, { request }) =>
         } 
       }))
       .map(res => {
-        console.warn('GET_CLASS_LIST success', res.data)
+        // console.warn('GET_CLASS_LIST success', res.data)
         return {
           type: GET_CLASS_LIST_SUCCESS,
           payload: res.data

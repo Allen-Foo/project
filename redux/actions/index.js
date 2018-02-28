@@ -4,6 +4,7 @@ import {
   createClass,
   getClassList,
   updateClass,
+  editClass,
   getClassDetail,
 } from './classes';
 
@@ -35,6 +36,7 @@ export {
   createClass,
   getClassList,
   updateClass,
+  editClass,
   getClassDetail,
   updateAvatar,
   updateProfile,

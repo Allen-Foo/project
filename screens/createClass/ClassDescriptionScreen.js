@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { createClass, updateClass } from '../../redux/actions';
+import { createClass, editClass } from '../../redux/actions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Hr, NextButton} from '../../components';
 
@@ -52,7 +52,7 @@ class ClassDescriptionScreen extends React.Component {
 
   _handleSubmit = () => {
     let { title, description } = this.state;
-    this.props.updateClass({title, description})
+    this.props.editClass({title, description})
     this.props.navigation.goBack();
   }
 
@@ -139,5 +139,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  updateClass
+  editClass
 })(ClassDescriptionScreen)

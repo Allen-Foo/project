@@ -71,7 +71,7 @@ class EditClassScreen extends React.Component {
   }
 
   _handleSubmit = () => {
-
+    this.props.updateClass(this.props.classDetail)
     this.props.navigation.goBack();
   }
 
@@ -100,7 +100,7 @@ class EditClassScreen extends React.Component {
     if (this.props.isLoading || !params) {
       return <Spinner />
     } 
-
+    
     return (
       <View style={styles.container}>
         <ClassInfoRow
@@ -129,18 +129,20 @@ class EditClassScreen extends React.Component {
           value={params.address.formatted_address}
           onPress={() => this.props.navigation.navigate('ClassAddress', Object.assign(params, {isEditMode: true}))}
         />
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.rowContainer}
           onPress={() => this.props.navigation.navigate('TutionFee', Object.assign(params, {isEditMode: true}))}
         >
           <Text style={styles.label}>{locale.classSummary.label.fee}</Text>
-          <Text style={styles.price}>{`＄ ${params.fee} HKD / lesson`}</Text>
+          <Text style={styles.price}>{`＄ ${params.fee} HKD ${locale.classSummary.label[params.chargeType]}`}</Text>
         </TouchableOpacity>
-        <Slideshow 
-          dataSource={params.photoList}
-          containerStyle={sliderContainer}
-          scrollEnabled={params.photoList.length > 1}
-        />
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('UploadPhoto', Object.assign(params, {isEditMode: true}))}>
+          <Slideshow 
+            dataSource={params.photoList}
+            containerStyle={sliderContainer}
+            scrollEnabled={params.photoList.length > 1}
+          />
+        </TouchableOpacity>
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>
     );
@@ -215,7 +217,6 @@ const mapStateToProps = (state) => {
     userId: state.socialLogin.user && state.socialLogin.user.userId,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    createClassSuccess: state.classes.createClassSuccess,
     classDetail: state.classes.classDetail,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
@@ -224,4 +225,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getClassDetail,
+  updateClass,
 })(EditClassScreen)

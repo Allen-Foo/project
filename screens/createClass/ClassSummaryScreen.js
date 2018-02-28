@@ -53,7 +53,7 @@ class ClassSummaryScreen extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // if login success, go to main page
-    if (nextProps.createClassSuccess && !this.props.createClassSuccess) {
+    if (nextProps.requireUpdateClassList && !this.props.requireUpdateClassList) {
       // const resetAction = NavigationActions.reset({
       //   index: 0,
       //   actions: [NavigationActions.navigate({ routeName: 'TutorMain' })],
@@ -64,7 +64,7 @@ class ClassSummaryScreen extends React.Component {
       // InteractionManager.runAfterInteractions(() => {
       //   this.props.navigation.dispatch(resetAction);
       // });
-      this.props.navigation.goBack('ClassDescription');
+      this.props.navigation.goBack('ClassType');
     }
 
     // if login fail, show message 
@@ -158,7 +158,7 @@ class ClassSummaryScreen extends React.Component {
         />
         <TouchableOpacity style={styles.rowContainer}>
           <Text style={styles.label}>{locale.classSummary.label.fee}</Text>
-          <Text style={styles.price}>{`＄ ${params.fee} HKD / lesson`}</Text>
+          <Text style={styles.price}>{`＄ ${params.fee} HKD ${locale.classSummary.label[params.chargeType]}`}</Text>
         </TouchableOpacity>
         <Slideshow 
           dataSource={params.photoList}
@@ -247,7 +247,7 @@ const mapStateToProps = (state) => {
     userId: state.socialLogin.user && state.socialLogin.user.userId,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    createClassSuccess: state.classes.createClassSuccess,
+    requireUpdateClassList: state.classes.requireUpdateClassList,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }

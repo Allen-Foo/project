@@ -25,6 +25,7 @@ import {
 
 import {
   createClassEpic,
+  updateClassEpic,
   getClassListEpic,
   getClassDetailEpic,
 } from '../actions/classes';
@@ -51,6 +52,7 @@ export const rootEpic = combineEpics(
   loginEpic,
   getIdentityIdEpic,
   createClassEpic,
+  updateClassEpic,
   getClassListEpic,
   getClassDetailEpic,
   updateAvatarEpic,

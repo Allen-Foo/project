@@ -5,17 +5,20 @@ import {
   GET_CLASS_LIST,
   GET_CLASS_LIST_SUCCESS,
   GET_CLASS_LIST_FAIL,
-  UPDATE_CLASS,
+  EDIT_CLASS,
   GET_CLASS_DETAIL,
   GET_CLASS_DETAIL_SUCCESS,
   GET_CLASS_DETAIL_FAIL,
+  UPDATE_CLASS,
+  UPDATE_CLASS_SUCCESS,
+  UPDATE_CLASS_FAIL,
 } from '../types';
 
 
 const defaultState = {
   classList: [],
   classDetail: null,
-  createClassSuccess: null,
+  requireUpdateClassList: null,
 }
 
 
@@ -26,7 +29,7 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'CREATE_CLASS')
       return {
         ...state,
-        createClassSuccess: false,
+        requireUpdateClassList: false,
         isLoading: true,
       }
     case CREATE_CLASS_SUCCESS:
@@ -34,14 +37,14 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
-        createClassSuccess: true,
+        requireUpdateClassList: true,
         ...action.payload,
       };
     case CREATE_CLASS_FAIL:
       return {
         ...state,
         isLoading: false,
-        createClassSuccess: false,
+        requireUpdateClassList: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
@@ -58,15 +61,17 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoading: false,
         classList: action.payload.classList,
+        requireUpdateClassList: false,
       };
     case GET_CLASS_LIST_FAIL:
       return {
         ...state,
         isLoading: false,
+        requireUpdateClassList: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
-    case UPDATE_CLASS:
+    case EDIT_CLASS:
       return {
         ...state,
         classDetail: {
@@ -93,6 +98,28 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoading: false,
         fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case UPDATE_CLASS:
+      return {
+        ...state,
+        isLoading: true,
+        classDetail: null,
+        requireUpdateClassList: false,
+      }
+    case UPDATE_CLASS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        requireUpdateClassList: true,
+        classDetail: action.payload,
+      };
+    case UPDATE_CLASS_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        requireUpdateClassList: false,
         fetchErrorLastUpdate: new Date(),
       }
     default:

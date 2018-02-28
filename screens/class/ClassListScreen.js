@@ -62,7 +62,7 @@ class ClassListScreen extends React.Component {
     }
 
     // after create class, fetch the new classes
-    if (nextProps.createClassSuccess && !this.props.createClassSuccess) {
+    if (nextProps.requireUpdateClassList && !this.props.requireUpdateClassList) {
       this.props.getClassList(this.props.userId)
     }
   }
@@ -72,7 +72,7 @@ class ClassListScreen extends React.Component {
   }
 
   handleAddClass = () => {
-    this.props.navigation.navigate('ClassDescription')
+    this.props.navigation.navigate('ClassType')
   }
 
   renderClassList = (classList) => {
@@ -161,7 +161,7 @@ const mapStateToProps = (state) => {
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     classList: state.classes.classList,
-    createClassSuccess: state.classes.createClassSuccess,
+    requireUpdateClassList: state.classes.requireUpdateClassList,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
