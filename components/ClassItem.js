@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import Colors from '../constants/Colors';
+import { connect } from 'react-redux';
 
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
@@ -27,7 +28,7 @@ class ClassItem extends React.Component {
   }
 
   render() {
-    const { data, onPress } = this.props;
+    const { data, onPress, locale } = this.props;
     return (
       <View style={styles.rowContainer}>
         <TouchableOpacity style={styles.avatarContainer} onPress={onPress}>
@@ -43,7 +44,7 @@ class ClassItem extends React.Component {
               emptyStar={'ios-star-outline'}
               fullStar={'ios-star'}
               halfStar={'ios-star-half'}
-              starSize={30}
+              starSize={25}
               iconSet={'Ionicons'}
               maxStars={5}
               rating={data.rating}
@@ -59,7 +60,7 @@ class ClassItem extends React.Component {
               style={{marginLeft: '5%'}}
               color={'#E8DA3A'}
             />
-            <Text> {`${data.fee}/lesson`}</Text>
+            <Text> {`${data.fee} ${locale.classSummary.label[data.chargeType]}`}</Text>
           </Text>
           <Text>
             <MaterialIcons
@@ -139,4 +140,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ClassItem
+const mapStateToProps = (state) => {
+  return {
+    locale: state.language.locale,
+  }
+}
+
+export default connect(mapStateToProps)(ClassItem)
