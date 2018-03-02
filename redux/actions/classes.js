@@ -19,6 +19,9 @@ import {
   GET_ALL_CLASS_LIST,
   GET_ALL_CLASS_LIST_SUCCESS,
   GET_ALL_CLASS_LIST_FAIL,
+  SEARCH_CLASS_LIST,
+  SEARCH_CLASS_LIST_SUCCESS,
+  SEARCH_CLASS_LIST_FAIL,
 } from '../types';
 
 import { Observable } from 'rxjs/Observable';
@@ -75,6 +78,15 @@ export function getClassDetail(classId) {
 export function getAllClassList() {
   return {
     type: GET_ALL_CLASS_LIST,
+    payload: {
+      
+    }
+  }
+}
+
+export function searchClassList() {
+  return {
+    type: SEARCH_CLASS_LIST,
     payload: {
       
     }
@@ -211,6 +223,29 @@ export const getAllClassListEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GET_ALL_CLASS_LIST_FAIL,
+        payload: err.message
+      }))
+    )
+
+export const searchClassListEpic = (action$, store, { request }) =>
+  action$.ofType(GET_ALL_CLASS_LIST)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: '/searchClassList',
+        method: 'post',
+        data: {
+          ...action.payload
+        } 
+      }))
+      .map(res => {
+        //console.warn('GET_ALL_CLASS_LIST success', res.data.classList)
+        return {
+          type: SEARCH_CLASS_LIST_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: SEARCH_CLASS_LIST_FAIL,
         payload: err.message
       }))
     )

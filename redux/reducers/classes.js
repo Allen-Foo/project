@@ -18,6 +18,9 @@ import {
   GET_ALL_CLASS_LIST,
   GET_ALL_CLASS_LIST_SUCCESS,
   GET_ALL_CLASS_LIST_FAIL,
+  SEARCH_CLASS_LIST,
+  SEARCH_CLASS_LIST_FAIL,
+  SEARCH_CLASS_LIST_SUCCESS,
 } from '../types';
 
 
@@ -166,6 +169,30 @@ export default (state = {...defaultState}, action) => {
         allClassList: action.payload.classList,
       };
     case GET_ALL_CLASS_LIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        createClassSuccess: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+
+    case SEARCH_CLASS_LIST:
+      // console.warn('here', 'GET_CLASS_LIST')
+      return {
+        ...state,
+        createClassSuccess: false,
+        isLoading: true,
+      }
+    case SEARCH_CLASS_LIST_SUCCESS:
+       //console.warn('here', 'GET_ALL_CLASS_LIST_SUCCESS', action.payload.classList)
+      return {
+        ...state,
+        isLoading: false,
+        createClassSuccess: true,
+        allClassList: action.payload.classList,
+      };
+    case SEARCH_CLASS_LIST_FAIL:
       return {
         ...state,
         isLoading: false,
