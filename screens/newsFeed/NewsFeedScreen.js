@@ -21,7 +21,7 @@ import { mockData } from '../../constants/mockData';
 import { Tutor, Separator } from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
-import { getAllClassList } from '../../redux/actions';
+import { searchClassList } from '../../redux/actions';
 
 class NewsFeedScreen extends React.Component {
 
@@ -61,7 +61,7 @@ class NewsFeedScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getAllClassList()
+    this.props.searchClassList()
 
     // this.setState({
     //   interval: setInterval(() => {
@@ -88,6 +88,7 @@ class NewsFeedScreen extends React.Component {
             icon={{color: '#DDDDDD'}}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
+            onFocus={() => this.props.navigation.navigate('SearchClass')}
             onChangeText={() => {}}
             placeholder='Type Here...'
             placeholderTextColor={'#DDDDDD'}
@@ -233,5 +234,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  getAllClassList,
+  searchClassList,
 })(NewsFeedScreen)
