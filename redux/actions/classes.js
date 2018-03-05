@@ -13,6 +13,9 @@ import {
   UPDATE_CLASS,
   UPDATE_CLASS_SUCCESS,
   UPDATE_CLASS_FAIL,
+  DELETE_CLASS,
+  DELETE_CLASS_SUCCESS,
+  DELETE_CLASS_FAIL,
 } from '../types';
 
 import { Observable } from 'rxjs/Observable';
@@ -49,6 +52,13 @@ export function updateClass(newClass) {
   return {
     type: UPDATE_CLASS,
     payload: newClass
+  }
+}
+
+export function deleteClass(cls) {
+  return {
+    type: DELETE_CLASS,
+    payload: cls
   }
 }
 
@@ -100,6 +110,28 @@ export const updateClassEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: UPDATE_CLASS_FAIL,
+        payload: err.message
+      }))
+    )
+
+export const deleteClassEpic = (action$, store, { request }) =>
+  action$.ofType(DELETE_CLASS)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: `/deleteClass/${action.payload.classId}`,
+        method: 'post',
+        data: {
+          ...action.payload
+        } 
+      }))
+      .map(res => {
+        return {
+          type: DELETE_CLASS_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: DELETE_CLASS_FAIL,
         payload: err.message
       }))
     )

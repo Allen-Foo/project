@@ -12,6 +12,9 @@ import {
   UPDATE_CLASS,
   UPDATE_CLASS_SUCCESS,
   UPDATE_CLASS_FAIL,
+  DELETE_CLASS,
+  DELETE_CLASS_SUCCESS,
+  DELETE_CLASS_FAIL,
 } from '../types';
 
 
@@ -115,6 +118,27 @@ export default (state = {...defaultState}, action) => {
         classDetail: action.payload,
       };
     case UPDATE_CLASS_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        requireUpdateClassList: false,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case DELETE_CLASS:
+      return {
+        ...state,
+        isLoading: true,
+        requireUpdateClassList: false,
+      }
+    case DELETE_CLASS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        requireUpdateClassList: true,
+        classDetail: null,
+      };
+    case DELETE_CLASS_FAIL:
       return {
         ...state,
         isLoading: false,
