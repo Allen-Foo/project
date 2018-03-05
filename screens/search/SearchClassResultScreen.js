@@ -21,6 +21,7 @@ import { mockData } from '../../constants/mockData';
 import { Tutor, Separator } from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
+import { searchClassList } from '../../redux/actions';
 
 class SearchClassResultScreen extends React.Component {
 
@@ -43,31 +44,14 @@ class SearchClassResultScreen extends React.Component {
     }
   }
 
-  componentWillMount() {
-
-    // this.setState({
-    //   interval: setInterval(() => {
-    //     this.setState({
-    //       position: this.state.position === this.state.dataSource.length - 1 ? 0 : this.state.position + 1
-    //     });
-    //   }, 3000)
-    // });
-  }
-
-
-
-  componentWillUnmount() {
-    clearInterval(this.state.interval);
-  }
-
   render() {
+    console.warn('filteredClassList', this.props.filteredClassList)
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.searchBarRowContainer}>
-
           {
-           this.props.allClassList &&
-           this.props.allClassList.map((cls, index) => (
+            this.props.filteredClassList &&
+            this.props.filteredClassList.map((cls, index) => (
               <View key={index} style={{width: '100%'}}>
                 <Tutor data={cls} onPress={() => this.props.navigation.navigate('TutorDetail')} />
                 <Separator style={{backgroundColor: '#aaa'}}/>
@@ -76,13 +60,10 @@ class SearchClassResultScreen extends React.Component {
           )
         }
         </View>
-
-        
       </ScrollView>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -95,7 +76,6 @@ const styles = StyleSheet.create({
 
   searchBarRowContainer: {
     width: '100%',
-    backgroundColor: Colors.tintColor,
   },
 
   searchBarContainer: {
@@ -116,11 +96,12 @@ const mapStateToProps = (state) => {
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    allClassList: state.classes.allClassList,
+    filteredClassList: state.classes.filteredClassList,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
 }
 
 export default connect(mapStateToProps, {
+  searchClassList
 })(SearchClassResultScreen)

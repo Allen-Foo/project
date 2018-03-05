@@ -181,22 +181,22 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'GET_CLASS_LIST')
       return {
         ...state,
-        createClassSuccess: false,
+        searchClassSuccess: false,
         isLoading: true,
       }
     case SEARCH_CLASS_LIST_SUCCESS:
-       //console.warn('here', 'GET_ALL_CLASS_LIST_SUCCESS', action.payload.classList)
+       // console.warn('here', 'GET_ALL_CLASS_LIST_SUCCESS', action.payload.classList)
       return {
         ...state,
         isLoading: false,
-        createClassSuccess: true,
-        allClassList: action.payload.classList,
+        searchClassSuccess: true,
+        filteredClassList: action.payload.classList,
       };
     case SEARCH_CLASS_LIST_FAIL:
       return {
         ...state,
         isLoading: false,
-        createClassSuccess: false,
+        searchClassSuccess: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }

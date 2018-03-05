@@ -21,7 +21,7 @@ import { mockData } from '../../constants/mockData';
 import { Tutor, Separator } from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
-import { getAllClassList } from '../../redux/actions';
+import { searchClassList } from '../../redux/actions';
 
 class SearchClassScreen extends React.Component {
 
@@ -41,30 +41,23 @@ class SearchClassScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      districtText: '',
-      classNameText: ''
+      address: '',
+      keyword: '',
     }
   }
 
-  componentWillMount() {
-
-    // this.setState({
-    //   interval: setInterval(() => {
-    //     this.setState({
-    //       position: this.state.position === this.state.dataSource.length - 1 ? 0 : this.state.position + 1
-    //     });
-    //   }, 3000)
-    // });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.searchClassSuccess && !this.props.searchClassSuccess) {
+      this.props.navigation.navigate('SearchClassResult')
+    }
   }
-
-
 
   componentWillUnmount() {
     clearInterval(this.state.interval);
   }
 
   render() {
-    let {districtText, classNameText} = this.state
+    let {address, keyword} = this.state
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.searchBarRowContainer}>
@@ -73,7 +66,7 @@ class SearchClassScreen extends React.Component {
             icon={{color: '#DDDDDD'}}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
-            onChangeText={(districtText) => this.setState({ districtText })}
+            onChangeText={(address) => this.setState({ address })}
             placeholder={this.props.locale.searchClass.districtSearch}
             placeholderTextColor={'#DDDDDD'}
           />
@@ -82,19 +75,12 @@ class SearchClassScreen extends React.Component {
             icon={{color: '#DDDDDD'}}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
-            onChangeText={(classNameText) => this.setState({ classNameText })}
+            onChangeText={(keyword) => this.setState({ keyword })}
             placeholder={this.props.locale.searchClass.classSearch}
             placeholderTextColor={'#DDDDDD'}
+            returnKeyType={ "search" }
+            onSubmitEditing={() => this.props.searchClassList({address: address, keyword: this.state.keyword.toLowerCase()})}
           />
-          <TouchableOpacity 
-            style={[styles.button,{ marginBottom:10, marginTop:10, flexDirection:'row'}]}
-            onPress={
-              () => this.props.navigation.navigate(
-                  'SearchClassResult', {districtText, classNameText}
-            )}
-          >
-            <Text style={[styles.text,{paddingLeft: 5}]}>search</Text>
-          </TouchableOpacity>
         </View>
         
       </ScrollView>
@@ -135,11 +121,13 @@ const mapStateToProps = (state) => {
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    allClassList: state.classes.allClassList,
+    filteredClassList: state.classes.filteredClassList,
+    searchClassSuccess: state.classes.searchClassSuccess,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
 }
 
 export default connect(mapStateToProps, {
+    searchClassList
 })(SearchClassScreen)

@@ -84,12 +84,11 @@ export function getAllClassList() {
   }
 }
 
-export function searchClassList() {
+export function searchClassList(filter) {
+  console.warn('searchClassList', filter)
   return {
     type: SEARCH_CLASS_LIST,
-    payload: {
-      
-    }
+    payload: filter
   }
 }
 
@@ -228,7 +227,7 @@ export const getAllClassListEpic = (action$, store, { request }) =>
     )
 
 export const searchClassListEpic = (action$, store, { request }) =>
-  action$.ofType(GET_ALL_CLASS_LIST)
+  action$.ofType(SEARCH_CLASS_LIST)
     .mergeMap(action => 
       Observable.fromPromise(request({
         url: '/searchClassList',
@@ -238,7 +237,7 @@ export const searchClassListEpic = (action$, store, { request }) =>
         } 
       }))
       .map(res => {
-        //console.warn('GET_ALL_CLASS_LIST success', res.data.classList)
+        console.warn('SEARCH_CLASS_LIST success', res.data.classList)
         return {
           type: SEARCH_CLASS_LIST_SUCCESS,
           payload: res.data
