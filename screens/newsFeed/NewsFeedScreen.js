@@ -21,7 +21,7 @@ import { mockData } from '../../constants/mockData';
 import { Tutor, Separator } from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
-import { searchClassList } from '../../redux/actions';
+import { getAllClassList } from '../../redux/actions';
 
 class NewsFeedScreen extends React.Component {
 
@@ -61,18 +61,16 @@ class NewsFeedScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.props.searchClassList()
+    this.props.getAllClassList()
 
-    // this.setState({
-    //   interval: setInterval(() => {
-    //     this.setState({
-    //       position: this.state.position === this.state.dataSource.length - 1 ? 0 : this.state.position + 1
-    //     });
-    //   }, 3000)
-    // });
+    this.setState({
+      interval: setInterval(() => {
+        this.setState({
+          position: this.state.position === this.state.dataSource.length - 1 ? 0 : this.state.position + 1
+        });
+      }, 3000)
+    });
   }
-
-
 
   componentWillUnmount() {
     clearInterval(this.state.interval);
@@ -234,5 +232,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  searchClassList,
+  getAllClassList,
 })(NewsFeedScreen)
