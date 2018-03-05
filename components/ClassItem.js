@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     paddingVertical: '2%',
-    // backgroundColor: 'green',
+    backgroundColor: '#fff',
   },
   avatarContainer: {
     justifyContent: 'center',

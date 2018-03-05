@@ -19,7 +19,7 @@ let {width, height} = Dimensions.get('window');
 
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
-import { getClassDetail, updateClass } from '../../redux/actions';
+import { getClassDetail, updateClass, deleteClass } from '../../redux/actions';
 import { NavigationActions } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -55,6 +55,10 @@ class EditClassScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.requireUpdateClassList && !this.props.requireUpdateClassList) {
+      this.props.navigation.goBack();
+    }
+
     // if login fail, show message 
     if (nextProps.fetchErrorLastUpdate instanceof Date) {
       if (!(this.props.fetchErrorLastUpdate instanceof Date) ||
@@ -143,6 +147,13 @@ class EditClassScreen extends React.Component {
             scrollEnabled={params.photoList.length > 1}
           />
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.deleteButton} onPress={() => this.props.deleteClass(params)}>
+          <Text style={{color: 'white', }}> 
+            { locale.common.delete }
+          </Text>
+        </TouchableOpacity>
+
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>
     );
@@ -210,6 +221,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
   },
+  deleteButton: {
+    height: 40, 
+    width: '90%',
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center', 
+    borderRadius: 5, 
+    marginVertical: 20,
+  }
 });
 
 const mapStateToProps = (state) => {
@@ -218,6 +239,7 @@ const mapStateToProps = (state) => {
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     classDetail: state.classes.classDetail,
+    requireUpdateClassList: state.classes.requireUpdateClassList,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
@@ -226,4 +248,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getClassDetail,
   updateClass,
+  deleteClass,
 })(EditClassScreen)

@@ -13,8 +13,9 @@ import {
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { getClassList } from '../../redux/actions';
+import { getClassList, deleteClass } from '../../redux/actions';
 import { Separator, Spinner, Toast, ClassItem} from '../../components';
+import Swipeout from 'react-native-swipeout';
 
 import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
 const {width, height} = Dimensions.get('window');
@@ -76,6 +77,14 @@ class ClassListScreen extends React.Component {
   }
 
   renderClassList = (classList) => {
+    const getSwipeoutBtns = (item) => [
+      {
+        text: this.props.locale.common.delete,
+        onPress: () => this.props.deleteClass(item),
+        type: 'delete',
+      }
+    ]
+
     return (
       <FlatList
         contentContainerStyle={styles.listContainer}
@@ -85,7 +94,9 @@ class ClassListScreen extends React.Component {
           item.uri = item.photoList[0].location
           return (
             <View style={{width: '100%'}}>
-              <ClassItem data={item} onPress={() => this.props.navigation.navigate('EditClass', {classId: item.classId})} />
+              <Swipeout right={getSwipeoutBtns(item)}>
+                <ClassItem data={item} onPress={() => this.props.navigation.navigate('EditClass', {classId: item.classId})} />
+              </Swipeout>
               <Separator />
             </View>
           )
@@ -169,4 +180,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getClassList,
+  deleteClass,
 })(ClassListScreen)
