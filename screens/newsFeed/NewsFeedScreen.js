@@ -40,10 +40,9 @@ class NewsFeedScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       allClassList: [],
       liked: false,
-      bannerList: [],
       position: 0,
       interval: null,
       dataSource: [
@@ -77,9 +76,8 @@ class NewsFeedScreen extends React.Component {
   }
 
   render() {
-    let { bannerList } = this.state
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={{flex: 1}}>
         <View style={styles.searchBarRowContainer}>
           <SearchBar
             lightTheme
@@ -100,48 +98,49 @@ class NewsFeedScreen extends React.Component {
             <Text style={styles.searchText}>{this.props.locale.newsfeed.text.search}</Text>
           </TouchableOpacity>
         </View>
-        <Slideshow 
-          dataSource={ this.state.dataSource }
-          containerStyle={ sliderContainer }
-          scrollEnabled={ bannerList.length > 1 }
-          position={ this.state.position }
-          onPositionChanged={position => this.setState({ position })}
-        />
-        <Swiper style={{height: (width * 0.25 + 5 * 2) * 2}} showsButtons={false} paginationStyle={{bottom: 10}}>
-          <View style={styles.swiperPage}>
-            {
-              Object.keys(icons).filter((k, i) => i < 8).map((key, index) => 
-                <IconBox
-                  key={index}
-                  uri={icons[key]}
-                  iconName={this.props.locale.icon[key]}
-                />
-              )
-            }
-          </View>
-          <View style={styles.swiperPage}>
-            {
-              Object.keys(icons).filter((k, i) => i >= 8).map((key, index) =>
-                <IconBox
-                  key={index}
-                  uri={icons[key]}
-                  iconName={this.props.locale.icon[key]}
-                />
-              )
-            }
-          </View>
-        </Swiper>
-        {
-           this.props.allClassList &&
-           this.props.allClassList.map((cls, index) => (
+        <ScrollView contentContainerStyle={styles.container}>
+          <Slideshow 
+            dataSource={ this.state.dataSource }
+            containerStyle={ sliderContainer }
+            scrollEnabled={true}
+            position={ this.state.position }
+            onPositionChanged={position => this.setState({ position })}
+          />
+          <Swiper style={styles.swiperContainer} showsButtons={false} paginationStyle={{bottom: 10}}>
+            <View style={styles.swiperPage}>
+              {
+                Object.keys(icons).filter((k, i) => i < 8).map((key, index) => 
+                  <IconBox
+                    key={index}
+                    uri={icons[key]}
+                    iconName={this.props.locale.icon[key]}
+                  />
+                )
+              }
+            </View>
+            <View style={styles.swiperPage}>
+              {
+                Object.keys(icons).filter((k, i) => i >= 8).map((key, index) =>
+                  <IconBox
+                    key={index}
+                    uri={icons[key]}
+                    iconName={this.props.locale.icon[key]}
+                  />
+                )
+              }
+            </View>
+          </Swiper>
+          {
+            this.props.allClassList &&
+            this.props.allClassList.map((cls, index) => (
               <View key={index} style={{width: '100%'}}>
                 <Tutor data={cls} onPress={() => this.props.navigation.navigate('TutorDetail')} />
                 <Separator style={{backgroundColor: '#aaa'}}/>
               </View>
-            )
-          )
-        }
-      </ScrollView>
+            ))
+          }
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -189,6 +188,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     backgroundColor: Colors.tintColor,
+  },
+  swiperContainer: {
+    height: (width * 0.25 + 5 * 2) * 2,
+    backgroundColor: '#fff',
   },
   swiperPage: {
     flexDirection: 'row',
