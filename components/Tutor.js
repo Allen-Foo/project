@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 
+import { connect } from 'react-redux';
 import Colors from '../constants/Colors';
 
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -55,7 +56,7 @@ class Tutor extends React.Component {
               starColor={Colors.tintColor}
               emptyStarColor={Colors.tintColor}
             />
-            <Text style={styles.comment}> {`${data.comment} comments`} </Text>
+            <Text style={styles.comment}> {`${data.comment || 0} comments`} </Text>
           </View>
           <Text>
             <FontAwesome 
@@ -64,7 +65,7 @@ class Tutor extends React.Component {
               style={{marginLeft: '5%'}}
               color={'#E8DA3A'}
             />
-            <Text> {`${data.fee}/${data.chargeType}`}</Text>
+            <Text> {`${data.fee} ${locale.classSummary.label[data.chargeType]}`}</Text>
           </Text>
         </TouchableOpacity>
 
@@ -158,4 +159,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Tutor
+const mapStateToProps = (state) => {
+  return {
+    locale: state.language.locale,
+  }
+}
+
+export default connect(mapStateToProps)(Tutor)
