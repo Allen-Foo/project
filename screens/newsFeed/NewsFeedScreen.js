@@ -83,11 +83,14 @@ class NewsFeedScreen extends React.Component {
         <View style={styles.searchBarRowContainer}>
           <SearchBar
             lightTheme
+            ref={searchBar => this.searchBar = searchBar}
             icon={{color: '#DDDDDD'}}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
-            onFocus={() => this.props.navigation.navigate('SearchClass')}
-            onChangeText={() => {}}
+            onFocus={() => {
+              this.searchBar.blur()
+              this.props.navigation.navigate('SearchClass')
+            }}
             placeholder='Type Here...'
             placeholderTextColor={'#DDDDDD'}
           />

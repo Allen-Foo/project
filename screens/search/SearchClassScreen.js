@@ -30,7 +30,6 @@ class SearchClassScreen extends React.Component {
     return {
       tabBarLabel: screenProps.locale.searchClass.title,
       headerTitle: screenProps.locale.search.title,
-      headerLeft: null,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -64,6 +63,7 @@ class SearchClassScreen extends React.Component {
           <SearchBar
             lightTheme
             icon={{color: '#DDDDDD'}}
+            clearIcon={{ color: '#DDDDDD', name: 'clear' }}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
             onChangeText={(address) => this.setState({ address })}
@@ -72,7 +72,9 @@ class SearchClassScreen extends React.Component {
           />
           <SearchBar
             lightTheme
+            autoFocus
             icon={{color: '#DDDDDD'}}
+            clearIcon={{ color: '#DDDDDD', name: 'clear' }}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
             onChangeText={(keyword) => this.setState({ keyword })}

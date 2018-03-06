@@ -30,7 +30,6 @@ class SearchClassResultScreen extends React.Component {
     return {
       tabBarLabel: screenProps.locale.searchClass.title,
       headerTitle: screenProps.locale.search.title,
-      headerLeft: null,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
