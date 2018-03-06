@@ -21,7 +21,7 @@ import { mockData } from '../../constants/mockData';
 import { Tutor, Separator } from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
-import { getAllClassList } from '../../redux/actions';
+import { getAllClassList, searchClassList } from '../../redux/actions';
 
 class NewsFeedScreen extends React.Component {
 
@@ -71,6 +71,12 @@ class NewsFeedScreen extends React.Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.searchClassSuccess && !this.props.searchClassSuccess) {
+      this.props.navigation.navigate('SearchClassResult')
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.state.interval);
   }
@@ -114,6 +120,7 @@ class NewsFeedScreen extends React.Component {
                     key={index}
                     uri={icons[key]}
                     iconName={this.props.locale.icon[key]}
+                    onPress={() => this.props.searchClassList({keyword: key})}
                   />
                 )
               }
@@ -125,6 +132,7 @@ class NewsFeedScreen extends React.Component {
                     key={index}
                     uri={icons[key]}
                     iconName={this.props.locale.icon[key]}
+                    onPress={() => this.props.searchClassList({keyword: key})}
                   />
                 )
               }
@@ -146,16 +154,19 @@ class NewsFeedScreen extends React.Component {
 }
 
 const IconBox = props => {
-  let { uri, iconName } = props
+  let { uri, iconName, onPress } = props
   return (
-    <View style={styles.iconContainer}>
+    <TouchableOpacity 
+      style={styles.iconContainer}
+      onPress={() => onPress()}
+    >
       <Image
         ImageResizeMode={'cover'}
         source={uri}
         style={{ width: '50%', height: '50%' }} 
       />
       <Text style={styles.iconName}>{iconName}</Text>
-    </View>
+    </TouchableOpacity>
   )  
 }
 
@@ -232,6 +243,7 @@ const mapStateToProps = (state) => {
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     allClassList: state.classes.allClassList,
+    searchClassSuccess: state.classes.searchClassSuccess,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
@@ -239,4 +251,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getAllClassList,
+  searchClassList,
 })(NewsFeedScreen)
