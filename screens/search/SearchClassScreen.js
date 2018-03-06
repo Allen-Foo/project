@@ -13,7 +13,7 @@ import {
 
 import Swiper from 'react-native-swiper';
 let {width, height} = Dimensions.get('window');
-import { Slideshow } from '../../components';
+import { Slideshow, Spinner} from '../../components';
 import { SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
@@ -39,7 +39,7 @@ class SearchClassScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       address: '',
       keyword: '',
     }
@@ -51,14 +51,15 @@ class SearchClassScreen extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    clearInterval(this.state.interval);
+  handleSearch() {
+    let {address, keyword} = this.state
+    this.props.searchClassList({address: address, keyword: keyword.toLowerCase()})
   }
 
   render() {
     let {address, keyword} = this.state
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         <View style={styles.searchBarRowContainer}>
           <SearchBar
             lightTheme
@@ -67,6 +68,7 @@ class SearchClassScreen extends React.Component {
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
             onChangeText={(address) => this.setState({ address })}
+            onSubmitEditing={() => this.handleSearch()}
             placeholder={this.props.locale.searchClass.districtSearch}
             placeholderTextColor={'#DDDDDD'}
           />
@@ -81,11 +83,12 @@ class SearchClassScreen extends React.Component {
             placeholder={this.props.locale.searchClass.classSearch}
             placeholderTextColor={'#DDDDDD'}
             returnKeyType={ "search" }
-            onSubmitEditing={() => this.props.searchClassList({address: address, keyword: this.state.keyword.toLowerCase()})}
+            onSubmitEditing={() => this.handleSearch()}
           />
         </View>
-        
-      </ScrollView>
+
+        { this.props.isLoading && <Spinner intensity={30}/> }
+      </View>
     );
   }
 }
@@ -94,20 +97,19 @@ class SearchClassScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#eee',
+    alignItems: 'center',
+    flex: 1,
   },
   searchText: {
     color: '#919191', 
     paddingVertical: 5
   },
-
   searchBarRowContainer: {
     width: '100%',
     backgroundColor: Colors.tintColor,
   },
-
   searchBarContainer: {
     backgroundColor: Colors.tintColor,
-    // width: '80%',
     borderTopWidth: 0,
     borderBottomWidth: 0,
   },
