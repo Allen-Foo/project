@@ -7,7 +7,7 @@ import {
   TouchableOpacity, 
   View, 
   Text, 
-  Dimensions 
+  Dimensions,
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
@@ -17,6 +17,9 @@ import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
 import Comments from '../comments/Comments';
+import { getClassDetail } from '../../redux/actions';
+import { Slideshow } from '../../components';
+let {width, height} = Dimensions.get('window');
 
 const data = {
   avatar: 'DF',
@@ -41,25 +44,29 @@ class TutorDetailScreen extends React.Component {
     },
   };
 
-  render() {
-    let { locale } = this.props;
+  constructor(props) {
+    super(props);
+    this.state = {
+      position: 0,
+    }
+  }
 
+  componentWillMount() {
+    this.props.getClassDetail(this.props.navigation.state.params.classId)
+  }
+
+  render() {
+    let { locale, classDetail } = this.props;
+    // console.warn('classDetail',classDetail)
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View>
           <View style={styles.loginContainer}>
-            <Avatar
-              large
-              rounded
-              icon={{name: 'account-box'}}
-              onPress={() => this.props.navigation.navigate('Login')}
-              activeOpacity={0.7}
-              containerStyle={styles.avatarContainer}
-            />
+
           </View>
 
           <View style={styles.contentContainer}>
-            <Text style={styles.className}> {data.className} </Text>
+            <Text style={styles.className}> {classDetail && classDetail.title} </Text>
             <Text style={styles.tutorName}> {data.tutorName} </Text>
             <View style={styles.ratingRow}>
               <StarRating
@@ -83,7 +90,7 @@ class TutorDetailScreen extends React.Component {
                 style={{marginLeft: '5%'}}
                 color={'#E8DA3A'}
               />
-              <Text style={styles.tutorName}> {`${data.fee}/lesson`}</Text>
+              <Text style={styles.tutorName}> {`${classDetail && classDetail.fee}/${classDetail && classDetail.chargeType}`}</Text>
             </Text>
             <Text>
               <MaterialIcons
@@ -101,14 +108,14 @@ class TutorDetailScreen extends React.Component {
               />
               <Text style={styles.tutorName}> {data.phoneNumber}</Text>
             </Text>
-            <Text>
+            <View style={styles.rowContainer}>
               <MaterialIcons
                 name={'location-on'} 
                 size={14}
                 color={'#ff0000'}
               />
-              <Text style={styles.tutorName}> {data.address} </Text>
-            </Text>
+              <Text style={styles.address}> {classDetail && classDetail.address.formatted_address} </Text>
+            </View>
           </View>
           <View style={styles.map}>
             <Text> Map </Text>
@@ -126,15 +133,22 @@ class TutorDetailScreen extends React.Component {
   }
 }
 
-const mapStateToPorps = (state) => {
-  return {
-    locale: state.language.locale
-  }
+const sliderContainer = {
+  width: width,
+  height: width * 3 / 4,
+  marginBottom: 20,
 }
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
+  },
+  rowContainer: {
+    flexDirection: 'row',
+  },
+  address: {
+    color: '#555',
+
   },
   avatarContainer: {
     justifyContent: 'center',
@@ -175,13 +189,13 @@ const styles = StyleSheet.create({
     paddingRight: '2%',
   },
   className: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#555',
     fontWeight: '400',
   },
   tutorName: {
     color: '#555',
-    fontSize: 18,
+    fontSize: 14,
   },
   comment: {
     alignItems: 'flex-end',
@@ -214,4 +228,17 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToPorps)(TutorDetailScreen)
+const mapStateToProps = (state) => {
+  return {
+
+    locale: state.language.locale,
+    isLoading: state.classes.isLoading,
+    classDetail: state.classes.classDetail,
+    fetchErrorMsg: state.classes.fetchErrorMsg,
+    fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
+  }
+}
+
+export default connect(mapStateToProps, {
+    getClassDetail
+})(TutorDetailScreen)
