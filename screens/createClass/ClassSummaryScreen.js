@@ -145,7 +145,7 @@ class ClassSummaryScreen extends React.Component {
         />
         <ClassInfoRow
           label={locale.classSummary.label.category}
-          value={`${params.category} - ${params.skill}`}
+          value={`${locale.category.types[params.category]} - ${locale.skill.types[params.category][params.skill]}`}
         />
         <ClassInfoRow
           label={locale.classSummary.label.time}

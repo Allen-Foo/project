@@ -119,7 +119,7 @@ class EditClassScreen extends React.Component {
         />
         <ClassInfoRow
           label={locale.classSummary.label.category}
-          value={`${params.category} - ${params.skill}`}
+          value={`${locale.category.types[params.category]} - ${locale.skill.types[params.category][params.skill]}`}
           onPress={() => this.props.navigation.navigate('ClassType', Object.assign(params, {isEditMode: true}))}
         />
         <ClassInfoRow

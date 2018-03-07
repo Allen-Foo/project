@@ -140,7 +140,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '90%',
     borderRadius: 5,
-    marginTop: 50
+    marginTop: 50,
+    height: 60,
   },
   textInput: {
     width: '20%',

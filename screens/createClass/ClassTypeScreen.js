@@ -68,8 +68,10 @@ class ClassTypeScreen extends React.Component {
   }
 
   handleReturnData = (data) => {
+    const {locale} = this.props;
+
     this.setState({
-      classType: `${data.category} - ${data.skill}`,
+      classType: `${locale.category.types[data.category]} - ${locale.skill.types[data.category][data.skill]}`,
       ...data
     })
   }
