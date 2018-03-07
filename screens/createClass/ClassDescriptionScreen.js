@@ -70,7 +70,7 @@ class ClassDescriptionScreen extends React.Component {
     let { title, description } = this.state;
     params.description = description
     params.title = title
-    this.props.navigation.navigate('ClassType', params)
+    this.props.navigation.navigate('Calendar', params)
   }
 
   render() {
