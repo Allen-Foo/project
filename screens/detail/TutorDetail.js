@@ -110,7 +110,7 @@ class TutorDetailScreen extends React.Component {
                 />
               </View>
               <View style={styles.innerTextContainer}>
-                <Text style={styles.tutorName}> {`${classDetail.fee}/${classDetail.chargeType}`}</Text>
+                <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
               </View>
             </View>
             <View style={styles.rowContainer}>
