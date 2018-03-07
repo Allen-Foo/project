@@ -85,7 +85,7 @@ export function getAllClassList() {
 }
 
 export function searchClassList(filter) {
-  console.warn('searchClassList', filter)
+  // console.warn('searchClassList', filter)
   return {
     type: SEARCH_CLASS_LIST,
     payload: filter
@@ -237,7 +237,7 @@ export const searchClassListEpic = (action$, store, { request }) =>
         } 
       }))
       .map(res => {
-        console.warn('SEARCH_CLASS_LIST success', res.data.classList)
+        // console.warn('SEARCH_CLASS_LIST success', res.data.classList)
         return {
           type: SEARCH_CLASS_LIST_SUCCESS,
           payload: res.data

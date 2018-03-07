@@ -15,7 +15,7 @@ import Swiper from 'react-native-swiper';
 let {width, height} = Dimensions.get('window');
 import { Slideshow } from '../../components';
 import { SearchBar } from 'react-native-elements';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import { mockData } from '../../constants/mockData';
 import { Tutor, Separator } from '../../components';
@@ -28,8 +28,7 @@ class SearchClassResultScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
     return {
-      tabBarLabel: screenProps.locale.searchClass.title,
-      headerTitle: screenProps.locale.search.title,
+      headerTitle: screenProps.locale.searchResult.title,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -43,8 +42,24 @@ class SearchClassResultScreen extends React.Component {
     }
   }
 
+  renderEmptyPage = () => {
+    return (
+      <View style={styles.emptyContainer}>
+        <Entypo
+          name={"open-book"}
+          size={60}
+          color={Colors.tintColor}
+        />
+        <Text style={styles.noResultText}>{this.props.locale.searchResult.label.noResult}</Text>
+      </View>
+    )
+  }
+
   render() {
-    console.warn('filteredClassList', this.props.filteredClassList)
+    if (this.props.filteredClassList.length < 1) {
+      return this.renderEmptyPage()
+    }
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.searchBarRowContainer}>
@@ -68,25 +83,17 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#eee',
   },
-  searchText: {
-    color: '#919191', 
-    paddingVertical: 5
+  emptyContainer: {
+    backgroundColor: '#eee',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
   },
-
+  noResultText: {
+    paddingTop: 5,
+  },
   searchBarRowContainer: {
     width: '100%',
-  },
-
-  searchBarContainer: {
-    backgroundColor: Colors.tintColor,
-    // width: '80%',
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-  },
-  searchBarInput: {
-    color: 'black',
-    fontSize: 14,
-    backgroundColor: '#fff'
   },
 });
 
