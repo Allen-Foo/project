@@ -72,17 +72,6 @@ class ClassItem extends React.Component {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.heart} 
-          onPress={() => this.setState({liked: !this.state.liked})}
-        >
-          <Ionicons
-            name={this.state.liked ? 'ios-heart' : 'ios-heart-outline'}
-            size={28}
-            style={{ padding: '3%'}}
-            color={'red'}
-          />
-        </TouchableOpacity>
       </View>
     );
   }
@@ -114,10 +103,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end'
   },
-  rating: { 
-    paddingVertical: '2%',
-    paddingRight: '2%',
-  },
   className: {
     fontSize: 18,
     color: '#555',
@@ -133,11 +118,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '500'
   },
-  heart: {
-    position: 'absolute',
-    right: '3%',
-    top: '10%',
-  }
 });
 
 const mapStateToProps = (state) => {
