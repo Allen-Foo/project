@@ -38,11 +38,16 @@ const data = {
 };
 
 class TutorDetailScreen extends React.Component {
-  static navigationOptions = {
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      headerTitle: screenProps.locale.tutorDetail.title,
+      headerLeft: null,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
   };
 
   constructor(props) {
@@ -145,12 +150,13 @@ class TutorDetailScreen extends React.Component {
                 <View style={[styles.innerTextContainer, {width: '70%'}]}>
                   <Text style={styles.address}> {classDetail.address.formatted_address} </Text>
                 </View>
-                <Entypo
-                  name={"chevron-thin-right"}
-                  size={15}
-                  style={{position: 'absolute', right: 25, bottom: 25}}
-                  color={'#555'}
-                />
+                <View style={styles.chevronContainer}>
+                  <Entypo
+                    name={"chevron-thin-right"}
+                    size={15}
+                    color={'#555'}
+                  />
+                </View>
               </View>
             </TouchableOpacity>
           </View>
@@ -193,9 +199,19 @@ const styles = StyleSheet.create({
   },
   innerTextContainer: {
     justifyContent: 'center',
+    paddingLeft: 5,
+    // backgroundColor: 'green',
+  },
+  chevronContainer: {
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingLeft: 45
   },
   address: {
     color: '#555',
+    // backgroundColor: 'red',
+    // flexWrap: 'wrap',
+    // textAlign: 'left',
   },
   contentContainer: {
     justifyContent: 'center',
