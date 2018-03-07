@@ -99,7 +99,7 @@ class ProfileScreen extends React.Component {
           {
             this.props.appType &&
             <ListItem
-              title={`switch to ${this.props.appType == 'tutor'? 'learner' : 'tutor'} mode`}
+              title={this.props.locale.profile.text.switchMode[this.props.appType]}
               leftIcon={{name: 'swap-horiz'}}
               onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
             />
