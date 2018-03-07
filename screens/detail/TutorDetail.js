@@ -18,7 +18,7 @@ import { Avatar, Rating } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
 import Comments from '../comments/Comments';
 import { getClassDetail } from '../../redux/actions';
-import { Slideshow, Spinner} from '../../components';
+import { Hr, Slideshow, Spinner} from '../../components';
 
 let {width, height} = Dimensions.get('window');
 
@@ -67,7 +67,6 @@ class TutorDetailScreen extends React.Component {
 
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <View>
           <Slideshow 
             dataSource={photoList}
             containerStyle={sliderContainer}
@@ -160,7 +159,6 @@ class TutorDetailScreen extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
-        </View>
         { [1, 2, 3].map((x, i) => <Comments key={i}/>) }
       </ScrollView>
     )
