@@ -13,12 +13,13 @@ import {
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements'
-import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { Entypo, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
 import Comments from '../comments/Comments';
 import { getClassDetail } from '../../redux/actions';
-import { Slideshow } from '../../components';
+import { Slideshow, Spinner} from '../../components';
+
 let {width, height} = Dimensions.get('window');
 
 const data = {
@@ -55,19 +56,32 @@ class TutorDetailScreen extends React.Component {
     this.props.getClassDetail(this.props.navigation.state.params.classId)
   }
 
-  render() {
+  renderClassDetail() {
     let { locale, classDetail } = this.props;
-    // console.warn('classDetail',classDetail)
+    let photoList = classDetail.photoList.map(photo => ({uri: photo.location}))
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View>
-          <View style={styles.loginContainer}>
-
-          </View>
-
+          <Slideshow 
+            dataSource={photoList}
+            containerStyle={sliderContainer}
+            scrollEnabled={true}
+          />
+          <TouchableOpacity style={styles.registerButton}>
+            <Text style={{color: 'green', }}> 
+              { locale.tutorDetail.text.register.label }
+            </Text>
+            <Entypo
+              name={"chevron-thin-right"}
+              size={15}
+              style={{position: 'absolute', right: 0}}
+              color={'#555'}
+            />
+          </TouchableOpacity>
           <View style={styles.contentContainer}>
-            <Text style={styles.className}> {classDetail && classDetail.title} </Text>
-            <Text style={styles.tutorName}> {data.tutorName} </Text>
+            <Text style={styles.className}> {classDetail.title} </Text>
+            <Text style={[styles.tutorName, {paddingVertical: 5}]}> {data.tutorName} </Text>
             <View style={styles.ratingRow}>
               <StarRating
                 disabled
@@ -83,60 +97,86 @@ class TutorDetailScreen extends React.Component {
               />
               <Text style={styles.comment}> {`${data.comment} comments`} </Text>
             </View>
-            <Text>
-              <FontAwesome 
-                name={'dollar'} 
-                size={14}
-                style={{marginLeft: '5%'}}
-                color={'#E8DA3A'}
-              />
-              <Text style={styles.tutorName}> {`${classDetail && classDetail.fee}/${classDetail && classDetail.chargeType}`}</Text>
-            </Text>
-            <Text>
-              <MaterialIcons
-                name={'alarm'}
-                size={14}
-                color={'#ff0000'}
-              />
-              <Text style={styles.tutorName}> {`${data.openingTime} - ${data.closingTime} `}</Text>
-            </Text>
-            <Text>
-              <MaterialIcons
-                name={'call'} 
-                size={14}
-                color={'#ff0000'}
-              />
-              <Text style={styles.tutorName}> {data.phoneNumber}</Text>
-            </Text>
             <View style={styles.rowContainer}>
-              <MaterialIcons
-                name={'location-on'} 
-                size={14}
-                color={'#ff0000'}
-              />
-              <Text style={styles.address}> {classDetail && classDetail.address.formatted_address} </Text>
+              <View style={styles.innerContainer}>
+                <FontAwesome 
+                  name={'dollar'} 
+                  size={20}
+                  color={'#E8DA3A'}
+                />
+              </View>
+              <View style={styles.innerTextContainer}>
+                <Text style={styles.tutorName}> {`${classDetail.fee}/${classDetail.chargeType}`}</Text>
+              </View>
             </View>
+            <View style={styles.rowContainer}>
+              <View style={styles.innerContainer}>
+                <MaterialIcons
+                  name={'alarm'}
+                  size={20}
+                  color={'#ff0000'}
+                />
+              </View>
+              <View style={styles.innerTextContainer}>
+                <Text style={styles.tutorName}> {`${data.openingTime} - ${data.closingTime} `}</Text>
+              </View>
+            </View>
+            <View style={styles.rowContainer}>
+              <View style={styles.innerContainer}>
+                <MaterialIcons
+                  name={'call'} 
+                  size={20}
+                  color={'#ff0000'}
+                />
+              </View>
+              <View style={styles.innerTextContainer}>
+                <Text style={styles.tutorName}> {data.phoneNumber} </Text>
+              </View>
+            </View>
+            <TouchableOpacity>
+              <View style={styles.rowContainer}>
+                <View style={styles.innerContainer}>
+                  <MaterialIcons
+                    name={'location-on'} 
+                    size={20}
+                    color={'#ff0000'}
+                  />
+                </View>
+                <View style={[styles.innerTextContainer, {width: '70%'}]}>
+                  <Text style={styles.address}> {classDetail.address.formatted_address} </Text>
+                </View>
+                <Entypo
+                  name={"chevron-thin-right"}
+                  size={15}
+                  style={{position: 'absolute', right: 25, bottom: 25}}
+                  color={'#555'}
+                />
+              </View>
+            </TouchableOpacity>
           </View>
-          <View style={styles.map}>
-            <Text> Map </Text>
-          </View>
-          
-          <TouchableOpacity style={styles.registerButton}>
-            <Text style={{color: 'white', }}> 
-              { locale.tutorDetail.text.register.label }
-            </Text>
-          </TouchableOpacity>
         </View>
         { [1, 2, 3].map((x, i) => <Comments key={i}/>) }
       </ScrollView>
-    );
+    )
+  }
+
+  renderLoading() {
+    return <Spinner />
+  }
+
+  render() {
+    if (this.props.isLoading || !this.props.classDetail) {
+      return this.renderLoading()
+    } else {
+      return this.renderClassDetail()
+    }
   }
 }
 
 const sliderContainer = {
   width: width,
   height: width * 3 / 4,
-  marginBottom: 20,
+  // marginBottom: 20,
 }
 
 const styles = StyleSheet.create({
@@ -144,43 +184,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   rowContainer: {
+    paddingVertical: 5,
     flexDirection: 'row',
+  },
+  innerContainer: {
+    justifyContent: 'center',
+    width: '8%'
+  },
+  innerTextContainer: {
+    justifyContent: 'center',
   },
   address: {
     color: '#555',
-
-  },
-  avatarContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    //flex: 1,
-    marginTop: '10%',
-    marginBottom: '5%',
-    backgroundColor: '#eee'
-  },
-  loginContainer: {
-    //width: '100%',
-    backgroundColor: Colors.tintColor,
-    alignItems: 'center',
-  },
-
-  socialContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: '5%'
-  },
-  avatar: {
-    marginTop: '5%',
-    width: 75,
-    height: 75,
-    marginHorizontal: '5%'
   },
   contentContainer: {
     justifyContent: 'center',
     paddingLeft: '5%',
-    paddingVertical: '3%',
   },
   ratingRow: {
+    paddingVertical: 5,
     flexDirection: 'row',
     alignItems: 'flex-end'
   },
@@ -189,6 +211,7 @@ const styles = StyleSheet.create({
     paddingRight: '2%',
   },
   className: {
+    paddingVertical: 5,
     fontSize: 16,
     color: '#555',
     fontWeight: '400',
@@ -217,20 +240,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   registerButton: {
-    height: 40, 
+    flexDirection: 'row',
+    paddingVertical:10,
     width: '90%',
-    backgroundColor: Colors.tintColor,
+    // backgroundColor: Colors.tintColor,
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center', 
     borderRadius: 5, 
-    marginVertical: 20,
+    marginVertical: 5,
   }
 });
 
 const mapStateToProps = (state) => {
   return {
-
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     classDetail: state.classes.classDetail,
