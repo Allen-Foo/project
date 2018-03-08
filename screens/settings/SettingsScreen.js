@@ -7,7 +7,7 @@ import Colors from '../../constants/Colors';
 import { List, ListItem } from 'react-native-elements';
 import { Constants } from 'expo'
 import { onSignOut } from '../../lib/Auth/AWS_Auth';
-
+import { signOut } from '../../redux/actions'
 
 class SettingsScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -44,17 +44,20 @@ class SettingsScreen extends React.Component {
             onPress={() => {this.props.navigation.navigate('Language')}}
           />
         </List>
-        <TouchableOpacity 
-          style={styles.signOutContainer}
-          onPress={() => {
-            onSignOut(this.props.user, this.props.signOut)
-            this.props.navigation.goBack()
-          }}
-        >
-          <Text style={styles.signOut}>
-            {'Sign out'}
-          </Text>
-        </TouchableOpacity>
+        {
+          this.props.user &&
+          <TouchableOpacity 
+            style={styles.signOutContainer}
+            onPress={() => {
+              onSignOut(this.props.user, this.props.signOut)
+              this.props.navigation.goBack()
+            }}
+          >
+            <Text style={styles.signOut}>
+              {'Sign out'}
+            </Text>
+          </TouchableOpacity>
+        }
       </View>
     );
   }
@@ -70,16 +73,30 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   itemContainer: {
-    height: '20%',
+    paddingVertical: 25,
     justifyContent: 'center',
-  }
+  },
+  signOutContainer: {
+    backgroundColor: '#fff',
+    marginTop: 30,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  signOut: {
+    color: 'red',
+    fontSize: 18
+  },
 });
 
 const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    user: state.socialLogin.user,
   }
 }
 
-export default connect(mapStateToProps)(SettingsScreen)
+export default connect(mapStateToProps, {
+  signOut,
+})(SettingsScreen)
