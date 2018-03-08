@@ -51,7 +51,8 @@ class ClassAddressScreen extends React.Component {
     let { data, details } = this.state;
     let address = {
       description: data && data.description,
-      formatted_address: details && details.formatted_address
+      formatted_address: details && details.formatted_address,
+      coordinate: details && details.geometry && details.geometry.location
     }
 
     this.props.editClass({address})
@@ -72,11 +73,12 @@ class ClassAddressScreen extends React.Component {
 
   render() {
     let { data, details } = this.state;
-    let { params } = this.props.navigation.state;
+    let { params = {} } = this.props.navigation.state;
 
     let address = {
       description: data && data.description,
-      formatted_address: details && details.formatted_address
+      formatted_address: details && details.formatted_address,
+      coordinate: details && details.geometry && details.geometry.location
     }
     params.address = address;
 
