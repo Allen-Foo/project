@@ -78,7 +78,7 @@ class ProfileScreen extends React.Component {
           <ListItem
             title={this.props.locale.profile.text.comments}
             leftIcon={{name: 'comment'}}
-            onPress={() => {this.props.navigation.navigate('Comments')}}
+            onPress={() => {this.props.navigation.navigate('SearchClass')}}
           />
           <ListItem
             title={this.props.locale.profile.text.notifications}

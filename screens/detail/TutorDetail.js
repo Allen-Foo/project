@@ -157,6 +157,17 @@ class TutorDetailScreen extends React.Component {
                 </View>
               </View>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.registerButton} onPress={() => this.props.navigation.navigate('GiveComment', {classId: classDetail.classId})} >
+              <Text style={{color: 'green', }}> 
+                { locale.tutorDetail.text.giveComment.label }
+              </Text>
+              <Entypo
+                name={"chevron-thin-right"}
+                size={15}
+                style={{position: 'absolute', right: 0}}
+                color={'#555'}
+              />
+            </TouchableOpacity>
           </View>
         { [1, 2, 3].map((x, i) => <Comments key={i}/>) }
       </ScrollView>

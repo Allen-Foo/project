@@ -18,7 +18,7 @@ import ChangePassword from '../screens/settings/ChangePasswordScreen';
 import SearchClass from '../screens/search/SearchClassScreen';
 import SearchClassResult from '../screens/search/SearchClassResultScreen';
 import ClassMap from '../screens/detail/ClassMapScreen';
-
+import GiveComment from '../screens/comments/GiveCommentScreen';
 
 import Category from '../screens/createClass/CategoryScreen';
 import Skill from '../screens/createClass/SkillScreen';
@@ -88,7 +88,10 @@ const RootStackNavigator = StackNavigator(
     },
     ClassMap: {
       screen: ClassMap,
-    }
+    },
+    GiveComment: {
+      screen: GiveComment,
+    },
   },
   {
     navigationOptions: () => ({
