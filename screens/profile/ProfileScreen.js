@@ -17,7 +17,7 @@ class ProfileScreen extends React.Component {
     return {
       tabBarLabel: screenProps.locale.profile.title,
       headerLeft: null,
-      headerTintColor: '#fff',
+      headerTintColor: Colors.tintColor,
       headerStyle: {
         backgroundColor: Colors.tintColor,
       },
@@ -54,12 +54,6 @@ class ProfileScreen extends React.Component {
       return (
         <View style={styles.loginContainer}>
           { avatar }
-
-          <View style={styles.socialContainer}>
-            <SocialIcon onPress={() => {signInFacebook()}} name={'facebook'} />
-            <SocialIcon onPress={() => {signInGoogle()}} name={'google-plus'} />
-            <SocialIcon onPress={() => {}} name={'wechat'} />
-          </View>
         </View>
       )
     } else {
@@ -141,7 +135,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: Colors.tintColor,
     alignItems: 'center',
-    paddingVertical: '20%',
+    paddingVertical: 20,
   },
   avatarContainer: {
     marginTop: '10%',
