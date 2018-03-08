@@ -17,6 +17,7 @@ import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 import ChangePassword from '../screens/settings/ChangePasswordScreen';
 import SearchClass from '../screens/search/SearchClassScreen';
 import SearchClassResult from '../screens/search/SearchClassResultScreen';
+import ClassMap from '../screens/detail/ClassMapScreen';
 
 
 import Category from '../screens/createClass/CategoryScreen';
@@ -84,6 +85,9 @@ const RootStackNavigator = StackNavigator(
     },
     SearchClassResult: {
       screen: SearchClassResult,
+    },
+    ClassMap: {
+      screen: ClassMap,
     }
   },
   {

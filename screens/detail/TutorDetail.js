@@ -42,7 +42,6 @@ class TutorDetailScreen extends React.Component {
     const { state } = navigation;
     return {
       headerTitle: screenProps.locale.tutorDetail.title,
-      headerLeft: null,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -137,7 +136,7 @@ class TutorDetailScreen extends React.Component {
                 <Text style={styles.tutorName}> {data.phoneNumber} </Text>
               </View>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {this.props.navigation.navigate('ClassMap', classDetail.address)}}>
               <View style={styles.rowContainer}>
                 <View style={styles.innerContainer}>
                   <MaterialIcons
