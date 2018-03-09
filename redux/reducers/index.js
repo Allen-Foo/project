@@ -32,7 +32,8 @@ import {
   getClassDetailEpic,
   deleteClassEpic,
   getAllClassListEpic,
-  searchClassListEpic
+  searchClassListEpic,
+  giveCommentEpic,
 } from '../actions/classes';
 
 export const rootReducer = combineReducers({
@@ -40,7 +41,7 @@ export const rootReducer = combineReducers({
   apiTest,
   appType,
   classes,
-  socialLogin
+  socialLogin,
 })
 
 export const rootEpic = combineEpics(
@@ -67,4 +68,5 @@ export const rootEpic = combineEpics(
   deleteClassEpic,
   addToBookmarkEpic,
   removeFromBookmarkEpic,
+  giveCommentEpic,
 )

@@ -22,6 +22,9 @@ import {
   SEARCH_CLASS_LIST,
   SEARCH_CLASS_LIST_SUCCESS,
   SEARCH_CLASS_LIST_FAIL,
+  GIVE_COMMENT,
+  GIVE_COMMENT_SUCCESS,
+  GIVE_COMMENT_FAIL,
 } from '../types';
 
 import { Observable } from 'rxjs/Observable';
@@ -89,6 +92,16 @@ export function searchClassList(filter) {
   return {
     type: SEARCH_CLASS_LIST,
     payload: filter
+  }
+}
+
+export const giveComment = (comment, classId) => {
+  return {
+    type: GIVE_COMMENT,
+    payload: {
+      comment,
+      classId
+    }
   }
 }
 
@@ -245,6 +258,30 @@ export const searchClassListEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: SEARCH_CLASS_LIST_FAIL,
+        payload: err.message
+      }))
+    )
+
+export const giveCommentEpic = (action$, store, { request }) =>
+  action$.ofType(GIVE_COMMENT)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        method: 'post',
+        url: `/giveComment/${action.payload.classId}`,
+        data: {
+          comment: action.payload.comment,
+          userId: 'b26f7ab4-ef3e-4d27-8cef-0cf984243e07'//store.getState().user.userId,
+        }
+       }))
+      .map(res => {
+        // console.warn('update profile success', res.data)
+        return {
+          type: GIVE_COMMENT_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: GIVE_COMMENT_FAIL,
         payload: err.message
       }))
     )

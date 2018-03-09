@@ -21,6 +21,9 @@ import {
   SEARCH_CLASS_LIST,
   SEARCH_CLASS_LIST_FAIL,
   SEARCH_CLASS_LIST_SUCCESS,
+  GIVE_COMMENT,
+  GIVE_COMMENT_SUCCESS,
+  GIVE_COMMENT_FAIL,
 } from '../types';
 
 
@@ -197,6 +200,25 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoading: false,
         searchClassSuccess: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+
+    case GIVE_COMMENT:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GIVE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        classDetail: action.payload,
+      };
+    case GIVE_COMMENT_FAIL:
+      return {
+        ...state,
+        isLoading: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }

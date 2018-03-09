@@ -157,7 +157,7 @@ class TutorDetailScreen extends React.Component {
                 </View>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.registerButton} onPress={() => this.props.navigation.navigate('GiveComment', {classId: classDetail.classId})} >
+            <TouchableOpacity style={styles.commentButton} onPress={() => this.props.navigation.navigate('GiveComment', {classId: classDetail.classId})} >
               <Text style={{color: 'green', }}> 
                 { locale.tutorDetail.text.giveComment.label }
               </Text>
@@ -268,6 +268,16 @@ const styles = StyleSheet.create({
     paddingVertical:10,
     width: '90%',
     // backgroundColor: Colors.tintColor,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center', 
+    borderRadius: 5, 
+    marginVertical: 5,
+  },
+  commentButton: {
+    flexDirection: 'row',
+    paddingVertical:20,
+    width: '90%',
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center', 

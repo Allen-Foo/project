@@ -9,6 +9,7 @@ import {
   deleteClass,
   getAllClassList,
   searchClassList,
+  giveComment,
 } from './classes';
 
 import { signInEmail,
@@ -50,4 +51,5 @@ export {
   updateProfile,
   addToBookmark,
   removeFromBookmark,
+  giveComment,
 }
