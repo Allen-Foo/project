@@ -36,6 +36,9 @@ import {
   UPDATE_PROFILE,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
+  ADD_TO_BOOKMARK,
+  ADD_TO_BOOKMARK_SUCCESS,
+  ADD_TO_BOOKMARK_FAIL,
 } from '../types';
 
 
@@ -267,7 +270,6 @@ export default (state = {...defaultState}, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
-
     case UPDATE_AVATAR:
       // console.warn('here', 'UPDATE_AVATAR')
       return {
@@ -288,7 +290,6 @@ export default (state = {...defaultState}, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
-
     case UPDATE_PROFILE:
       // console.warn('here', 'UPDATE_PROFILE')
       return {
@@ -310,7 +311,27 @@ export default (state = {...defaultState}, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
-
+    case ADD_TO_BOOKMARK:
+      // console.warn('here', 'ADD_TO_BOOKMARK')
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case ADD_TO_BOOKMARK_SUCCESS:
+      // console.warn('here', 'ADD_TO_BOOKMARK_SUCCESS')
+      return {
+        ...state,
+        isLoading: false,
+        user: action.payload
+      };
+    case ADD_TO_BOOKMARK_FAIL:
+      // console.warn('here', 'ADD_TO_BOOKMARK_FAIL', action.payload)
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
     default:
       return state
   }

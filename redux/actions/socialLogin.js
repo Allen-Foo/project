@@ -40,7 +40,9 @@ import {
   UPDATE_PROFILE,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
-
+  ADD_TO_BOOKMARK,
+  ADD_TO_BOOKMARK_SUCCESS,
+  ADD_TO_BOOKMARK_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -110,6 +112,14 @@ export const signInFacebook = () => ({
 export const signInGoogle = () => ({
   type: SIGN_IN_GOOGLE
 })
+
+export const addToBookmark = (classId) => {
+  console.warn('classId', classId)
+  return {
+    type: ADD_TO_BOOKMARK,
+    payload: classId
+  }
+}
 
 // this epic will sign in user through AWS Cognito
 export const signInEmailEpic = (action$, store, { request }) =>
@@ -433,6 +443,29 @@ export const updateProfileEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: UPDATE_PROFILE_FAIL,
+        payload: err.message
+      }))
+    )
+
+export const addToBookmarkEpic = (action$, store, { request }) =>
+  action$.ofType(ADD_TO_BOOKMARK)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: `/addToBookmark/${action.payload}`,
+        method: 'post',
+        data: {
+          userId: "b26f7ab4-ef3e-4d27-8cef-0cf984243e07" //store.getState().user.userId
+        } 
+      }))
+      .map(res => {
+        // console.warn('ADD_TO_BOOKMARK success', res.data.classList)
+        return {
+          type: ADD_TO_BOOKMARK_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: ADD_TO_BOOKMARK_FAIL,
         payload: err.message
       }))
     )

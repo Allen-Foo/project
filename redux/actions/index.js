@@ -22,6 +22,7 @@ import { signInEmail,
   verifyCodeCancel,
   updateAvatar,
   updateProfile,
+  addToBookmark,
 } from './socialLogin';
 
 export {
@@ -46,4 +47,5 @@ export {
   searchClassList,
   updateAvatar,
   updateProfile,
+  addToBookmark,
 }

@@ -15,6 +15,7 @@ import Colors from '../constants/Colors';
 
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
+import { addToBookmark } from '../redux/actions';
 
 import StarRating from 'react-native-star-rating';
 
@@ -84,7 +85,7 @@ class Tutor extends React.Component {
           this.state.liked &&
           <TouchableOpacity
             style={styles.redHeart} 
-            onPress={() => this.setState({liked: !this.state.liked})}
+            onPress={() => this.props.addToBookmark(data.classId)}
           >
             <Ionicons
               name={ 'ios-heart'}
@@ -155,7 +156,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: '0.2%',
     top: '-0.1%',
-    
   },
 });
 
@@ -165,4 +165,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Tutor)
+export default connect(mapStateToProps, {
+  addToBookmark
+})(Tutor)

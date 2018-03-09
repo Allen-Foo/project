@@ -276,5 +276,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-    getClassDetail
+  getClassDetail
 })(TutorDetailScreen)
