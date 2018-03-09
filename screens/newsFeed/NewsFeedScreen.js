@@ -12,16 +12,17 @@ import {
 } from 'react-native';
 
 import Swiper from 'react-native-swiper';
-let {width, height} = Dimensions.get('window');
-import { Slideshow } from '../../components';
 import { SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import { mockData } from '../../constants/mockData';
-import { Tutor, Separator } from '../../components';
+import { Tutor, Separator, Slideshow } from '../../components';
 import icons from '../../assets/icon';
+import { Constants } from 'expo';
 import { connect } from 'react-redux';
 import { getAllClassList, searchClassList } from '../../redux/actions';
+
+let {width, height} = Dimensions.get('window');
 
 class NewsFeedScreen extends React.Component {
 
@@ -112,7 +113,7 @@ class NewsFeedScreen extends React.Component {
             position={ this.state.position }
             onPositionChanged={position => this.setState({ position })}
           />
-          <Swiper style={styles.swiperContainer} showsButtons={false} paginationStyle={{bottom: 10}}>
+          <Swiper style={styles.swiperContainer} showsButtons={false} paginationStyle={{bottom: 10}} loop={false}>
             <View style={styles.swiperPage}>
               {
                 Object.keys(icons).filter((k, i) => i < 8).map((key, index) => 
@@ -178,6 +179,11 @@ const sliderContainer = {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#eee',
+  },
+  statusBar: {
+    height: Constants.statusBarHeight,
+    width: '100%',
+    backgroundColor: Colors.tintColor,
   },
   searchText: {
     color: '#919191', 
