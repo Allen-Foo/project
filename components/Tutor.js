@@ -15,7 +15,7 @@ import Colors from '../constants/Colors';
 
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
-import { addToBookmark } from '../redux/actions';
+import { addToBookmark, removeFromBookmark } from '../redux/actions';
 
 import StarRating from 'react-native-star-rating';
 
@@ -27,6 +27,16 @@ class Tutor extends React.Component {
     this.state={
       liked: false
     }
+  }
+
+  handleLike(classId) {
+    this.setState({liked: !this.state.liked})
+    this.props.addToBookmark(classId)
+  }
+
+  handleUnlike(classId) {
+    this.setState({liked: !this.state.liked})
+    this.props.removeFromBookmark(classId)
   }
 
   render() {
@@ -72,7 +82,7 @@ class Tutor extends React.Component {
 
         <TouchableOpacity
           style={styles.whiteHeart} 
-          onPress={() => this.setState({liked: !this.state.liked})}
+          onPress={() => this.handleLike(data.classId)}
         >
           <Ionicons
             name={'ios-heart-outline'}
@@ -85,7 +95,7 @@ class Tutor extends React.Component {
           this.state.liked &&
           <TouchableOpacity
             style={styles.redHeart} 
-            onPress={() => this.props.addToBookmark(data.classId)}
+            onPress={() => this.handleUnlike(data.classId)}
           >
             <Ionicons
               name={ 'ios-heart'}
@@ -166,5 +176,6 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  addToBookmark
+  addToBookmark,
+  removeFromBookmark,
 })(Tutor)
