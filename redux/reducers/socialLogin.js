@@ -39,6 +39,9 @@ import {
   ADD_TO_BOOKMARK,
   ADD_TO_BOOKMARK_SUCCESS,
   ADD_TO_BOOKMARK_FAIL,
+  REMOVE_FROM_BOOKMARK,
+  REMOVE_FROM_BOOKMARK_SUCCESS,
+  REMOVE_FROM_BOOKMARK_FAIL,
 } from '../types';
 
 
@@ -326,6 +329,27 @@ export default (state = {...defaultState}, action) => {
       };
     case ADD_TO_BOOKMARK_FAIL:
       // console.warn('here', 'ADD_TO_BOOKMARK_FAIL', action.payload)
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+     case REMOVE_FROM_BOOKMARK:
+      // console.warn('here', 'REMOVE_FROM_BOOKMARK')
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case REMOVE_FROM_BOOKMARK_SUCCESS:
+      // console.warn('here', 'REMOVE_FROM_BOOKMARK_SUCCESS')
+      return {
+        ...state,
+        isLoading: false,
+        user: action.payload
+      };
+    case REMOVE_FROM_BOOKMARK_FAIL:
+      // console.warn('here', 'REMOVE_FROM_BOOKMARK_FAIL', action.payload)
       return {
         ...state,
         isLoading: false,

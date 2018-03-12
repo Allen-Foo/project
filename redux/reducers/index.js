@@ -22,6 +22,7 @@ import {
   updateAvatarEpic,
   updateProfileEpic,
   addToBookmarkEpic,
+  removeFromBookmarkEpic,
 } from '../actions/socialLogin';
 
 import {
@@ -65,4 +66,5 @@ export const rootEpic = combineEpics(
   updateProfileEpic,
   deleteClassEpic,
   addToBookmarkEpic,
+  removeFromBookmarkEpic,
 )

@@ -43,6 +43,9 @@ import {
   ADD_TO_BOOKMARK,
   ADD_TO_BOOKMARK_SUCCESS,
   ADD_TO_BOOKMARK_FAIL,
+  REMOVE_FROM_BOOKMARK,
+  REMOVE_FROM_BOOKMARK_SUCCESS,
+  REMOVE_FROM_BOOKMARK_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -114,9 +117,17 @@ export const signInGoogle = () => ({
 })
 
 export const addToBookmark = (classId) => {
-  console.warn('classId', classId)
+  // console.warn('classId', classId)
   return {
     type: ADD_TO_BOOKMARK,
+    payload: classId
+  }
+}
+
+export const removeFromBookmark = (classId) => {
+  // console.warn('classId', classId)
+  return {
+    type: REMOVE_FROM_BOOKMARK,
     payload: classId
   }
 }
@@ -454,7 +465,7 @@ export const addToBookmarkEpic = (action$, store, { request }) =>
         url: `/addToBookmark/${action.payload}`,
         method: 'post',
         data: {
-          userId: "b26f7ab4-ef3e-4d27-8cef-0cf984243e07" //store.getState().user.userId
+          userId: "b26f7ab4-ef3e-4d27-8cef-0cf984243e07" //store.getState().socialLogin.user.userId
         } 
       }))
       .map(res => {
@@ -466,6 +477,29 @@ export const addToBookmarkEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: ADD_TO_BOOKMARK_FAIL,
+        payload: err.message
+      }))
+    )
+
+export const removeFromBookmarkEpic = (action$, store, { request }) =>
+  action$.ofType(REMOVE_FROM_BOOKMARK)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: `/removeFromBookmark/${action.payload}`,
+        method: 'post',
+        data: {
+          userId: "b26f7ab4-ef3e-4d27-8cef-0cf984243e07" //store.getState().user.userId
+        } 
+      }))
+      .map(res => {
+        // console.warn('REMOVE_FROM_BOOKMARK success', res.data.classList)
+        return {
+          type: REMOVE_FROM_BOOKMARK_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: REMOVE_FROM_BOOKMARK_FAIL,
         payload: err.message
       }))
     )

@@ -23,6 +23,7 @@ import { signInEmail,
   updateAvatar,
   updateProfile,
   addToBookmark,
+  removeFromBookmark,
 } from './socialLogin';
 
 export {
@@ -48,4 +49,5 @@ export {
   updateAvatar,
   updateProfile,
   addToBookmark,
+  removeFromBookmark,
 }
