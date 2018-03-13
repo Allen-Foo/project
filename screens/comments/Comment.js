@@ -11,37 +11,18 @@ import {
 } from 'react-native';
 
 import { Avatar, Rating } from 'react-native-elements';
-
 import Colors from '../../constants/Colors';
-
 import { connect } from 'react-redux';
-
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
-
 import { mockData } from '../../constants/mockData';
-
 import { Tutor, Separator } from '../../components';
-
 import StarRating from 'react-native-star-rating';
+import { getClassDetail } from '../../redux/actions';
+import { Spinner } from '../../components';
 
 const { width } = Dimensions.get('window');
 
-const data = {
-  avatar: 'DF',
-  className: '1.The Darts Factory',
-  tutorName: 'Chan Tai Man',
-  rating: 3.5,
-  comment: '30',
-  fee: '150',
-  address: 'Address1',
-  liked: true,
-  openingTime:'10:00',
-  closingTime:'22:00',
-  phoneNumber:'12345678',
-  userComment:'It is a very useful class, Our vision has always been to create an iPhone that is entirely screen. One so immersive the device itself disappears into the experience. And so intelligent it can respond to a tap, your voice, and even a glance. With iPhone X, that vision is now a reality. Say hello to the future.'
-};
-
-class Comments extends React.Component {
+class Comment extends React.Component {
 
   constructor(props) {
     super(props);
@@ -51,40 +32,35 @@ class Comments extends React.Component {
   }
 
   render() {
-    const {onPress} = this.props;
+    const { comment } = this.props;
     return (
       <View>
         <Separator />
         <View style={styles.rowContainer} onPress={() => this.props.navigation.navigate('CommentDetail')}>
-
           <View style={styles.avatarContainer}>
             <Avatar
               large
               rounded
-              title={data.avatar}
-              onPress={onPress}
+              source={{url: comment.user.avatarUrl}}
               activeOpacity={0.7}
               style= {styles.avatar}
             />
           </View>
                 
           <TouchableOpacity style={styles.contentContainer} onPress={() => {this.setState({collapsed: false})}}>
-            <Text style={styles.className}> {data.className} </Text>
-            <Text style={styles.tutorName}> {data.tutorName} </Text>
             <View style={styles.ratingRow}>
               <StarRating
                 disabled
                 emptyStar={'ios-star-outline'}
                 fullStar={'ios-star'}
                 halfStar={'ios-star-half'}
-                starSize={30}
+                starSize={20}
                 iconSet={'Ionicons'}
                 maxStars={5}
-                rating={data.rating}
+                rating={comment.content.starCount}
                 starColor={Colors.tintColor}
                 emptyStarColor={Colors.tintColor}
               />
-              <Text style={styles.comment}> {`${data.comment} comments`} </Text>
             </View>
             {
               this.state.collapsed ?
@@ -92,19 +68,18 @@ class Comments extends React.Component {
                 style={styles.userComment}
                 numberOfLines={2}
               > 
-                {data.userComment} 
+                {comment.content.comment} 
               </Text> :
               <Text style={styles.userComment}> 
-                {data.userComment} 
+                {comment.content.comment} 
               </Text>
             }
-            
           </TouchableOpacity>
-
         </View>
       </View>
-    );
+    )
   }
+
 }
 
 const styles = StyleSheet.create({
@@ -130,7 +105,7 @@ const styles = StyleSheet.create({
   },
   ratingRow: {
     flexDirection: 'row',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
   rating: { 
     paddingVertical: '2%',
@@ -162,4 +137,15 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Comments
+const mapStateToProps = (state) => {
+  return {
+    locale: state.language.locale,
+    isLoading: state.classes.isLoading,
+    fetchErrorMsg: state.classes.fetchErrorMsg,
+    fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
+  }
+}
+
+export default connect(mapStateToProps, {
+    getClassDetail
+})(Comment)

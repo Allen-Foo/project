@@ -16,7 +16,7 @@ import { List, ListItem } from 'react-native-elements'
 import { Entypo, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
-import Comments from '../comments/Comments';
+import Comment from '../comments/Comment';
 import { getClassDetail } from '../../redux/actions';
 import { Hr, Slideshow, Spinner} from '../../components';
 
@@ -63,7 +63,7 @@ class TutorDetailScreen extends React.Component {
   renderClassDetail() {
     let { locale, classDetail } = this.props;
     let photoList = classDetail.photoList.map(photo => ({uri: photo.location}))
-
+    // console.warn('comments', classDetail.comments)
     return (
       <ScrollView contentContainerStyle={styles.container}>
           <Slideshow 
@@ -94,11 +94,11 @@ class TutorDetailScreen extends React.Component {
                 starSize={30}
                 iconSet={'Ionicons'}
                 maxStars={5}
-                rating={data.rating}
+                rating={classDetail.rating}
                 starColor={Colors.tintColor}
                 emptyStarColor={Colors.tintColor}
               />
-              <Text style={styles.comment}> {`${data.comment} comments`} </Text>
+              <Text style={styles.comment}> {`${classDetail.comment} comments`} </Text>
             </View>
             <View style={styles.rowContainer}>
               <View style={styles.innerContainer}>
@@ -121,7 +121,7 @@ class TutorDetailScreen extends React.Component {
                 />
               </View>
               <View style={styles.innerTextContainer}>
-                <Text style={styles.tutorName}> {`${data.openingTime} - ${data.closingTime} `}</Text>
+                <Text style={styles.tutorName}> {`${classDetail.openingTime} - ${classDetail.closingTime} `}</Text>
               </View>
             </View>
             <View style={styles.rowContainer}>
@@ -133,7 +133,7 @@ class TutorDetailScreen extends React.Component {
                 />
               </View>
               <View style={styles.innerTextContainer}>
-                <Text style={styles.tutorName}> {data.phoneNumber} </Text>
+                <Text style={styles.tutorName}> {classDetail.phoneNumber} </Text>
               </View>
             </View>
             <TouchableOpacity onPress={() => {this.props.navigation.navigate('ClassMap', classDetail.address)}}>
@@ -169,7 +169,7 @@ class TutorDetailScreen extends React.Component {
               />
             </TouchableOpacity>
           </View>
-        { [1, 2, 3].map((x, i) => <Comments key={i}/>) }
+        { classDetail.comments.map((comment, index) => <Comment key={index} comment={comment}/>) }
       </ScrollView>
     )
   }

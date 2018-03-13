@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 // import Home from '../screens/home/HomeScreen';
 import Signin from '../screens/login/SigninScreen';
 import Settings from '../screens/settings/SettingsScreen';
-import Comments from '../screens/comments/CommentsScene';
 import ApiTest from '../screens/settings/ApiTestScreen';
 import Language from '../screens/settings/LanguageScreen';
 import ProfileSetting from '../screens/settings/ProfileSettingScreen';
@@ -58,9 +57,6 @@ const RootStackNavigator = StackNavigator(
     },
     TutorDetail: {
       screen: TutorDetail,
-    },
-    Comments:{
-      screen: Comments,
     },
     ApiTest: {
       screen: ApiTest

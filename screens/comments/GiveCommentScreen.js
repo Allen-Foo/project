@@ -16,7 +16,6 @@ import { connect } from 'react-redux';
 import { Entypo, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
-import Comments from '../comments/Comments';
 import { Hr } from '../../components';
 import { giveComment } from '../../redux/actions';
 
