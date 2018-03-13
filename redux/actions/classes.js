@@ -270,7 +270,7 @@ export const giveCommentEpic = (action$, store, { request }) =>
         url: `/giveComment/${action.payload.classId}`,
         data: {
           comment: action.payload.comment,
-          userId: 'b26f7ab4-ef3e-4d27-8cef-0cf984243e07'//store.getState().user.userId,
+          userId: store.getState().socialLogin.user.userId,
         }
        }))
       .map(res => {
