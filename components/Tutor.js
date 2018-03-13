@@ -43,16 +43,15 @@ class Tutor extends React.Component {
     const { data, onPress } = this.props;
     return (
       <View style={styles.rowContainer}>
-        <View style={styles.avatarContainer}>
-
-          <Image
-            source={{uri: data.photoList && data.photoList[0].location}}
-            style={{width: '100%', height: 100}}
-            resizeMode={'cover'}
-          />
-        </View>
-
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
+          <View style={styles.avatarContainer}>
+            <Image
+              source={{uri: data.photoList && data.photoList[0].location}}
+              style={{width: '100%', height: 100}}
+              resizeMode={'cover'}
+              onPress={onPress}
+            />
+          </View>
           <Text style={styles.className}> {data.title} </Text>
           <View style={styles.ratingRow}>
             <StarRating
@@ -79,7 +78,6 @@ class Tutor extends React.Component {
             <Text> {`${data.fee} ${locale.classSummary.label[data.chargeType]}`}</Text>
           </Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           style={styles.whiteHeart} 
           onPress={() => this.handleLike(data.classId)}
