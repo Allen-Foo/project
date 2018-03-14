@@ -72,15 +72,10 @@ class TutorDetailScreen extends React.Component {
             scrollEnabled={true}
           />
           <TouchableOpacity style={styles.registerButton}>
-            <Text style={{color: 'green', }}> 
-              { locale.tutorDetail.text.register.label }
+            <Text style={{color: 'white', }}> 
+              { locale.tutorDetail.text.applyNow.label }
             </Text>
-            <Entypo
-              name={"chevron-thin-right"}
-              size={15}
-              style={{position: 'absolute', right: 0}}
-              color={'#555'}
-            />
+
           </TouchableOpacity>
           <View style={styles.contentContainer}>
             <Text style={styles.className}> {classDetail.title} </Text>
@@ -97,8 +92,9 @@ class TutorDetailScreen extends React.Component {
                 rating={classDetail.rating}
                 starColor={Colors.tintColor}
                 emptyStarColor={Colors.tintColor}
+                rounding={'up'}
               />
-              <Text style={styles.comment}> {`${classDetail.comment} comments`} </Text>
+              <Text style={styles.comment}> {`${classDetail.comments.length} comments`} </Text>
             </View>
             <View style={styles.rowContainer}>
               <View style={styles.innerContainer}>
@@ -121,7 +117,7 @@ class TutorDetailScreen extends React.Component {
                 />
               </View>
               <View style={styles.innerTextContainer}>
-                <Text style={styles.tutorName}> {`${classDetail.openingTime} - ${classDetail.closingTime} `}</Text>
+                <Text style={styles.tutorName}> {`4:30pm - 5:30pm `}</Text>
               </View>
             </View>
             <View style={styles.rowContainer}>
@@ -133,7 +129,7 @@ class TutorDetailScreen extends React.Component {
                 />
               </View>
               <View style={styles.innerTextContainer}>
-                <Text style={styles.tutorName}> {classDetail.phoneNumber} </Text>
+                <Text style={styles.tutorName}> {`2167 2834`} </Text>
               </View>
             </View>
             <TouchableOpacity onPress={() => {this.props.navigation.navigate('ClassMap', classDetail.address)}}>
@@ -267,7 +263,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical:10,
     width: '90%',
-    // backgroundColor: Colors.tintColor,
+    backgroundColor: Colors.tintColor,
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center', 

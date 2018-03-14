@@ -99,11 +99,7 @@ class NewsFeedScreen extends React.Component {
             placeholder='Type Here...'
             placeholderTextColor={'#DDDDDD'}
           />
-          <TouchableOpacity 
-            style={styles.searchButton}
-          >
-            <Text style={styles.searchText}>{this.props.locale.newsfeed.text.search}</Text>
-          </TouchableOpacity>
+          
         </View>
         <ScrollView contentContainerStyle={styles.container}>
           <Slideshow 
@@ -219,7 +215,7 @@ const styles = StyleSheet.create({
   },
   searchBarContainer: {
     backgroundColor: Colors.tintColor,
-    width: '80%',
+    width: '100%',
     borderTopWidth: 0,
     borderBottomWidth: 0,
   },
