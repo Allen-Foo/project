@@ -70,6 +70,7 @@ class TutorDetailScreen extends React.Component {
               <OverallRating
                 locale={locale}
                 key={i}
+                locale={locale}
                 type={type}
                 value={classDetail.rating[type]}
               />
@@ -182,7 +183,7 @@ class TutorDetailScreen extends React.Component {
 }
 
 const OverallRating = props => {
-  let { type, value, locale} = props;
+  let { type, value, locale } = props;
 
   return (
     <View style={styles.innerRatingRow}>

@@ -19,6 +19,7 @@ import { Tutor, Separator } from '../../components';
 import StarRating from 'react-native-star-rating';
 import { getClassDetail } from '../../redux/actions';
 import { Spinner } from '../../components';
+import moment from 'moment';
 
 const { width } = Dimensions.get('window');
 
@@ -63,6 +64,7 @@ class Comment extends React.Component {
                 starColor={Colors.tintColor}
                 emptyStarColor={Colors.tintColor}
               />
+              <Text style={styles.createTimeText}>{moment(comment.createdAt).format('YYYY-MM-DD HH:mm')}</Text>
             </View>
             {
               this.state.collapsed ?
@@ -95,6 +97,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+  },
+  createTimeText: {
+    fontSize: 10,
+    position: 'absolute',
+    right: 5,
+    top: -20
   },
   avatar: {
     marginTop: '5%',
