@@ -465,7 +465,7 @@ export const addToBookmarkEpic = (action$, store, { request }) =>
         url: `/addToBookmark/${action.payload}`,
         method: 'post',
         data: {
-          userId: "b26f7ab4-ef3e-4d27-8cef-0cf984243e07" //store.getState().socialLogin.user.userId
+          userId: store.getState().socialLogin.user.userId
         } 
       }))
       .map(res => {
@@ -488,7 +488,7 @@ export const removeFromBookmarkEpic = (action$, store, { request }) =>
         url: `/removeFromBookmark/${action.payload}`,
         method: 'post',
         data: {
-          userId: "b26f7ab4-ef3e-4d27-8cef-0cf984243e07" //store.getState().user.userId
+          userId: store.getState().socialLogin.user.userId //"b26f7ab4-ef3e-4d27-8cef-0cf984243e07"
         } 
       }))
       .map(res => {

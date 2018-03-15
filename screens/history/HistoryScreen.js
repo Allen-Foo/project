@@ -25,7 +25,7 @@ class HistoryScreen extends React.Component {
     return (
       <FlatList
         contentContainerStyle={styles.container}
-        data={mockData.class}
+        data={[]}
         keyExtractor={(item, index) => (item.address)}
         renderItem={({item}) => {
           return (

@@ -24,8 +24,10 @@ class Tutor extends React.Component {
 
   constructor(props) {
     super(props);
+
+    let bookmark = this.props.user && this.props.user.bookmark || []
     this.state={
-      liked: false
+      liked: bookmark.includes(props.data.classId)
     }
   }
 
@@ -75,7 +77,7 @@ class Tutor extends React.Component {
               style={{marginLeft: '5%'}}
               color={'#E8DA3A'}
             />
-            <Text> {`${data.fee} ${locale.classSummary.label[data.chargeType]}`}</Text>
+            <Text> {`${data.fee} HKD ${locale.classSummary.label[data.chargeType]}`}</Text>
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -170,6 +172,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     locale: state.language.locale,
+    user: state.socialLogin.user
   }
 }
 
