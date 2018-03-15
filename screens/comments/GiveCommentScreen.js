@@ -19,6 +19,8 @@ import StarRating from 'react-native-star-rating';
 import { Hr } from '../../components';
 import { giveComment } from '../../redux/actions';
 
+const RATING = ['punctualityRating', 'environmentRating', 'attitudeRating', 'professionRating']
+
 let {width, height} = Dimensions.get('window');
 const MAX_LENGTH = 255
 
@@ -36,27 +38,6 @@ class GiveCommentScreen extends React.Component {
     }
   };
 
-  punctualityRatingPress(punctualityRating) {
-    this.setState({
-      punctualityRating: punctualityRating,
-    });
-  }
-  environmentRatingPress(environmentRating) {
-    this.setState({
-      environmentRating: environmentRating,
-    });
-  }
-  attitudeRatingPress(attitudeRating) {
-    this.setState({
-      attitudeRating: attitudeRating,
-    });
-  }
-  professionRatingPress(professionRating) {
-    this.setState({
-      professionRating: professionRating,
-    });
-  }
-
   handleChangeText = (text) => {
     if (text.length < MAX_LENGTH) {
       this.setState({
@@ -67,6 +48,7 @@ class GiveCommentScreen extends React.Component {
 
   handleSubmit = () => {
     let { comment, ...rest } = this.state
+    //console.warn('rest', rest)
     this.props.giveComment({rating: rest, content: comment}, this.props.navigation.state.params.classId)
     this.props.navigation.goBack();
   }
@@ -88,66 +70,15 @@ class GiveCommentScreen extends React.Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.ratingContainer}>
-          <View style={styles.ratingRow}>
-            <Text style={styles.textStyle}> {locale.giveComment.text.punctualityRating} </Text>
-            <StarRating
-              disabled={false}
-              emptyStar={'ios-star-outline'}
-              fullStar={'ios-star'}
-              starSize={30}
-              iconSet={'Ionicons'}
-              maxStars={5}
-              rating={this.state.punctualityRating}
-              selectedStar={(punctualityRating) => this.punctualityRatingPress(punctualityRating)}
-              starColor={Colors.tintColor}
-              emptyStarColor={Colors.tintColor}
-            />
-          </View>
-          <View style={styles.ratingRow}>
-            <Text style={styles.textStyle}> {locale.giveComment.text.environmentRating} </Text>
-            <StarRating
-              disabled={false}
-              emptyStar={'ios-star-outline'}
-              fullStar={'ios-star'}
-              starSize={30}
-              iconSet={'Ionicons'}
-              maxStars={5}
-              rating={this.state.environmentRating}
-              selectedStar={(environmentRating) => this.environmentRatingPress(environmentRating)}
-              starColor={Colors.tintColor}
-              emptyStarColor={Colors.tintColor}
-            />
-          </View>
-          <View style={styles.ratingRow}>
-            <Text style={styles.textStyle}> {locale.giveComment.text.attitudeRating} </Text>
-            <StarRating
-              disabled={false}
-              emptyStar={'ios-star-outline'}
-              fullStar={'ios-star'}
-              starSize={30}
-              iconSet={'Ionicons'}
-              maxStars={5}
-              rating={this.state.attitudeRating}
-              selectedStar={(attitudeRating) => this.attitudeRatingPress(attitudeRating)}
-              starColor={Colors.tintColor}
-              emptyStarColor={Colors.tintColor}
-            />
-          </View>
-          <View style={styles.ratingRow}>
-            <Text style={styles.textStyle}> {locale.giveComment.text.professionRating} </Text>
-            <StarRating
-              disabled={false}
-              emptyStar={'ios-star-outline'}
-              fullStar={'ios-star'}
-              starSize={30}
-              iconSet={'Ionicons'}
-              maxStars={5}
-              rating={this.state.professionRating}
-              selectedStar={(professionRating) => this.professionRatingPress(professionRating)}
-              starColor={Colors.tintColor}
-              emptyStarColor={Colors.tintColor}
-            />
-          </View>
+          {
+            RATING.map(type => (
+              <RatingRow
+                type={type}
+                value={this.state[type]}
+                onSelectStar={value => this.setState({[type]: value})}
+              />
+            ))
+          }
         </View>
         <Hr/>
         <View style={styles.textInputContainer}>
@@ -170,6 +101,28 @@ class GiveCommentScreen extends React.Component {
       </ScrollView>
     )
   }
+}
+
+const RatingRow = props => {
+
+  let { type, value, onSelectStar } = props;
+  return (
+    <View style={styles.ratingRow}>
+      <Text style={styles.textStyle}> {locale.giveComment.text[type]} </Text>
+      <StarRating
+        disabled={false}
+        emptyStar={'ios-star-outline'}
+        fullStar={'ios-star'}
+        starSize={30}
+        iconSet={'Ionicons'}
+        maxStars={5}
+        rating={value}
+        selectedStar={v => onSelectStar(v)}
+        starColor={Colors.tintColor}
+        emptyStarColor={Colors.tintColor}
+      />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
