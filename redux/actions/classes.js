@@ -25,6 +25,9 @@ import {
   GIVE_COMMENT,
   GIVE_COMMENT_SUCCESS,
   GIVE_COMMENT_FAIL,
+  GET_FAVOURITE_CLASS_LIST,
+  GET_FAVOURITE_CLASS_LIST_FAIL,
+  GET_FAVOURITE_CLASS_LIST_SUCCESS,
 } from '../types';
 
 import { Observable } from 'rxjs/Observable';
@@ -102,6 +105,14 @@ export const giveComment = (comment, classId) => {
       comment,
       classId
     }
+  }
+}
+
+export function getFavouriteClassList(classIds) {
+  // console.warn('searchClassList', filter)
+  return {
+    type: GET_FAVOURITE_CLASS_LIST,
+    payload: classIds
   }
 }
 
@@ -281,7 +292,29 @@ export const giveCommentEpic = (action$, store, { request }) =>
         }
       })
       .catch(err => Observable.of({
-        type: GIVE_COMMENT_FAIL,
+        type: GET_FAVOURITE_CLASS_LIST_FAIL,
         payload: err.message
       }))
     )
+
+export const getFavouriteClassListEpic = (action$, store, { request }) =>
+  action$.ofType(GET_FAVOURITE_CLASS_LIST)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: '/getFavouriteClassList',
+        method: 'post',
+        data: action.payload
+      }))
+      .map(res => {
+        // console.warn('getFavouriteClassListEpic success', res.data)
+        return {
+          type: GET_FAVOURITE_CLASS_LIST_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: GET_FAVOURITE_CLASS_LIST_FAIL,
+        payload: err.message
+      }))
+    )
+

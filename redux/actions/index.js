@@ -10,6 +10,7 @@ import {
   getAllClassList,
   searchClassList,
   giveComment,
+  getFavouriteClassList,
 } from './classes';
 
 import { signInEmail,
@@ -47,6 +48,7 @@ export {
   getClassDetail,
   getAllClassList,
   searchClassList,
+  getFavouriteClassList,
   updateAvatar,
   updateProfile,
   addToBookmark,

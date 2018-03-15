@@ -24,8 +24,10 @@ import {
   GIVE_COMMENT,
   GIVE_COMMENT_SUCCESS,
   GIVE_COMMENT_FAIL,
+  GET_FAVOURITE_CLASS_LIST,
+  GET_FAVOURITE_CLASS_LIST_FAIL,
+  GET_FAVOURITE_CLASS_LIST_SUCCESS,
 } from '../types';
-
 
 const defaultState = {
   classList: [],
@@ -33,7 +35,6 @@ const defaultState = {
   classDetail: null,
   requireUpdateClassList: null,
 }
-
 
 // Reducer
 export default (state = {...defaultState}, action) => {
@@ -179,16 +180,15 @@ export default (state = {...defaultState}, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
-
     case SEARCH_CLASS_LIST:
-      // console.warn('here', 'GET_CLASS_LIST')
+      // console.warn('here', 'SEARCH_CLASS_LIST')
       return {
         ...state,
         searchClassSuccess: false,
         isLoading: true,
       }
     case SEARCH_CLASS_LIST_SUCCESS:
-       // console.warn('here', 'GET_ALL_CLASS_LIST_SUCCESS', action.payload.classList)
+       // console.warn('here', 'SEARCH_CLASS_LIST_SUCCESS', action.payload.classList)
       return {
         ...state,
         isLoading: false,
@@ -203,7 +203,26 @@ export default (state = {...defaultState}, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
-
+    case GET_FAVOURITE_CLASS_LIST:
+      // console.warn('here', 'GET_FAVOURITE_CLASS_LIST')
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_FAVOURITE_CLASS_LIST_SUCCESS:
+       // console.warn('here', 'GET_FAVOURITE_CLASS_LIST_SUCCESS', action.payload.classList)
+      return {
+        ...state,
+        isLoading: false,
+        favouriteClassList: action.payload.classList,
+      };
+    case GET_FAVOURITE_CLASS_LIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
     case GIVE_COMMENT:
       return {
         ...state,
