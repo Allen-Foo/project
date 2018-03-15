@@ -33,6 +33,8 @@ class Comment extends React.Component {
 
   render() {
     const { comment } = this.props;
+    let rating = Object.values(comment.rating).reduce((a, b) => a + b, 0) / Object.values(comment.rating).length
+    // console.warn('comment', comment)
     return (
       <View>
         <Separator />
@@ -41,7 +43,7 @@ class Comment extends React.Component {
             <Avatar
               large
               rounded
-              source={{url: comment.user.avatarUrl}}
+              source={{url: comment.user && comment.user.avatarUrl}}
               activeOpacity={0.7}
               style= {styles.avatar}
             />
@@ -57,7 +59,7 @@ class Comment extends React.Component {
                 starSize={20}
                 iconSet={'Ionicons'}
                 maxStars={5}
-                rating={comment.content.starCount}
+                rating={rating}
                 starColor={Colors.tintColor}
                 emptyStarColor={Colors.tintColor}
               />
@@ -68,10 +70,10 @@ class Comment extends React.Component {
                 style={styles.userComment}
                 numberOfLines={2}
               > 
-                {comment.content.comment} 
+                {comment.content} 
               </Text> :
               <Text style={styles.userComment}> 
-                {comment.content.comment} 
+                {comment.content} 
               </Text>
             }
           </TouchableOpacity>

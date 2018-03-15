@@ -36,36 +36,49 @@ class GiveCommentScreen extends React.Component {
     }
   };
 
-  onStarRatingPress(rating) {
+  punctualityRatingPress(punctualityRating) {
     this.setState({
-      starCount: rating,
+      punctualityRating: punctualityRating,
+    });
+  }
+  environmentRatingPress(environmentRating) {
+    this.setState({
+      environmentRating: environmentRating,
+    });
+  }
+  attitudeRatingPress(attitudeRating) {
+    this.setState({
+      attitudeRating: attitudeRating,
+    });
+  }
+  professionRatingPress(professionRating) {
+    this.setState({
+      professionRating: professionRating,
     });
   }
 
   handleChangeText = (text) => {
     if (text.length < MAX_LENGTH) {
       this.setState({
-        textLength: text.length,
         comment: text,
       });
     }
   }
 
   handleSubmit = () => {
-    // console.warn('giveComment', this.props.giveComment)
-    let {textLength, ...rest} = this.state;
-
-    this.props.giveComment(rest, this.props.navigation.state.params.classId)
+    let { comment, ...rest } = this.state
+    this.props.giveComment({rating: rest, content: comment}, this.props.navigation.state.params.classId)
     this.props.navigation.goBack();
   }
 
   constructor(props) {
     super(props);
-    let comment = ''
     this.state = {
-      textLength: 0,
-      starCount: 0,
-      comment: comment
+      punctualityRating: 0,
+      environmentRating: 0,
+      attitudeRating: 0,
+      professionRating: 0,
+      comment: ''
     }
   }
 
@@ -74,20 +87,67 @@ class GiveCommentScreen extends React.Component {
 
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.ratingRow}>
-          <Text style={styles.textStyle}> {locale.giveComment.text.rating} </Text>
-          <StarRating
-            disabled={false}
-            emptyStar={'ios-star-outline'}
-            fullStar={'ios-star'}
-            starSize={30}
-            iconSet={'Ionicons'}
-            maxStars={5}
-            rating={this.state.starCount}
-            selectedStar={(rating) => this.onStarRatingPress(rating)}
-            starColor={Colors.tintColor}
-            emptyStarColor={Colors.tintColor}
-          />
+        <View style={styles.ratingContainer}>
+          <View style={styles.ratingRow}>
+            <Text style={styles.textStyle}> {locale.giveComment.text.punctualityRating} </Text>
+            <StarRating
+              disabled={false}
+              emptyStar={'ios-star-outline'}
+              fullStar={'ios-star'}
+              starSize={30}
+              iconSet={'Ionicons'}
+              maxStars={5}
+              rating={this.state.punctualityRating}
+              selectedStar={(punctualityRating) => this.punctualityRatingPress(punctualityRating)}
+              starColor={Colors.tintColor}
+              emptyStarColor={Colors.tintColor}
+            />
+          </View>
+          <View style={styles.ratingRow}>
+            <Text style={styles.textStyle}> {locale.giveComment.text.environmentRating} </Text>
+            <StarRating
+              disabled={false}
+              emptyStar={'ios-star-outline'}
+              fullStar={'ios-star'}
+              starSize={30}
+              iconSet={'Ionicons'}
+              maxStars={5}
+              rating={this.state.environmentRating}
+              selectedStar={(environmentRating) => this.environmentRatingPress(environmentRating)}
+              starColor={Colors.tintColor}
+              emptyStarColor={Colors.tintColor}
+            />
+          </View>
+          <View style={styles.ratingRow}>
+            <Text style={styles.textStyle}> {locale.giveComment.text.attitudeRating} </Text>
+            <StarRating
+              disabled={false}
+              emptyStar={'ios-star-outline'}
+              fullStar={'ios-star'}
+              starSize={30}
+              iconSet={'Ionicons'}
+              maxStars={5}
+              rating={this.state.attitudeRating}
+              selectedStar={(attitudeRating) => this.attitudeRatingPress(attitudeRating)}
+              starColor={Colors.tintColor}
+              emptyStarColor={Colors.tintColor}
+            />
+          </View>
+          <View style={styles.ratingRow}>
+            <Text style={styles.textStyle}> {locale.giveComment.text.professionRating} </Text>
+            <StarRating
+              disabled={false}
+              emptyStar={'ios-star-outline'}
+              fullStar={'ios-star'}
+              starSize={30}
+              iconSet={'Ionicons'}
+              maxStars={5}
+              rating={this.state.professionRating}
+              selectedStar={(professionRating) => this.professionRatingPress(professionRating)}
+              starColor={Colors.tintColor}
+              emptyStarColor={Colors.tintColor}
+            />
+          </View>
         </View>
         <Hr/>
         <View style={styles.textInputContainer}>
@@ -99,7 +159,7 @@ class GiveCommentScreen extends React.Component {
             value={this.state.comment}
           />
           <View style={styles.numberLocation}>
-            <Text style={styles.textNumber}>{`${this.state.textLength}/${MAX_LENGTH}`}</Text>
+            <Text style={styles.textNumber}>{`${this.state.comment.length}/${MAX_LENGTH}`}</Text>
           </View>
         </View>
         <TouchableOpacity style={styles.button} onPress={()=>{this.handleSubmit()}}>
@@ -117,6 +177,9 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor: '#fff',
   },
+  ratingContainer: {
+
+  },
   ratingRow: {
     marginTop: 10,
     marginBottom: 10,
@@ -126,7 +189,8 @@ const styles = StyleSheet.create({
   textStyle: {
     alignSelf: 'center',
     paddingLeft: 10,
-    fontSize:18,
+    fontSize: 18,
+    width: '38%'
   },
   textInputStyle: {
     borderColor: 'gray', 
@@ -143,7 +207,6 @@ const styles = StyleSheet.create({
   },
   textNumber: {
     fontSize: 12,
-
   },
   button: {
     backgroundColor: Colors.tintColor,
@@ -160,7 +223,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0
   },
-
 });
 
 const mapStateToProps = (state) => {
