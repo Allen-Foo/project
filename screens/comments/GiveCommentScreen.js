@@ -48,7 +48,7 @@ class GiveCommentScreen extends React.Component {
 
   handleSubmit = () => {
     let { comment, ...rest } = this.state
-    //console.warn('rest', rest)
+    // console.warn('rest', rest)
     this.props.giveComment({rating: rest, content: comment}, this.props.navigation.state.params.classId)
     this.props.navigation.goBack();
   }
@@ -137,12 +137,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     flexDirection: 'row',
-    alignItems: 'flex-end'
   },
   textStyle: {
     alignSelf: 'center',
     paddingLeft: 10,
-    fontSize: 18,
+    color: '#555',
+    fontSize: 14,
     width: '38%'
   },
   textInputStyle: {

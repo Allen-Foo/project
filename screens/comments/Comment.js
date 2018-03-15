@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     paddingVertical: '2%',
+    backgroundColor: '#fff',
   },
   avatarContainer: {
     justifyContent: 'center',
