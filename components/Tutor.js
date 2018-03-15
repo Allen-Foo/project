@@ -62,7 +62,7 @@ class Tutor extends React.Component {
               starSize={15}
               iconSet={'Ionicons'}
               maxStars={5}
-              rating={data.rating}
+              rating={Number(data.rating)}
               starColor={Colors.tintColor}
               emptyStarColor={Colors.tintColor}
             />

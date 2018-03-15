@@ -68,10 +68,6 @@ class ClassListScreen extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    console.warn('componentWillUnmount')
-  }
-
   handleAddClass = () => {
     this.props.navigation.navigate('ClassType')
   }

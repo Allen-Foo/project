@@ -47,7 +47,7 @@ class ClassItem extends React.Component {
               starSize={25}
               iconSet={'Ionicons'}
               maxStars={5}
-              rating={data.rating}
+              rating={Number(data.rating)}
               starColor={Colors.tintColor}
               emptyStarColor={Colors.tintColor}
             />
