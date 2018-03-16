@@ -23,8 +23,26 @@ import { onSignIn } from '../../lib/Auth/AWS_Auth';
 
 class SigninScreen extends React.Component {
 
-  static navigationOptions = {
-    title: 'Welcome Back',
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { params = {} }  = navigation.state;
+
+    let headerLeft = (
+      <TouchableOpacity onPress={() => navigation.goBack(null) }>
+        <MaterialIcons
+          name={"close"}
+          size={25}
+          style={{ paddingLeft: 15 }}
+        />
+      </TouchableOpacity>
+    );
+
+    return {
+      headerTintColor: 'black',
+      headerLeft: headerLeft,
+      headerStyle: {
+        // backgroundColor: '#fff'
+      }
+    }
   };
 
   constructor(props) {

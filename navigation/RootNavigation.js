@@ -46,9 +46,6 @@ const RootStackNavigator = StackNavigator(
     Main: {
       screen: MainTabNavigator
     },
-    Signin: {
-      screen: Signin
-    },
     Settings: {
       screen: Settings,
     },
@@ -63,12 +60,6 @@ const RootStackNavigator = StackNavigator(
     },
     ProfileSetting: {
       screen: ProfileSetting
-    },
-    SignUp:{
-      screen: SignUp,
-    },
-    PreSignUp: {
-      screen: PreSignUp,
     },
     ForgotPassword: {
       screen: ForgotPassword,
@@ -105,9 +96,6 @@ const TutorStackNavigator = StackNavigator(
     },
     ProfileSetting: {
       screen: ProfileSetting
-    },
-    Signin: {
-      screen: Signin
     },
     Settings: {
       screen: Settings,
@@ -161,6 +149,50 @@ const TutorStackNavigator = StackNavigator(
   }
 );
 
+const AuthStack = StackNavigator(
+  {
+    Signin: {
+      screen: Signin
+    },
+    SignUp:{
+      screen: SignUp,
+    },
+    PreSignUp: {
+      screen: PreSignUp,
+    },
+  }
+)
+
+const LearnerStack = StackNavigator(
+  {
+    Main: {
+      screen: RootStackNavigator
+    },
+    Signin: {
+      screen: AuthStack
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+)
+
+const TutorStack = StackNavigator(
+  {
+    Main: {
+      screen: TutorStackNavigator
+    },
+    Signin: {
+      screen: AuthStack
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+)
+
 class RootNavigator extends React.Component {
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
@@ -172,9 +204,9 @@ class RootNavigator extends React.Component {
 
   render() {
     if (this.props.appType === 'tutor') {
-      return <TutorStackNavigator screenProps={{ ...this.props }} />;
+      return <TutorStack screenProps={{ ...this.props }} />;
     } else {
-      return <RootStackNavigator screenProps={{ ...this.props }} />;
+      return <LearnerStack screenProps={{ ...this.props }} />;
     }
   }
 
