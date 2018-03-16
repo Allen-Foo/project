@@ -80,7 +80,7 @@ class Tutor extends React.Component {
               starColor={Colors.tintColor}
               emptyStarColor={Colors.tintColor}
             />
-            <Text style={styles.comment}> {`${data.comment || 0} comments`} </Text>
+            <Text style={styles.comment}> {data.comments.length + this.props.locale.newsfeed.text.comment} </Text>
           </View>
           <Text>
             <FontAwesome 
