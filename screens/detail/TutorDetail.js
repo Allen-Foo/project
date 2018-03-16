@@ -164,7 +164,7 @@ class TutorDetailScreen extends React.Component {
             color={'#555'}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.registerButton}>
+        <TouchableOpacity style={styles.applyButton}>
           <Text style={{color: 'white', }}> 
             { locale.tutorDetail.text.applyNow.label }
           </Text>
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '500'
   },
-  registerButton: {
+  applyButton: {
     flexDirection: 'row',
     paddingVertical: 10,
     width: '90%',
