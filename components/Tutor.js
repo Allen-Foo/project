@@ -55,6 +55,8 @@ class Tutor extends React.Component {
 
   render() {
     const { data, onPress, locale } = this.props;
+    let rating = Object.values(data.rating).reduce((a, b) => a + b, 0) / Object.values(data.rating).length
+
     return (
       <View style={styles.rowContainer}>
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
@@ -76,7 +78,7 @@ class Tutor extends React.Component {
               starSize={15}
               iconSet={'Ionicons'}
               maxStars={5}
-              rating={Number(data.rating)}
+              rating={rating}
               starColor={Colors.tintColor}
               emptyStarColor={Colors.tintColor}
             />
@@ -89,7 +91,7 @@ class Tutor extends React.Component {
               style={{marginLeft: '5%'}}
               color={'#E8DA3A'}
             />
-            <Text> {`${data.fee} HKD ${locale.classSummary.label[data.chargeType]}`}</Text>
+            <Text> {`${data.fee} HKD / ${locale.newsfeed.text[data.chargeType]}`}</Text>
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
