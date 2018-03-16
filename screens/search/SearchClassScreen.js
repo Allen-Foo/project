@@ -21,6 +21,7 @@ import { mockData } from '../../constants/mockData';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
 import { searchClassList } from '../../redux/actions';
+import { FontAwesome } from '@expo/vector-icons';
 
 class SearchClassScreen extends React.Component {
 
@@ -54,6 +55,19 @@ class SearchClassScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.searchBarRowContainer}>
+          <View style={styles.advancedSearchContainer}>
+            <FontAwesome 
+              name={'search-plus'}
+              size={14}
+              style={styles.searchIcon}
+              color={'#fff'}
+            />
+            <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('AdvancedSearch')}>
+              <Text style={styles.text} >
+                {this.props.locale.searchClass.advancedSearch}
+              </Text>
+            </TouchableOpacity>
+          </View>
           <SearchBar
             lightTheme
             icon={{color: '#DDDDDD'}}
@@ -97,9 +111,17 @@ const styles = StyleSheet.create({
     color: '#919191', 
     paddingVertical: 5
   },
+  advancedSearchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  searchIcon: {
+    marginTop : '1%'
+  },
   searchBarRowContainer: {
     width: '100%',
     backgroundColor: Colors.tintColor,
+
   },
   searchBarContainer: {
     backgroundColor: Colors.tintColor,
@@ -110,6 +132,21 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 14,
     backgroundColor: '#fff'
+  },
+  text: {
+    color: '#fff',
+  },
+  button: {
+    backgroundColor: Colors.tintColor,
+    borderRadius: 5,
+    height: '10%',
+    width: '20%',
+    marginLeft: '1%',
+    marginTop : '1%'
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // alignSelf: 'flex-end',
+    // marginTop: 10,
   },
 });
 

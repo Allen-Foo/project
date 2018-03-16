@@ -18,6 +18,7 @@ import SearchClass from '../screens/search/SearchClassScreen';
 import SearchClassResult from '../screens/search/SearchClassResultScreen';
 import ClassMap from '../screens/detail/ClassMapScreen';
 import GiveComment from '../screens/comments/GiveCommentScreen';
+import AdvancedSearch from '../screens/search/AdvancedSearchScreen';
 
 import Category from '../screens/createClass/CategoryScreen';
 import Skill from '../screens/createClass/SkillScreen';
@@ -79,6 +80,9 @@ const RootStackNavigator = StackNavigator(
     GiveComment: {
       screen: GiveComment,
     },
+    AdvancedSearch: {
+      screen: AdvancedSearch,
+    }
   },
   {
     navigationOptions: () => ({
