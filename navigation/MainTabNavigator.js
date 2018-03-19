@@ -70,10 +70,24 @@ export default MainTab = TabNavigator(
         );
       },
     }),
-    tabBarComponent: TabBarBottom,
+    tabBarComponent: ({ jumpToIndex, ...props }) => {
+      return (
+        <TabBarBottom
+          {...props}
+          jumpToIndex={index => {
+            if ( index && (index === 1 || index === 3) && !props.screenProps.user) {
+              props.navigation.navigate('Signin');
+            } else {
+              jumpToIndex(index);
+            }
+          }}
+        />
+      )
+    },
     tabBarPosition: 'bottom',
     animationEnabled: false,
     swipeEnabled: false,
+    lazy: true,
     tabBarOptions: {
       showLabel: true, // this will control whether show the tab icon label or not
       activeTintColor: Colors.tintColor,

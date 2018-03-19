@@ -69,7 +69,7 @@ class SigninScreen extends React.Component {
   componentWillReceiveProps(nextProps) {
     // if login success, go to main page
     if (nextProps.isLoggedIn && !this.props.isLoggedIn) {
-      this.props.navigation.goBack()
+      this.props.navigation.goBack(null)
     }
 
     // if login fail, show message 
