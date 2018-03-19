@@ -9,6 +9,9 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  AsyncStorage,
+  Slider,
+  Picker,
 } from 'react-native';
 
 import Swiper from 'react-native-swiper';
@@ -23,22 +26,7 @@ import icons from '../../assets/icon';
 import { connect } from 'react-redux';
 import { searchClassList } from '../../redux/actions';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
-import { classData } from '../../constants/classData';
 
-const categoryList = [
-  'education', 
-  'music', 
-  'sports', 
-  'beauty', 
-  'designAndDevelopment', 
-  'petTraining', 
-  'carDriving', 
-  'interestClasses', 
-  'personal', 
-  'photography', 
-  'recover', 
-  'talent'
-  ]
 
 class AdvancedSearchScreen extends React.Component {
 
@@ -64,21 +52,34 @@ class AdvancedSearchScreen extends React.Component {
       skillSearch: params.skill && `${params.skill}`,
       category: params.category || '',
       skill: params.skill || '',
+      searchPrice: 50,
+      showPicker: false,
+      chargeType: null,
     }
   }
 
+  showPicker = () => {this.setState({ showPicker: true })}
+  hidePicker = () => {this.setState({ showPicker: false })}
+  handleCancel = () => {this.hidePicker()}
+  handleConfirm = (v) => {
+    this.setState({chargeType: v})
+    this.hidePicker()
+  }
+
   render() {
+    const { locale, isLoading } = this.props
+    // let { returnData } = navigation.state.params;
     return (
       <View style={styles.container}>
         <View style={styles.tabButton}>
           <Text style={styles.tabText}>
-            {this.props.locale.advancedSearch.text.category}
+            {locale.advancedSearch.text.category}
           </Text>
         </View>
         <TouchableOpacity style={[styles.subTabButton,{borderBottomWidth: 1, borderColor: '#eee'}]}>
           <View style={styles.buttonTextContainer}>
             <Text style={styles.subTabText}>
-              {this.props.locale.advancedSearch.text.classCategory}
+              {locale.advancedSearch.text.classCategory}
             </Text>
             <View style={styles.chevronContainer}>
               <Entypo
@@ -92,7 +93,7 @@ class AdvancedSearchScreen extends React.Component {
         <TouchableOpacity style={styles.subTabButton}>
           <View style={styles.buttonTextContainer}>
             <Text style={styles.subTabText}>
-              {this.props.locale.advancedSearch.text.skillCategory}
+              {locale.advancedSearch.text.skillCategory}
             </Text>
             <View style={styles.chevronContainer}>
               <Entypo
@@ -105,13 +106,110 @@ class AdvancedSearchScreen extends React.Component {
         </TouchableOpacity>
         <View style={styles.tabButton}>
           <Text style={styles.tabText}>
-            {this.props.locale.advancedSearch.text.tutionFee}
+            {locale.advancedSearch.text.tutionFee}
           </Text>
+          <TouchableOpacity 
+            style={[styles.subTabButton, {marginTop: 15, borderBottomWidth: 1, borderColor: '#eee'}]} 
+            onPress={() => this.showPicker()}
+          >
+            <View style={styles.chargeTypeButton}>
+              <Text style={styles.subTabText}>
+                {locale.advancedSearch.text[this.state.chargeType] || locale.advancedSearch.text.selectChargeType}
+              </Text>
+              <View style={styles.chargeTypeChevron}>
+                <Entypo
+                  name={"chevron-thin-down"}
+                  size={15}
+                  color={'#555'}
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+          {
+            this.state.chargeType && 
+            <PriceSlider
+              searchPrice={this.state.searchPrice}
+              handleValueChange={(value) => this.setState({searchPrice: value})}
+            />  
+          }
         </View>
-        { this.props.isLoading && <Spinner intensity={30}/> }
+        { 
+          this.state.showPicker &&
+            <ChargeTypePicker
+              onCancel={this.handleCancel}
+              onConfirm={this.handleConfirm}
+              locale={locale}
+              chargeType={this.state.chargeType}
+            />
+          }
+        { isLoading && <Spinner intensity={30}/> }
       </View>
     );
   }
+}
+
+class ChargeTypePicker extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      chargeType: props.chargeType || 'perHour'
+    }
+  }
+
+  render() {
+    const { chargeType, locale, onCancel, onConfirm } = this.props;
+    return (
+      <View style={styles.pickerContainer}>
+        <View style={styles.innerRowContainer}>
+          <TouchableOpacity onPress={() => onCancel()}>
+            <Text style={[styles.text, {color: '#FF5A5F', }]}>
+              {locale.common.cancel} 
+            </Text>
+          </TouchableOpacity>
+          {
+            <TouchableOpacity onPress={() => onConfirm(this.state.chargeType)}>
+              <Text style={[styles.text, {color: '#666', }]}>
+                {locale.common.confirm} 
+              </Text>
+            </TouchableOpacity>  
+          }
+        </View>
+        <Picker
+          selectedValue={this.state.chargeType}
+          onValueChange={(itemValue) => this.setState({chargeType: itemValue})}>
+          <Picker.Item label={locale.advancedSearch.text.perHour} value='perHour' />
+          <Picker.Item label={locale.advancedSearch.text.perLesson} value='perLesson' />
+        </Picker>
+      </View>
+    )
+  }
+}
+
+const PriceSlider = props => {
+  let { searchPrice, handleValueChange } = props;
+  return (
+    <View style={styles.slider}>
+      {
+        searchPrice == 1000 ?
+          <Text style={[styles.subTabText, {height: 17}]}>
+            {locale.advancedSearch.text.any}
+          </Text>
+        :
+          <Text style={styles.subTabText}>
+            {locale.advancedSearch.text.below} $ 
+            {searchPrice}
+          </Text>
+      }
+      <Slider
+        style={{width: '90%', alignSelf: 'center'}}
+        step={200}
+        minimumValue={50}
+        maximumValue={1000}
+        onValueChange={(searchPrice) => handleValueChange(searchPrice)}
+        value={searchPrice}
+      />
+    </View>
+  )
 }
 
 
@@ -120,11 +218,37 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     flex: 1,
   },
+  innerRowContainer: {
+    flexDirection: 'row',
+    paddingTop: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: '90%',
+  },
+  pickerContainer: {
+    backgroundColor: '#fff',
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+  },
   tabText: {
     paddingLeft: 10,
   },
   subTabText: {
     paddingLeft: 10,
+  },
+  slider: {
+    width: '100%',
+    paddingVertical: 5,
+    backgroundColor: '#fff',
+  },
+  chargeTypeButton: {
+    alignItems: 'center'
+  },
+  chargeTypeChevron: {
+    position: 'absolute',
+    right: 13,
   },
   tabButton: {
     width: '100%',
@@ -142,53 +266,6 @@ const styles = StyleSheet.create({
   chevronContainer: {
     position: 'absolute',
     right: 10,
-  },
-
-
-
-
-  searchText: {
-    color: '#919191', 
-    paddingVertical: 5,
-    alignItems: 'flex-start',
-    justifyContent: 'center'
-  },
-  advancedSearchContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
-  },
-  searchIcon: {
-    marginTop : '1%'
-  },
-  searchBarRowContainer: {
-    width: '100%',
-    backgroundColor: Colors.tintColor,
-
-  },
-  searchBarContainer: {
-    backgroundColor: Colors.tintColor,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-  },
-  searchBarInput: {
-    color: 'black',
-    fontSize: 14,
-    backgroundColor: '#fff'
-  },
-  text: {
-    color: '#fff',
-  },
-  button: {
-    backgroundColor: Colors.tintColor,
-    borderRadius: 5,
-    height: '10%',
-    width: '20%',
-    marginLeft: '1%',
-    marginTop : '1%'
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // alignSelf: 'flex-end',
-    // marginTop: 10,
   },
 });
 
