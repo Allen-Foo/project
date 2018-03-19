@@ -45,6 +45,14 @@ class TutorDetailScreen extends React.Component {
     this.props.getClassDetail(this.props.navigation.state.params.classId)
   }
 
+  handleCommentButtonPress() {
+    if (this.props.user) {
+      this.props.navigation.navigate('GiveComment', {classId: this.props.classDetail.classId})
+    } else {
+      this.props.navigation.navigate('Signin')
+    }
+  }
+
   renderClassDetail() {
     let { locale, classDetail } = this.props;
     let photoList = classDetail.photoList.map(photo => ({uri: photo.location}))
@@ -142,7 +150,7 @@ class TutorDetailScreen extends React.Component {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.commentButton} onPress={() => this.props.navigation.navigate('GiveComment', {classId: classDetail.classId})} >
+        <TouchableOpacity style={styles.commentButton} onPress={() => this.handleCommentButtonPress()} >
           <Text style={{color: 'green', }}> 
             { locale.tutorDetail.text.giveComment.label }
           </Text>
@@ -286,6 +294,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    user: state.socialLogin.user,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     classDetail: state.classes.classDetail,

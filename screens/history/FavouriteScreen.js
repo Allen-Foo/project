@@ -38,11 +38,15 @@ class FavouriteScreen extends React.Component {
       <FlatList
         contentContainerStyle={styles.container}
         data={this.props.favouriteClassList}
-        keyExtractor={(item, index) => (item.avatar)}
+        keyExtractor={(item, index) => (index)}
         renderItem={({item}) => {
           return (
             <View style={{width: '100%'}}>
-              <Tutor data={item} onPress={() => this.props.navigation.navigate('TutorDetail', {classId: item.classId})} />
+              <Tutor 
+                data={item}
+                onPress={() => this.props.navigation.navigate('TutorDetail', {classId: item.classId})} 
+                handleUnauthorizedCall={() => this.props.navigation.navigate('Signin')}
+              />
               <Separator />
             </View>
           )

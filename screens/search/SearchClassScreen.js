@@ -18,7 +18,6 @@ import { SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import { mockData } from '../../constants/mockData';
-import { Tutor, Separator } from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
 import { searchClassList } from '../../redux/actions';

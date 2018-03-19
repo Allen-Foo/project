@@ -32,8 +32,12 @@ class Tutor extends React.Component {
   }
 
   handleLike(classId) {
-    this.setState({liked: !this.state.liked})
-    this.props.addToBookmark(classId)
+    if (this.props.user) {
+      this.setState({liked: !this.state.liked})
+      this.props.addToBookmark(classId)
+    } else {
+      this.props.handleUnauthorizedCall && this.props.handleUnauthorizedCall()
+    }
   }
 
   handleUnlike(classId) {
