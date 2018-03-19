@@ -3,6 +3,8 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { rootEpic, rootReducer } from './redux/reducers';
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import { createEpicMiddleware } from 'redux-observable';
 import axios from 'axios';
 
@@ -12,6 +14,12 @@ import { setLanguage } from './redux/actions';
 
 import appSecrets from './appSecrets';
 
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 
@@ -29,7 +37,7 @@ const epicMiddleware = createEpicMiddleware(rootEpic, {
 
 function configureStore() {
   const store = createStore(
-    rootReducer,
+    persistedReducer,
     applyMiddleware(
       thunkMiddleware,
       loggerMiddleware,
@@ -40,9 +48,8 @@ function configureStore() {
   return store;
 }
 
-
-//Create the store (as a singleton, this module will always return this same instance of the store)
 const store = configureStore();
+let persistor = persistStore(store)
 
 //Load the user prefered language from local storage (or use default language if there is no language pre-selection)
 //Once the language is loaded the store itself dispatch the action to update the language congifuration
@@ -54,4 +61,4 @@ AsyncStorage.getItem(languageKeyName).then(languageKey => {
   store.dispatch(setLanguage(key));
 })
 
-export default store;
+export { store, persistor }

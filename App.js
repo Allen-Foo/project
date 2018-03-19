@@ -6,14 +6,17 @@ import { AsyncStorage, Platform, StatusBar, StyleSheet, View } from 'react-nativ
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
-import store from './configureStore';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor} from './configureStore';
 import { Provider } from 'react-redux';
 
 export default class extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     )
   }
