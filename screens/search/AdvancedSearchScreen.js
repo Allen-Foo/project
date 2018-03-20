@@ -84,31 +84,18 @@ class AdvancedSearchScreen extends React.Component {
             {locale.advancedSearch.text.category}
           </Text>
         </View>
-        <TouchableOpacity 
-          style={styles.subTabButton}
+        <RowButton
           onPress={() => this.props.navigation.navigate('SearchCategory', {returnData: this.handleCategoryReturnData})}
-        >
-          <View style={styles.buttonTextContainer}>
-            <Text style={styles.subTabText}>
-              {locale.advancedSearch.text.classCategory}
-            </Text>
-            { category && <Text style={styles.returnData}> {category} </Text>}
-          </View>
-          <View style={styles.chevronContainer}>
-            <Entypo
-              name={"chevron-thin-right"}
-              size={15}
-              color={'#555'}
-            />
-          </View>
-        </TouchableOpacity>
+          title={locale.advancedSearch.text.classCategory}
+          value={category}
+        />
         <Separator style={{backgroundColor: '#eee'}}/>
         {
           this.state.category &&
-          <SkillButton 
+          <RowButton 
             onPress={() => this.props.navigation.navigate('SearchSkill', {category: category, returnData: this.handleSkillReturnData})}
-            category={category}
-            skill={skill}
+            title={locale.advancedSearch.text.skillCategory}
+            value={skill}
           />
         }
         <View style={styles.tabButton}>
@@ -218,8 +205,8 @@ const PriceSlider = props => {
   )
 }
 
-const SkillButton = props => {
-  let { category, skill, onPress } = props;
+const RowButton = props => {
+  let { title, value, onPress } = props;
   return (
     <TouchableOpacity 
       style={styles.subTabButton}
@@ -227,9 +214,9 @@ const SkillButton = props => {
     >
       <View>
         <Text style={styles.subTabText}>
-          {locale.advancedSearch.text.skillCategory}
+          {title}
         </Text>
-        { skill && <Text style={styles.returnData}> {skill} </Text>}
+        { value && <Text style={styles.returnData}> {value} </Text>}
       </View>
       <View style={styles.chevronContainer}>
         <Entypo
@@ -241,7 +228,6 @@ const SkillButton = props => {
     </TouchableOpacity>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {
