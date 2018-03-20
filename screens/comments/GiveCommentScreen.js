@@ -73,6 +73,7 @@ class GiveCommentScreen extends React.Component {
           {
             RATING.map(type => (
               <RatingRow
+                locale={locale}
                 type={type}
                 value={this.state[type]}
                 onSelectStar={value => this.setState({[type]: value})}
@@ -105,7 +106,7 @@ class GiveCommentScreen extends React.Component {
 
 const RatingRow = props => {
 
-  let { type, value, onSelectStar } = props;
+  let { type, value, onSelectStar, locale} = props;
   return (
     <View style={styles.ratingRow}>
       <Text style={styles.textStyle}> {locale.giveComment.text[type]} </Text>

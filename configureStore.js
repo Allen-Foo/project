@@ -51,14 +51,4 @@ function configureStore() {
 const store = configureStore();
 let persistor = persistStore(store)
 
-//Load the user prefered language from local storage (or use default language if there is no language pre-selection)
-//Once the language is loaded the store itself dispatch the action to update the language congifuration
-AsyncStorage.getItem(languageKeyName).then(languageKey => {
-  let key = languageKey || defaultLanguageKey;
-  // console.warn('key', key)
-  window.locale = languagesConfig[key]
-  // console.warn('global.locale', global.locale)
-  store.dispatch(setLanguage(key));
-})
-
 export { store, persistor }

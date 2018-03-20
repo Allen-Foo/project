@@ -103,7 +103,9 @@ class EditClassScreen extends React.Component {
 
     if (this.props.isLoading || !params) {
       return <Spinner />
-    } 
+    }
+
+    let { locale } = this.props;
     
     return (
       <View style={styles.container}>

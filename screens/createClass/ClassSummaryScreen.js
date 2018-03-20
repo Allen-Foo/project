@@ -131,6 +131,8 @@ class ClassSummaryScreen extends React.Component {
     let { params } = this.props.navigation.state;
     params.userId = this.props.userId;
 
+    let {locale} = this.props;
+
     // console.warn('params', params)
 
     return (

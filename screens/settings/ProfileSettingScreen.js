@@ -110,6 +110,7 @@ class ProfileSettingScreen extends React.Component {
   }
 
   render() {
+    let {locale} = this.props;
     return (
       <KeyboardAwareScrollView style={styles.container} behavior="padding">
         {this.renderHeader()}

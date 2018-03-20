@@ -46,7 +46,7 @@ class Tutor extends React.Component {
   }
 
   render() {
-    const { data, onPress } = this.props;
+    const { data, onPress, locale } = this.props;
     return (
       <View style={styles.rowContainer}>
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>

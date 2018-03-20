@@ -68,6 +68,7 @@ class TutorDetailScreen extends React.Component {
           {
             RATING.map((type, i) => (
               <OverallRating
+                locale={locale}
                 key={i}
                 type={type}
                 value={classDetail.rating[type]}
@@ -86,6 +87,7 @@ class TutorDetailScreen extends React.Component {
   }
 
   renderClassContent(classDetail) {
+    let { locale } = this.props;
     return (
       <View style={styles.contentContainer}>
         <Text style={styles.className}> {classDetail.title} </Text>
@@ -180,7 +182,7 @@ class TutorDetailScreen extends React.Component {
 }
 
 const OverallRating = props => {
-  let { type, value } = props;
+  let { type, value, locale} = props;
 
   return (
     <View style={styles.innerRatingRow}>
