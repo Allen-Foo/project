@@ -27,6 +27,7 @@ import {
   GET_FAVOURITE_CLASS_LIST,
   GET_FAVOURITE_CLASS_LIST_FAIL,
   GET_FAVOURITE_CLASS_LIST_SUCCESS,
+  REQUIRE_UPDATE_CLASS_LIST,
 } from '../types';
 
 const defaultState = {
@@ -214,6 +215,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
+        requireUpdateClassList: false,
         favouriteClassList: action.payload.classList,
       };
     case GET_FAVOURITE_CLASS_LIST_FAIL:
@@ -240,6 +242,12 @@ export default (state = {...defaultState}, action) => {
         isLoading: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
+      }
+    case REQUIRE_UPDATE_CLASS_LIST:
+       // console.warn('here', 'REQUIRE_UPDATE_CLASS_LIST')
+      return {
+        ...state,
+        requireUpdateClassList: true,
       }
     default:
       return state

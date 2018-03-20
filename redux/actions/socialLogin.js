@@ -46,12 +46,14 @@ import {
   REMOVE_FROM_BOOKMARK,
   REMOVE_FROM_BOOKMARK_SUCCESS,
   REMOVE_FROM_BOOKMARK_FAIL,
+  REQUIRE_UPDATE_CLASS_LIST,
 } from '../types';
 
 import AWS from 'aws-sdk';
 import awsmobile from '../../aws-exports';
 import appSecrets from '../../appSecrets';
 import { Observable } from 'rxjs/Observable';
+
 import Expo from 'expo';
 import axios from 'axios';
 
@@ -503,3 +505,9 @@ export const removeFromBookmarkEpic = (action$, store, { request }) =>
         payload: err.message
       }))
     )
+
+export const requireUpdateClassListEpic = (action$, store, { request }) =>
+  action$.ofType(ADD_TO_BOOKMARK_SUCCESS, REMOVE_FROM_BOOKMARK_SUCCESS)
+    .mapTo({
+      type: REQUIRE_UPDATE_CLASS_LIST
+    })

@@ -23,7 +23,16 @@ class FavouriteScreen extends React.Component {
   };
 
   componentWillMount() {
+    // console.warn('componentWillMount FavouriteScreen')
     if (this.props.user) {
+      this.props.getFavouriteClassList(this.props.user.bookmark);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+      // console.warn('componentWillReceiveProps FavouriteScreen')
+    if (nextProps.requireUpdateClassList && !this.props.requireUpdateClassList) {
+      // console.warn('getFavouriteClassList', this.props.user.bookmark)
       this.props.getFavouriteClassList(this.props.user.bookmark);
     }
   }
@@ -97,7 +106,8 @@ const mapStateToProps = (state) => {
     locale: state.language.locale,
     user: state.socialLogin.user,
     isLoading: state.classes.isLoading,
-    favouriteClassList: state.classes.favouriteClassList
+    favouriteClassList: state.classes.favouriteClassList,
+    requireUpdateClassList: state.classes.requireUpdateClassList,
   }
 }
 
