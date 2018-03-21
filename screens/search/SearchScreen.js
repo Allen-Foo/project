@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, View, Text, TouchableOpacity, PermissionsAndroid, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
@@ -8,7 +8,7 @@ import { MapView, Constants } from 'expo';
 import { SearchBar } from 'react-native-elements';
 import { Tutor,} from '../../components';
 import { mockData } from '../../constants/mockData';
-
+import { getAllClassList, searchClassList } from '../../redux/actions';
 
 class SearchScreen extends React.Component {
   static navigationOptions = {
@@ -17,9 +17,38 @@ class SearchScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.mounted = false;
     this.state = {
       selectedMarkerIndex: null,
+      latitude: null,
+      longitude: null,
+      region: null,
+      error: null,
     }
+  }
+
+  componentWillMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+      },
+      (error) => {
+        this.setState({
+          latitude: 22.2965866,
+          longitude: 114.1748086,
+          error: error.message,
+        })
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    )
+  }
+
+  handleRegionChange = (region, lastLat, lastLong) => {
+    this.setState({ region });
   }
 
   render() {
@@ -48,9 +77,10 @@ class SearchScreen extends React.Component {
             showsMyLocationButton
             showsPointsOfInterest
             showsScale
+            onRegionChange={this.handleRegionChange}
             initialRegion={{
-              latitude: 22.2965866,
-              longitude: 114.1748086,
+              latitude: this.state.latitude || 22.2965866,
+              longitude: this.state.longitude || 114.1748086,
               latitudeDelta: 0.00922,
               longitudeDelta: 0.00421,
             }}
@@ -136,8 +166,12 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    allClassList: state.classes.allClassList,
   }
 }
 
-export default connect(mapStateToProps)(SearchScreen)
+export default connect(mapStateToProps, {
+  getAllClassList,
+  searchClassList,
+})(SearchScreen)
