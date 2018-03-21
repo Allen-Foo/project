@@ -44,12 +44,24 @@ class AdvancedSearchScreen extends React.Component {
     super(props);
 
     this.state = {
-      searchPrice: 50,
+      searchPrice: 0,
       showPicker: false,
       chargeType: null,
       category: null,
       skill: null,
     }
+  }
+
+  handleSearch() {
+    let {searchPrice, chargeType, category, skill} = this.state
+    this.props.searchClassList({
+        advancedSearch:{
+          searchPrice: searchPrice, 
+          chargeType: chargeType,
+          category: category,
+          skill: skill,
+        }
+    })
   }
 
   handleCategoryReturnData = (categoryData) => {
@@ -76,7 +88,6 @@ class AdvancedSearchScreen extends React.Component {
   render() {
     const { locale, isLoading } = this.props;
     let { category, skill } = this.state;
-    // let { returnData } = navigation.state.params;
     return (
       <View style={styles.container}>
         <View style={styles.tabButton}>
@@ -87,7 +98,7 @@ class AdvancedSearchScreen extends React.Component {
         <RowButton
           onPress={() => this.props.navigation.navigate('SearchCategory', {returnData: this.handleCategoryReturnData})}
           title={locale.advancedSearch.text.classCategory}
-          value={category}
+          value={locale.category.types[category]}
         />
         <Separator style={{backgroundColor: '#eee'}}/>
         {
@@ -95,7 +106,7 @@ class AdvancedSearchScreen extends React.Component {
           <RowButton 
             onPress={() => this.props.navigation.navigate('SearchSkill', {category: category, returnData: this.handleSkillReturnData})}
             title={locale.advancedSearch.text.skillCategory}
-            value={skill}
+            value={locale.skill.types[category][skill]}
           />
         }
         <View style={styles.tabButton}>
@@ -126,6 +137,12 @@ class AdvancedSearchScreen extends React.Component {
             handleValueChange={(value) => this.setState({searchPrice: value})}
           />  
         }
+        <TouchableOpacity 
+          style={styles.submitButton}
+          onPress={() => this.handleSearch()}
+        >
+          <Text style={styles.submitText}>{locale.common.submit}</Text>
+        </TouchableOpacity>
         { 
           this.state.showPicker &&
           <ChargeTypePicker
@@ -137,6 +154,7 @@ class AdvancedSearchScreen extends React.Component {
         }
         { isLoading && <Spinner intensity={30}/> }
       </View>
+      
     );
   }
 }
@@ -195,8 +213,8 @@ const PriceSlider = props => {
       }
       <Slider
         style={{width: '90%', alignSelf: 'center'}}
-        step={200}
-        minimumValue={50}
+        step={50}
+        minimumValue={0}
         maximumValue={1000}
         onValueChange={(searchPrice) => handleValueChange(searchPrice)}
         value={searchPrice}
@@ -287,6 +305,19 @@ const styles = StyleSheet.create({
   chevronContainer: {
     paddingRight: 10,
   },
+  submitButton: {
+    position: 'absolute',
+    bottom: '5%',
+    left: '10%',
+    right: '10%',
+    backgroundColor: Colors.tintColor,
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  submitText: {
+    color: '#fff',
+    paddingVertical: 10,
+  }
 });
 
 const mapStateToProps = (state) => {
