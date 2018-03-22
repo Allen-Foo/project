@@ -52,6 +52,8 @@ class SearchScreen extends React.Component {
   }
 
   render() {
+    let { allClassList } = this.props;
+
     return (
       <View style={styles.container}>
         <View style={styles.statusBar} />
@@ -86,10 +88,13 @@ class SearchScreen extends React.Component {
             }}
           >
             {
-              mockData.class.map((cls, index) => (
+              allClassList && allClassList.map((cls, index) => (
                 <MapView.Marker
                   key={index}
-                  coordinate={cls.position}
+                  coordinate={{
+                    latitude: cls.address.coordinate.lat,
+                    longitude: cls.address.coordinate.lng,
+                  }}
                   pinColor={this.state.selectedMarkerIndex === index ? Colors.tintColor : 'red'}
                   onPress={e => this.setState({selectedMarkerIndex: index})}
                 />
@@ -101,8 +106,11 @@ class SearchScreen extends React.Component {
         {
           this.state.selectedMarkerIndex !== null &&
           <Tutor 
-            data={mockData.class[this.state.selectedMarkerIndex]}
-            onPress={() => this.props.navigation.navigate('TutorDetail')} 
+            data={allClassList[this.state.selectedMarkerIndex]}
+            onPress={() => this.props.navigation.navigate('TutorDetail', {
+              classId: allClassList[this.state.selectedMarkerIndex].classId
+            })} 
+            handleUnauthorizedCall={() => this.props.navigation.navigate('Signin')}
           />
         }
         </View>
