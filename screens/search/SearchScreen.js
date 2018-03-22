@@ -95,11 +95,11 @@ class SearchScreen extends React.Component {
                     latitude: cls.address.coordinate.lat,
                     longitude: cls.address.coordinate.lng,
                   }}
-                  // pinColor={this.state.selectedMarkerIndex === index ? Colors.tintColor : 'red'}
                   onPress={e => this.setState({selectedMarkerIndex: index})}
                 >
                   <IndexMarker
                     index={index}
+                    isSelected={this.state.selectedMarkerIndex === index}
                   />
                 </MapView.Marker>
               ))
@@ -118,7 +118,6 @@ class SearchScreen extends React.Component {
           />
         }
         </View>
-        
       </View>
     );
   }

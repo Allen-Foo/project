@@ -18,14 +18,16 @@ const defaultProps = {
 
 class IndexMarker extends React.Component {
   render() {
-    const { fontSize, index } = this.props;
+    const { fontSize, index, isSelected } = this.props;
+    let backgroundColor = isSelected ? '#5ECC3F' : '#FF5A5F'
+    let borderColor = isSelected ? '#42903F' : '#D23F44'
     return (
       <View style={styles.container}>
-        <View style={styles.bubble}>
+        <View style={[styles.bubble, {backgroundColor, borderColor}]}>
           <Text style={[styles.index, { fontSize }]}>{index}</Text>
         </View>
-        <View style={styles.arrowBorder} />
-        <View style={styles.arrow} />
+        <View style={[styles.arrowBorder, {borderTopColor: backgroundColor}]} />
+        <View style={[styles.arrow, {borderTopColor: borderColor}]} />
       </View>
     );
   }
@@ -43,10 +45,8 @@ const styles = StyleSheet.create({
     flex: 0,
     flexDirection: 'row',
     alignSelf: 'flex-start',
-    backgroundColor: '#FF5A5F',
     padding: 2,
     borderRadius: 3,
-    borderColor: '#D23F44',
     borderWidth: 0.5,
   },
   index: {
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 4,
     borderColor: 'transparent',
-    borderTopColor: '#FF5A5F',
     alignSelf: 'center',
     marginTop: -9,
   },
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 4,
     borderColor: 'transparent',
-    borderTopColor: '#D23F44',
     alignSelf: 'center',
     marginTop: -0.5,
   },
