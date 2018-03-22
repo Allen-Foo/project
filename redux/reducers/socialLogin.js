@@ -54,6 +54,7 @@ const defaultState = {
   isVerified: false,
   verfiedErrorMsg: null,
   fetchErrorMsg: null,
+  bookmark: [],
 }
 
 // Reducer
@@ -92,6 +93,7 @@ export default (state = {...defaultState}, action) => {
         isLoading: false,
         isLoggedIn: true,
         user: action.payload,
+        bookmark: action.payload.bookmark || [],
       };
     case REGISTER_FAIL:
       // console.warn('here', 'REGISTER_FAIL')
@@ -114,6 +116,7 @@ export default (state = {...defaultState}, action) => {
         isLoading: false,
         isLoggedIn: true,
         user: action.payload,
+        bookmark: action.payload.bookmark || [],
       };
     case LOGIN_FAIL:
       // console.warn('here', 'LOGIN_FAIL')
@@ -325,7 +328,8 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
-        user: action.payload
+        user: action.payload,
+        bookmark: action.payload.bookmark || [],
       };
     case ADD_TO_BOOKMARK_FAIL:
       // console.warn('here', 'ADD_TO_BOOKMARK_FAIL', action.payload)
@@ -346,7 +350,8 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
-        user: action.payload
+        user: action.payload,
+        bookmark: action.payload.bookmark || [],
       };
     case REMOVE_FROM_BOOKMARK_FAIL:
       // console.warn('here', 'REMOVE_FROM_BOOKMARK_FAIL', action.payload)

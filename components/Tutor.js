@@ -25,9 +25,17 @@ class Tutor extends React.Component {
   constructor(props) {
     super(props);
 
-    let bookmark = this.props.user && this.props.user.bookmark || []
+    let bookmark = this.props.bookmark || []
     this.state={
       liked: bookmark.includes(props.data.classId)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.bookmark !== this.props.bookmark) {
+      this.setState({
+        liked: nextProps.bookmark.includes(this.props.data.classId)
+      })
     }
   }
 
@@ -176,7 +184,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     locale: state.language.locale,
-    user: state.socialLogin.user
+    user: state.socialLogin.user,
+    bookmark: state.socialLogin.bookmark,
   }
 }
 
