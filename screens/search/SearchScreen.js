@@ -6,7 +6,7 @@ import Colors from '../../constants/Colors';
 
 import { MapView, Constants } from 'expo';
 import { SearchBar } from 'react-native-elements';
-import { Tutor,} from '../../components';
+import { Tutor, IndexMarker } from '../../components';
 import { mockData } from '../../constants/mockData';
 import { getAllClassList, searchClassList } from '../../redux/actions';
 
@@ -95,9 +95,13 @@ class SearchScreen extends React.Component {
                     latitude: cls.address.coordinate.lat,
                     longitude: cls.address.coordinate.lng,
                   }}
-                  pinColor={this.state.selectedMarkerIndex === index ? Colors.tintColor : 'red'}
+                  // pinColor={this.state.selectedMarkerIndex === index ? Colors.tintColor : 'red'}
                   onPress={e => this.setState({selectedMarkerIndex: index})}
-                />
+                >
+                  <IndexMarker
+                    index={index}
+                  />
+                </MapView.Marker>
               ))
             }
           </MapView>

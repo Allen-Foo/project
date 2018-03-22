@@ -9,7 +9,7 @@ import NextButton from'./NextButton';
 import Slideshow from'./Slideshow';
 import ClassItem from'./ClassItem';
 import AppliedClassItem from'./AppliedClassItem';
-
+import IndexMarker from'./IndexMarker';
 
 export {
   Separator,
@@ -21,6 +21,7 @@ export {
   Slideshow,
   HideoTextInput,
   NextButton,
+  IndexMarker,
   ClassItem,
   AppliedClassItem,
 }
