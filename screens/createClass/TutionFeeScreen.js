@@ -42,7 +42,7 @@ class TutionFee extends React.Component {
     super(props);
     let { params = {} } = this.props.navigation.state;
     this.state = {
-      fee: params.fee,
+      fee: params.fee && String(params.fee),
       chargeType: params.chargeType || 'perHour',
     }
   }
@@ -53,7 +53,10 @@ class TutionFee extends React.Component {
   }
 
   _handleSubmit = () => {
-    this.props.editClass(this.state)
+    this.props.editClass({
+      fee: Number(this.state.fee),
+      chargeType: this.state.chargeType
+    })
     this.props.navigation.goBack();
   }
 
@@ -68,7 +71,7 @@ class TutionFee extends React.Component {
 
   handleNext = () => {
     let { params = {} } = this.props.navigation.state;
-    params.fee = this.state.fee
+    params.fee = Number(this.state.fee)
     params.chargeType = this.state.chargeType
     this.props.navigation.navigate('UploadPhoto', params)
   }
