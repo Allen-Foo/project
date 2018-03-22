@@ -47,8 +47,13 @@ class SearchClassScreen extends React.Component {
 
   handleSearch() {
     let {address, keyword} = this.state;
-    this.props.navigation.navigate('SearchClassResult')
-    this.props.searchClassList({address: address, keyword: keyword.toLowerCase()})
+    let option = {
+      address: address, 
+      keyword: keyword.toLowerCase()
+    }
+    this.props.searchClassList(option)
+    this.props.navigation.navigate('SearchClassResult', option)
+
   }
 
   render() {
