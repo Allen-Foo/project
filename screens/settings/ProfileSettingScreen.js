@@ -121,6 +121,8 @@ class ProfileSettingScreen extends React.Component {
               style={styles.textInput}
               onChangeText={(name) => this.setState({name})}
               value={this.state.name}
+              autoCapitalize={'none'}
+              autoCorrect={false}
             />
           </View>
           <View style={styles.rowContainer}>
@@ -129,6 +131,8 @@ class ProfileSettingScreen extends React.Component {
               style={styles.textInput}
               onChangeText={(email) => this.setState({email})}
               value={this.state.email}
+              autoCapitalize={'none'}
+              autoCorrect={false}
             />
           </View>
           <View style={styles.rowContainer}>
@@ -137,6 +141,7 @@ class ProfileSettingScreen extends React.Component {
               style={styles.textInput}
               onChangeText={(phone) => this.setState({phone})}
               value={this.state.phone}
+              autoCapitalize={'none'}
             />
           </View>
           <View style={styles.rowContainer}>
@@ -144,13 +149,14 @@ class ProfileSettingScreen extends React.Component {
               <TextInput 
                 multiline={true}
                 numberOfLines={4}
+                autoCapitalize={'none'}
                 style={styles.introBox}
                 onChangeText={(t) => this.handleChangeText(t)}
                 value={this.state.introduction}
               />
           </View>
           <View style={[styles.rowContainer, {justifyContent: 'flex-end'}]}>
-            <Text style={[styles.textTag, {fontSize: 12}]}>{`${this.state.textLength}/255`}</Text>
+            <Text style={[styles.textTag, {fontSize: 13}]}>{`${this.state.textLength}/255`}</Text>
           </View>
           <View style={styles.rowContainer}>
             <Text style={styles.textTag}>{locale.profileSetting.text.website}</Text>
@@ -187,7 +193,7 @@ class ProfileSettingScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eee',
+    backgroundColor: '#fff',
   },
   text: {
     color: '#3b85be',
@@ -195,9 +201,9 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   textTag: {
-    width: 80,
+    width: '20%',
     color: '#262525',
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: '500'
   },
   changePwButton: {
@@ -209,23 +215,24 @@ const styles = StyleSheet.create({
   introBox: {
     borderWidth: 1,
     height: 80,
+    fontSize: 15,
     color: '#43484A',
     borderRadius: 10,
-    width: 200, 
+    width: '70%', 
     borderColor: '#d9d9d9',
     marginHorizontal: width * 0.05,
   },
   textInput: {
     marginHorizontal: width * 0.05,
-    fontSize: 13,
+    fontSize: 15,
     color: '#43484A',
     height: 18, 
-    width: 200, 
+    width: '70%', 
     borderColor: '#d9d9d9',
     borderBottomWidth: 1,
   },
   avatarContainer: {
-    backgroundColor: '#eee',
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10
@@ -241,22 +248,10 @@ const styles = StyleSheet.create({
   },
   loginContainer: {
     width: '100%',
-    backgroundColor: '#eee',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  signOutContainer: {
     backgroundColor: '#fff',
-    marginTop: 30,
-    height: 50,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  signOut: {
-    color: 'red',
-    fontSize: 18
-  },
-
 });
 
 const mapStateToProps = (state) => {

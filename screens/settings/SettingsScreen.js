@@ -38,11 +38,6 @@ class SettingsScreen extends React.Component {
             hideChevron
             onPress={() => {this.props.navigation.navigate('ApiTest')}}
           />
-          <ListItem
-            containerStyle={styles.itemContainer}
-            title={'Change Password'}
-            onPress={() => {this.props.navigation.navigate('Language')}}
-          />
         </List>
         {
           this.props.user &&
