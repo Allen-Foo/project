@@ -35,6 +35,7 @@ const defaultState = {
   allClassList: [],
   classDetail: null,
   requireUpdateClassList: null,
+  filteredClassList: [],
 }
 
 // Reducer
@@ -187,6 +188,7 @@ export default (state = {...defaultState}, action) => {
         ...state,
         searchClassSuccess: false,
         isLoading: true,
+        filteredClassList: []
       }
     case SEARCH_CLASS_LIST_SUCCESS:
        // console.warn('here', 'SEARCH_CLASS_LIST_SUCCESS', action.payload.classList)

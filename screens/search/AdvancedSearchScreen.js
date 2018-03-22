@@ -53,15 +53,11 @@ class AdvancedSearchScreen extends React.Component {
   }
 
   handleSearch() {
-    let {searchPrice, chargeType, category, skill} = this.state
+    let {showPicker, ...rest} = this.state
     this.props.searchClassList({
-        advancedSearch:{
-          searchPrice: searchPrice, 
-          chargeType: chargeType,
-          category: category,
-          skill: skill,
-        }
+      advancedSearch: rest
     })
+    this.props.navigation.navigate('SearchClassResult', rest)
   }
 
   handleCategoryReturnData = (categoryData) => {

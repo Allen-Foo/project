@@ -74,8 +74,13 @@ class NewsFeedScreen extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.searchClassSuccess && !this.props.searchClassSuccess) {
-      this.props.navigation.navigate('SearchClassResult')
+      // this.props.navigation.navigate('SearchClassResult')
     }
+  }
+
+  handlePressIcon = (key) => {
+    this.props.searchClassList({keyword: key})
+    this.props.navigation.navigate('SearchClassResult')
   }
 
   componentWillUnmount() {
@@ -117,7 +122,7 @@ class NewsFeedScreen extends React.Component {
                     key={index}
                     uri={icons[key]}
                     iconName={this.props.locale.icon[key]}
-                    onPress={() => this.props.searchClassList({keyword: key})}
+                    onPress={() => this.handlePressIcon(key)}
                   />
                 )
               }
@@ -129,7 +134,7 @@ class NewsFeedScreen extends React.Component {
                     key={index}
                     uri={icons[key]}
                     iconName={this.props.locale.icon[key]}
-                    onPress={() => this.props.searchClassList({keyword: key})}
+                    onPress={() => this.handlePressIcon(key)}
                   />
                 )
               }
