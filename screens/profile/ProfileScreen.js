@@ -82,16 +82,6 @@ class ProfileScreen extends React.Component {
 
         <List containerStyle={{width: '90%'}}>
           <ListItem
-            title={this.props.locale.profile.text.comments}
-            leftIcon={{name: 'comment'}}
-            onPress={() => {this.props.navigation.navigate('SearchClass')}}
-          />
-          <ListItem
-            title={this.props.locale.profile.text.notifications}
-            leftIcon={{name: 'notifications'}}
-            onPress={() => {this.props.navigation.navigate('Notifications')}}
-          />
-          <ListItem
             title={this.props.locale.profile.text.applyToBeTutor}
             leftIcon={{name: 'people'}}
             onPress={() => {this.props.navigation.navigate('Apply to be a tutor')}}
