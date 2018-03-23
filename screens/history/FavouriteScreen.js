@@ -13,7 +13,7 @@ class FavouriteScreen extends React.Component {
     const { state } = navigation;
     return {
       tabBarLabel: screenProps.locale.history.favourite,
-      headerTitle: screenProps.locale.history.title,
+      headerTitle: screenProps.locale.history.favourite,
       headerLeft: null,
       headerTintColor: '#fff',
       headerStyle: {

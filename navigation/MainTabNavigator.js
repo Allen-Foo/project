@@ -7,6 +7,7 @@ import Colors from '../constants/Colors';
 
 import NewsFeedScreen from '../screens/newsFeed/NewsFeedScreen';
 import HistoryScene from '../screens/history/HistoryScene';
+import FavouriteScreen from '../screens/history/FavouriteScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import SearchScreen from '../screens/search/SearchScreen';
 import ScheduleScreen from '../screens/schedule/ScheduleScreen';
@@ -17,7 +18,7 @@ export default MainTab = TabNavigator(
       screen: NewsFeedScreen
     },
     History: {
-      screen: HistoryScene,
+      screen: FavouriteScreen,
     },
     Search: {
       screen: SearchScreen,
