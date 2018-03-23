@@ -98,7 +98,7 @@ class SearchScreen extends React.Component {
                   onPress={e => this.setState({selectedMarkerIndex: index})}
                 >
                   <IndexMarker
-                    index={index}
+                    index={index + 1}
                     isSelected={this.state.selectedMarkerIndex === index}
                   />
                 </MapView.Marker>
