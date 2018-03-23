@@ -64,19 +64,22 @@ class TutorDetailScreen extends React.Component {
           containerStyle={sliderContainer}
           scrollEnabled={true}
         />
-        <View style={styles.ratingContainer}>
-          {
-            RATING.map((type, i) => (
-              <OverallRating
-                locale={locale}
-                key={i}
-                locale={locale}
-                type={type}
-                value={classDetail.rating[type]}
-              />
-            ))
-          }
-        </View>
+        {
+          classDetail.rating != 'null' &&
+          <View style={styles.ratingContainer}>
+            {
+              RATING.map((type, i) => (
+                <OverallRating
+                  locale={locale}
+                  key={i}
+                  locale={locale}
+                  type={type}
+                  value={classDetail.rating[type]}
+                />
+              ))
+            }
+          </View>
+        }
         {this.renderClassContent(classDetail)}
         { classDetail.comments.map((comment, index) => <Comment key={index} comment={comment}/>) }
       </ScrollView>
