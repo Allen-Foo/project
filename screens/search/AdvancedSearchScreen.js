@@ -131,6 +131,7 @@ class AdvancedSearchScreen extends React.Component {
           <PriceSlider
             searchPrice={this.state.searchPrice}
             handleValueChange={(value) => this.setState({searchPrice: value})}
+            locale={locale}
           />  
         }
         <TouchableOpacity 
@@ -193,7 +194,7 @@ class ChargeTypePicker extends React.Component {
 }
 
 const PriceSlider = props => {
-  let { searchPrice, handleValueChange } = props;
+  let { searchPrice, handleValueChange, locale } = props;
   return (
     <View style={styles.slider}>
       {
