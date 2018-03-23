@@ -23,16 +23,13 @@ class FavouriteScreen extends React.Component {
   };
 
   componentWillMount() {
-    // console.warn('componentWillMount FavouriteScreen')
     if (this.props.user) {
       this.props.getFavouriteClassList(this.props.user.bookmark);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-      // console.warn('componentWillReceiveProps FavouriteScreen')
     if (nextProps.requireUpdateClassList && !this.props.requireUpdateClassList) {
-      // console.warn('getFavouriteClassList', this.props.user.bookmark)
       this.props.getFavouriteClassList(this.props.user.bookmark);
     }
   }
@@ -42,7 +39,6 @@ class FavouriteScreen extends React.Component {
   }
 
   renderClassList() {
-    console.warn('favouriteClassList', this.props.favouriteClassList)
     return (
       <FlatList
         contentContainerStyle={styles.container}
