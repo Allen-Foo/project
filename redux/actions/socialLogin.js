@@ -419,7 +419,7 @@ export const updateAvatarEpic = (action$, store, { request }) =>
         data: {
           key: 'test',
           file: action.payload.avatar.base64,
-          awsId: 'us-east-1:8f2f24ab-a1fc-4a48-a5f8-f20be75be0d8'//this.props.user.awsId
+          awsId: store.getState().socialLogin.user.awsId//this.props.user.awsId
         }
        }))
       .map(res => {
@@ -443,7 +443,7 @@ export const updateProfileEpic = (action$, store, { request }) =>
         url: '/updateProfile',
         data: {
           key: 'test',
-          awsId: 'us-east-1:8f2f24ab-a1fc-4a48-a5f8-f20be75be0d8',//this.props.user.awsId
+          awsId: store.getState().socialLogin.user.awsId,//this.props.user.awsId
           user: action.payload.profile
         }
        }))
