@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-
+import { Separator } from '../../components';
 import { SocialIcon } from 'react-native-elements';
 
 const { height, width } = Dimensions.get('window')
@@ -33,7 +33,7 @@ class PreSignUpScreen extends React.Component {
         >
           <Text style={styles.textStyle}> {locale.signUp.text.tutor.label} </Text>
         </TouchableOpacity>
-
+        <Separator style={{backgroundColor: '#eee'}}/>
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate('SignUp', {isTutor: false})}
@@ -48,7 +48,7 @@ class PreSignUpScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E4E4E4',
+    backgroundColor: '#eee',
     //justifyContent: 'center',
     //alignItems: 'center',
   },
@@ -62,11 +62,9 @@ const styles = StyleSheet.create({
     left:20,
   },
   button:{
-    borderWidth:1,
     height: 40,
     top:110,
-    width: '100%',
-    backgroundColor: 'white', 
+    backgroundColor: '#fff', 
     justifyContent: 'center', 
     //alignItems: 'center', 
     //borderRadius: 10, 

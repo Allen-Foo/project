@@ -133,7 +133,6 @@ class SignUpScreen extends React.Component {
           }}
           value={this.state.password}
         />
-        <View style={styles.contact}>
           <View style={styles.countryPickerContainer}>
             <CountryPicker
               styles={countryPickerStyle}
@@ -144,18 +143,17 @@ class SignUpScreen extends React.Component {
               cca2={this.state.cca2}
               translation='eng'
             />
+            <TextInput 
+              style={styles.phoneNumber}
+              placeholder={locale.signUp.textInput.phoneNumber.placeholder}
+              onChangeText={phoneNumber => {
+                // console.warn('text', text);
+                this.setState({phoneNumber})
+              }}
+              value={this.state.phoneNumber}
+              underlineColorAndroid={'transparent'}
+            />
           </View>
-          <TextInput 
-            style={[styles.textInput, {width: '85%', marginLeft: 0}]}
-            placeholder={locale.signUp.textInput.phoneNumber.placeholder}
-            onChangeText={phoneNumber => {
-              // console.warn('text', text);
-              this.setState({phoneNumber})
-            }}
-            value={this.state.phoneNumber}
-            underlineColorAndroid={'transparent'}
-          />
-        </View>
         { 
           isTutor &&
           <TextInput
@@ -169,15 +167,6 @@ class SignUpScreen extends React.Component {
             }}
             value={this.state.skill}
           />
-        }
-        {
-          isTutor &&
-          <TouchableOpacity 
-            style={styles.uploadButton}
-            onPress={() => {}}
-          >
-            <Text style={{color: 'black'}}> {locale.signUp.text.upload.label} </Text>
-          </TouchableOpacity>  
         }
         <TouchableOpacity 
           style={[styles.button, {marginTop: 20} ]}
@@ -238,8 +227,6 @@ const countryPickerStyle = {
   itemCountryFlag: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 40,
-    backgroundColor: '#fff',
   },
 }
 
@@ -259,13 +246,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  contact: {
-    flexDirection: 'row',
-  },
+  // contact: {
+  //   flexDirection: 'row',
+  // },
   countryPickerContainer: {
     borderBottomWidth: 1,
-    borderRightWidth: 1,
     borderColor: 'grey', 
+    flexDirection: 'row',
+    paddingVertical: 10,
+    paddingLeft: 10,
+    backgroundColor: '#fff',
+    width: '100%',
+    alignItems: 'center'
   },
   agreement: {
     fontSize: 14,
@@ -281,9 +273,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     paddingLeft: 20,
   },
+  phoneNumber: {
+    fontSize: 14,
+    backgroundColor: '#fff',
+    paddingLeft :20,
+  },
   button: {
     height: 40, 
-    width: '60%',
+    width: '80%',
     backgroundColor: '#5ECC3F', 
     justifyContent: 'center', 
     alignItems: 'center', 
