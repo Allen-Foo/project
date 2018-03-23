@@ -28,7 +28,7 @@ class SearchClassScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { params = {} }  = navigation.state;
 
-    console.warn('sd', screenProps.locale.searchClass)
+    // console.warn('sd', screenProps.locale.searchClass)
 
     let headerRight = (
       <TouchableOpacity style={styles.advancedSearchContainer} onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>

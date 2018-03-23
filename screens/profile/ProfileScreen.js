@@ -14,12 +14,18 @@ import { signInFacebook, signInGoogle, setAppType } from '../../redux/actions';
 class ProfileScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
+    let headerTintColor = '#fff';
+    let backgroundColor = Colors.tintColor;
+    if (screenProps.appType == 'tutor') {
+      headerTintColor = '#000';
+      backgroundColor = '#f7f7f7'
+    }
     return {
       tabBarLabel: screenProps.locale.profile.title,
       headerLeft: null,
-      headerTintColor: Colors.tintColor,
+      headerTintColor: headerTintColor,
       headerStyle: {
-        backgroundColor: Colors.tintColor,
+        backgroundColor: backgroundColor,
       },
     }
   };
@@ -59,7 +65,7 @@ class ProfileScreen extends React.Component {
     } else {
       return (
         <View style={styles.loginContainer}>
-          <TouchableOpacity style={[styles.button, {backgroundColor: '#E4E4E4'}]} onPress={() => this.props.navigation.navigate('Signin')}>
+          <TouchableOpacity style={[styles.button, {backgroundColor: '#e4e4e4'}]} onPress={() => this.props.navigation.navigate('Signin')}>
             <Text style={{color: '#5ECC3F'}}> {this.props.locale.profile.text.pleaseSignInToViewYourProfile} </Text>
           </TouchableOpacity>
 

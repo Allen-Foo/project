@@ -8,13 +8,20 @@ import {Agenda} from 'react-native-calendars';
 class ScheduleScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
+    let headerTintColor = '#fff';
+    let backgroundColor = Colors.tintColor
+    if (screenProps.appType == 'tutor') {
+      headerTintColor = '#000';
+      backgroundColor = '#f7f7f7'
+    }
+
     return {
       tabBarLabel: screenProps.locale.schedule.title,
       headerTitle: screenProps.locale.schedule.title,
       headerLeft: null,
-      headerTintColor: '#fff',
+      headerTintColor: headerTintColor,
       headerStyle: {
-        backgroundColor: Colors.tintColor,
+        backgroundColor: backgroundColor,
       },
     }
   };
