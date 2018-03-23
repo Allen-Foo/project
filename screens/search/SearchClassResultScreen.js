@@ -50,7 +50,7 @@ class SearchClassResultScreen extends React.Component {
   handleCancel = () => {this.hidePicker()}
   handleConfirm = (v) => {
     this.setState({sortingItem: v}, () => {
-      console.warn('sortingItem', this.state.sortingItem)
+      // console.warn('sortingItem', this.state.sortingItem)
       let sortType = null;
       let isAscending = this.state.sortingItem.includes('Asc');
       if (this.state.sortingItem.includes('price')) {
@@ -60,10 +60,7 @@ class SearchClassResultScreen extends React.Component {
       } else if (this.state.sortingItem.includes('comment')) {
         sortType = 'totalComments'
       }
-      console.warn('category', category)
-      console.warn('isAscending', isAscending)
-      console.warn('sortType', sortType)
-      let {searchPrice, chargeType, category, skill} = this.state
+      
       this.props.searchClassList({
         advancedSearch:{
           ...this.props.navigation.state.params,
@@ -151,7 +148,7 @@ class SortingPicker extends React.Component {
 
   render() {
     const { sortingItem, locale, onCancel, onConfirm } = this.props;
-    console.warn('SortingPicker, sortingItem', this.state.sortingItem)
+    // console.warn('SortingPicker, sortingItem', this.state.sortingItem)
     return (
       <View style={styles.pickerContainer}>
         <View style={styles.innerRowContainer}>
