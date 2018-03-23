@@ -21,19 +21,34 @@ import { mockData } from '../../constants/mockData';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
 import { searchClassList } from '../../redux/actions';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 class SearchClassScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
+    console.warn('sd', screenProps.locale.searchClass)
+
+    let headerRight = (
+      <TouchableOpacity style={styles.advancedSearchContainer} onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <FontAwesome 
+          name={'search-plus'}
+          size={14}
+          style={styles.searchIcon}
+          color={'#fff'}
+        />
+        <Text style={styles.text}> {screenProps.locale.searchClass.advanced} </Text>
+      </TouchableOpacity>
+    );
+
     return {
-      tabBarLabel: screenProps.locale.searchClass.title,
       headerTitle: screenProps.locale.search.title,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
       },
+      headerRight: headerRight,
     }
   };
 
@@ -44,6 +59,13 @@ class SearchClassScreen extends React.Component {
       keyword: '',
     }
   }
+
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  }
+
+  _handleSubmit = () => { this.props.navigation.navigate('AdvancedSearch')}
 
   handleSearch() {
     let {address, keyword} = this.state;
@@ -61,19 +83,6 @@ class SearchClassScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.searchBarRowContainer}>
-          <View style={styles.advancedSearchContainer}>
-            <FontAwesome 
-              name={'search-plus'}
-              size={14}
-              style={styles.searchIcon}
-              color={'#fff'}
-            />
-            <TouchableOpacity style={styles.button} onPress={()=>this.props.navigation.navigate('AdvancedSearch')}>
-              <Text style={styles.text} >
-                {this.props.locale.searchClass.advancedSearch}
-              </Text>
-            </TouchableOpacity>
-          </View>
           <SearchBar
             lightTheme
             icon={{color: '#DDDDDD'}}
@@ -119,10 +128,10 @@ const styles = StyleSheet.create({
   },
   advancedSearchContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    paddingRight: 5
   },
   searchIcon: {
-    marginTop : '1%'
+    // marginTop : '1%'
   },
   searchBarRowContainer: {
     width: '100%',
