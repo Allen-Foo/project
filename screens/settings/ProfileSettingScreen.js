@@ -166,11 +166,9 @@ class ProfileSettingScreen extends React.Component {
               value={this.state.website}
             />
           </View>
-          <View style={styles.rowContainer}>
-            <TouchableOpacity style={styles.changePwButton} onPress={()=> this.props.navigation.navigate('ChangePassword')}>
-              <Text style={{textAlign: 'left', paddingVertical: 10}}>{locale.profileSetting.text.changePw}</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.changePwButton} onPress={()=> this.props.navigation.navigate('ChangePassword')}>
+            <Text style={{textAlign: 'left', paddingVertical: 10}}>{locale.profileSetting.text.changePw}</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>
     );
@@ -201,16 +199,18 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   textTag: {
-    width: '20%',
+    width: '25%',
     color: '#262525',
     fontSize: 15,
     fontWeight: '500'
   },
   changePwButton: {
+    marginTop: 20,
+    paddingLeft: 5,
     borderWidth: 1,
     borderColor: '#d9d9d9',
     width: '100%',
-    paddingHorizontal: 10
+    alignSelf: 'center',
   },
   introBox: {
     borderWidth: 1,
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#43484A',
     borderRadius: 10,
-    width: '70%', 
+    width: '65%', 
     borderColor: '#d9d9d9',
     marginHorizontal: width * 0.05,
   },
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#43484A',
     height: 18, 
-    width: '70%', 
+    width: '65%', 
     borderColor: '#d9d9d9',
     borderBottomWidth: 1,
   },
