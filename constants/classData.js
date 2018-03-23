@@ -14,6 +14,7 @@ export const classData = {
 			'badminton',
 			'football',
 			'swimming',
+			'dartsTraining',
 		],
 		beauty: [
 			'nail',
