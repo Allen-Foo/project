@@ -71,8 +71,9 @@ class GiveCommentScreen extends React.Component {
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.ratingContainer}>
           {
-            RATING.map(type => (
+            RATING.map((type, index) => (
               <RatingRow
+                key={index}
                 locale={locale}
                 type={type}
                 value={this.state[type]}
