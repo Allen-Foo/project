@@ -64,7 +64,7 @@ class Comment extends React.Component {
                 starColor={Colors.tintColor}
                 emptyStarColor={Colors.tintColor}
               />
-              <Text style={styles.createTimeText}>{moment(comment.createdAt).format('YYYY-MM-DD HH:mm')}</Text>
+              <Text style={styles.createTimeText}>{moment(new Date(comment.createdAt)).format('YYYY-MM-DD HH:mm')}</Text>
             </View>
             {
               this.state.collapsed ?
