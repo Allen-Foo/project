@@ -3,7 +3,7 @@ import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Te
 import { Avatar } from 'react-native-elements';
 
 import { connect } from 'react-redux';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { List, ListItem } from 'react-native-elements'
 const { height, width } = Dimensions.get('window')
 
@@ -22,6 +22,7 @@ class ProfileScreen extends React.Component {
     }
     return {
       tabBarLabel: screenProps.locale.profile.title,
+      headerTitle: screenProps.locale.profile.title,
       headerLeft: null,
       headerTintColor: headerTintColor,
       headerStyle: {
@@ -58,14 +59,21 @@ class ProfileScreen extends React.Component {
 
     if (isLoggedIn) {
       return (
-        <View style={styles.loginContainer}>
+        <TouchableOpacity style={[styles.loginContainer,{flexDirection: 'row'}]} onPress={() => this.props.navigation.navigate('ProfileSetting')}>
           { avatar }
-        </View>
+          <View style={styles.chevronContainer}>
+            <Entypo
+              name={"chevron-thin-right"}
+              size={15}
+              color={'#555'}
+            />
+          </View>
+        </TouchableOpacity>
       )
     } else {
       return (
-        <View style={styles.loginContainer}>
-          <TouchableOpacity style={[styles.button, {backgroundColor: '#e4e4e4'}]} onPress={() => this.props.navigation.navigate('Signin')}>
+        <View style={styles.nonLoginContainer}>
+          <TouchableOpacity style={[styles.button, {backgroundColor: '#efeff3'}]} onPress={() => this.props.navigation.navigate('Signin')}>
             <Text style={{color: '#5ECC3F'}}> {this.props.locale.profile.text.pleaseSignInToViewYourProfile} </Text>
           </TouchableOpacity>
 
@@ -80,7 +88,7 @@ class ProfileScreen extends React.Component {
 
         {this.renderHeader(this.props.isLoggedIn)}
 
-        <List containerStyle={{width: '90%'}}>
+        <List containerStyle={styles.contentContainer}>
           <ListItem
             title={this.props.locale.profile.text.applyToBeTutor}
             leftIcon={{name: 'people'}}
@@ -120,37 +128,54 @@ const SocialIcon = props => {
   )
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#efeff3',
     alignItems: 'center',
+  },
+  nonLoginContainer: {
+    width: '100%',
+    backgroundColor: '#fff',
+    marginTop: 40,
+    paddingVertical: 20,
+    alignItems: 'center'
   },
   loginContainer: {
     width: '100%',
-    backgroundColor: Colors.tintColor,
-    alignItems: 'center',
-    paddingVertical: 20,
+    backgroundColor: '#fff',
+    //alignItems: 'center',
+    paddingVertical: 10,
+    paddingLeft: 20,
+    marginTop: 40,
+  },
+  contentContainer: {
+    width: '100%',
+    marginTop: 40,
+  },
+  chevronContainer: {
+    paddingRight: 10,
+    position: 'absolute',
+    right: 0,
+    alignSelf: 'center'
   },
   avatarContainer: {
-    marginTop: '10%',
-    marginBottom: '5%',
+    // marginTop: '10%',
+    // marginBottom: '5%',
     backgroundColor: '#eee'
   },
   socialContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: '5%'
+    marginVertical: '5%',
   },
   button: {
-    height: 40, 
+    paddingVertical: 15,
     width: width * 0.8,
     backgroundColor: '#41B252', 
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius: 10, 
-    marginTop: 20
   },
 });
 
