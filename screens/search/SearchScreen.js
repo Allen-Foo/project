@@ -1,14 +1,14 @@
 import React from 'react';
-import { FlatList, ScrollView, StyleSheet, View, Text, TouchableOpacity, PermissionsAndroid, Platform, PixelRatio } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, PixelRatio } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 
 import { MapView, Constants } from 'expo';
-import { SearchBar } from 'react-native-elements';
 import { Tutor, IndexMarker } from '../../components';
 import { mockData } from '../../constants/mockData';
 import { getAllClassList, searchClassList } from '../../redux/actions';
+import { FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
 
 class SearchScreen extends React.Component {
   static navigationOptions = {
@@ -91,65 +91,63 @@ class SearchScreen extends React.Component {
             }
           </MapView>
         </View>
-        <View style={styles.rowContainer}>
-          <SearchBar
-            lightTheme
-            icon={{color: '#333'}}
-            containerStyle={styles.searchBarContainer}
-            inputStyle={styles.searchBarInput}
-            onChangeText={() => {}}
-            placeholder='Type Here...'
-            placeholderTextColor={'#DDDDDD'}
-          />
-        </View>
-        <View style={styles.bottomViewClassDetail}>
+        <SearchBar />
         {
           this.state.selectedMarkerIndex !== null &&
-          <Tutor 
-            data={allClassList[this.state.selectedMarkerIndex]}
-            onPress={() => this.props.navigation.navigate('TutorDetail', {
-              classId: allClassList[this.state.selectedMarkerIndex].classId
-            })} 
-            handleUnauthorizedCall={() => this.props.navigation.navigate('Signin')}
-          />
+          <View style={styles.bottomViewClassDetail}>
+            <Tutor 
+              data={allClassList[this.state.selectedMarkerIndex]}
+              onPress={() => this.props.navigation.navigate('TutorDetail', {
+                classId: allClassList[this.state.selectedMarkerIndex].classId
+              })} 
+              handleUnauthorizedCall={() => this.props.navigation.navigate('Signin')}
+            />
+          </View>
         }
-        </View>
       </View>
     );
   }
+}
+
+const SearchBar = props => {
+  return (
+    <View style={styles.searchBarContainer}>
+      <MaterialIcons
+        name={"search"}
+        size={24}
+        color={'#555'}
+        style={styles.icon}
+      />
+      <TextInput
+        style={styles.inputStyle}
+        autoCorrect={false}
+        placeholder='Type Here...'
+      />
+      <TouchableOpacity onPress={()=> console.warn('pressed')}>
+        <FontAwesome
+          name={"filter"}
+          size={22}
+          color={'#555'}
+          style={styles.icon}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={()=> console.warn('pressed')}>
+        <MaterialIcons
+          name={"format-list-numbered"}
+          size={24}
+          color={'#555'}
+          style={styles.icon}
+          onPress={()=> console.warn('pressed')}
+        />
+      </TouchableOpacity>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  rowContainer: {
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    left: '5%',
-    right: '5%',
-    top: Constants.statusBarHeight,
-  },
-  searchBarContainer: {
-    backgroundColor: 'transparent',
-    width: '100%',
-    paddingVertical: 5,
-  },
-  searchBarInput: {
-    color: '#555',
-    backgroundColor: '#fff',
-    paddingVertical: 5,
-    borderWidth: 1 / PixelRatio.get(),
-    borderColor: '#ccc'
-  },
-  filter: {
-    color: '#fff',
-    fontWeight: '400',
-    fontSize: 18,
   },
   mapContainer: {
     flex: 1,
@@ -161,13 +159,33 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-  bottomViewClassDetail:{
+  bottomViewClassDetail: {
     width: '90%',
     marginHorizontal: '5%',
     borderRadius: 10,
     backgroundColor: '#fff',
     position: 'absolute',
     bottom: '2%',
+  },
+  searchBarContainer: {
+    flexDirection: 'row',
+    position: 'absolute',
+    left: '3%',
+    right: '3%',
+    top: Constants.statusBarHeight,
+    borderWidth: 1 / PixelRatio.get(),
+    borderColor: '#ccc',
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    alignItems: 'center',
+    paddingHorizontal: 5,
+  },
+  inputStyle: {
+    flex: 1,
+    paddingVertical: 8,
+  },
+  icon: {
+    paddingHorizontal: 8,
   }
 });
 
