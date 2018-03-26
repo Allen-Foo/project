@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, ScrollView, StyleSheet, View, Text, TouchableOpacity, PermissionsAndroid, Platform } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, View, Text, TouchableOpacity, PermissionsAndroid, Platform, PixelRatio } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
@@ -56,29 +56,14 @@ class SearchScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.statusBar} />
-        <View style={styles.rowContainer}>
-          <SearchBar
-            round
-            lightTheme
-            icon={{color: '#DDDDDD'}}
-            containerStyle={styles.searchBarContainer}
-            inputStyle={styles.searchBarInput}
-            onChangeText={() => {}}
-            placeholder='Type Here...'
-            placeholderTextColor={'#DDDDDD'}
-          />
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.filter}>{'Filter'}</Text>
-          </TouchableOpacity>
-        </View>
         <View style={styles.mapContainer}>
           <MapView
             style={styles.map}
             showsUserLocation
             showsMyLocationButton
             showsPointsOfInterest
-            showsScale
+            showsScale={false}
+            showsCompass={false}
             onRegionChange={this.handleRegionChange}
             initialRegion={{
               latitude: this.state.latitude || 22.2965866,
@@ -106,6 +91,17 @@ class SearchScreen extends React.Component {
             }
           </MapView>
         </View>
+        <View style={styles.rowContainer}>
+          <SearchBar
+            lightTheme
+            icon={{color: '#333'}}
+            containerStyle={styles.searchBarContainer}
+            inputStyle={styles.searchBarInput}
+            onChangeText={() => {}}
+            placeholder='Type Here...'
+            placeholderTextColor={'#DDDDDD'}
+          />
+        </View>
         <View style={styles.bottomViewClassDetail}>
         {
           this.state.selectedMarkerIndex !== null &&
@@ -128,26 +124,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  statusBar: {
-    height: Constants.statusBarHeight,
-    width: '100%',
-    backgroundColor: Colors.tintColor,
-  },
   rowContainer: {
-    backgroundColor: Colors.tintColor,
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'absolute',
+    left: '5%',
+    right: '5%',
+    top: Constants.statusBarHeight,
   },
   searchBarContainer: {
-    backgroundColor: Colors.tintColor,
-    width: '80%',
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
+    backgroundColor: 'transparent',
+    width: '100%',
+    paddingVertical: 5,
   },
   searchBarInput: {
-    color: '#fff',
-    backgroundColor: '#336633'
+    color: '#555',
+    backgroundColor: '#fff',
+    paddingVertical: 5,
+    borderWidth: 1 / PixelRatio.get(),
+    borderColor: '#ccc'
   },
   filter: {
     color: '#fff',
