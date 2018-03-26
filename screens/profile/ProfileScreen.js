@@ -72,12 +72,23 @@ class ProfileScreen extends React.Component {
       )
     } else {
       return (
-        <View style={styles.nonLoginContainer}>
-          <TouchableOpacity style={[styles.button, {backgroundColor: '#efeff3'}]} onPress={() => this.props.navigation.navigate('Signin')}>
-            <Text style={{color: '#5ECC3F'}}> {this.props.locale.profile.text.pleaseSignInToViewYourProfile} </Text>
-          </TouchableOpacity>
-
-        </View>
+        <TouchableOpacity style={[styles.loginContainer,{flexDirection: 'row'}]} onPress={() => this.props.navigation.navigate('Signin')}>
+          <Avatar
+            large
+            rounded
+            icon={{name: 'account-box'}}
+            onPress={() => this.props.navigation.navigate('Signin')}
+            activeOpacity={0.7}
+            containerStyle={styles.avatarContainer}
+          />
+          <View style={styles.chevronContainer}>
+            <Entypo
+              name={"chevron-thin-right"}
+              size={15}
+              color={'#555'}
+            />
+          </View>
+        </TouchableOpacity>
       )
     }
   }
