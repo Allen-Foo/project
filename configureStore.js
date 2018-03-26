@@ -17,6 +17,7 @@ import appSecrets from './appSecrets';
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['language'] // language will not be persisted
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
