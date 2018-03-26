@@ -61,6 +61,7 @@ class ProfileScreen extends React.Component {
       return (
         <TouchableOpacity style={[styles.loginContainer,{flexDirection: 'row'}]} onPress={() => this.props.navigation.navigate('ProfileSetting')}>
           { avatar }
+          <Text style={styles.username}>{this.props.user.username}</Text>
           <View style={styles.chevronContainer}>
             <Entypo
               name={"chevron-thin-right"}
@@ -81,6 +82,7 @@ class ProfileScreen extends React.Component {
             activeOpacity={0.7}
             containerStyle={styles.avatarContainer}
           />
+          <Text style={styles.username}>{this.props.locale.profile.text.signUpOrLogin}</Text>
           <View style={styles.chevronContainer}>
             <Entypo
               name={"chevron-thin-right"}
@@ -169,6 +171,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     alignSelf: 'center'
+  },
+  username: {
+    marginTop: 10,
+    paddingLeft: 10,
+    fontSize: 20
   },
   avatarContainer: {
     // marginTop: '10%',
