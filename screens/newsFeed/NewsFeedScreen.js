@@ -21,17 +21,36 @@ import icons from '../../assets/icon';
 import { Constants } from 'expo';
 import { connect } from 'react-redux';
 import { getAllClassList, searchClassList } from '../../redux/actions';
+import SearchClassScreen from '../search/SearchClassScreen';
 
 let {width, height} = Dimensions.get('window');
 
 class NewsFeedScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
+    let headerRight = (
+      <TouchableOpacity 
+        style={styles.headerButtonContainer} 
+        onPress={()=>{params.handleSearch ? params.handleSearch() : () => console.warn('not define')}}>
+        <Text style={styles.headerButtonText}>Search</Text>
+      </TouchableOpacity>
+    )
+
+    let headerLeft = (
+      <TouchableOpacity 
+        style={styles.headerButtonContainer} 
+        onPress={()=>{params.switchToNormalMode ? params.switchToNormalMode() : () => console.warn('not define')}}>
+        <Text style={styles.headerButtonText}>Cancel</Text>
+      </TouchableOpacity>
+    )
+    
     return {
+      headerTitle: params.searchMode ? null : screenProps.locale.newsfeed.title,
       tabBarLabel: screenProps.locale.newsfeed.title,
-      headerTitle: screenProps.locale.newsfeed.title,
-      headerLeft: null,
+      headerLeft: params.searchMode ? headerLeft : null,
+      headerRight: params.searchMode ? headerRight : null,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -42,6 +61,7 @@ class NewsFeedScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchMode: false,
       allClassList: [],
       liked: false,
       position: 0,
@@ -78,6 +98,13 @@ class NewsFeedScreen extends React.Component {
     }
   }
 
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ 
+      switchToNormalMode: this.switchToNormalMode, 
+    });
+  }
+
   handlePressIcon = (key) => {
     this.props.searchClassList({keyword: key})
     this.props.navigation.navigate('SearchClassResult')
@@ -87,7 +114,22 @@ class NewsFeedScreen extends React.Component {
     clearInterval(this.state.interval);
   }
 
+  switchToNormalMode = () => {
+    this.setState({searchMode: false})
+    this.props.navigation.setParams({ searchMode: false });
+  }
+
+  switchToSearchMode = () => {
+    this.setState({searchMode: true}, () => {
+      this.props.navigation.setParams({ searchMode: true });
+    })
+  }
+
   render() {
+    if (this.state.searchMode) {
+      return <SearchClassScreen navigation={this.props.navigation}/>
+    }
+
     return (
       <View style={{flex: 1}}>
         <View style={styles.searchBarRowContainer}>
@@ -97,10 +139,7 @@ class NewsFeedScreen extends React.Component {
             icon={{color: '#DDDDDD'}}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
-            onFocus={() => {
-              this.searchBar.blur()
-              this.props.navigation.navigate('SearchClass')
-            }}
+            onFocus={() => this.switchToSearchMode()}
             placeholder='Type Here...'
             placeholderTextColor={'#DDDDDD'}
           />
@@ -246,6 +285,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
   },
+  headerButtonContainer: {
+    paddingHorizontal: 10,
+  },
+  headerButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  }
 });
 
 const mapStateToProps = (state) => {

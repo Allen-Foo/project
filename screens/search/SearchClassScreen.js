@@ -25,33 +25,6 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 class SearchClassScreen extends React.Component {
 
-  static navigationOptions = ({navigation, screenProps}) => {
-    const { params = {} }  = navigation.state;
-
-    // console.warn('sd', screenProps.locale.searchClass)
-
-    let headerRight = (
-      <TouchableOpacity style={styles.advancedSearchContainer} onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
-        <FontAwesome 
-          name={'search-plus'}
-          size={14}
-          style={styles.searchIcon}
-          color={'#fff'}
-        />
-        <Text style={styles.text}> {screenProps.locale.searchClass.advanced} </Text>
-      </TouchableOpacity>
-    );
-
-    return {
-      headerTitle: screenProps.locale.search.title,
-      headerTintColor: '#fff',
-      headerStyle: {
-        backgroundColor: Colors.tintColor,
-      },
-      headerRight: headerRight,
-    }
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -60,14 +33,16 @@ class SearchClassScreen extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // We can only set the function after the component has been initialized
-    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
-  }
-
   _handleSubmit = () => { this.props.navigation.navigate('AdvancedSearch')}
 
-  handleSearch() {
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ 
+      handleSearch: this.handleSearch,
+    });
+  }
+
+  handleSearch = () => {
     let {address, keyword} = this.state;
     let option = {
       address: address, 
@@ -75,7 +50,6 @@ class SearchClassScreen extends React.Component {
     }
     this.props.searchClassList(option)
     this.props.navigation.navigate('SearchClassResult', option)
-
   }
 
   render() {
@@ -130,13 +104,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingRight: 5
   },
-  searchIcon: {
-    // marginTop : '1%'
-  },
   searchBarRowContainer: {
     width: '100%',
     backgroundColor: Colors.tintColor,
-
   },
   searchBarContainer: {
     backgroundColor: Colors.tintColor,
@@ -158,10 +128,6 @@ const styles = StyleSheet.create({
     width: '20%',
     marginLeft: '1%',
     marginTop : '1%'
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // alignSelf: 'flex-end',
-    // marginTop: 10,
   },
 });
 
