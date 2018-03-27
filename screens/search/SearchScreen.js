@@ -9,10 +9,42 @@ import { Tutor, IndexMarker } from '../../components';
 import { mockData } from '../../constants/mockData';
 import { getAllClassList, searchClassList } from '../../redux/actions';
 import { FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
+import SearchClassScreen from '../search/SearchClassScreen';
 
 class SearchScreen extends React.Component {
-  static navigationOptions = {
-    header: null
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { params = {} }  = navigation.state;
+
+    let headerRight = (
+      <TouchableOpacity 
+        style={styles.headerButtonContainer} 
+        onPress={()=>{params.handleSearch ? params.handleSearch() : () => console.warn('not define')}}>
+        <Text style={styles.headerButtonText}>Search</Text>
+      </TouchableOpacity>
+    )
+
+    let headerLeft = (
+      <TouchableOpacity 
+        style={styles.headerButtonContainer} 
+        onPress={()=>{params.switchToNormalMode ? params.switchToNormalMode() : () => console.warn('not define')}}>
+        <Text style={styles.headerButtonText}>Cancel</Text>
+      </TouchableOpacity>
+    )
+
+    if (params.searchMode) {
+      return {
+        headerTitle: params.searchMode ? null : screenProps.locale.newsfeed.title,
+        tabBarLabel: screenProps.locale.newsfeed.title,
+        headerLeft: params.searchMode ? headerLeft : null,
+        headerRight: params.searchMode ? headerRight : null,
+        headerTintColor: '#fff',
+        headerStyle: {
+          backgroundColor: Colors.tintColor,
+        },
+      }
+    } else {
+      return {header: null}
+    }
   };
 
   constructor(props) {
@@ -47,11 +79,33 @@ class SearchScreen extends React.Component {
     )
   }
 
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ 
+      switchToNormalMode: this.switchToNormalMode, 
+    });
+  }
+
+  switchToNormalMode = () => {
+    this.setState({searchMode: false})
+    this.props.navigation.setParams({ searchMode: false });
+  }
+
+  switchToSearchMode = () => {
+    this.setState({searchMode: true}, () => {
+      this.props.navigation.setParams({ searchMode: true });
+    })
+  }
+
   handleRegionChange = (region, lastLat, lastLong) => {
     this.setState({ region });
   }
 
   render() {
+    if (this.state.searchMode) {
+      return <SearchClassScreen navigation={this.props.navigation}/>
+    }
+
     let { allClassList } = this.props;
 
     return (
@@ -91,7 +145,7 @@ class SearchScreen extends React.Component {
             }
           </MapView>
         </View>
-        <SearchBar />
+        <SearchBar handleFocus={this.switchToSearchMode}/>
         {
           this.state.selectedMarkerIndex !== null &&
           <View style={styles.bottomViewClassDetail}>
@@ -118,11 +172,11 @@ const SearchBar = props => {
         color={'#555'}
         style={styles.icon}
       />
-      <TextInput
-        style={styles.inputStyle}
-        autoCorrect={false}
-        placeholder='Type Here...'
-      />
+      <TouchableOpacity style={styles.inputStyle} onPress={() => props.handleFocus()}>
+        <Text style={{color: '#999'}}>
+         {'Type Here...'}
+        </Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={()=> console.warn('pressed')}>
         <FontAwesome
           name={"filter"}
@@ -182,10 +236,17 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
   icon: {
     paddingHorizontal: 8,
+  },
+  headerButtonContainer: {
+    paddingHorizontal: 10,
+  },
+  headerButtonText: {
+    color: '#fff',
+    fontSize: 16,
   }
 });
 
