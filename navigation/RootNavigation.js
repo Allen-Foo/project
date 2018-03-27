@@ -87,15 +87,6 @@ const RootStackNavigator = StackNavigator(
     GiveComment: {
       screen: GiveComment,
     },
-    AdvancedSearch: {
-      screen: AdvancedSearch,
-    },
-    SearchCategory: {
-      screen: SearchCategory
-    },
-    SearchSkill: {
-      screen: SearchSkill
-    },
     TutorInfo: {
       screen: TutorInfo,
     },
@@ -198,6 +189,20 @@ const AuthStack = StackNavigator(
   }
 )
 
+const SearchStack =  StackNavigator(
+  {
+    AdvancedSearch: {
+      screen: AdvancedSearch, 
+    },
+    SearchCategory: {
+      screen: SearchCategory
+    },
+    SearchSkill: {
+      screen: SearchSkill
+    },
+  }
+)
+
 const LearnerStack = StackNavigator(
   {
     Main: {
@@ -206,6 +211,9 @@ const LearnerStack = StackNavigator(
     Signin: {
       screen: AuthStack
     },
+    AdvancedSearch: {
+      screen: SearchStack,
+    }
   },
   {
     mode: 'modal',
