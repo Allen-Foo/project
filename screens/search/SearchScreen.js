@@ -145,7 +145,10 @@ class SearchScreen extends React.Component {
             }
           </MapView>
         </View>
-        <SearchBar handleFocus={this.switchToSearchMode}/>
+        <SearchBar
+          handleTextInputPress={this.switchToSearchMode}
+          handleFilterPress={() => this.props.navigation.navigate('AdvancedSearch')}
+        />
         {
           this.state.selectedMarkerIndex !== null &&
           <View style={styles.bottomViewClassDetail}>
@@ -172,12 +175,12 @@ const SearchBar = props => {
         color={'#555'}
         style={styles.icon}
       />
-      <TouchableOpacity style={styles.inputStyle} onPress={() => props.handleFocus()}>
+      <TouchableOpacity style={styles.inputStyle} onPress={() => props.handleTextInputPress()}>
         <Text style={{color: '#999'}}>
          {'Type Here...'}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={()=> console.warn('pressed')}>
+      <TouchableOpacity onPress={()=> props.handleFilterPress()}>
         <FontAwesome
           name={"filter"}
           size={22}

@@ -13,9 +13,9 @@ class SearchSkillScreen extends React.Component {
 
     return {
       headerTitle: screenProps.locale.skill.title,
-      headerTintColor: 'black',
+      headerTintColor: '#fff',
       headerStyle: {
-        //backgroundColor: '#3A3C3D',
+        backgroundColor: Colors.tintColor,
       },
     }
   };

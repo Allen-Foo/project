@@ -29,14 +29,32 @@ import { FontAwesome, Entypo } from '@expo/vector-icons';
 class AdvancedSearchScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
+    let headerLeft = (
+      <TouchableOpacity 
+        style={styles.headerButtonContainer} 
+        onPress={()=>{navigation.goBack(null)}}>
+        <Text style={styles.headerButtonText}>Cancel</Text>
+      </TouchableOpacity>
+    )
+
+    let headerRight = (
+      <TouchableOpacity 
+        style={styles.headerButtonContainer} 
+        onPress={()=>{params.handleSearch ? params.handleSearch() : () => console.warn('not define')}}>
+        <Text style={styles.headerButtonText}>{screenProps.locale.common.submit}</Text>
+      </TouchableOpacity>
+    )
+
     return {
-      tabBarLabel: screenProps.locale.advancedSearch.title,
       headerTitle: screenProps.locale.advancedSearch.title,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
       },
+      headerLeft: headerLeft,
+      headerRight: headerRight,
     }
   };
 
@@ -52,7 +70,14 @@ class AdvancedSearchScreen extends React.Component {
     }
   }
 
-  handleSearch() {
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ 
+      handleSearch: this.handleSearch, 
+    });
+  }
+
+  handleSearch = () => {
     let {showPicker, ...rest} = this.state
     this.props.searchClassList({
       advancedSearch: rest
@@ -134,12 +159,6 @@ class AdvancedSearchScreen extends React.Component {
             locale={locale}
           />  
         }
-        <TouchableOpacity 
-          style={styles.submitButton}
-          onPress={() => this.handleSearch()}
-        >
-          <Text style={styles.submitText}>{locale.common.submit}</Text>
-        </TouchableOpacity>
         { 
           this.state.showPicker &&
           <ChargeTypePicker
@@ -314,7 +333,14 @@ const styles = StyleSheet.create({
   submitText: {
     color: '#fff',
     paddingVertical: 10,
-  }
+  },
+  headerButtonContainer: {
+    paddingHorizontal: 10,
+  },
+  headerButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
 });
 
 const mapStateToProps = (state) => {
