@@ -98,7 +98,7 @@ class TutorDetailScreen extends React.Component {
           <Text style={styles.className}> {classDetail.title} </Text>
           <Text style={[styles.tutorName, {paddingVertical: 5}]}> {'Chan Tai Man'} </Text>
           <View style={styles.ratingRow}>
-            <Text style={styles.comment}> {`${classDetail.comments.length} comments`} </Text>
+            <Text style={styles.comment}> {`${classDetail.comments.length} reviews`} </Text>
           </View>
           <View style={styles.rowContainer}>
             <View style={styles.innerContainer}>
@@ -190,8 +190,8 @@ class TutorDetailScreen extends React.Component {
                   containerStyle={styles.avatarContainer}
                 />
                 <View>
-                  <Text style={{fontSize: 20}}>username</Text>
-                  <Text style={{fontSize: 14, color: '#bebebe'}}>Rating: 5/5</Text>
+                  <Text style={{fontSize: 20}}>{classDetail.user.username}</Text>
+                  <Text style={{fontSize: 14, color: '#bebebe'}}>{`Rating ${classDetail.user.totalRatings}/5`}</Text>
                 </View>
               </View>
             </TouchableOpacity>
