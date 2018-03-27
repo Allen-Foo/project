@@ -27,7 +27,6 @@ class IndexMarker extends React.Component {
           <Text style={[styles.index, { fontSize }]}>{index}</Text>
         </View>
         <View style={[styles.arrowBorder, {borderTopColor: backgroundColor}]} />
-        <View style={[styles.arrow, {borderTopColor: borderColor}]} />
       </View>
     );
   }
@@ -45,14 +44,17 @@ const styles = StyleSheet.create({
     flex: 0,
     flexDirection: 'row',
     alignSelf: 'flex-start',
-    padding: 2,
+    width: 24,
+    padding: 1,
     borderRadius: 3,
     borderWidth: 0.5,
+    justifyContent: 'center',
   },
   index: {
     color: '#FFFFFF',
     fontSize: 13,
     paddingHorizontal: 2,
+    textAlign: 'center'
   },
   arrow: {
     backgroundColor: 'transparent',
@@ -62,9 +64,17 @@ const styles = StyleSheet.create({
     marginTop: -9,
   },
   arrowBorder: {
+    width: 0,
+    height: 0,
     backgroundColor: 'transparent',
-    borderWidth: 4,
-    borderColor: 'transparent',
+    borderTopWidth: 18,
+    borderRightWidth: 3,
+    borderBottomWidth: 0,
+    borderLeftWidth: 3,
+    borderTopColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: 'red',
+    borderLeftColor: 'transparent',
     alignSelf: 'center',
     marginTop: -0.5,
   },
