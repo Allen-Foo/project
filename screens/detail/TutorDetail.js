@@ -175,7 +175,7 @@ class TutorDetailScreen extends React.Component {
           </TouchableOpacity>
         </View>
           <View style={styles.tutorDetailContainer}>
-            <TouchableOpacity style={styles.innerTutorDetailContainer}>
+            <TouchableOpacity style={styles.innerTutorDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfo')}>
               <View style={{paddingTop: 50}}>
                 <Text>experience...................</Text>
                 <Text>self introductioneiuwyfiuhewiufh9wuehfiuhewiufheiuwhfiuwehifuhewiuhfiewhifhewihfiuwehfiuhewihfiweuhfihwei</Text>
@@ -184,14 +184,13 @@ class TutorDetailScreen extends React.Component {
                  <Avatar
                   large
                   rounded
-                  icon={{name: 'account-box'}}
-                  onPress={() => this.props.navigation.navigate('ProfileSetting')}
-                  // activeOpacity={0.7}
+                  source={{url: classDetail.user.avatarUrl}}
+                  activeOpacity={0.7}
                   containerStyle={styles.avatarContainer}
                 />
-                <View>
+                <View style={styles.usernameText}>
                   <Text style={{fontSize: 20}}>{classDetail.user.username}</Text>
-                  <Text style={{fontSize: 14, color: '#bebebe'}}>{`Rating ${classDetail.user.totalRatings}/5`}</Text>
+                  <Text style={{fontSize: 14, color: '#bebebe'}}>{`Rating ${classDetail.totalRatings}/5`}</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -282,6 +281,9 @@ const styles = StyleSheet.create({
     paddingLeft: '10%',
     flexDirection: 'row',
     width: '50%',
+  },
+  usernameText: {
+    paddingLeft: 10
   },
   ratingStyle: {
     fontSize: 12,

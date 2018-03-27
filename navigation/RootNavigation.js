@@ -21,6 +21,7 @@ import GiveComment from '../screens/comments/GiveCommentScreen';
 import AdvancedSearch from '../screens/search/AdvancedSearchScreen';
 import SearchCategory from '../screens/search/SearchCategoryScreen';
 import SearchSkill from '../screens/search/SearchSkillScreen';
+import TutorInfo from '../screens/detail/TutorInfoScreen';
 
 import Category from '../screens/createClass/CategoryScreen';
 import Skill from '../screens/createClass/SkillScreen';
@@ -90,7 +91,10 @@ const RootStackNavigator = StackNavigator(
     },
     SearchSkill: {
       screen: SearchSkill
-    }
+    },
+    TutorInfo: {
+      screen: TutorInfo,
+    },
   },
   {
     navigationOptions: () => ({
