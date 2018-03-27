@@ -93,85 +93,109 @@ class TutorDetailScreen extends React.Component {
   renderClassContent(classDetail) {
     let { locale } = this.props;
     return (
-      <View style={styles.contentContainer}>
-        <Text style={styles.className}> {classDetail.title} </Text>
-        <Text style={[styles.tutorName, {paddingVertical: 5}]}> {'Chan Tai Man'} </Text>
-        <View style={styles.ratingRow}>
-          <Text style={styles.comment}> {`${classDetail.comments.length} comments`} </Text>
-        </View>
-        <View style={styles.rowContainer}>
-          <View style={styles.innerContainer}>
-            <FontAwesome 
-              name={'dollar'} 
-              size={20}
-              color={'#E8DA3A'}
-            />
+      <View>
+        <View style={styles.contentContainer}>
+          <Text style={styles.className}> {classDetail.title} </Text>
+          <Text style={[styles.tutorName, {paddingVertical: 5}]}> {'Chan Tai Man'} </Text>
+          <View style={styles.ratingRow}>
+            <Text style={styles.comment}> {`${classDetail.comments.length} comments`} </Text>
           </View>
-          <View style={styles.innerTextContainer}>
-            <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
+          <View style={styles.rowContainer}>
+            <View style={styles.innerContainer}>
+              <FontAwesome 
+                name={'dollar'} 
+                size={20}
+                color={'#E8DA3A'}
+              />
+            </View>
+            <View style={styles.innerTextContainer}>
+              <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.rowContainer}>
-          <View style={styles.innerContainer}>
-            <MaterialIcons
-              name={'alarm'}
-              size={20}
-              color={'#ff0000'}
-            />
-          </View>
-          <View style={styles.innerTextContainer}>
-            <Text style={styles.tutorName}> {`4:30pm - 5:30pm `}</Text>
-          </View>
-        </View>
-        <View style={styles.rowContainer}>
-          <View style={styles.innerContainer}>
-            <MaterialIcons
-              name={'call'} 
-              size={20}
-              color={'#ff0000'}
-            />
-          </View>
-          <View style={styles.innerTextContainer}>
-            <Text style={styles.tutorName}> {`2167 2834`} </Text>
-          </View>
-        </View>
-        <TouchableOpacity onPress={() => {this.props.navigation.navigate('ClassMap', classDetail.address)}}>
           <View style={styles.rowContainer}>
             <View style={styles.innerContainer}>
               <MaterialIcons
-                name={'location-on'} 
+                name={'alarm'}
                 size={20}
                 color={'#ff0000'}
               />
             </View>
-            <View style={[styles.innerTextContainer, {width: '70%'}]}>
-              <Text style={styles.address}> {classDetail.address.formatted_address} </Text>
-            </View>
-            <View style={styles.chevronContainer}>
-              <Entypo
-                name={"chevron-thin-right"}
-                size={15}
-                color={'#555'}
-              />
+            <View style={styles.innerTextContainer}>
+              <Text style={styles.tutorName}> {`4:30pm - 5:30pm `}</Text>
             </View>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.commentButton} onPress={() => this.handleCommentButtonPress()} >
-          <Text style={{color: 'green', }}> 
-            { locale.tutorDetail.text.giveComment.label }
-          </Text>
-          <Entypo
-            name={"chevron-thin-right"}
-            size={15}
-            style={{position: 'absolute', right: 0}}
-            color={'#555'}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.applyButton}>
-          <Text style={{color: 'white', }}> 
-            { locale.tutorDetail.text.applyNow.label }
-          </Text>
-        </TouchableOpacity>
+          <View style={styles.rowContainer}>
+            <View style={styles.innerContainer}>
+              <MaterialIcons
+                name={'call'} 
+                size={20}
+                color={'#ff0000'}
+              />
+            </View>
+            <View style={styles.innerTextContainer}>
+              <Text style={styles.tutorName}> {`2167 2834`} </Text>
+            </View>
+          </View>
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate('ClassMap', classDetail.address)}}>
+            <View style={styles.rowContainer}>
+              <View style={styles.innerContainer}>
+                <MaterialIcons
+                  name={'location-on'} 
+                  size={20}
+                  color={'#ff0000'}
+                />
+              </View>
+              <View style={[styles.innerTextContainer, {width: '70%'}]}>
+                <Text style={styles.address}> {classDetail.address.formatted_address} </Text>
+              </View>
+              <View style={styles.chevronContainer}>
+                <Entypo
+                  name={"chevron-thin-right"}
+                  size={15}
+                  color={'#555'}
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.commentButton} onPress={() => this.handleCommentButtonPress()} >
+            <Text style={{color: 'green', }}> 
+              { locale.tutorDetail.text.giveComment.label }
+            </Text>
+            <Entypo
+              name={"chevron-thin-right"}
+              size={15}
+              style={{position: 'absolute', right: 0}}
+              color={'#555'}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.applyButton}>
+            <Text style={{color: 'white', }}> 
+              { locale.tutorDetail.text.applyNow.label }
+            </Text>
+          </TouchableOpacity>
+        </View>
+          <View style={styles.tutorDetailContainer}>
+            <TouchableOpacity style={styles.innerTutorDetailContainer}>
+              <View style={{paddingTop: 50}}>
+                <Text>experience...................</Text>
+                <Text>self introductioneiuwyfiuhewiufh9wuehfiuhewiufheiuwhfiuwehifuhewiuhfiewhifhewihfiuwehfiuhewihfiweuhfihwei</Text>
+              </View>
+              <View style={styles.tutorAvatarContainer}>
+                 <Avatar
+                  large
+                  rounded
+                  icon={{name: 'account-box'}}
+                  onPress={() => this.props.navigation.navigate('ProfileSetting')}
+                  // activeOpacity={0.7}
+                  containerStyle={styles.avatarContainer}
+                />
+                <View>
+                  <Text style={{fontSize: 20}}>username</Text>
+                  <Text style={{fontSize: 14, color: '#bebebe'}}>Rating: 5/5</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
       </View>
     )
   }
@@ -204,6 +228,31 @@ const sliderContainer = {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#eee',
+  },
+  tutorDetailContainer: {
+    width: '100%',
+    backgroundColor: '#fff',
+    paddingTop: '10%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+  },
+  innerTutorDetailContainer: {
+    borderWidth :1,
+    borderColor: '#bebebe',
+    paddingVertical: 10,
+    paddingLeft: 10,
+    marginTop: 20,
+    // overflow: 'visible',
+    // paddingTop: -30,
+  },
+  tutorAvatarContainer: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    // marginTop: -20, 
+    position: 'absolute',
+    top: -20,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff'
   },
   rowContainer: {
     paddingVertical: 5,
