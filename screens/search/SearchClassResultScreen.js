@@ -9,16 +9,14 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
-  Picker
+  Picker,
+  PixelRatio,
 } from 'react-native';
 
-import Swiper from 'react-native-swiper';
+import { Constants } from 'expo';
 let {width, height} = Dimensions.get('window');
-import { Slideshow } from '../../components';
-import { SearchBar } from 'react-native-elements';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Ionicons, Entypo, MaterialIcons, FontAwesome, Foundation} from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
-import { mockData } from '../../constants/mockData';
 import { Tutor, Separator, Spinner } from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
@@ -26,20 +24,9 @@ import { searchClassList, sortClassList } from '../../redux/actions';
 
 class SearchClassResultScreen extends React.Component {
 
-  static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
-    return {
-      headerTitle: screenProps.locale.searchResult.title,
-      headerTintColor: '#fff',
-      headerStyle: {
-        backgroundColor: Colors.tintColor,
-      },
-    }
-  };
-
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       showPicker: false,
       sortingItem: null,
     }
@@ -62,7 +49,7 @@ class SearchClassResultScreen extends React.Component {
       }
       
       this.props.searchClassList({
-        advancedSearch:{
+        advancedSearch: {
           ...this.props.navigation.state.params,
           sortType,
           isAscending
@@ -96,6 +83,11 @@ class SearchClassResultScreen extends React.Component {
 
     return (
       <View style={{flex:1}}>
+        <SearchBar
+          handleTextInputPress={() => this.props.handleTextInputPress()}
+          handleFilterPress={() => this.props.handleFilterPress()}
+          handleToggleMode={() => this.props.handleToggleMode()}
+        />
         <TouchableOpacity 
           style={styles.chargeTypeButton} 
           onPress={() => this.showPicker()}
@@ -136,6 +128,42 @@ class SearchClassResultScreen extends React.Component {
       </View>
     );
   }
+}
+
+const SearchBar = props => {
+  return (
+    <View style={styles.searchBarContainer}>
+      <View style={styles.textInput}>
+        <MaterialIcons
+          name={"search"}
+          size={24}
+          color={'#555'}
+          style={styles.icon}
+        />
+        <TouchableOpacity style={styles.inputStyle} onPress={() => props.handleTextInputPress()}>
+          <Text style={{color: '#999'}}>
+           {'Type Here...'}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => props.handleFilterPress()}>
+          <FontAwesome
+            name={"filter"}
+            size={22}
+            color={'#555'}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => props.handleToggleMode()}>
+          <Foundation
+            name={"map"}
+            size={22}
+            color={'#555'}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
 }
 
 class SortingPicker extends React.Component {
@@ -200,6 +228,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     paddingVertical: 15,
+    borderBottomWidth: 1 / PixelRatio.get(),
+    borderBottomColor: '#ccc'
   },
   subTabText: {
     paddingLeft: 10,
@@ -219,9 +249,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 10,
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'center', 
     alignSelf: 'center',
     width: '90%',
+  },
+  searchBarContainer: {
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: Colors.tintColor,
+    paddingHorizontal: '3%',
+    paddingBottom: 5,
+  },
+  textInput: {
+    borderRadius: 5,
+    borderWidth: 1 / PixelRatio.get(),
+    borderColor: '#ccc',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 5,
+    backgroundColor: '#fff'
+  },
+  inputStyle: {
+    flex: 1,
+    paddingVertical: 10,
+    // backgroundColor: '#fff'
+  },
+  icon: {
+    paddingHorizontal: 8,
   },
 });
 
@@ -230,7 +283,7 @@ const mapStateToProps = (state) => {
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    filteredClassList: state.classes.filteredClassList,
+    filteredClassList: state.classes.allClassList,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }

@@ -10,6 +10,10 @@ import { mockData } from '../../constants/mockData';
 import { getAllClassList, searchClassList } from '../../redux/actions';
 import { FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
 import SearchClassScreen from '../search/SearchClassScreen';
+import SearchClassResultScreen from '../search/SearchClassResultScreen';
+
+const MAP_MODE = 'MAP_MODE';
+const LIST_MODE = 'LIST_MODE';
 
 class SearchScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -51,6 +55,7 @@ class SearchScreen extends React.Component {
     super(props);
     this.mounted = false;
     this.state = {
+      mode: MAP_MODE,
       selectedMarkerIndex: null,
       latitude: null,
       longitude: null,
@@ -101,11 +106,15 @@ class SearchScreen extends React.Component {
     this.setState({ region });
   }
 
-  render() {
-    if (this.state.searchMode) {
-      return <SearchClassScreen navigation={this.props.navigation}/>
+  toggleMode = () => {
+    if (this.state.mode == MAP_MODE) {
+      this.setState({mode: LIST_MODE})
+    } else {
+      this.setState({mode: MAP_MODE})
     }
+  }
 
+  renderMap = () => {
     let { allClassList } = this.props;
 
     return (
@@ -148,6 +157,7 @@ class SearchScreen extends React.Component {
         <SearchBar
           handleTextInputPress={this.switchToSearchMode}
           handleFilterPress={() => this.props.navigation.navigate('AdvancedSearch')}
+          handleToggleMode={() => this.toggleMode()}
         />
         {
           this.state.selectedMarkerIndex !== null &&
@@ -162,7 +172,26 @@ class SearchScreen extends React.Component {
           </View>
         }
       </View>
-    );
+    )
+  }
+
+  render() {
+    if (this.state.searchMode) {
+      return <SearchClassScreen navigation={this.props.navigation}/>
+    }
+
+    if (this.state.mode == MAP_MODE) {
+      return this.renderMap()
+    } else {
+      return (
+        <SearchClassResultScreen
+          navigation={this.props.navigation}
+          handleToggleMode={() => this.toggleMode()}
+          handleFilterPress={() => this.props.navigation.navigate('AdvancedSearch')}
+          handleTextInputPress={this.switchToSearchMode}
+        />
+      )
+    }
   }
 }
 
@@ -180,7 +209,7 @@ const SearchBar = props => {
          {'Type Here...'}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={()=> props.handleFilterPress()}>
+      <TouchableOpacity onPress={() => props.handleFilterPress()}>
         <FontAwesome
           name={"filter"}
           size={22}
@@ -188,13 +217,12 @@ const SearchBar = props => {
           style={styles.icon}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={()=> console.warn('pressed')}>
+      <TouchableOpacity onPress={() => props.handleToggleMode()}>
         <MaterialIcons
           name={"format-list-numbered"}
           size={24}
           color={'#555'}
           style={styles.icon}
-          onPress={()=> console.warn('pressed')}
         />
       </TouchableOpacity>
     </View>
