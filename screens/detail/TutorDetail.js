@@ -58,38 +58,55 @@ class TutorDetailScreen extends React.Component {
     let photoList = classDetail.photoList.map(photo => ({uri: photo.location}))
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <Slideshow 
-          dataSource={photoList}
-          containerStyle={sliderContainer}
-          scrollEnabled={true}
-        />
-        {
-          classDetail.rating != 'null' &&
-          <View style={styles.ratingContainer}>
-            {
-              RATING.map((type, i) => (
-                <OverallRating
-                  locale={locale}
-                  key={i}
-                  locale={locale}
-                  type={type}
-                  value={classDetail.rating[type]}
-                />
-              ))
-            }
+      <View>
+        <ScrollView contentContainerStyle={styles.container}>
+          <Slideshow 
+            dataSource={photoList}
+            containerStyle={sliderContainer}
+            scrollEnabled={true}
+          />
+          {
+            classDetail.rating != 'null' &&
+            <View style={styles.ratingContainer}>
+              {
+                RATING.map((type, i) => (
+                  <OverallRating
+                    locale={locale}
+                    key={i}
+                    locale={locale}
+                    type={type}
+                    value={classDetail.rating[type]}
+                  />
+                ))
+              }
+            </View>
+          }
+          {this.renderClassContent(classDetail)}
+          {
+            classDetail.comments.length > 0 &&
+            <View>
+              <Text style={{paddingVertical: 20, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.comment} </Text>
+              { classDetail.comments.map((comment, index) => <Comment key={index} comment={comment}/>) }
+            </View>
+          }
+          
+        </ScrollView>
+        <View style={styles.bottomContainer}>
+          <View style={styles.bottomPrice}>
+            <FontAwesome 
+              name={'dollar'} 
+              size={14}
+              color={'#E8DA3A'}
+            />
+            <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
           </View>
-        }
-        {this.renderClassContent(classDetail)}
-        {
-          classDetail.comments.length > 0 &&
-          <View>
-            <Text style={{paddingVertical: 20, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.comment} </Text>
-            { classDetail.comments.map((comment, index) => <Comment key={index} comment={comment}/>) }
-          </View>
-        }
-        
-      </ScrollView>
+          <TouchableOpacity style={styles.applyButton}>
+            <Text style={{color: 'white', }}> 
+              { locale.tutorDetail.text.applyNow.label }
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     )
   }
 
@@ -175,11 +192,6 @@ class TutorDetailScreen extends React.Component {
               color={'#555'}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.applyButton}>
-            <Text style={{color: 'white', }}> 
-              { locale.tutorDetail.text.applyNow.label }
-            </Text>
-          </TouchableOpacity>
         </View>
         <Text style={{paddingVertical: 20, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
         <View style={styles.tutorDetailContainer}>
@@ -206,8 +218,13 @@ class TutorDetailScreen extends React.Component {
               </View>
             </View>
           </TouchableOpacity>
+
         </View>
+        <View style={{height: 100}}>
+        </View>
+        
       </View>
+
     )
   }
 
@@ -295,6 +312,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '50%',
   },
+  bottomContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+  },
+  bottomPrice: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '60%',
+    backgroundColor: '#fff'
+  },
   usernameText: {
     paddingLeft: 10
   },
@@ -341,15 +371,16 @@ const styles = StyleSheet.create({
     fontWeight: '500'
   },
   applyButton: {
-    flexDirection: 'row',
-    paddingVertical: 10,
-    width: '90%',
+    // flexDirection: 'row',
+    paddingVertical: 15,
+    width: '40%',
     backgroundColor: Colors.tintColor,
     justifyContent: 'center',
-    alignSelf: 'center',
+    // alignSelf: 'flex-end',
     alignItems: 'center', 
-    borderRadius: 5, 
-    marginBottom: 5,
+    // borderRadius: 5, 
+    // marginBottom: 5,
+
   },
   commentButton: {
     flexDirection: 'row',
