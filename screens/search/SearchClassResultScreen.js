@@ -72,15 +72,36 @@ class SearchClassResultScreen extends React.Component {
     )
   }
 
-  render() {
-    let { locale } = this.props;
-    
+  renderList = (list) => {
+    return (
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.searchBarRowContainer}>
+          {
+            list && list.map((cls, index) => (
+              <View key={index} style={{width: '100%'}}>
+                <Tutor data={cls} onPress={() => this.props.navigation.navigate('TutorDetail', {classId: cls.classId})} />
+                <Separator style={{backgroundColor: '#aaa'}}/>
+              </View>
+            ))
+          }
+        </View>
+      </ScrollView>
+    )
+  }
+
+  renderContent = () => {
     if (this.props.isLoading || !this.props.filteredClassList) {
       return <Spinner />
     } else if (this.props.filteredClassList.length < 1) {
       return this.renderEmptyPage()
+    } else {
+      return this.renderList(this.props.filteredClassList)
     }
+  } 
 
+  render() {
+    let { locale } = this.props;
+    
     return (
       <View style={{flex:1}}>
         <SearchBar
@@ -103,19 +124,9 @@ class SearchClassResultScreen extends React.Component {
             />
           </View>
         </TouchableOpacity>
-        <ScrollView contentContainerStyle={styles.container}>
-          <View style={styles.searchBarRowContainer}>
-            {
-              this.props.filteredClassList &&
-              this.props.filteredClassList.map((cls, index) => (
-                <View key={index} style={{width: '100%'}}>
-                  <Tutor data={cls} onPress={() => this.props.navigation.navigate('TutorDetail', {classId: cls.classId})} />
-                  <Separator style={{backgroundColor: '#aaa'}}/>
-                </View>
-              ))
-            }
-          </View>
-        </ScrollView>
+        {
+          this.renderContent()
+        }
         { 
           this.state.showPicker &&
           <SortingPicker
@@ -283,7 +294,7 @@ const mapStateToProps = (state) => {
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    filteredClassList: state.classes.allClassList,
+    filteredClassList: state.classes.filteredClassList,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
