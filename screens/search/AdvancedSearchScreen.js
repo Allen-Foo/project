@@ -82,7 +82,7 @@ class AdvancedSearchScreen extends React.Component {
     this.props.searchClassList({
       advancedSearch: rest
     })
-    this.props.navigation.navigate('SearchClassResult', rest)
+    this.props.navigation.navigate('Search', rest)
   }
 
   handleCategoryReturnData = (categoryData) => {

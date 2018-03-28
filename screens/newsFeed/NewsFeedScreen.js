@@ -34,7 +34,10 @@ class NewsFeedScreen extends React.Component {
     let headerRight = (
       <TouchableOpacity 
         style={styles.headerButtonContainer} 
-        onPress={()=>{params.handleSearch ? params.handleSearch() : () => console.warn('not define')}}>
+        onPress={()=>{
+          params.switchToNormalMode()
+          params.handleSearch()
+        }}>
         <Text style={styles.headerButtonText}>Search</Text>
       </TouchableOpacity>
     )
@@ -112,7 +115,7 @@ class NewsFeedScreen extends React.Component {
 
   handlePressIcon = (key) => {
     this.props.searchClassList({keyword: key})
-    this.props.navigation.navigate('SearchClassResult')
+    this.props.navigation.navigate('Search')
   }
 
   componentWillUnmount() {
@@ -136,7 +139,12 @@ class NewsFeedScreen extends React.Component {
 
   render() {
     if (this.state.searchMode) {
-      return <SearchClassScreen navigation={this.props.navigation}/>
+      return (
+        <SearchClassScreen 
+          navigation={this.props.navigation}
+          switchToNormalMode={this.switchToNormalMode}
+        />
+      )
     }
 
     return (

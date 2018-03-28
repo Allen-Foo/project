@@ -7,7 +7,7 @@ import Colors from '../../constants/Colors';
 import { MapView, Constants } from 'expo';
 import { Tutor, IndexMarker } from '../../components';
 import { mockData } from '../../constants/mockData';
-import { getAllClassList, searchClassList } from '../../redux/actions';
+import { searchClassList } from '../../redux/actions';
 import { FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
 import SearchClassScreen from '../search/SearchClassScreen';
 import SearchClassResultScreen from '../search/SearchClassResultScreen';
@@ -54,8 +54,9 @@ class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
     this.mounted = false;
+
     this.state = {
-      mode: MAP_MODE,
+      mode: LIST_MODE,
       selectedMarkerIndex: null,
       latitude: null,
       longitude: null,
@@ -115,7 +116,7 @@ class SearchScreen extends React.Component {
   }
 
   renderMap = () => {
-    let { allClassList } = this.props;
+    let { filteredClassList } = this.props;
 
     return (
       <View style={styles.container}>
@@ -136,7 +137,7 @@ class SearchScreen extends React.Component {
             }}
           >
             {
-              allClassList && allClassList.map((cls, index) => (
+              filteredClassList && filteredClassList.map((cls, index) => (
                 <MapView.Marker
                   key={index}
                   coordinate={{
@@ -163,9 +164,9 @@ class SearchScreen extends React.Component {
           this.state.selectedMarkerIndex !== null &&
           <View style={styles.bottomViewClassDetail}>
             <Tutor 
-              data={allClassList[this.state.selectedMarkerIndex]}
+              data={filteredClassList[this.state.selectedMarkerIndex]}
               onPress={() => this.props.navigation.navigate('TutorDetail', {
-                classId: allClassList[this.state.selectedMarkerIndex].classId
+                classId: filteredClassList[this.state.selectedMarkerIndex].classId
               })} 
               handleUnauthorizedCall={() => this.props.navigation.navigate('Signin')}
             />
@@ -177,7 +178,7 @@ class SearchScreen extends React.Component {
 
   render() {
     if (this.state.searchMode) {
-      return <SearchClassScreen navigation={this.props.navigation}/>
+      return <SearchClassScreen navigation={this.props.navigation} switchToNormalMode={this.switchToNormalMode}/>
     }
 
     if (this.state.mode == MAP_MODE) {
@@ -285,11 +286,10 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    allClassList: state.classes.allClassList,
+    filteredClassList: state.classes.filteredClassList,
   }
 }
 
 export default connect(mapStateToProps, {
-  getAllClassList,
   searchClassList,
 })(SearchScreen)

@@ -48,8 +48,9 @@ class SearchClassScreen extends React.Component {
       address: address, 
       keyword: keyword.toLowerCase()
     }
+    this.props.switchToNormalMode()
     this.props.searchClassList(option)
-    this.props.navigation.navigate('SearchClassResult', option)
+    this.props.navigation.navigate('Search', option)
   }
 
   render() {
