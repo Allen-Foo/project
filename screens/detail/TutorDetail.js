@@ -81,7 +81,14 @@ class TutorDetailScreen extends React.Component {
           </View>
         }
         {this.renderClassContent(classDetail)}
-        { classDetail.comments.map((comment, index) => <Comment key={index} comment={comment}/>) }
+        {
+          classDetail.comments.length > 0 &&
+          <View>
+            <Text style={{paddingVertical: 20, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.comment} </Text>
+            { classDetail.comments.map((comment, index) => <Comment key={index} comment={comment}/>) }
+          </View>
+        }
+        
       </ScrollView>
     )
   }
@@ -174,27 +181,32 @@ class TutorDetailScreen extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
-          <View style={styles.tutorDetailContainer}>
-            <TouchableOpacity style={styles.innerTutorDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfo')}>
-              <View style={{paddingTop: 50}}>
-                <Text>experience...................</Text>
-                <Text>self introductioneiuwyfiuhewiufh9wuehfiuhewiufheiuwhfiuwehifuhewiuhfiewhifhewihfiuwehfiuhewihfiweuhfihwei</Text>
+        <Text style={{paddingVertical: 20, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
+        <View style={styles.tutorDetailContainer}>
+          <TouchableOpacity style={styles.innerTutorDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfo')}>
+            <View style={{paddingTop: 50}}>
+              <Text style={{paddingHorizontal: 10}}>Introduction:</Text>
+              <Text style={{paddingHorizontal: 10, paddingTop: 5}}>
+              Apple Certified Professional certifications are for the creative professional using Final Cut Pro X or Logic Pro X. 
+              These certifications distinguish the learner as a skilled user, and provide a competitive edge in today’s ever-changing job market. 
+              The Final Cut Pro X and Logic Pro X exams are computer based and offered at AATP locations worldwide.
+            </Text>
+            </View>
+            <View style={styles.tutorAvatarContainer}>
+               <Avatar
+                large
+                rounded
+                source={{url: classDetail.user.avatarUrl}}
+                activeOpacity={0.7}
+                containerStyle={styles.avatarContainer}
+              />
+              <View style={styles.usernameText}>
+                <Text style={{fontSize: 20}}>{classDetail.user.username}</Text>
+                <Text style={{fontSize: 14, color: '#bebebe'}}>{`Rating ${classDetail.totalRatings}/5`}</Text>
               </View>
-              <View style={styles.tutorAvatarContainer}>
-                 <Avatar
-                  large
-                  rounded
-                  source={{url: classDetail.user.avatarUrl}}
-                  activeOpacity={0.7}
-                  containerStyle={styles.avatarContainer}
-                />
-                <View style={styles.usernameText}>
-                  <Text style={{fontSize: 20}}>{classDetail.user.username}</Text>
-                  <Text style={{fontSize: 14, color: '#bebebe'}}>{`Rating ${classDetail.totalRatings}/5`}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -234,6 +246,7 @@ const styles = StyleSheet.create({
     paddingTop: '10%',
     paddingLeft: '5%',
     paddingRight: '5%',
+    paddingVertical: 10
   },
   innerTutorDetailContainer: {
     borderWidth :1,

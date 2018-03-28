@@ -63,36 +63,38 @@ class Tutor extends React.Component {
           <View style={styles.avatarContainer}>
             <Image
               source={{uri: data.photoList && data.photoList[0].location}}
-              style={{width: '100%', height: 100}}
+              style={{width: '100%', height: 150}}
               resizeMode={'cover'}
               onPress={onPress}
             />
           </View>
-          <Text style={styles.className}> {data.title} </Text>
-          <View style={styles.ratingRow}>
-            <StarRating
-              disabled
-              emptyStar={'ios-star-outline'}
-              fullStar={'ios-star'}
-              halfStar={'ios-star-half'}
-              starSize={15}
-              iconSet={'Ionicons'}
-              maxStars={5}
-              rating={rating}
-              starColor={Colors.tintColor}
-              emptyStarColor={Colors.tintColor}
-            />
-            <Text style={styles.comment}> {`${data.comments.length} ${this.props.locale.newsfeed.text.comment}`} </Text>
+          <View style={{paddingLeft: 5}}>
+            <Text style={styles.className}> {data.title} </Text>
+            <View style={styles.ratingRow}>
+              <StarRating
+                disabled
+                emptyStar={'ios-star-outline'}
+                fullStar={'ios-star'}
+                halfStar={'ios-star-half'}
+                starSize={15}
+                iconSet={'Ionicons'}
+                maxStars={5}
+                rating={rating}
+                starColor={Colors.tintColor}
+                emptyStarColor={Colors.tintColor}
+              />
+              <Text style={styles.comment}> {`${data.comments.length} ${this.props.locale.newsfeed.text.comment}`} </Text>
+            </View>
+            <Text>
+              <FontAwesome 
+                name={'dollar'}
+                size={14}
+                style={{marginLeft: '5%'}}
+                color={'#E8DA3A'}
+              />
+              <Text> {`${data.fee} HKD / ${locale.newsfeed.text[data.chargeType]}`}</Text>
+            </Text>
           </View>
-          <Text>
-            <FontAwesome 
-              name={'dollar'}
-              size={14}
-              style={{marginLeft: '5%'}}
-              color={'#E8DA3A'}
-            />
-            <Text> {`${data.fee} HKD / ${locale.newsfeed.text[data.chargeType]}`}</Text>
-          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.whiteHeart} 
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     justifyContent: 'center',
     flex: 2,
-    paddingLeft: 10,
+    // paddingLeft: 10,
   },
   ratingRow: {
     flexDirection: 'row',
