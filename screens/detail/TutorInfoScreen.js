@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text, Dimensions, Image } from 'react-native';
+import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text, Dimensions, Image, FlatList } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
 import { connect } from 'react-redux';
@@ -7,18 +7,29 @@ import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { List, ListItem } from 'react-native-elements'
 const { height, width } = Dimensions.get('window')
 import Colors from '../../constants/Colors';
-import { getClassDetail, setAppType } from '../../redux/actions';
+import { getClassList } from '../../redux/actions';
+import { Separator, Tutor } from '../../components';
+import StarRating from 'react-native-star-rating';
 
 class TutorInfo extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     return {
       header: null
-
     }
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+  }
+
+  componentWillMount() {
+    this.props.getClassList(this.props.classDetail.user.userId)
+  }
+
   render() {
-    let { classDetail } = this.props
+    let { classDetail, classList, locale } = this.props
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.imageContainer}>
@@ -33,7 +44,7 @@ class TutorInfo extends React.Component {
               color={'#fff'}
             />
           </TouchableOpacity>
-          <View style={styles.avatarContainer}>
+          <View style={styles.tutorAvatarContainer}>
             <Avatar
               large
               rounded
@@ -44,7 +55,6 @@ class TutorInfo extends React.Component {
             />
             <View style={styles.usernameContainer}>
               <Text style={styles.usernameText}>{classDetail.user.username}</Text>
-              <Text>{`Rating: ${classDetail.totalRatings}/5`}</Text>
             </View>
           </View>
         </View>
@@ -58,25 +68,34 @@ class TutorInfo extends React.Component {
               </Text>
             </View>
           </View>
-          <Text style={styles.tabText}>Class</Text>
-          <View style={styles.classContainer}>
+          <Text style={{paddingTop: 10}}> {locale.tutorInfo.text.mainCourse} </Text>
 
-          </View>
+            {
+              classList.map((cls, index) => (
+                <View key={index} style={{width: '100%'}}>
+                  <Tutor 
+                    data={cls} 
+                    onPress={() => this.props.navigation.navigate('TutorDetail', {classId: cls.classId})}
+                    handleUnauthorizedCall={() => this.props.navigation.navigate('Signin')}
+                  />
+                  <Separator style={{backgroundColor: '#aaa'}}/>
+                </View>
+              ))
+            }
       </ScrollView>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({ 
   container: {
-    flex: 1,
     backgroundColor: '#efeff3',
   },
   imageContainer: {
     width: '100%',
-    height: '20%',
+    height: 150,
   },
-  avatarContainer: {
+  tutorAvatarContainer: {
     position: 'absolute',
     top: '80%',
     flexDirection: 'row',
@@ -112,11 +131,11 @@ const mapStateToPorps = (state) => {
     locale: state.language.locale,
     isLoggedIn: state.socialLogin.isLoggedIn,
     classDetail: state.classes.classDetail,
+    classList: state.classes.classList,
     appType: state.appType.mode,
   }
 }
 
 export default connect(mapStateToPorps, {
-  getClassDetail,
-  setAppType,
+  getClassList,
 })(TutorInfo)
