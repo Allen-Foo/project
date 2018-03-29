@@ -3,6 +3,7 @@ import {
   FlatList,
   Image,
   Platform,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -119,6 +120,10 @@ class NewsFeedScreen extends React.Component {
     clearInterval(this.state.interval);
   }
 
+  _onRefresh() {
+    this.props.getAllClassList()
+  }
+
   switchToNormalMode = () => {
     this.setState({searchMode: false})
     this.props.navigation.setParams({ searchMode: false });
@@ -150,7 +155,15 @@ class NewsFeedScreen extends React.Component {
           />
           
         </View>
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView 
+          contentContainerStyle={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.isLoading}
+              onRefresh={this._onRefresh.bind(this)}
+            />
+          }
+        >
           <Slideshow 
             dataSource={ this.state.dataSource }
             containerStyle={ sliderContainer }
