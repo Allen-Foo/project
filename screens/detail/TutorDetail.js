@@ -208,7 +208,7 @@ class TutorDetailScreen extends React.Component {
                <Avatar
                 large
                 rounded
-                source={{url: classDetail.user.avatarUrl}}
+                source={{url: classDetail.user && classDetail.user.avatarUrl}}
                 activeOpacity={0.7}
                 containerStyle={styles.avatarContainer}
               />
