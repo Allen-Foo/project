@@ -168,11 +168,18 @@ export default (state = {...defaultState}, action) => {
       }
     case GET_ALL_CLASS_LIST_SUCCESS:
        //console.warn('here', 'GET_ALL_CLASS_LIST_SUCCESS', action.payload.classList)
+      let allClassList
+      if (state.allClassList && state.allClassList.length > 0) {
+        allClassList = state.allClassList.concat(action.payload.classList)
+      } else {
+        allClassList = action.payload.classList
+      }
+
       return {
         ...state,
         isLoading: false,
         createClassSuccess: true,
-        allClassList: action.payload.classList,
+        allClassList: allClassList,
       };
     case GET_ALL_CLASS_LIST_FAIL:
       return {

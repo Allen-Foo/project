@@ -58,6 +58,11 @@ class NewsFeedScreen extends React.Component {
     }
   };
 
+  handleSubmit = () => {
+    // console.warn('rest', rest)
+    this.props.getAllClassList(this.props.allClassList[this.props.allClassList.length -1].classId)
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -192,6 +197,13 @@ class NewsFeedScreen extends React.Component {
               </View>
             ))
           }
+          <TouchableOpacity 
+            style={styles.loadClassButton}
+            onPress={()=>{this.handleSubmit()}}
+            // onPress={()=> this.props.navigation.navigate('AppliedClassNoti')}
+          >
+            <Text>Show more classes</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );
@@ -223,6 +235,16 @@ const sliderContainer = {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#eee',
+  },
+  loadClassButton: {
+    backgroundColor: '#fff',
+    paddingVertical: 10,
+    width: '90%',
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderRadius: 10
   },
   statusBar: {
     height: Constants.statusBarHeight,

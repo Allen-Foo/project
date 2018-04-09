@@ -81,11 +81,11 @@ export function getClassDetail(classId) {
   }
 }
 
-export function getAllClassList() {
+export function getAllClassList(lastClassId) {
   return {
     type: GET_ALL_CLASS_LIST,
     payload: {
-      
+      lastStartKey: lastClassId
     }
   }
 }
