@@ -213,9 +213,8 @@ class NewsFeedScreen extends React.Component {
           <TouchableOpacity 
             style={styles.loadClassButton}
             onPress={()=>{this.handleSubmit()}}
-            // onPress={()=> this.props.navigation.navigate('AppliedClassNoti')}
           >
-            <Text>Show more classes</Text>
+            <Text>{this.props.locale.newsfeed.text.showMoreClasses}</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>

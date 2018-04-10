@@ -11,6 +11,7 @@ import {
   searchClassList,
   giveComment,
   getFavouriteClassList,
+  applyClass,
 } from './classes';
 
 import { signInEmail,
@@ -54,4 +55,5 @@ export {
   addToBookmark,
   removeFromBookmark,
   giveComment,
+  applyClass,
 }

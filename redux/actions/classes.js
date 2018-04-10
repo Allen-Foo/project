@@ -28,6 +28,9 @@ import {
   GET_FAVOURITE_CLASS_LIST,
   GET_FAVOURITE_CLASS_LIST_FAIL,
   GET_FAVOURITE_CLASS_LIST_SUCCESS,
+  APPLY_CLASS,
+  APPLY_CLASS_SUCCESS,
+  APPLY_CLASS_FAIL,
 } from '../types';
 
 import { Observable } from 'rxjs/Observable';
@@ -113,6 +116,16 @@ export function getFavouriteClassList(classIds) {
   return {
     type: GET_FAVOURITE_CLASS_LIST,
     payload: classIds
+  }
+}
+
+export function applyClass(classId, userId) {
+  return {
+    type: APPLY_CLASS,
+    payload: {
+      classId,
+      userId,
+    }
   }
 }
 
@@ -318,3 +331,24 @@ export const getFavouriteClassListEpic = (action$, store, { request }) =>
       }))
     )
 
+export const applyClassEpic = (action$, store, { request }) =>
+  action$.ofType(APPLY_CLASS)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: `/applyClass/${action.payload.classId}`,
+        method: 'post',
+        data: {
+          userId: action.payload.userId,
+        }
+      }))
+      .map(res => {
+        return {
+          type: APPLY_CLASS_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: APPLY_CLASS_FAIL,
+        payload: err.message
+      }))
+    )

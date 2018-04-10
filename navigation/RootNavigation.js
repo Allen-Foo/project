@@ -22,6 +22,9 @@ import AdvancedSearch from '../screens/search/AdvancedSearchScreen';
 import SearchCategory from '../screens/search/SearchCategoryScreen';
 import SearchSkill from '../screens/search/SearchSkillScreen';
 import TutorInfo from '../screens/detail/TutorInfoScreen';
+import Payment from '../screens/applyClass/PaymentScreen';
+import AppliedClassNoti from '../screens/applyClass/AppliedClassNotiScreen';
+
 
 import Category from '../screens/createClass/CategoryScreen';
 import Skill from '../screens/createClass/SkillScreen';
@@ -94,6 +97,12 @@ const RootStackNavigator = StackNavigator(
     },
     TutorInfo: {
       screen: TutorInfo,
+    },
+    Payment: {
+      screen: Payment,
+    },
+    AppliedClassNoti: {
+      screen: AppliedClassNoti,
     },
   },
   {

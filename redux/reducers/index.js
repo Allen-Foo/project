@@ -36,6 +36,7 @@ import {
   searchClassListEpic,
   giveCommentEpic,
   getFavouriteClassListEpic,
+  applyClassEpic
 } from '../actions/classes';
 
 export const rootReducer = combineReducers({
@@ -73,4 +74,5 @@ export const rootEpic = combineEpics(
   removeFromBookmarkEpic,
   giveCommentEpic,
   requireUpdateClassListEpic,
+  applyClassEpic,
 )

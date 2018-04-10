@@ -28,6 +28,9 @@ import {
   GET_FAVOURITE_CLASS_LIST_FAIL,
   GET_FAVOURITE_CLASS_LIST_SUCCESS,
   REQUIRE_UPDATE_CLASS_LIST,
+  APPLY_CLASS,
+  APPLY_CLASS_SUCCESS,
+  APPLY_CLASS_FAIL,
 } from '../types';
 
 const defaultState = {
@@ -246,6 +249,25 @@ export default (state = {...defaultState}, action) => {
         classDetail: action.payload,
       };
     case GIVE_COMMENT_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+
+    case APPLY_CLASS:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case APPLY_CLASS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        ...action.payload,
+      };
+    case APPLY_CLASS_FAIL:
       return {
         ...state,
         isLoading: false,

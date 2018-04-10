@@ -56,7 +56,6 @@ class TutorDetailScreen extends React.Component {
   renderClassDetail() {
     let { locale, classDetail } = this.props;
     let photoList = classDetail.photoList.map(photo => ({uri: photo.location}))
-
     return (
       <View>
         <ScrollView contentContainerStyle={styles.container}>
@@ -100,7 +99,7 @@ class TutorDetailScreen extends React.Component {
             />
             <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
           </View>
-          <TouchableOpacity style={styles.applyButton}>
+          <TouchableOpacity style={styles.applyButton} onPress={() => this.props.navigation.navigate('Payment', {classId: this.props.classDetail.classId, userId: this.props.classDetail.user.userId})}>
             <Text style={{color: 'white', }}> 
               { locale.tutorDetail.text.applyNow.label }
             </Text>
