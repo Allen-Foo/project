@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   price: {
-    marginLeft: 160,
+    marginLeft: 140,
     color: '#FF5A5F',
     fontWeight: '500',
   },

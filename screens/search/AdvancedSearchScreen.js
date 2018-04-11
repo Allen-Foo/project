@@ -160,7 +160,7 @@ class ChargeTypePicker extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      chargeType: props.chargeType || 'perHour'
+      chargeType: props.chargeType || 'perLesson'
     }
   }
 
@@ -185,8 +185,8 @@ class ChargeTypePicker extends React.Component {
         <Picker
           selectedValue={this.state.chargeType}
           onValueChange={(itemValue) => this.setState({chargeType: itemValue})}>
-          <Picker.Item label={locale.advancedSearch.text.perHour} value='perHour' />
           <Picker.Item label={locale.advancedSearch.text.perLesson} value='perLesson' />
+          <Picker.Item label={locale.advancedSearch.text.perSemester} value='perSemester' />
         </Picker>
       </View>
     )

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Hr, NextButton, Spinner } from '../../components';
+import { Hr, NextButton, Spinner, Separator } from '../../components';
 import { ImagePicker } from 'expo';
 import { editClass } from '../../redux/actions';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
@@ -47,6 +47,8 @@ class ClassAddressScreen extends React.Component {
 
     this.state = {
       photoList: params.photoList || [],
+      selectType: null,
+      showPicker: false,
     }
   }
 
@@ -118,6 +120,10 @@ class ClassAddressScreen extends React.Component {
     this.props.navigation.navigate('ClassSummary', params)
   }
 
+  showPicker = () => {this.setState({ showPicker: true })}
+  hidePicker = () => {this.setState({ showPicker: false })}
+  handleCancel = () => {this.hidePicker()}
+
   render() {
     let { photoList } = this.state;
     let { params = {} } = this.props.navigation.state;
@@ -138,9 +144,19 @@ class ClassAddressScreen extends React.Component {
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={this._pickImage}
+          // onPress={this._pickImage}
+          onPress={() => {
+            if (this.state.photoList.length === 4) {
+              Alert.alert(this.props.locale.uploadPhoto.cannotAddmoreThanFour)
+              return
+            }
+            this.showPicker()
+          }}
         >
-          <Text style={styles.addButton}>+</Text>
+          <Entypo
+            name={"camera"}
+            size={25}
+          />
         </TouchableOpacity>
         {
           this.state.photoList && this.state.photoList.length > 0 &&
@@ -149,6 +165,22 @@ class ClassAddressScreen extends React.Component {
           <NextButton 
             onPress={() => this.handNext()}
             text={this.props.locale.common.next}
+          />
+        }
+        { 
+          this.state.showPicker &&
+          <SelectTypePicker
+            onCancel={this.handleCancel}
+            onSelectCamera={() => {
+              this.hidePicker();
+              this._takePhoto();
+            }}
+            onSelectPhoto={() => {
+              this.hidePicker();
+              this._pickImage();
+            }}
+            locale={this.props.locale}
+            // chargeType={this.state.selectType}
           />
         }
       </View>
@@ -176,6 +208,68 @@ class ClassAddressScreen extends React.Component {
       }, () => this.uploadPhoto(result, this.state.photoList.length - 1))
     }
   };
+
+  _takePhoto = async () => {
+    if (this.state.photoList.length === 4) {
+      Alert.alert('cannot add more than four photos')
+      return
+    }
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+    });
+
+    if (!result.cancelled) {
+      let temp = [...this.state.photoList];
+      result.isLoading = true
+      temp.push(result)
+      this.setState({
+        photoList: temp
+      }, () => this.uploadPhoto(result, this.state.photoList.length - 1))
+    }
+  };
+}
+
+class SelectTypePicker extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selectType: props.selectType
+    }
+  }
+
+  render() {
+    const { selectType, locale, onCancel, onSelectCamera, onSelectPhoto } = this.props;
+    return (
+      <View style={styles.pickerContainer}>
+        <View style={styles.innerContainer}>
+          <View style={styles.pickerContent}>
+            <Text>{locale.uploadPhoto.text.selectPhotoFrom}</Text>
+          </View>
+          <Separator style={{backgroundColor: '#eee'}}/>
+          <TouchableOpacity style={styles.pickerContent} onPress={() => onSelectCamera()}>
+            <Text style={styles.text}>
+              {locale.uploadPhoto.text.takePhoto}
+            </Text>
+          </TouchableOpacity>  
+          <Separator style={{backgroundColor: '#eee'}}/>
+          <TouchableOpacity style={styles.pickerContent} onPress={() => onSelectPhoto()}>
+            <Text style={styles.text}>
+              {locale.uploadPhoto.text.selectFromCameraRoll}
+            </Text>
+          </TouchableOpacity>  
+          <Separator style={{backgroundColor: '#eee'}}/>
+          <TouchableOpacity style={styles.pickerContent} onPress={() => onCancel()}>
+            <Text style={[styles.text, {fontWeight: 'bold' }]}>
+              {locale.common.cancel}
+            </Text>
+          </TouchableOpacity>
+          
+        </View>
+      </View>
+    )
+  }
 }
 
 const ImageBox = props => {
@@ -222,6 +316,17 @@ const styles = StyleSheet.create({
     marginHorizontal: width * 0.025,
     marginVertical: 5,
   },
+  pickerContainer: {
+    backgroundColor: '#fff',
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+  },
+  pickerContent: {
+    paddingVertical: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   button: {
     width: '90%',
     backgroundColor: 'white',
@@ -229,6 +334,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5, 
     marginTop: 20,
+    paddingVertical: 10,
   },
   addButton: {
     fontSize: 50,
@@ -240,6 +346,10 @@ const styles = StyleSheet.create({
     top: -12.5,
     backgroundColor: 'transparent'
   },
+  text: {
+    color: '#3476EF',
+    fontSize: 16
+  }
 });
 
 const mapStateToProps = (state) => {

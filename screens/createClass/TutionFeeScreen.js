@@ -16,7 +16,7 @@ import { createClass, editClass } from '../../redux/actions';
 import { Dropdown } from 'react-native-material-dropdown';
 import { MaterialIcons, Entypo } from '@expo/vector-icons';
 
-const CHARGE_TYPES = ['perHour', 'perLesson']
+const CHARGE_TYPES = ['perLesson', 'perSemester']
 
 class TutionFee extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -44,7 +44,7 @@ class TutionFee extends React.Component {
     let { params = {} } = this.props.navigation.state;
     this.state = {
       fee: params.fee && String(params.fee),
-      chargeType: params.chargeType || 'perHour',
+      chargeType: params.chargeType || 'perLesson',
       showPicker: false,
     }
   }
@@ -148,7 +148,7 @@ class ChargeTypePicker extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      chargeType: props.chargeType || 'perHour'
+      chargeType: props.chargeType || 'perLesson'
     }
   }
 
@@ -173,8 +173,8 @@ class ChargeTypePicker extends React.Component {
         <Picker
           selectedValue={this.state.chargeType}
           onValueChange={(itemValue) => this.setState({chargeType: itemValue})}>
-          <Picker.Item label={locale.advancedSearch.text.perHour} value='perHour' />
           <Picker.Item label={locale.advancedSearch.text.perLesson} value='perLesson' />
+          <Picker.Item label={locale.advancedSearch.text.perSemester} value='perSemester' />
         </Picker>
       </View>
     )
@@ -186,10 +186,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#eee',
     alignItems: 'center',
-  },
-  chargeTypeButton: {
-    backgroundColor: '#fff',
-    
   },
   innerRowContainer: {
     flexDirection: 'row',
@@ -221,7 +217,8 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   chargeTypeButton: {
-    width: 80,
+    width: 99,
+
     paddingHorizontal: 5,
   },
   chargeTypeChevron: {
