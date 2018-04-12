@@ -99,14 +99,30 @@ class TutorDetailScreen extends React.Component {
             />
             <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
           </View>
-          <TouchableOpacity style={styles.applyButton} onPress={() => this.props.navigation.navigate('Payment', {classId: this.props.classDetail.classId, userId: this.props.classDetail.user.userId})}>
-            <Text style={{color: 'white', }}> 
-              { locale.tutorDetail.text.applyNow.label }
-            </Text>
-          </TouchableOpacity>
+          {
+            this.renderApplyButton()
+          }
         </View>
       </View>
     )
+  }
+
+  renderApplyButton() {
+    if (this.props.appliedClassList) {
+      return(
+        <View style={styles.appliedButton} onPress={() => this.props.navigation.navigate('Payment', {classId: this.props.classDetail.classId, userId: this.props.classDetail.user.userId})}>
+          <Text style={{color: 'white', }}> 
+            { this.props.locale.tutorDetail.text.applied.label }
+          </Text>
+        </View>
+    )} else {
+      return(
+        <TouchableOpacity style={styles.applyButton} onPress={() => {this.props.user ? this.props.navigation.navigate('Payment', {classId: this.props.classDetail.classId, userId: this.props.classDetail.user.userId}) : this.props.navigation.navigate('Signin')}}>
+          <Text style={{color: 'white', }}> 
+            { this.props.locale.tutorDetail.text.applyNow.label }
+          </Text>
+        </TouchableOpacity>
+    )}
   }
 
   renderLoading() {
@@ -369,6 +385,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '500'
   },
+  appliedButton: {
+    paddingVertical: 15,
+    width: '40%',
+    backgroundColor: '#d2d1d3',
+    justifyContent: 'center',
+    alignItems: 'center', 
+  },
   applyButton: {
     // flexDirection: 'row',
     paddingVertical: 15,
@@ -394,6 +417,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    appliedClassList: state.socialLogin.appliedClassList,
     user: state.socialLogin.user,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
