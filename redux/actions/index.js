@@ -27,6 +27,7 @@ import { signInEmail,
   updateProfile,
   addToBookmark,
   removeFromBookmark,
+  getAppliedClassList,
 } from './socialLogin';
 
 export {
@@ -56,4 +57,5 @@ export {
   removeFromBookmark,
   giveComment,
   applyClass,
+  getAppliedClassList,
 }

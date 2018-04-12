@@ -42,6 +42,9 @@ import {
   REMOVE_FROM_BOOKMARK,
   REMOVE_FROM_BOOKMARK_SUCCESS,
   REMOVE_FROM_BOOKMARK_FAIL,
+  GET_APPLIED_CLASS_LIST,
+  GET_APPLIED_CLASS_LIST_SUCCESS,
+  GET_APPLIED_CLASS_LIST_FAIL,
 } from '../types';
 
 
@@ -355,6 +358,24 @@ export default (state = {...defaultState}, action) => {
       };
     case REMOVE_FROM_BOOKMARK_FAIL:
       // console.warn('here', 'REMOVE_FROM_BOOKMARK_FAIL', action.payload)
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case GET_APPLIED_CLASS_LIST:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_APPLIED_CLASS_LIST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        appliedClassList: action.payload.appliedClassList,
+      };
+    case GET_APPLIED_CLASS_LIST_FAIL:
       return {
         ...state,
         isLoading: false,

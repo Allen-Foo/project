@@ -24,6 +24,7 @@ import {
   addToBookmarkEpic,
   removeFromBookmarkEpic,
   requireUpdateClassListEpic,
+  getAppliedClassListEpic,
 } from '../actions/socialLogin';
 
 import {
@@ -75,4 +76,5 @@ export const rootEpic = combineEpics(
   giveCommentEpic,
   requireUpdateClassListEpic,
   applyClassEpic,
+  getAppliedClassListEpic,
 )

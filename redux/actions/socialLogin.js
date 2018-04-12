@@ -47,6 +47,9 @@ import {
   REMOVE_FROM_BOOKMARK_SUCCESS,
   REMOVE_FROM_BOOKMARK_FAIL,
   REQUIRE_UPDATE_CLASS_LIST,
+  GET_APPLIED_CLASS_LIST,
+  GET_APPLIED_CLASS_LIST_SUCCESS,
+  GET_APPLIED_CLASS_LIST_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -91,7 +94,7 @@ export const signInEmail = (username, password) => ({
 })
 
 export const updateAvatar = (avatar) => {
-  console.warn('avatar', avatar)
+  // console.warn('avatar', avatar)
   return {
     type: UPDATE_AVATAR,
     payload: {
@@ -101,7 +104,7 @@ export const updateAvatar = (avatar) => {
 }
 
 export const updateProfile = (profile) => {
-  console.warn('profile', profile)
+  // console.warn('profile', profile)
   return {
     type: UPDATE_PROFILE,
     payload: {
@@ -131,6 +134,13 @@ export const removeFromBookmark = (classId) => {
   return {
     type: REMOVE_FROM_BOOKMARK,
     payload: classId
+  }
+}
+
+export function getAppliedClassList(userId) {
+  return {
+    type: GET_APPLIED_CLASS_LIST,
+    payload: userId
   }
 }
 
@@ -511,3 +521,26 @@ export const requireUpdateClassListEpic = (action$, store, { request }) =>
     .mapTo({
       type: REQUIRE_UPDATE_CLASS_LIST
     })
+
+export const getAppliedClassListEpic = (action$, store, { request }) =>
+  action$.ofType(LOGIN_SUCCESS)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: '/getAppliedClassList',
+        method: 'post',
+        data: {
+          userId: store.getState().socialLogin.user.userId
+        } 
+      }))
+      .map(res => {
+        //console.warn('GET_ALL_CLASS_LIST success', res.data.classList)
+        return {
+          type: GET_APPLIED_CLASS_LIST_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: GET_APPLIED_CLASS_LIST_FAIL,
+        payload: err.message
+      }))
+    )
