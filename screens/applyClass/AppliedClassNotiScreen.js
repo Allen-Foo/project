@@ -12,7 +12,7 @@ import { FontAwesome, Entypo } from '@expo/vector-icons';
 class appliedClassNoti extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     return {
-      
+      header: null
     }
   };
 
@@ -36,7 +36,7 @@ class appliedClassNoti extends React.Component {
         >
           <View>
             <Text style={styles.subTabText}>
-              {locale.appliedClassNoti.text.viewMyRecord}
+              {locale.appliedClassNoti.text.continueFindClass}
             </Text>
           </View>
           <View style={styles.chevronContainer}>
@@ -54,7 +54,7 @@ class appliedClassNoti extends React.Component {
         >
           <View>
             <Text style={styles.whiteText}>
-              {locale.appliedClassNoti.text.continueFindClass}
+              {locale.appliedClassNoti.text.viewMyRecord}
             </Text>
           </View>
           <View style={styles.chevronContainer}>
