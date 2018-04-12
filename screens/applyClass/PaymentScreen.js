@@ -27,7 +27,7 @@ handleSubmit = () => {
     // console.warn('rest', rest)
     this.props.applyClass(
       this.props.navigation.state.params.classId,
-      this.props.navigation.state.params.userId
+      this.props.user.userId
     )
     this.props.navigation.navigate('AppliedClassNoti')
   }
@@ -40,7 +40,7 @@ handleSubmit = () => {
 
   render() {
     // console.warn('classId', this.props.navigation.state.params.classId)
-    // console.warn('userId', this.props.navigation.state.params.userId)
+    // console.warn('userId', this.props.user.userId)
 
     let { locale } = this.props;
     return (
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    user: state.socialLogin.user,
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,

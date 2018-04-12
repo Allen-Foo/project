@@ -108,16 +108,22 @@ class TutorDetailScreen extends React.Component {
   }
 
   renderApplyButton() {
-    if (this.props.appliedClassList) {
+    let classId = this.props.navigation.state.params.classId;
+    let userId = this.props.classDetail.user.userId
+
+    if (this.props.appliedClassList && this.props.appliedClassList.some(list => list.classId == classId)) {
       return(
-        <View style={styles.appliedButton} onPress={() => this.props.navigation.navigate('Payment', {classId: this.props.classDetail.classId, userId: this.props.classDetail.user.userId})}>
+        <View style={styles.appliedButton} onPress={() => this.props.navigation.navigate('Payment', {classId: classId, userId: userId})}>
           <Text style={{color: 'white', }}> 
             { this.props.locale.tutorDetail.text.applied.label }
           </Text>
         </View>
     )} else {
       return(
-        <TouchableOpacity style={styles.applyButton} onPress={() => {this.props.user ? this.props.navigation.navigate('Payment', {classId: this.props.classDetail.classId, userId: this.props.classDetail.user.userId}) : this.props.navigation.navigate('Signin')}}>
+        <TouchableOpacity 
+          style={styles.applyButton} 
+          onPress={() => {this.props.user ? this.props.navigation.navigate('Payment', {classId: classId, userId: userId}) : this.props.navigation.navigate('Signin')}}
+        >
           <Text style={{color: 'white', }}> 
             { this.props.locale.tutorDetail.text.applyNow.label }
           </Text>
