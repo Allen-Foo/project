@@ -23,7 +23,7 @@ class AppliedClassListScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { params = {} } = navigation.state;
     let headerRight = (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('Schedule')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Schedule')}>
         <Ionicons
           name={"ios-calendar-outline"}
           size={30}
@@ -33,7 +33,6 @@ class AppliedClassListScreen extends React.Component {
     );
 
     return {
-      tabBarLabel: screenProps.locale.appliedClassList.title,
       headerTitle: screenProps.locale.appliedClassList.title,
       headerTintColor: '#fff',
       headerStyle: {
@@ -49,26 +48,6 @@ class AppliedClassListScreen extends React.Component {
       appliedClassList: [],
     }
   }
-
-  // componentWillMount() {
-  //   this.props.getAppliedClassList(this.props.userId)
-  // }
-
-  // componentDidMount() {
-  //   // We can only set the function after the component has been initialized
-  //   this.props.navigation.setParams({ handleAddClass: this.handleAddClass });
-  // }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.appliedClassList.length > 0 && nextProps.appliedClassList !== this.state.appliedClassList) {
-  //     this.setState({appliedClassList: nextProps.appliedClassList})
-  //   }
-
-  //   // after create class, fetch the new classes
-  //   if (nextProps.requireUpdateClassList && !this.props.requireUpdateClassList) {
-  //     this.props.getAppliedClassList(this.props.userId)
-  //   }
-  // }
 
   renderClassList = (appliedClassList) => {
     const getSwipeoutBtns = (item) => [
@@ -162,11 +141,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.socialLogin.user && state.socialLogin.user.userId,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     appliedClassList: state.socialLogin.appliedClassList,
-    requireUpdateClassList: state.classes.requireUpdateClassList,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
