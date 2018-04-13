@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   StyleSheet,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -108,7 +109,7 @@ class EditClassScreen extends React.Component {
     let { locale } = this.props;
     
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <ClassInfoRow
           label={locale.classSummary.label.title}
           value={params.title}
@@ -157,7 +158,7 @@ class EditClassScreen extends React.Component {
         </TouchableOpacity>
 
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
-      </View>
+      </ScrollView>
     );
   }
 }
