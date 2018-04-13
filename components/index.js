@@ -8,6 +8,7 @@ import HideoTextInput from'./HideoTextInput';
 import NextButton from'./NextButton';
 import Slideshow from'./Slideshow';
 import ClassItem from'./ClassItem';
+import AppliedClassItem from'./AppliedClassItem';
 
 
 export {
@@ -21,4 +22,5 @@ export {
   HideoTextInput,
   NextButton,
   ClassItem,
+  AppliedClassItem,
 }

@@ -95,6 +95,25 @@ class ProfileScreen extends React.Component {
     }
   }
 
+  renderClassList() {
+    if (this.props.appType == 'learner'){
+    return(
+      <ListItem
+        title={'View all applied class'}
+        leftIcon={{name: 'class'}}
+        onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
+      />  
+    )} else {
+      return(
+        <ListItem
+          title={'View all created class'}
+          leftIcon={{name: 'class'}}
+          onPress={() => {this.props.navigation.navigate('ClassList')}}
+        />   
+    )}
+
+  }
+
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
@@ -114,6 +133,9 @@ class ProfileScreen extends React.Component {
               leftIcon={{name: 'swap-horiz'}}
               onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
             />
+          }
+          {
+            this.renderClassList()
           }
           <ListItem
             title={this.props.locale.profile.text.settings}
