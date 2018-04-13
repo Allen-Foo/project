@@ -54,9 +54,12 @@ class ClassPlanner extends React.Component {
   }
 
   handleTimeConfirm = (time, index, key) => {
+    let {selectedDay} = this.props;
+    let t = moment(time).add(moment(selectedDay).diff(moment(time).startOf('day'), 'days'), 'days');
+
     let slot = {
       ...this.state.timeSlots[index],
-      [key]: time
+      [key]: t
     }
     let temp = [...this.state.timeSlots];
     temp[index] = slot;
