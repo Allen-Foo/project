@@ -37,7 +37,6 @@ class ClassItem extends React.Component {
 
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
           <Text style={styles.className}> {data.title} </Text>
-          <Text style={styles.tutorName}> {data.tutorName} </Text>
           <View style={styles.ratingRow}>
             <StarRating
               disabled
