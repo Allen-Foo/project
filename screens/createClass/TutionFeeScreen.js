@@ -122,20 +122,20 @@ class TutionFee extends React.Component {
               value={fee}
             />
           </View>
-          { 
-              this.state.showPicker &&
-              <ChargeTypePicker
-                onCancel={this.handleCancel}
-                onConfirm={this.handleConfirm}
-                locale={locale}
-                chargeType={this.state.chargeType}
-              />
-            }
           {
             !this.isEmpty(fee) && chargeType && !params.isEditMode &&
             <NextButton 
               onPress={() => this.handleNext()}
               text={locale.common.next}
+            />
+          }
+          { 
+            this.state.showPicker &&
+            <ChargeTypePicker
+              onCancel={this.handleCancel}
+              onConfirm={this.handleConfirm}
+              locale={locale}
+              chargeType={this.state.chargeType}
             />
           }
         </View>
