@@ -121,11 +121,6 @@ class ProfileScreen extends React.Component {
         {this.renderHeader(this.props.isLoggedIn)}
 
         <List containerStyle={styles.contentContainer}>
-          <ListItem
-            title={this.props.locale.profile.text.applyToBeTutor}
-            leftIcon={{name: 'people'}}
-            onPress={() => {this.props.navigation.navigate('Apply to be a tutor')}}
-          />
           {
             this.props.appType &&
             <ListItem
