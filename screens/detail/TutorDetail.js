@@ -88,7 +88,8 @@ class TutorDetailScreen extends React.Component {
               { classDetail.comments.map((comment, index) => <Comment key={index} comment={comment}/>) }
             </View>
           }
-          
+
+          <View style={{height: 100}} />
         </ScrollView>
         <View style={styles.bottomContainer}>
           <View style={styles.bottomPrice}>
@@ -239,13 +240,8 @@ class TutorDetailScreen extends React.Component {
               </View>
             </View>
           </TouchableOpacity>
-
         </View>
-        <View style={{height: 100}}>
-        </View>
-        
       </View>
-
     )
   }
 
@@ -292,13 +288,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingLeft: 10,
     marginTop: 20,
-    // overflow: 'visible',
-    // paddingTop: -30,
   },
   tutorAvatarContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
-    // marginTop: -20, 
     position: 'absolute',
     top: -20,
     paddingHorizontal: 10,
@@ -399,16 +392,11 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
   },
   applyButton: {
-    // flexDirection: 'row',
     paddingVertical: 15,
     width: '40%',
     backgroundColor: Colors.tintColor,
     justifyContent: 'center',
-    // alignSelf: 'flex-end',
     alignItems: 'center', 
-    // borderRadius: 5, 
-    // marginBottom: 5,
-
   },
   commentButton: {
     flexDirection: 'row',
