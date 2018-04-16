@@ -1,14 +1,16 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import {Agenda} from 'react-native-calendars';
 import moment from 'moment';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
 class ScheduleScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
+    const { params = {} }  = navigation.state;
+
     let headerTintColor = '#fff';
     let backgroundColor = Colors.tintColor
     if (screenProps.appType == 'tutor') {
@@ -16,10 +18,22 @@ class ScheduleScreen extends React.Component {
       backgroundColor = '#f7f7f7'
     }
 
+    let headerRight = (
+      <TouchableOpacity onPress={()=>{params.switchMode ? params.switchMode() : () => console.warn('not define')}}>
+        <FontAwesome
+          name={params.mode === "calendar" ? "calendar" : "calendar-o"}
+          size={22}
+          color={'white'}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
+
     return {
       tabBarLabel: screenProps.locale.schedule.title,
       headerTitle: screenProps.locale.schedule.title,
       headerLeft: null,
+      headerRight: headerRight,
       headerTintColor: headerTintColor,
       headerStyle: {
         backgroundColor: backgroundColor,
@@ -30,6 +44,7 @@ class ScheduleScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      mode: 'agenda',
       items: this.getItems(this.props.classList),
       markedDates: this.getMarkedItems(this.props.classList)
     };
@@ -40,6 +55,23 @@ class ScheduleScreen extends React.Component {
       let items = this.getItems(nextProps.classList)
       let markedDates = this.getMarkedItems(nextProps.classList)
       this.setState({items, markedDates})
+    }
+  }
+
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ 
+      switchMode: this.switchMode, 
+    });
+  }
+
+  switchMode = () => {
+    if (this.state.mode === 'agenda') {
+      this.setState({mode: 'calendar'})
+      this.props.navigation.setParams({ mode: 'calendar' });
+    } else {
+      this.setState({mode: 'agenda'})
+      this.props.navigation.setParams({ mode: 'agenda' });
     }
   }
 
