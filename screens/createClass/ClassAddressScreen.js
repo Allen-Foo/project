@@ -40,7 +40,7 @@ class ClassAddressScreen extends React.Component {
     this.state = {
       data: params.address,
       details: params.address,
-      checked: false,
+      checked: params.address && params.address.description == props.locale.classAddress.label.onSite,
     }
   }
 
@@ -86,7 +86,7 @@ class ClassAddressScreen extends React.Component {
     let { data, details, checked } = this.state;
     let { params = {} } = this.props.navigation.state;
     let address
-    if (checked == true) {
+    if (checked) {
       address = {
         description: this.props.locale.classAddress.label.onSite,
         formatted_address: this.props.locale.classAddress.label.onSite,
@@ -100,61 +100,60 @@ class ClassAddressScreen extends React.Component {
       }
     }
     params.address = address;
-    if(this.state.checked == false){
-    return (
-      <View style={styles.container}>
-        <CheckBox
-          title='On Site'
-          style={[styles.details,{marginTop: 20}]}
-          checked={this.state.checked}
-          onPress={this.state.checked ? () => this.setState({checked: false}) : () => this.setState({checked: true})}
-        />
-        <View style={styles.line}>
-          <Hr text="Or" marginLeft={0} marginRight={0}/>
-        </View>
-        <Text style={styles.label}>{'Please input your address'}</Text>
-        <TouchableOpacity
-          style={styles.details}
-          onPress={() => this.props.navigation.navigate('ClassAddressAutocomplete', {returnData: this.returnData})}
-        >
-          <Text>{data && data.description}</Text>
-        </TouchableOpacity>
-        {
-          details && details.formatted_address &&
-          <View>
-            <Text style={styles.label}> {'Detail Address:'} </Text>
-            <Text style={styles.details}>
-              {details.formatted_address}
-            </Text>
-          </View>
-        }
-
-        {
-          data && data.description && !params.isEditMode  && this.state.checked &&
-          <NextButton 
-            onPress={() => this.props.navigation.navigate('TutionFee', params)}
-            text={this.props.locale.common.next}
-          />
-        }
-      </View>
-    )} else {
+    if(checked){
       return (
-      <View style={styles.container}>
-        <CheckBox
-          title='On Site'
-          style={[styles.details,{marginTop: 20}]}
-          checked={this.state.checked}
-          onPress={this.state.checked ? () => this.setState({checked: false}) : () => this.setState({checked: true})}
-        />
-        {
-          data && data.description && !params.isEditMode  && this.state.checked &&
+        <View style={styles.container}>
+          <CheckBox
+            title='On Site'
+            style={[styles.details,{marginTop: 20}]}
+            checked={this.state.checked}
+            onPress={this.state.checked ? () => this.setState({checked: false}) : () => this.setState({checked: true})}
+          />
           <NextButton 
             onPress={() => this.props.navigation.navigate('TutionFee', params)}
             text={this.props.locale.common.next}
           />
-        }
-      </View>
-    )}
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.container}>
+          <CheckBox
+            title='On Site'
+            style={[styles.details,{marginTop: 20}]}
+            checked={this.state.checked}
+            onPress={this.state.checked ? () => this.setState({checked: false}) : () => this.setState({checked: true})}
+          />
+          <View style={styles.line}>
+            <Hr text="Or" marginLeft={0} marginRight={0}/>
+          </View>
+          <Text style={styles.label}>{'Please input your address'}</Text>
+          <TouchableOpacity
+            style={styles.details}
+            onPress={() => this.props.navigation.navigate('ClassAddressAutocomplete', {returnData: this.returnData})}
+          >
+            <Text>{data && data.description}</Text>
+          </TouchableOpacity>
+          {
+            details && details.formatted_address &&
+            <View>
+              <Text style={styles.label}> {'Detail Address:'} </Text>
+              <Text style={styles.details}>
+                {details.formatted_address}
+              </Text>
+            </View>
+          }
+
+          {
+            data && data.description && !params.isEditMode &&
+            <NextButton 
+              onPress={() => this.props.navigation.navigate('TutionFee', params)}
+              text={this.props.locale.common.next}
+            />
+          }
+        </View>
+      )
+    }
   }
 }
 
