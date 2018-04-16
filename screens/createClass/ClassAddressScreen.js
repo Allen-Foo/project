@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
 import { editClass } from '../../redux/actions';
 import { MaterialIcons } from '@expo/vector-icons';
+import { CheckBox } from 'react-native-elements'
 
 class ClassAddressScreen extends React.Component {
    static navigationOptions = ({navigation, screenProps}) => {
@@ -39,6 +40,7 @@ class ClassAddressScreen extends React.Component {
     this.state = {
       data: params.address,
       details: params.address,
+      checked: false,
     }
   }
 
@@ -48,12 +50,21 @@ class ClassAddressScreen extends React.Component {
   }
 
   _handleSubmit = () => {
-    let { data, details } = this.state;
-    let address = {
+    let { data, details, checked } = this.state;
+    let address
+    if (checked == true) {
+      address = {
+      description: this.props.locale.classAddress.label.onSite,
+      formatted_address: this.props.locale.classAddress.label.onSite,
+      coordinate: this.props.locale.classAddress.label.onSite,
+    }
+  } else {
+      address = {
       description: data && data.description,
       formatted_address: details && details.formatted_address,
       coordinate: details && details.geometry && details.geometry.location
     }
+  }
 
     this.props.editClass({address})
     this.props.navigation.goBack();
@@ -72,18 +83,35 @@ class ClassAddressScreen extends React.Component {
   }
 
   render() {
-    let { data, details } = this.state;
+    let { data, details, checked } = this.state;
     let { params = {} } = this.props.navigation.state;
-
-    let address = {
-      description: data && data.description,
-      formatted_address: details && details.formatted_address,
-      coordinate: details && details.geometry && details.geometry.location
+    let address
+    if (checked == true) {
+      address = {
+        description: this.props.locale.classAddress.label.onSite,
+        formatted_address: this.props.locale.classAddress.label.onSite,
+        coordinate: this.props.locale.classAddress.label.onSite,
+      }
+    } else {
+      address = {
+        description: data && data.description,
+        formatted_address: details && details.formatted_address,
+        coordinate: details && details.geometry && details.geometry.location
+      }
     }
     params.address = address;
-
+    if(this.state.checked == false){
     return (
       <View style={styles.container}>
+        <CheckBox
+          title='On Site'
+          style={[styles.details,{marginTop: 20}]}
+          checked={this.state.checked}
+          onPress={this.state.checked ? () => this.setState({checked: false}) : () => this.setState({checked: true})}
+        />
+        <View style={styles.line}>
+          <Hr text="Or" marginLeft={0} marginRight={0}/>
+        </View>
         <Text style={styles.label}>{'Please input your address'}</Text>
         <TouchableOpacity
           style={styles.details}
@@ -100,15 +128,33 @@ class ClassAddressScreen extends React.Component {
             </Text>
           </View>
         }
+
         {
-          data && data.description && !params.isEditMode &&
+          data && data.description && !params.isEditMode  && this.state.checked &&
           <NextButton 
             onPress={() => this.props.navigation.navigate('TutionFee', params)}
             text={this.props.locale.common.next}
           />
         }
       </View>
-    );
+    )} else {
+      return (
+      <View style={styles.container}>
+        <CheckBox
+          title='On Site'
+          style={[styles.details,{marginTop: 20}]}
+          checked={this.state.checked}
+          onPress={this.state.checked ? () => this.setState({checked: false}) : () => this.setState({checked: true})}
+        />
+        {
+          data && data.description && !params.isEditMode  && this.state.checked &&
+          <NextButton 
+            onPress={() => this.props.navigation.navigate('TutionFee', params)}
+            text={this.props.locale.common.next}
+          />
+        }
+      </View>
+    )}
   }
 }
 
@@ -128,7 +174,12 @@ const styles = StyleSheet.create({
     marginHorizontal: '5%',
     backgroundColor: 'white',
     borderRadius: 5,
-  }
+  },
+  line: {
+    width: '90%',
+    paddingVertical: 10,
+    alignSelf: 'center',
+  },
 });
 
 const mapStateToProps = (state) => {
