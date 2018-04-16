@@ -217,13 +217,16 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   chargeTypeButton: {
+    borderBottomWidth: 1,
+    borderColor: '#ABB1BA',
     width: 99,
-
     paddingHorizontal: 5,
   },
   chargeTypeChevron: {
     position: 'absolute',
     right: -15,
+    borderBottomWidth: 1,
+    borderColor: '#ABB1BA',
   },
 });
 
