@@ -81,6 +81,7 @@ class ScheduleScreen extends React.Component {
       Object.keys(classes.time).forEach((date, index) => {
         classes.time[date].forEach(timeSlot => {
           let slot = {
+            classId: classes.classId,
             text: classes.title,
             time: `${moment(new Date(timeSlot.startTime)).format('HH:mm')} - ${moment(new Date(timeSlot.endTime)).format('HH:mm')}`,
             address: classes.address.formatted_address
@@ -158,11 +159,14 @@ class ScheduleScreen extends React.Component {
         else if (ma < mb) return -1;
         else return 0;
       }).map((item, index) => (
-        <View style={{padding: 5}} key={index}>
+        <TouchableOpacity
+          style={{padding: 5}} key={index}
+          onPress={() => item.classId && this.props.navigation.navigate('TutorDetail', {classId: item.classId})}
+        >
           <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.text}</Text>
           <Text style={{color: Colors.tintColor}}>{item.time}</Text>
           <Text style={{color: 'purple', fontSize: 12}}>{item.address}</Text>
-        </View>
+        </TouchableOpacity>
       ))
     }
   }
@@ -217,11 +221,14 @@ class ScheduleScreen extends React.Component {
 
   renderItem(item) {
     return (
-      <View style={[styles.item, {height: item.height}]}>
+      <TouchableOpacity 
+        style={[styles.item, {height: item.height}]}
+        onPress={() => item.classId && this.props.navigation.navigate('TutorDetail', {classId: item.classId})}
+      >
         <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.text}</Text>
         <Text style={{color: Colors.tintColor}}>{item.time}</Text>
         <Text style={{color: 'purple', fontSize: 12}}>{item.address}</Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 
