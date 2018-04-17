@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-nati
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
-import {Agenda} from 'react-native-calendars';
+import {Agenda, Calendar} from 'react-native-calendars';
 import moment from 'moment';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
@@ -46,7 +46,7 @@ class ScheduleScreen extends React.Component {
     this.state = {
       mode: 'agenda',
       items: this.getItems(this.props.classList),
-      markedDates: this.getMarkedItems(this.props.classList)
+      markedDates: this.getMarkedItems(this.props.classList),
     };
   }
 
@@ -105,7 +105,31 @@ class ScheduleScreen extends React.Component {
     return markedDates
   }
 
-  render() {
+  handleDayPress = (day) => {
+    // if press the same day, do nothing
+    if (day.dateString === this.state.selectedDay) {
+      return
+    }
+
+    let temp = this.state.markedDates || {};
+    Object.keys(temp).forEach(key => {
+      if (temp[key].selected && temp[key].marked) {
+        delete temp[key].selected
+      } else if (temp[key].selected) {
+        delete temp[key]
+      }
+    })
+    temp[day.dateString] = Object.assign({}, temp[day.dateString], {selected: true})
+    this.renderDayItems(day.dateString)
+
+    this.setState({
+      markedDates: temp,
+      selectedDay: day.dateString,
+      showAgenda: true,
+    })
+  }
+
+  renderAgenda() {
     return (
       <Agenda
         items={this.state.items}
@@ -123,6 +147,53 @@ class ScheduleScreen extends React.Component {
         // renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
       />
     );
+  }
+
+  renderDayItems = (day) => {
+    if (day && this.state.items && this.state.items[day]) {
+      return this.state.items[day].sort((a, b) => {
+        let ma = a.time.substring(0, 5)
+        let mb = b.time.substring(0, 5)
+        if (ma > mb) return 1;
+        else if (ma < mb) return -1;
+        else return 0;
+      }).map((item, index) => (
+        <View style={{padding: 5}} key={index}>
+          <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.text}</Text>
+          <Text style={{color: Colors.tintColor}}>{item.time}</Text>
+          <Text style={{color: 'purple', fontSize: 12}}>{item.address}</Text>
+        </View>
+      ))
+    }
+  }
+
+  renderCalendar() {
+    return (
+      <View style={{flex: 1}}>
+        <Calendar
+          selected={new Date().toISOString().slice(0, 10)}
+          // Handler which gets executed on day press. Default = undefined
+          onDayPress={this.handleDayPress}
+          // Do not show days of other months in month page. Default = false
+          hideExtraDays={true}
+          // day from another month that is visible in calendar page. Default = false
+          disableMonthChange={true}
+          markedDates={this.state.markedDates}
+          style={{
+            paddingBottom: 30,
+          }}
+        />
+        <View style={styles.agendaItem}>
+          <ScrollView>
+            {this.renderDayItems(this.state.selectedDay || new Date().toISOString().slice(0, 10))}
+          </ScrollView>
+        </View>
+      </View>
+    )
+  }
+
+  render() {
+    return this.state.mode == 'agenda' ? this.renderAgenda() : this.renderCalendar()
   }
 
   loadItems(day) {
@@ -184,6 +255,15 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 10,
     marginTop: 17
+  },
+  agendaItem: {
+    backgroundColor: 'white',
+    flex: 1,
+    borderRadius: 10,
+    padding: 10,
+    marginHorizontal: 17,
+    marginTop: 17,
+    marginBottom: 17,
   },
   emptyDate: {
     height: 15,
