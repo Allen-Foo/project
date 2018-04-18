@@ -43,17 +43,22 @@ class ScheduleScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.list = props.mode == 'tutor' ? props.classList : props.appliedClassList
     this.state = {
       mode: 'agenda',
-      items: this.getItems(this.props.classList),
-      markedDates: this.getMarkedItems(this.props.classList),
+      items: this.getItems(this.list),
+      markedDates: this.getMarkedItems(this.list),
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.classList !== this.props.classList) {
+    if (nextProps.mode === 'tutor' && nextProps.classList !== this.props.classList) {
       let items = this.getItems(nextProps.classList)
       let markedDates = this.getMarkedItems(nextProps.classList)
+      this.setState({items, markedDates})
+    } else if (nextProps.mode === 'learner' && nextProps.appliedClassList !== this.props.appliedClassList) {
+      let items = this.getItems(nextProps.appliedClassList)
+      let markedDates = this.getMarkedItems(nextProps.appliedClassList)
       this.setState({items, markedDates})
     }
   }
@@ -77,9 +82,9 @@ class ScheduleScreen extends React.Component {
 
   getItems(classList) {
     let items = {}
-    classList.forEach((classes => {
-      Object.keys(classes.time).forEach((date, index) => {
-        classes.time[date].forEach(timeSlot => {
+    classList && classList.forEach((classes => {
+      classes.time && Object.keys(classes.time).forEach((date, index) => {
+        classes.time[date] && classes.time[date].forEach(timeSlot => {
           let slot = {
             classId: classes.classId,
             text: classes.title,
@@ -96,9 +101,9 @@ class ScheduleScreen extends React.Component {
 
   getMarkedItems(classList) {
     let markedDates = {}
-    classList.forEach((classes => {
-      Object.keys(classes.time).forEach((date, index) => {
-        classes.time[date].forEach(timeSlot => {
+    classList && classList.forEach((classes => {
+      classes.time && Object.keys(classes.time).forEach((date, index) => {
+        classes.time[date] && classes.time[date].forEach(timeSlot => {
           markedDates[date] = {marked: true}
         })
       })
@@ -128,6 +133,14 @@ class ScheduleScreen extends React.Component {
       selectedDay: day.dateString,
       showAgenda: true,
     })
+  }
+
+  handleAgendaItemPress = (classId) => {
+    if (classId) {
+      this.props.mode == 'tutor'
+      ? this.props.navigation.navigate('EditClass', {classId})
+      : this.props.navigation.navigate('TutorDetail', {classId})
+    }
   }
 
   renderAgenda() {
@@ -161,7 +174,7 @@ class ScheduleScreen extends React.Component {
       }).map((item, index) => (
         <TouchableOpacity
           style={{padding: 5}} key={index}
-          onPress={() => item.classId && this.props.navigation.navigate('TutorDetail', {classId: item.classId})}
+          onPress={() => this.handleAgendaItemPress(item.classId)}
         >
           <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.text}</Text>
           <Text style={{color: Colors.tintColor}}>{item.time}</Text>
@@ -223,7 +236,7 @@ class ScheduleScreen extends React.Component {
     return (
       <TouchableOpacity 
         style={[styles.item, {height: item.height}]}
-        onPress={() => item.classId && this.props.navigation.navigate('TutorDetail', {classId: item.classId})}
+        onPress={() => this.handleAgendaItemPress(item.classId)}
       >
         <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.text}</Text>
         <Text style={{color: Colors.tintColor}}>{item.time}</Text>
@@ -280,10 +293,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  // console.warn('state', state)
   return {
     locale: state.language.locale,
     classList: state.classes.classList,
+    appliedClassList: state.socialLogin.appliedClassList,
+    mode: state.appType.mode,
   }
 }
 
