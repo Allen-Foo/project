@@ -84,7 +84,7 @@ class TutorDetailScreen extends React.Component {
           {
             classDetail.comments.length > 0 &&
             <View>
-              <Text style={{paddingVertical: 20, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.comment} </Text>
+              <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.comment} </Text>
               { classDetail.comments.map((comment, index) => <Comment key={index} comment={comment}/>) }
             </View>
           }
@@ -132,12 +132,34 @@ class TutorDetailScreen extends React.Component {
     )}
   }
 
+  renderContact() {
+    let classId = this.props.navigation.state.params.classId;
+    let userId = this.props.classDetail.user.userId
+
+    if (this.props.appliedClassList && this.props.appliedClassList.some(list => list.classId == classId)) {
+      return(
+        <View style={styles.rowContainer}>
+            <View style={styles.innerContainer}>
+              <MaterialIcons
+                name={'call'} 
+                size={20}
+                color={'#ff0000'}
+              />
+            </View>
+        <View style={styles.innerTextContainer}>
+          <Text style={styles.tutorName}> {this.props.classDetail.phone} </Text>
+        </View>
+        </View>
+    )} 
+  }
+
   renderLoading() {
     return <Spinner />
   }
 
   renderClassContent(classDetail) {
     let { locale } = this.props;
+    console.warn('this.props.locale.tutorDetail.text', this.props.locale.tutorDetail.text)
     return (
       <View>
         <View style={styles.contentContainer}>
@@ -170,18 +192,10 @@ class TutorDetailScreen extends React.Component {
               <Text style={styles.tutorName}> {`4:30pm - 5:30pm `}</Text>
             </View>
           </View>
-          <View style={styles.rowContainer}>
-            <View style={styles.innerContainer}>
-              <MaterialIcons
-                name={'call'} 
-                size={20}
-                color={'#ff0000'}
-              />
-            </View>
-            <View style={styles.innerTextContainer}>
-              <Text style={styles.tutorName}> {`2167 2834`} </Text>
-            </View>
-          </View>
+          
+            {
+              this.renderContact()
+            }
           <TouchableOpacity onPress={() => {this.props.navigation.navigate('ClassMap', classDetail.address)}}>
             <View style={styles.rowContainer}>
               <View style={styles.innerContainer}>
@@ -215,7 +229,7 @@ class TutorDetailScreen extends React.Component {
             />
           </TouchableOpacity>
         </View>
-        <Text style={{paddingVertical: 20, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
+        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
         <View style={styles.tutorDetailContainer}>
           <TouchableOpacity style={styles.innerTutorDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfo')}>
             <View style={{paddingTop: 50}}>
@@ -241,7 +255,15 @@ class TutorDetailScreen extends React.Component {
             </View>
           </TouchableOpacity>
         </View>
+        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.classDescription} </Text>
+        <View style={styles.tutorDetailContainer}>
+          <View style={[styles.innerTutorDetailContainer, {marginTop: -10}]}>
+            <Text>{classDetail.description}</Text>
+          </View>
+        </View>
       </View>
+
+
     )
   }
 
