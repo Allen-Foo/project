@@ -39,6 +39,7 @@ const defaultState = {
   classDetail: null,
   requireUpdateClassList: null,
   filteredClassList: [],
+  isLoading: false,
 }
 
 // Reducer
