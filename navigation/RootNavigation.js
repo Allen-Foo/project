@@ -38,6 +38,7 @@ import UploadPhoto from '../screens/createClass/UploadPhotoScreen';
 import ClassDescription from '../screens/createClass/ClassDescriptionScreen';
 import ClassType from '../screens/createClass/ClassTypeScreen';
 import EditClass from '../screens/createClass/EditClassScreen';
+import Contact from '../screens/createClass/ContactScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -166,6 +167,9 @@ const TutorStackNavigator = StackNavigator(
     },
     UploadPhoto: {
       screen: UploadPhoto
+    },
+    Contact: {
+      screen: Contact
     },
   },
   {

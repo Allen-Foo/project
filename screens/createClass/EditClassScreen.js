@@ -2,11 +2,11 @@
 import React from 'react';
 import {
   StyleSheet,
-  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  ScrollView,
   Image,
   InteractionManager,
   Dimensions,
@@ -107,7 +107,6 @@ class EditClassScreen extends React.Component {
     }
 
     let { locale } = this.props;
-    
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <ClassInfoRow
@@ -135,6 +134,11 @@ class EditClassScreen extends React.Component {
           label={locale.classSummary.label.address}
           value={params.address.formatted_address}
           onPress={() => this.props.navigation.navigate('ClassAddress', Object.assign(params, {isEditMode: true}))}
+        />
+        <ClassInfoRow
+          label={locale.classSummary.label.contact}
+          value={params.phone}
+          onPress={() => this.props.navigation.navigate('Contact', Object.assign(params, {isEditMode: true}))}
         />
         <TouchableOpacity
           style={styles.rowContainer}

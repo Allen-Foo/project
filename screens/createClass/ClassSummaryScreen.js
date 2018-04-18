@@ -158,6 +158,10 @@ class ClassSummaryScreen extends React.Component {
           label={locale.classSummary.label.address}
           value={params.address.formatted_address}
         />
+        <ClassInfoRow
+          label={locale.classSummary.label.contact}
+          value={params.contactNumber}
+        />
         <TouchableOpacity style={styles.rowContainer}>
           <Text style={styles.label}>{locale.classSummary.label.fee}</Text>
           <Text style={styles.price}>{`＄ ${params.fee} HKD ${locale.classSummary.label[params.chargeType]}`}</Text>

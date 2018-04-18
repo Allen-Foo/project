@@ -110,7 +110,7 @@ class ClassAddressScreen extends React.Component {
             onPress={this.state.checked ? () => this.setState({checked: false}) : () => this.setState({checked: true})}
           />
           <NextButton 
-            onPress={() => this.props.navigation.navigate('TutionFee', params)}
+            onPress={() => this.props.navigation.navigate('Contact', params)}
             text={this.props.locale.common.next}
           />
         </View>
