@@ -73,14 +73,20 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: true,
-        classList: [],
+        // classList: [],
       }
     case GET_CLASS_LIST_SUCCESS:
       // console.warn('here', 'GET_CLASS_LIST_SUCCESS', action.payload)
+      let classList
+      if (state.classList && state.classList.length > 0) {
+        classList = state.classList.concat(action.payload.classList)
+      } else {
+        classList = action.payload.classList
+      }
       return {
         ...state,
         isLoading: false,
-        classList: action.payload.classList,
+        classList: classList,
         requireUpdateClassList: false,
       };
     case GET_CLASS_LIST_FAIL:

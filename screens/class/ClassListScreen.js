@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
@@ -41,8 +42,14 @@ class ClassListScreen extends React.Component {
     }
   };
 
+  loadMoreItems = () => {
+    console.warn('loadMoreItems')
+    this.props.getClassList(this.props.userId, this.props.classList[this.props.classList.length -1].classId)
+  }
+
   constructor(props) {
     super(props);
+    this.onEndReachedCalledDuringMomentum = true,
     this.state = {
       classList: [],
     }
@@ -72,6 +79,21 @@ class ClassListScreen extends React.Component {
     this.props.navigation.navigate('ClassType')
   }
 
+  renderFooter = () => {
+    if (!this.props.loading) return null;
+    return (
+      <View
+        style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: "#CED0CE"
+        }}
+      >
+        <ActivityIndicator animating size="large" />
+      </View>
+    );
+  };
+
   renderClassList = (classList) => {
     const getSwipeoutBtns = (item) => [
       {
@@ -80,7 +102,7 @@ class ClassListScreen extends React.Component {
         type: 'delete',
       }
     ]
-
+    // console.warn('classList', this.props.classList[this.props.classList.length -1].classId)
     return (
       <FlatList
         contentContainerStyle={styles.listContainer}
@@ -96,6 +118,19 @@ class ClassListScreen extends React.Component {
               <Separator />
             </View>
           )
+        }}
+        onEndReachedThreshold={0.1}
+        onEndReached={({ distanceFromEnd }) => {
+          console.warn('distanceFromEnd', distanceFromEnd)
+          this.shouldLoadMore = true
+        }}
+        ListFooterComponent={this.renderFooter}
+        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false;}}
+        onMomentumScrollEnd={() => {
+          if (this.shouldLoadMore) {
+            this.loadMoreItems();
+            this.shouldLoadMore = false
+          }
         }}
       />
     )
@@ -128,7 +163,7 @@ class ClassListScreen extends React.Component {
   }
 
   render() {
-    const { classList } = this.state;
+    const { classList } = this.props;
     if (classList.length > 0) {
       return this.renderClassList(classList)
     }

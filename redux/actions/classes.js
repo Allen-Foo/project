@@ -44,11 +44,12 @@ export function createClass(cls) {
 }
 
 // TODO current user id is hardcode
-export function getClassList(userId = 'testid') {
+export function getClassList(userId = 'testid', lastClassId) {
   return {
     type: GET_CLASS_LIST,
     payload: {
-      userId
+      userId,
+      lastStartKey: lastClassId,
     }
   }
 }
