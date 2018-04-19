@@ -160,7 +160,7 @@ class ClassSummaryScreen extends React.Component {
         />
         <ClassInfoRow
           label={locale.classSummary.label.contact}
-          value={params.contactNumber}
+          value={params.phone}
         />
         <TouchableOpacity style={styles.rowContainer}>
           <Text style={styles.label}>{locale.classSummary.label.fee}</Text>

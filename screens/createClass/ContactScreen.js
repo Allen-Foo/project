@@ -43,7 +43,7 @@ class Contact extends React.Component {
     super(props);
     let { params = {} } = this.props.navigation.state;
     this.state = {
-      contactNumber: params.contactNumber && String(params.contactNumber),
+      phone: params.phone && String(params.phone),
     }
   }
 
@@ -54,7 +54,7 @@ class Contact extends React.Component {
 
   _handleSubmit = () => {
     this.props.editClass({
-      contactNumber: Number(this.state.contactNumber),
+      phone: Number(this.state.phone),
     })
     this.props.navigation.goBack();
   }
@@ -70,13 +70,13 @@ class Contact extends React.Component {
 
   handleNext = () => {
     let { params = {} } = this.props.navigation.state;
-    params.contactNumber = Number(this.state.contactNumber)
+    params.phone = Number(this.state.phone)
     this.props.navigation.navigate('TutionFee', params)
   }
 
   render() {
     let { locale } = this.props;
-    let { contactNumber } = this.state;
+    let { phone } = this.state;
     let { params = {} } = this.props.navigation.state;
 
     return (
@@ -89,8 +89,8 @@ class Contact extends React.Component {
               autoFocus
               style={styles.textInput}
               keyboardType='numeric'
-              onChangeText={(contactNumber) => this.setState({contactNumber})}
-              value={contactNumber}
+              onChangeText={(phone) => this.setState({phone})}
+              value={phone}
             />
           </View>
           <View style={styles.textContainer}>
@@ -101,7 +101,7 @@ class Contact extends React.Component {
             </Text>
           </View>
           {
-            !this.isEmpty(contactNumber) && !params.isEditMode &&
+            !this.isEmpty(phone) && !params.isEditMode &&
             <NextButton 
               onPress={() => this.handleNext()}
               text={locale.common.next}
