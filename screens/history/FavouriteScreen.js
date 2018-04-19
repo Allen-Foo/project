@@ -86,7 +86,7 @@ class FavouriteScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: '#eee',
   },
   emptyContainer: {
     backgroundColor: '#fff',
