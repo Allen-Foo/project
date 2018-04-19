@@ -126,7 +126,6 @@ class ScheduleScreen extends React.Component {
       }
     })
     temp[day.dateString] = Object.assign({}, temp[day.dateString], {selected: true})
-    this.renderDayItems(day.dateString)
 
     this.setState({
       markedDates: temp,
@@ -163,7 +162,7 @@ class ScheduleScreen extends React.Component {
     );
   }
 
-  renderDayItems = (day) => {
+  getDayItems = (day) => {
     if (day && this.state.items && this.state.items[day]) {
       return this.state.items[day].sort((a, b) => {
         let ma = a.time.substring(0, 5)
@@ -171,20 +170,15 @@ class ScheduleScreen extends React.Component {
         if (ma > mb) return 1;
         else if (ma < mb) return -1;
         else return 0;
-      }).map((item, index) => (
-        <TouchableOpacity
-          style={{padding: 5}} key={index}
-          onPress={() => this.handleAgendaItemPress(item.classId)}
-        >
-          <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.text}</Text>
-          <Text style={{color: Colors.tintColor}}>{item.time}</Text>
-          <Text style={{color: 'purple', fontSize: 12}}>{item.address}</Text>
-        </TouchableOpacity>
-      ))
+      })
     }
+    return []
   }
 
   renderCalendar() {
+    let day = this.state.selectedDay
+    let dayItems = this.getDayItems(day || new Date().toISOString().slice(0, 10))
+
     return (
       <View style={{flex: 1}}>
         <Calendar
@@ -200,11 +194,26 @@ class ScheduleScreen extends React.Component {
             paddingBottom: 30,
           }}
         />
-        <View style={styles.agendaItem}>
-          <ScrollView>
-            {this.renderDayItems(this.state.selectedDay || new Date().toISOString().slice(0, 10))}
-          </ScrollView>
-        </View>
+        {
+          day && this.state.items && this.state.items[day] && dayItems && dayItems.length > 0 && !Array.isArray(dayItems[0]) &&
+          <View style={styles.agendaItem}>
+            <ScrollView>
+              {
+                dayItems.map((item, index) => (
+                  <TouchableOpacity
+                    style={{padding: 5}} key={index}
+                    onPress={() => this.handleAgendaItemPress(item.classId)}
+                  >
+                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.text}</Text>
+                    <Text style={{color: Colors.tintColor}}>{item.time}</Text>
+                    <Text style={{color: 'purple', fontSize: 12}}>{item.address}</Text>
+                  </TouchableOpacity>
+                ))
+              }
+            </ScrollView>
+          </View>
+        }
+        
       </View>
     )
   }
@@ -229,7 +238,6 @@ class ScheduleScreen extends React.Component {
         items: newItems
       });
     }, 1000);
-    // console.log(`Load Items for ${day.year}-${day.month}`);
   }
 
   renderItem(item) {
