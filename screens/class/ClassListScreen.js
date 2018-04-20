@@ -43,7 +43,7 @@ class ClassListScreen extends React.Component {
   };
 
   loadMoreItems = () => {
-    console.warn('loadMoreItems')
+    // console.warn('loadMoreItems')
     this.props.getClassList(this.props.userId, this.props.classList[this.props.classList.length -1].classId)
   }
 
@@ -52,6 +52,7 @@ class ClassListScreen extends React.Component {
     this.onEndReachedCalledDuringMomentum = true,
     this.state = {
       classList: [],
+      refreshing: false,
     }
   }
 
@@ -102,7 +103,6 @@ class ClassListScreen extends React.Component {
         type: 'delete',
       }
     ]
-    // console.warn('classList', this.props.classList[this.props.classList.length -1].classId)
     return (
       <FlatList
         contentContainerStyle={styles.listContainer}
@@ -121,13 +121,12 @@ class ClassListScreen extends React.Component {
         }}
         onEndReachedThreshold={0.1}
         onEndReached={({ distanceFromEnd }) => {
-          console.warn('distanceFromEnd', distanceFromEnd)
           this.shouldLoadMore = true
         }}
         ListFooterComponent={this.renderFooter}
         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false;}}
         onMomentumScrollEnd={() => {
-          if (this.shouldLoadMore) {
+          if (this.shouldLoadMore && this.props.isLastClass == false) {
             this.loadMoreItems();
             this.shouldLoadMore = false
           }
@@ -202,6 +201,7 @@ const mapStateToProps = (state) => {
     userId: state.socialLogin.user && state.socialLogin.user.userId,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
+    isLastClassList: state.classes.isLastClass,
     classList: state.classes.classList,
     requireUpdateClassList: state.classes.requireUpdateClassList,
     fetchErrorMsg: state.classes.fetchErrorMsg,

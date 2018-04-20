@@ -85,6 +85,7 @@ export default (state = {...defaultState}, action) => {
       }
       return {
         ...state,
+        isLastClassList: action.payload.isLastClass,
         isLoading: false,
         classList: classList,
         requireUpdateClassList: false,
@@ -188,6 +189,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
+        isLastAllClassList: action.payload.isLastClass,
         createClassSuccess: true,
         allClassList: allClassList,
       };
