@@ -229,6 +229,20 @@ class TutorDetailScreen extends React.Component {
             />
           </TouchableOpacity>
         </View>
+        { this.props.mode == 'learner' ? this.renderTutorInfo(classDetail) : this.renderLearnerInfo(classDetail) }
+        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.classDescription} </Text>
+        <View style={styles.tutorDetailContainer}>
+          <View style={{marginTop: -10}}>
+            <Text>{classDetail.description}</Text>
+          </View>
+        </View>
+      </View>
+    )
+  }
+
+  renderTutorInfo(classDetail) {
+    return (
+      <View>
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
         <View style={styles.tutorDetailContainer}>
           <TouchableOpacity style={styles.innerTutorDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfo')}>
@@ -255,16 +269,12 @@ class TutorDetailScreen extends React.Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.classDescription} </Text>
-        <View style={styles.tutorDetailContainer}>
-          <View style={[styles.innerTutorDetailContainer, {marginTop: -10}]}>
-            <Text>{classDetail.description}</Text>
-          </View>
-        </View>
       </View>
-
-
     )
+  }
+
+  renderLearnerInfo(classDetail) {
+
   }
 
   render() {
@@ -307,6 +317,7 @@ const styles = StyleSheet.create({
   innerTutorDetailContainer: {
     borderWidth :1,
     borderColor: '#bebebe',
+    borderRadius: 20,
     paddingVertical: 10,
     paddingLeft: 10,
     marginTop: 20,
@@ -433,6 +444,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    mode: state.appType.mode,
     appliedClassList: state.socialLogin.appliedClassList,
     user: state.socialLogin.user,
     locale: state.language.locale,
