@@ -59,8 +59,7 @@ class NewsFeedScreen extends React.Component {
     }
   };
 
-  handleSubmit = () => {
-    // console.warn('rest', rest)
+  loadMoreItems = () => {
     this.props.getAllClassList(this.props.allClassList[this.props.allClassList.length -1].classId)
   }
 
@@ -163,6 +162,14 @@ class NewsFeedScreen extends React.Component {
               onRefresh={this._onRefresh.bind(this)}
             />
           }
+          onScroll={(e) => {
+            let paddingToBottom = 10;
+            paddingToBottom += e.nativeEvent.layoutMeasurement.height;
+            if(e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom
+              && !this.props.isLastAllClassList) {
+              this.loadMoreItems()
+            }
+          }}
         >
           <Slideshow 
             dataSource={ this.state.dataSource }
@@ -210,12 +217,6 @@ class NewsFeedScreen extends React.Component {
               </View>
             ))
           }
-          <TouchableOpacity 
-            style={styles.loadClassButton}
-            onPress={()=>{this.handleSubmit()}}
-          >
-            <Text>{this.props.locale.newsfeed.text.showMoreClasses}</Text>
-          </TouchableOpacity>
         </ScrollView>
       </View>
     );
@@ -333,6 +334,7 @@ const mapStateToProps = (state) => {
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
+    isLastAllClassList: state.classes.isLastAllClassList,
     allClassList: state.classes.allClassList,
     searchClassSuccess: state.classes.searchClassSuccess,
     fetchErrorMsg: state.classes.fetchErrorMsg,
