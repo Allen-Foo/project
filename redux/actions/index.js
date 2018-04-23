@@ -30,6 +30,11 @@ import { signInEmail,
   getAppliedClassList,
 } from './socialLogin';
 
+import {
+  setKeyword,
+  setAddress,
+} from './filter';
+
 export {
   setLanguage,
   setAppType,
@@ -58,4 +63,6 @@ export {
   giveComment,
   applyClass,
   getAppliedClassList,
+  setKeyword,
+  setAddress,
 }
