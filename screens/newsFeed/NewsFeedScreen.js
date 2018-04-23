@@ -21,7 +21,7 @@ import { Tutor, Separator, Slideshow } from '../../components';
 import icons from '../../assets/icon';
 import { Constants } from 'expo';
 import { connect } from 'react-redux';
-import { getAllClassList, searchClassList } from '../../redux/actions';
+import { getAllClassList, searchClassList, setKeyword } from '../../redux/actions';
 import SearchClassScreen from '../search/SearchClassScreen';
 
 let {width, height} = Dimensions.get('window');
@@ -114,6 +114,7 @@ class NewsFeedScreen extends React.Component {
   }
 
   handlePressIcon = (key) => {
+    this.props.setKeyword(key)
     this.props.searchClassList({keyword: key})
     this.props.navigation.navigate('Search')
   }
@@ -353,4 +354,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getAllClassList,
   searchClassList,
+  setKeyword,
 })(NewsFeedScreen)

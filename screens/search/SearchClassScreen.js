@@ -20,7 +20,7 @@ import Colors from '../../constants/Colors';
 import { mockData } from '../../constants/mockData';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
-import { searchClassList } from '../../redux/actions';
+import { searchClassList, setKeyword, setAddress } from '../../redux/actions';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 class SearchClassScreen extends React.Component {
@@ -28,8 +28,8 @@ class SearchClassScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: '',
-      keyword: '',
+      address: props.address,
+      keyword: props.keyword,
     }
   }
 
@@ -43,7 +43,7 @@ class SearchClassScreen extends React.Component {
   }
 
   handleSearch = () => {
-    let {address, keyword} = this.state;
+    let {address, keyword} = this.props;
     let option = {
       address: address, 
       keyword: keyword.toLowerCase()
@@ -54,7 +54,7 @@ class SearchClassScreen extends React.Component {
   }
 
   render() {
-    let {address, keyword} = this.state
+    let {address, keyword} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.searchBarRowContainer}>
@@ -64,10 +64,11 @@ class SearchClassScreen extends React.Component {
             clearIcon={{ color: '#DDDDDD', name: 'clear' }}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
-            onChangeText={(address) => this.setState({ address })}
+            onChangeText={(address) => this.props.setAddress(address)}
             onSubmitEditing={() => this.handleSearch()}
             placeholder={this.props.locale.searchClass.districtSearch}
             placeholderTextColor={'#DDDDDD'}
+            value={address}
           />
           <SearchBar
             lightTheme
@@ -76,11 +77,12 @@ class SearchClassScreen extends React.Component {
             clearIcon={{ color: '#DDDDDD', name: 'clear' }}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
-            onChangeText={(keyword) => this.setState({ keyword })}
+            onChangeText={(keyword) => this.props.setKeyword(keyword)}
             placeholder={this.props.locale.searchClass.classSearch}
             placeholderTextColor={'#DDDDDD'}
             returnKeyType={ "search" }
             onSubmitEditing={() => this.handleSearch()}
+            value={keyword}
           />
         </View>
 
@@ -134,6 +136,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    address: state.filter.address,
+    keyword: state.filter.keyword,
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
@@ -145,5 +149,7 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-    searchClassList
+    searchClassList,
+    setKeyword,
+    setAddress,
 })(SearchClassScreen)
