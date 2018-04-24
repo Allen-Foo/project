@@ -8,7 +8,6 @@ import {
   getClassDetail,
   deleteClass,
   getAllClassList,
-  searchClassList,
   giveComment,
   getFavouriteClassList,
   applyClass,
@@ -33,6 +32,8 @@ import { signInEmail,
 import {
   setKeyword,
   setAddress,
+  setFilter,
+  searchClassList,
 } from './filter';
 
 export {
@@ -54,7 +55,6 @@ export {
   deleteClass,
   getClassDetail,
   getAllClassList,
-  searchClassList,
   getFavouriteClassList,
   updateAvatar,
   updateProfile,
@@ -65,4 +65,6 @@ export {
   getAppliedClassList,
   setKeyword,
   setAddress,
+  searchClassList,
+  setFilter,
 }

@@ -33,8 +33,6 @@ class SearchClassScreen extends React.Component {
     }
   }
 
-  _handleSubmit = () => { this.props.navigation.navigate('AdvancedSearch')}
-
   componentDidMount() {
     // We can only set the function after the component has been initialized
     this.props.navigation.setParams({ 
@@ -43,18 +41,16 @@ class SearchClassScreen extends React.Component {
   }
 
   handleSearch = () => {
-    let {address, keyword} = this.props;
-    let option = {
-      address: address, 
-      keyword: keyword.toLowerCase()
-    }
+    let {address, keyword} = this.state;
+    this.props.setKeyword(keyword.toLowerCase()),
+    this.props.setAddress(address)
     this.props.switchToNormalMode()
-    this.props.searchClassList(option)
-    this.props.navigation.navigate('Search', option)
+    this.props.searchClassList()
+    this.props.navigation.navigate('Search')
   }
 
   render() {
-    let {address, keyword} = this.props;
+    let {address, keyword} = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.searchBarRowContainer}>
@@ -64,7 +60,7 @@ class SearchClassScreen extends React.Component {
             clearIcon={{ color: '#DDDDDD', name: 'clear' }}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
-            onChangeText={(address) => this.props.setAddress(address)}
+            onChangeText={(address) => this.setState({address})}
             onSubmitEditing={() => this.handleSearch()}
             placeholder={this.props.locale.searchClass.districtSearch}
             placeholderTextColor={'#DDDDDD'}
@@ -77,7 +73,7 @@ class SearchClassScreen extends React.Component {
             clearIcon={{ color: '#DDDDDD', name: 'clear' }}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
-            onChangeText={(keyword) => this.props.setKeyword(keyword)}
+            onChangeText={(keyword) => this.setState({keyword})}
             placeholder={this.props.locale.searchClass.classSearch}
             placeholderTextColor={'#DDDDDD'}
             returnKeyType={ "search" }
@@ -142,7 +138,6 @@ const mapStateToProps = (state) => {
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     filteredClassList: state.classes.filteredClassList,
-    searchClassSuccess: state.classes.searchClassSuccess,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }

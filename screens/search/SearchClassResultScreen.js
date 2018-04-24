@@ -293,10 +293,10 @@ const mapStateToProps = (state) => {
   return {
     languageKey: state.language.key,
     locale: state.language.locale,
-    isLoading: state.classes.isLoading,
-    filteredClassList: state.classes.filteredClassList,
-    fetchErrorMsg: state.classes.fetchErrorMsg,
-    fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
+    isLoading: state.filter.isLoading,
+    filteredClassList: state.filter.filteredClassList,
+    fetchErrorMsg: state.filter.fetchErrorMsg,
+    fetchErrorLastUpdate: state.filter.fetchErrorLastUpdate
   }
 }
 

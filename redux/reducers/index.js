@@ -35,11 +35,14 @@ import {
   getClassDetailEpic,
   deleteClassEpic,
   getAllClassListEpic,
-  searchClassListEpic,
   giveCommentEpic,
   getFavouriteClassListEpic,
   applyClassEpic
 } from '../actions/classes';
+
+import {
+  searchClassListEpic,
+} from '../actions/filter';
 
 export const rootReducer = combineReducers({
   language,
@@ -68,7 +71,6 @@ export const rootEpic = combineEpics(
   getClassListEpic,
   getClassDetailEpic,
   getAllClassListEpic,
-  searchClassListEpic,
   getFavouriteClassListEpic,
   updateAvatarEpic,
   updateProfileEpic,
@@ -79,4 +81,5 @@ export const rootEpic = combineEpics(
   requireUpdateClassListEpic,
   applyClassEpic,
   getAppliedClassListEpic,
+  searchClassListEpic,
 )
