@@ -23,17 +23,47 @@ let {width, height} = Dimensions.get('window');
 const RATING = ['punctualityRating', 'environmentRating', 'attitudeRating', 'professionRating']
 
 class TutorDetailScreen extends React.Component {
-  static navigationOptions = ({navigation, screenProps}) => {
-    const { state } = navigation;
-    return {
-      headerTitle: screenProps.locale.tutorDetail.title,
-      headerTintColor: '#fff',
-      headerStyle: {
-        backgroundColor: Colors.tintColor,
-      },
-    }
-  };
 
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { params = {} } = navigation.state;
+
+    let headerTintColor = '#fff';
+    let backgroundColor = Colors.tintColor;
+    if (screenProps.appType == 'tutor') {
+      headerTintColor = '#000';
+      backgroundColor = '#f7f7f7';
+    }
+    let headerRight = (
+      <TouchableOpacity onPress={()=>navigation.navigate('EditClass', {classId: params.classId})}>
+        <MaterialIcons
+          name={"edit"}
+          size={30}
+          style={{ paddingRight: 15, paddingTop: 5 }}
+        />
+      </TouchableOpacity>
+    );
+    if (screenProps.appType == 'tutor') {
+        return {
+        tabBarLabel: screenProps.locale.tutorDetail.title,
+        headerTitle: screenProps.locale.tutorDetail.title,
+        headerTintColor: headerTintColor,
+        headerStyle: {
+          backgroundColor: backgroundColor,
+        },
+        headerRight
+      }
+    } else {
+        return {
+        tabBarLabel: screenProps.locale.classList.title,
+        headerTitle: screenProps.locale.classList.title,
+        headerTintColor: headerTintColor,
+        headerStyle: {
+          backgroundColor: backgroundColor,
+        },
+      }
+    }
+
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -158,8 +188,9 @@ class TutorDetailScreen extends React.Component {
   }
 
   renderClassContent(classDetail) {
+    // console.warn('classDetail',classDetail)
     let { locale } = this.props;
-    console.warn('this.props.locale.tutorDetail.text', this.props.locale.tutorDetail.text)
+    // console.warn('this.props.locale.tutorDetail.text', this.props.locale.tutorDetail.text)
     return (
       <View>
         <View style={styles.contentContainer}>
@@ -274,7 +305,31 @@ class TutorDetailScreen extends React.Component {
   }
 
   renderLearnerInfo(classDetail) {
-
+    console.warn('getClassDetail',this.props.getClassDetail)
+    return (
+    
+      classDetail.studentInfo.length > 0 &&
+      <View>
+        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
+        { classDetail.studentInfo.map((userId, index) => 
+          <View style={styles.studentDetailContainer}>
+            <View style={styles.studentAvatarContainer}>
+              <Avatar
+                large
+                rounded
+                source={{url: userId && userId.avatarUrl}}
+                activeOpacity={0.7}
+                containerStyle={styles.avatarContainer}
+              />
+              <View style={styles.usernameText}>
+                <Text style={{fontSize: 20}}>{userId.username}</Text>
+              </View>
+            </View>
+          </View>
+        )}
+      </View>
+    
+    )
   }
 
   render() {
@@ -327,6 +382,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     position: 'absolute',
     top: -20,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff'
+  },
+  studentDetailContainer:{
+    width: '100%',
+    backgroundColor: '#fff',
+    paddingTop: '5%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    paddingVertical: 10
+  },
+  studentAvatarContainer: {
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
     paddingHorizontal: 10,
     backgroundColor: '#fff'
   },
@@ -456,5 +525,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  getClassDetail
+  getClassDetail,
 })(TutorDetailScreen)

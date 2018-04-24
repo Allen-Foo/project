@@ -230,6 +230,7 @@ export const getClassDetailEpic = (action$, store, { request }) =>
         method: 'post', 
       }))
       .map(res => {
+        // console.warn('GET_CLASS_DETAIL_SUCCESS', res.data)
         return {
           type: GET_CLASS_DETAIL_SUCCESS,
           payload: res.data

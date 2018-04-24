@@ -171,6 +171,9 @@ const TutorStackNavigator = StackNavigator(
     Contact: {
       screen: Contact
     },
+    TutorDetail: {
+      screen: TutorDetail,
+    },
   },
   {
     navigationOptions: () => ({
