@@ -17,7 +17,7 @@ import { Entypo, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons
 import { Avatar } from 'react-native-elements';
 import Comment from '../comments/Comment';
 import { getClassDetail } from '../../redux/actions';
-import { Hr, Slideshow, Spinner} from '../../components';
+import { Hr, Slideshow, Spinner, Separator} from '../../components';
 
 let {width, height} = Dimensions.get('window');
 const RATING = ['punctualityRating', 'environmentRating', 'attitudeRating', 'professionRating']
@@ -68,6 +68,7 @@ class TutorDetailScreen extends React.Component {
     super(props);
     this.state = {
       position: 0,
+      collapsed: true
     }
   }
 
@@ -102,7 +103,6 @@ class TutorDetailScreen extends React.Component {
                   <OverallRating
                     locale={locale}
                     key={i}
-                    locale={locale}
                     type={type}
                     value={classDetail.rating[type]}
                   />
@@ -121,19 +121,22 @@ class TutorDetailScreen extends React.Component {
 
           <View style={{height: 100}} />
         </ScrollView>
-        <View style={styles.bottomContainer}>
-          <View style={styles.bottomPrice}>
-            <FontAwesome 
-              name={'dollar'} 
-              size={14}
-              color={'#E8DA3A'}
-            />
-            <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
+        { 
+          this.props.mode == 'leanrer' &&
+          <View style={styles.bottomContainer}>
+            <View style={styles.bottomPrice}>
+              <FontAwesome 
+                name={'dollar'} 
+                size={14}
+                color={'#E8DA3A'}
+              />
+              <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
+            </View>
+            {
+              this.renderApplyButton()
+            }
           </View>
-          {
-            this.renderApplyButton()
-          }
-        </View>
+        }
       </View>
     )
   }
@@ -142,15 +145,16 @@ class TutorDetailScreen extends React.Component {
     let classId = this.props.navigation.state.params.classId;
     let userId = this.props.classDetail.user.userId
 
-    if (this.props.appliedClassList && this.props.appliedClassList.some(list => list.classId == classId)) {
-      return(
+    if (this.props.appliedClassList && this.props.appliedClassList.some(list => list.classId === classId)) {
+      return (
         <View style={styles.appliedButton} onPress={() => this.props.navigation.navigate('Payment', {classId: classId, userId: userId})}>
           <Text style={{color: 'white', }}> 
             { this.props.locale.tutorDetail.text.applied.label }
           </Text>
         </View>
-    )} else {
-      return(
+      ) 
+    } else {
+      return (
         <TouchableOpacity 
           style={styles.applyButton} 
           onPress={() => {this.props.user ? this.props.navigation.navigate('Payment', {classId: classId, userId: userId}) : this.props.navigation.navigate('Signin')}}
@@ -159,7 +163,8 @@ class TutorDetailScreen extends React.Component {
             { this.props.locale.tutorDetail.text.applyNow.label }
           </Text>
         </TouchableOpacity>
-    )}
+      )
+    }
   }
 
   renderContact() {
@@ -167,15 +172,15 @@ class TutorDetailScreen extends React.Component {
     let userId = this.props.classDetail.user.userId
 
     if (this.props.appliedClassList && this.props.appliedClassList.some(list => list.classId == classId)) {
-      return(
+      return (
         <View style={styles.rowContainer}>
-            <View style={styles.innerContainer}>
-              <MaterialIcons
-                name={'call'} 
-                size={20}
-                color={'#ff0000'}
-              />
-            </View>
+          <View style={styles.innerContainer}>
+            <MaterialIcons
+              name={'call'} 
+              size={20}
+              color={'#ff0000'}
+            />
+          </View>
         <View style={styles.innerTextContainer}>
           <Text style={styles.tutorName}> {this.props.classDetail.phone} </Text>
         </View>
@@ -263,7 +268,7 @@ class TutorDetailScreen extends React.Component {
         { this.props.mode == 'learner' ? this.renderTutorInfo(classDetail) : this.renderLearnerInfo(classDetail) }
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.classDescription} </Text>
         <View style={styles.tutorDetailContainer}>
-          <View style={{marginTop: -10}}>
+          <View style={{marginTop: -20}}>
             <Text>{classDetail.description}</Text>
           </View>
         </View>
@@ -283,7 +288,7 @@ class TutorDetailScreen extends React.Component {
               Apple Certified Professional certifications are for the creative professional using Final Cut Pro X or Logic Pro X. 
               These certifications distinguish the learner as a skilled user, and provide a competitive edge in today’s ever-changing job market. 
               The Final Cut Pro X and Logic Pro X exams are computer based and offered at AATP locations worldwide.
-            </Text>
+              </Text>
             </View>
             <View style={styles.tutorAvatarContainer}>
                <Avatar
@@ -305,31 +310,75 @@ class TutorDetailScreen extends React.Component {
   }
 
   renderLearnerInfo(classDetail) {
-    console.warn('getClassDetail',this.props.getClassDetail)
+    let { locale } = this.props;
+    if (this.state.collapsed) {
     return (
-    
       classDetail.studentInfo.length > 0 &&
-      <View>
-        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
-        { classDetail.studentInfo.map((userId, index) => 
-          <View style={styles.studentDetailContainer}>
-            <View style={styles.studentAvatarContainer}>
-              <Avatar
-                large
-                rounded
-                source={{url: userId && userId.avatarUrl}}
-                activeOpacity={0.7}
-                containerStyle={styles.avatarContainer}
-              />
-              <View style={styles.usernameText}>
-                <Text style={{fontSize: 20}}>{userId.username}</Text>
+        <View>
+          <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.allStudent} </Text>
+          { classDetail.studentInfo.filter((x, i) => i < 1).map((userId, index) => 
+            <View style={styles.studentDetailContainer} key={index}>
+              <View style={styles.studentAvatarContainer}>
+                <Avatar
+                  large
+                  rounded
+                  source={{url: userId && userId.avatarUrl}}
+                  activeOpacity={0.7}
+                  containerStyle={styles.avatarContainer}
+                />
+                <View style={styles.usernameText}>
+                  <Text style={{fontSize: 20}}>{userId.username}</Text>
+                </View>
               </View>
             </View>
-          </View>
-        )}
-      </View>
-    
+          )}
+          <TouchableOpacity style={styles.displayAllButton} onPress={() => {this.setState({collapsed: false})}}>
+            <View style={styles.studentRowContainer}>
+              <Text style={{marginRight: 10}}>{locale.tutorDetail.text.viewAllStudent}</Text>
+              <Entypo
+                name={"chevron-thin-down"}
+                size={15}
+                color={'#555'}
+              />
+            </View>
+          </TouchableOpacity> 
+        </View>
     )
+    } else {
+      return (
+        classDetail.studentInfo.length > 0 &&
+          <View>
+            <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.allStudent} </Text>
+            { 
+              classDetail.studentInfo.map((userId, index) => 
+                <View style={styles.studentDetailContainer} key={index}>
+                  <View style={styles.studentAvatarContainer}>
+                    <Avatar
+                      large
+                      rounded
+                      source={{url: userId && userId.avatarUrl}}
+                      activeOpacity={0.7}
+                      containerStyle={styles.avatarContainer}
+                    />
+                    <View style={styles.usernameText}>
+                      <Text style={{fontSize: 20}}>{userId.username}</Text>
+                    </View>
+                  </View>
+                </View>
+              )
+            }
+            <TouchableOpacity style={styles.displayAllButton} onPress={() => {this.setState({collapsed: true})}}>
+              <View style={styles.studentRowContainer}>
+                <Entypo
+                  name={"chevron-thin-up"}
+                  size={15}
+                  color={'#555'}
+                />
+              </View>
+            </TouchableOpacity> 
+          </View>
+      )
+    }
   }
 
   render() {
@@ -398,6 +447,17 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingHorizontal: 10,
     backgroundColor: '#fff'
+  },
+  studentRowContainer: {
+    justifyContent: 'center',
+    paddingVertical: 5,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#efeff3',
+  },
+  displayAllButton: {
+
   },
   rowContainer: {
     paddingVertical: 5,
