@@ -2,6 +2,7 @@ import {
   SET_KEYWORD,
   SET_ADDRESS,
   SET_FILTER,
+  SET_SORT,
   SEARCH_CLASS_LIST,
   SEARCH_CLASS_LIST_FAIL,
   SEARCH_CLASS_LIST_SUCCESS,
@@ -30,6 +31,13 @@ export function setFilter(filter) {
   };
 }
 
+export function setSort(sort) {
+  return {
+    type: SET_SORT,
+    payload: sort
+  };
+}
+
 export function searchClassList() {
   return {
     type: SEARCH_CLASS_LIST
@@ -50,7 +58,7 @@ export const searchClassListEpic = (action$, store, { request }) =>
         }
       }))
       .map(res => {
-        console.warn('SEARCH_CLASS_LIST success', res.data.classList)
+        // console.warn('SEARCH_CLASS_LIST success', res.data.classList)
         return {
           type: SEARCH_CLASS_LIST_SUCCESS,
           payload: res.data

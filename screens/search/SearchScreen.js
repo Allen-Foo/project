@@ -286,7 +286,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    filteredClassList: state.classes.filteredClassList,
+    filteredClassList: state.filter.filteredClassList,
   }
 }
 

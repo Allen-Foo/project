@@ -20,15 +20,17 @@ import Colors from '../../constants/Colors';
 import { Tutor, Separator, Spinner } from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
-import { searchClassList, sortClassList } from '../../redux/actions';
+import { searchClassList, sortClassList, setSort } from '../../redux/actions';
 
 class SearchClassResultScreen extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      showPicker: false,
       sortingItem: null,
+      showPicker: false,
+      sortType: props.sort && props.sort.sortType,
+      isAscending: props.sort && props.sort.isAscending,
     }
   }
 
@@ -38,23 +40,13 @@ class SearchClassResultScreen extends React.Component {
   handleConfirm = (v) => {
     this.setState({sortingItem: v}, () => {
       // console.warn('sortingItem', this.state.sortingItem)
-      let sortType = null;
-      let isAscending = this.state.sortingItem.includes('Asc');
-      if (this.state.sortingItem.includes('price')) {
-        sortType = 'fee';
-      } else if (this.state.sortingItem.includes('rating')) {
-        sortType = 'totalRatings'
-      } else if (this.state.sortingItem.includes('comment')) {
-        sortType = 'totalComments'
-      }
+      // let sortType = null;
+      let isAscending = this.state.sortingItem.substring(0, 3) === 'asc';
+      let sortType = this.state.sortingItem.substring(3)
+
+      this.props.setSort({sortType, isAscending})
       
-      this.props.searchClassList({
-        advancedSearch: {
-          ...this.props.navigation.state.params,
-          sortType,
-          isAscending
-        }
-      })
+      this.props.searchClassList()
     })
     this.hidePicker()
   }
@@ -97,7 +89,16 @@ class SearchClassResultScreen extends React.Component {
     } else {
       return this.renderList(this.props.filteredClassList)
     }
-  } 
+  }
+
+  getSortingItem() {
+    let { sortType, isAscending } = this.state;
+    if (sortType && isAscending !== null) {
+      let isAscend = isAscending === true ? 'asc' : 'des'
+      return isAscend + sortType
+    }
+    return null
+  }
 
   render() {
     let { locale } = this.props;
@@ -133,7 +134,7 @@ class SearchClassResultScreen extends React.Component {
             onCancel={this.handleCancel}
             onConfirm={this.handleConfirm}
             locale={locale}
-            sortingItem={this.state.sortingItem}
+            sortingItem={this.getSortingItem()}
           />
         }
       </View>
@@ -181,7 +182,7 @@ class SortingPicker extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      sortingItem: props.sortingItem || 'priceAscOrder'
+      sortingItem: props.sortingItem || 'ascfee'
     }
   }
 
@@ -207,12 +208,12 @@ class SortingPicker extends React.Component {
         <Picker
           selectedValue={this.state.sortingItem}
           onValueChange={(itemValue) => this.setState({sortingItem: itemValue})}>
-          <Picker.Item label={locale.searchResult.label.priceAscOrder} value={'priceAscOrder'} />
-          <Picker.Item label={locale.searchResult.label.priceDescOrder} value={'priceDescOrder'} />
-          <Picker.Item label={locale.searchResult.label.ratingAscOrder} value={'ratingAscOrder'} />
-          <Picker.Item label={locale.searchResult.label.ratingDescOrder} value={'ratingDescOrder'} />
-          <Picker.Item label={locale.searchResult.label.commentAscOrder} value={'commentAscOrder'} />
-          <Picker.Item label={locale.searchResult.label.commentDescOrder} value={'commentDescOrder'} />
+          <Picker.Item label={locale.searchResult.label.ascfee} value={'ascfee'} />
+          <Picker.Item label={locale.searchResult.label.desfee} value={'desfee'} />
+          <Picker.Item label={locale.searchResult.label.asctotalRatings} value={'asctotalRatings'} />
+          <Picker.Item label={locale.searchResult.label.destotalRatings} value={'destotalRatings'} />
+          <Picker.Item label={locale.searchResult.label.asctotalComments} value={'asctotalComments'} />
+          <Picker.Item label={locale.searchResult.label.destotalComments} value={'destotalComments'} />
         </Picker>
       </View>
     )
@@ -294,6 +295,7 @@ const mapStateToProps = (state) => {
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.filter.isLoading,
+    sort: state.filter.sort,
     filteredClassList: state.filter.filteredClassList,
     fetchErrorMsg: state.filter.fetchErrorMsg,
     fetchErrorLastUpdate: state.filter.fetchErrorLastUpdate
@@ -302,5 +304,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   sortClassList,
-  searchClassList
+  searchClassList,
+  setSort,
 })(SearchClassResultScreen)

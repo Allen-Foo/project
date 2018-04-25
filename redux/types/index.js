@@ -116,4 +116,6 @@ export const GET_APPLIED_CLASS_LIST_FAIL = 'GET_APPLIED_CLASS_LIST_FAIL';
 export const SET_KEYWORD = 'SET_KEYWORD';
 export const SET_ADDRESS = 'SET_ADDRESS';
 export const SET_FILTER = 'SET_FILTER';
+export const SET_SORT = 'SET_SORT';
+
 

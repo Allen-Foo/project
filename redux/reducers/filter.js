@@ -2,6 +2,7 @@ import {
   SET_KEYWORD,
   SET_ADDRESS,
   SET_FILTER,
+  SET_SORT,
   SEARCH_CLASS_LIST,
   SEARCH_CLASS_LIST_SUCCESS,
   SEARCH_CLASS_LIST_FAIL,
@@ -12,6 +13,8 @@ const defaultState = {
   address: '',
   filter: null,
   sort: null,
+  isLoading: false,
+  filteredClassList: [],
 }
 
 export default (state = defaultState, action) => {
@@ -29,7 +32,12 @@ export default (state = defaultState, action) => {
     case SET_FILTER:
       return {
         ...state,
-        advancedSearch: action.payload,
+        filter: action.payload,
+      }
+    case SET_SORT:
+      return {
+        ...state,
+        sort: action.payload,
       }
     case SEARCH_CLASS_LIST:
       // console.warn('here', 'SEARCH_CLASS_LIST')

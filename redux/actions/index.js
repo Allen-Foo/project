@@ -33,6 +33,7 @@ import {
   setKeyword,
   setAddress,
   setFilter,
+  setSort,
   searchClassList,
 } from './filter';
 
@@ -67,4 +68,5 @@ export {
   setAddress,
   searchClassList,
   setFilter,
+  setSort,
 }
