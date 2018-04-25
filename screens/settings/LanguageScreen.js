@@ -34,7 +34,7 @@ class LanguageScreen extends React.Component {
       Alert.alert(
         nextProps.locale.language.message.changeLanguage,
         null,
-        [{text: 'OK', onPress: () => this.props.navigation.goBack()}],
+        [{text: this.props.locale.common.okMsg, onPress: () => this.props.navigation.goBack()}],
       )
     }
   }

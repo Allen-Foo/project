@@ -99,14 +99,14 @@ class ProfileScreen extends React.Component {
     if (this.props.appType == 'learner'){
     return(
       <ListItem
-        title={'View all applied class'}
+        title={this.props.locale.profile.text.viewClasses.learner}
         leftIcon={{name: 'class'}}
         onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
       />  
     )} else {
       return(
         <ListItem
-          title={'View all created class'}
+          title={this.props.locale.profile.text.viewClasses.tutor}
           leftIcon={{name: 'class'}}
           onPress={() => {this.props.navigation.navigate('ClassList')}}
         />   

@@ -10,6 +10,7 @@ import {
   Image,
   InteractionManager,
   Dimensions,
+  Alert,
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -106,7 +107,7 @@ class EditClassScreen extends React.Component {
       return <Spinner />
     }
 
-    let { locale } = this.props;
+    let { locale, appliedClassList} = this.props;
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <ClassInfoRow
@@ -121,17 +122,29 @@ class EditClassScreen extends React.Component {
         />
         <ClassInfoRow
           label={locale.classSummary.label.category}
+          appliedClassList={appliedClassList}
+          classId={params.classId}
+          alertMsg={locale.classSummary.label.alertMsg}
+          okMsg={locale.common.okMsg}
           value={`${locale.category.types[params.category]} - ${locale.skill.types[params.category][params.skill]}`}
           onPress={() => this.props.navigation.navigate('ClassType', Object.assign(params, {isEditMode: true}))}
         />
         <ClassInfoRow
           label={locale.classSummary.label.time}
+          alertMsg={locale.classSummary.label.alertMsg}
+          appliedClassList={appliedClassList}
+          classId={params.classId}
+          okMsg={locale.common.okMsg}
           value={this.formateTime(params.time)}
           textStyle={{textAlign: 'center',}}
           onPress={() => this.props.navigation.navigate('Calendar', Object.assign(params, {isEditMode: true}))}
         />
         <ClassInfoRow
           label={locale.classSummary.label.address}
+          appliedClassList={appliedClassList}
+          classId={params.classId}
+          alertMsg={locale.classSummary.label.alertMsg}
+          okMsg={locale.common.okMsg}
           value={params.address.formatted_address}
           onPress={() => this.props.navigation.navigate('ClassAddress', Object.assign(params, {isEditMode: true}))}
         />
@@ -154,13 +167,27 @@ class EditClassScreen extends React.Component {
             scrollEnabled={params.photoList.length > 1}
           />
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.deleteButton} onPress={() => this.props.deleteClass(params)}>
-          <Text style={{color: 'white', }}> 
-            { locale.common.delete }
-          </Text>
-        </TouchableOpacity>
-
+        {
+          appliedClassList && appliedClassList.some(list => list.classId === params.classId)?
+            
+              <TouchableOpacity style={styles.deleteButton} onPress={() => {
+                Alert.alert(
+                  locale.classSummary.label.deleteMsg,
+                  null,
+                  [{text: locale.common.okMsg}],
+                )
+              }}>
+                <Text style={{color: 'white', }}> 
+                  { locale.common.delete }
+                </Text>
+              </TouchableOpacity>
+          :
+            <TouchableOpacity style={styles.deleteButton} onPress={() => this.props.deleteClass(params)}>
+              <Text style={{color: 'white', }}> 
+                { locale.common.delete }
+              </Text>
+            </TouchableOpacity>
+        }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </ScrollView>
     );
@@ -168,21 +195,42 @@ class EditClassScreen extends React.Component {
 }
 
 const ClassInfoRow = props => {
-  let { label, value, onPress, textStyle } = props;
-
-  return (
-    <TouchableOpacity
-      style={styles.rowContainer}
-      onPress={() => onPress && onPress()}
-    >
-      <View style={styles.leftContainer}>
-        <Text style={styles.label}>{label}</Text>
-      </View>
-      <View style={styles.rightContainer}>
-        <Text style={[styles.text, textStyle]}>{value}</Text>
-      </View>
-    </TouchableOpacity>
-  )
+  let { label, value, onPress, textStyle, appliedClassList, classId, alertMsg, okMsg } = props;
+  if (appliedClassList && appliedClassList.some(list => list.classId === classId)) {
+    return (
+      <TouchableOpacity
+        style={styles.rowContainer}
+        onPress={() => {
+          Alert.alert(
+            alertMsg,
+            null,
+            [{text: okMsg}],
+          )
+        }}
+      >
+        <View style={styles.leftContainer}>
+          <Text style={styles.label}>{label}</Text>
+        </View>
+        <View style={styles.rightContainer}>
+          <Text style={[styles.text, textStyle]}>{value}</Text>
+        </View>
+      </TouchableOpacity>
+   )
+  } else {
+    return (
+      <TouchableOpacity
+        style={styles.rowContainer}
+        onPress={() => onPress && onPress()}
+      >
+        <View style={styles.leftContainer}>
+          <Text style={styles.label}>{label}</Text>
+        </View>
+        <View style={styles.rightContainer}>
+          <Text style={[styles.text, textStyle]}>{value}</Text>
+        </View>
+      </TouchableOpacity>
+    )
+  }
 }
 
 const sliderContainer = {
@@ -243,6 +291,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     userId: state.socialLogin.user && state.socialLogin.user.userId,
+    appliedClassList: state.socialLogin.appliedClassList,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     classDetail: state.classes.classDetail,
