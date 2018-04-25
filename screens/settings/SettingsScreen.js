@@ -49,7 +49,7 @@ class SettingsScreen extends React.Component {
             }}
           >
             <Text style={styles.signOut}>
-              {'Sign out'}
+              {this.props.locale.common.signOut}
             </Text>
           </TouchableOpacity>
         }
@@ -74,13 +74,14 @@ const styles = StyleSheet.create({
   signOutContainer: {
     backgroundColor: '#fff',
     marginTop: 30,
-    height: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   signOut: {
     color: 'red',
-    fontSize: 18
+    fontSize: 18,
   },
 });
 
