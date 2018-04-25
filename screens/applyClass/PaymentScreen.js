@@ -94,7 +94,6 @@ const mapStateToProps = (state) => {
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    searchClassSuccess: state.classes.searchClassSuccess,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }

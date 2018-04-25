@@ -100,12 +100,6 @@ class NewsFeedScreen extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.searchClassSuccess && !this.props.searchClassSuccess) {
-      // this.props.navigation.navigate('SearchClassResult')
-    }
-  }
-
   componentDidMount() {
     // We can only set the function after the component has been initialized
     this.props.navigation.setParams({ 
@@ -115,7 +109,7 @@ class NewsFeedScreen extends React.Component {
 
   handlePressIcon = (key) => {
     this.props.setKeyword(key)
-    this.props.searchClassList({keyword: key})
+    this.props.searchClassList()
     this.props.navigation.navigate('Search')
   }
 
@@ -345,7 +339,6 @@ const mapStateToProps = (state) => {
     isLoading: state.classes.isLoading,
     isLastAllClassList: state.classes.isLastAllClassList,
     allClassList: state.classes.allClassList,
-    searchClassSuccess: state.classes.searchClassSuccess,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }

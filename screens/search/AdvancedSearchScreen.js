@@ -23,7 +23,7 @@ import { mockData } from '../../constants/mockData';
 import { Tutor, Separator, Spinner} from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
-import { searchClassList } from '../../redux/actions';
+import { searchClassList, setFilter } from '../../redux/actions';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
 
 class AdvancedSearchScreen extends React.Component {
@@ -62,11 +62,11 @@ class AdvancedSearchScreen extends React.Component {
     super(props);
 
     this.state = {
-      searchPrice: 0,
+      searchPrice: props.filter && props.filter.searchPrice,
       showPicker: false,
-      chargeType: null,
-      category: null,
-      skill: null,
+      chargeType: props.filter && props.filter.chargeType,
+      category: props.filter && props.filter.category,
+      skill: props.filter && props.filter.skill,
     }
   }
 
@@ -79,9 +79,8 @@ class AdvancedSearchScreen extends React.Component {
 
   handleSearch = () => {
     let {showPicker, ...rest} = this.state
-    this.props.searchClassList({
-      advancedSearch: rest
-    })
+    this.props.setFilter(rest)
+    this.props.searchClassList()
     this.props.navigation.navigate('Search', rest)
   }
 
@@ -348,13 +347,13 @@ const mapStateToProps = (state) => {
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    filteredClassList: state.classes.filteredClassList,
-    searchClassSuccess: state.classes.searchClassSuccess,
+    filter: state.filter.filter,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
 }
 
 export default connect(mapStateToProps, {
-    searchClassList
+    searchClassList,
+    setFilter,
 })(AdvancedSearchScreen)
