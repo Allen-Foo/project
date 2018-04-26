@@ -30,6 +30,7 @@ class SearchClassScreen extends React.Component {
     this.state = {
       address: props.address,
       keyword: props.keyword,
+      isCurrentLocationSelected: false,
     }
   }
 
@@ -42,30 +43,40 @@ class SearchClassScreen extends React.Component {
 
   handleSearch = () => {
     let {address, keyword} = this.state;
-    this.props.setKeyword(keyword.toLowerCase()),
+    this.props.setKeyword(keyword.toLowerCase())
     this.props.setAddress(address)
     this.props.switchToNormalMode()
     this.props.searchClassList()
     this.props.navigation.navigate('Search')
   }
 
+  handleCurrentLocationPress = () => {
+    this.setState({
+      isCurrentLocationSelected: true,
+      address: this.props.locale.searchResult.placeholder.currentLocation,
+    })
+    // get current location, and go to search
+  }
+
+  handleInputFocus = () => {
+    if (this.state.isCurrentLocationSelected) {
+      this.setState({
+        isCurrentLocationSelected: false,
+        address: null
+      })
+    }
+  }
+
   render() {
-    let {address, keyword} = this.state;
+    let { address, keyword, isCurrentLocationSelected } = this.state;
+    let inputStyle = styles.searchBarInput;
+    if (isCurrentLocationSelected) {
+      inputStyle = [inputStyle, {color: 'purple'}]
+    }
+    
     return (
       <View style={styles.container}>
         <View style={styles.searchBarRowContainer}>
-          <SearchBar
-            lightTheme
-            icon={{color: '#DDDDDD'}}
-            clearIcon={{ color: '#DDDDDD', name: 'clear' }}
-            containerStyle={styles.searchBarContainer}
-            inputStyle={styles.searchBarInput}
-            onChangeText={(address) => this.setState({address})}
-            onSubmitEditing={() => this.handleSearch()}
-            placeholder={this.props.locale.searchClass.districtSearch}
-            placeholderTextColor={'#DDDDDD'}
-            value={address}
-          />
           <SearchBar
             lightTheme
             autoFocus
@@ -81,8 +92,38 @@ class SearchClassScreen extends React.Component {
             onSubmitEditing={() => this.handleSearch()}
             value={keyword}
           />
+          <SearchBar
+            lightTheme
+            icon={{color: '#DDDDDD'}}
+            clearIcon={{ color: '#DDDDDD', name: 'clear' }}
+            containerStyle={styles.searchBarContainer}
+            inputStyle={inputStyle}
+            onFocus={this.handleInputFocus}
+            onChangeText={(address) => this.setState({address})}
+            onSubmitEditing={() => this.handleSearch()}
+            placeholder={this.props.locale.searchClass.districtSearch}
+            placeholderTextColor={'#DDDDDD'}
+            value={address}
+          />
         </View>
-
+        {
+          !isCurrentLocationSelected && 
+          <TouchableOpacity
+            style={styles.locationButton}
+            onPress={() => this.handleCurrentLocationPress()}
+          >
+            <FontAwesome
+              name={'location-arrow'}
+              size={18}
+              color={'purple'}
+              style={styles.locationArrow}
+            />
+            <Text style={{color: 'purple'}}>
+              {this.props.locale.searchResult.placeholder.currentLocation}
+            </Text>
+          </TouchableOpacity>
+        }
+        
         { this.props.isLoading && <Spinner intensity={30}/> }
       </View>
     );
@@ -92,17 +133,8 @@ class SearchClassScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#eee',
-    alignItems: 'center',
+    backgroundColor: '#fff',
     flex: 1,
-  },
-  searchText: {
-    color: '#919191', 
-    paddingVertical: 5
-  },
-  advancedSearchContainer: {
-    flexDirection: 'row',
-    paddingRight: 5
   },
   searchBarRowContainer: {
     width: '100%',
@@ -114,20 +146,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   searchBarInput: {
-    color: 'black',
+    color: '#333',
     fontSize: 14,
     backgroundColor: '#fff'
   },
-  text: {
-    color: '#fff',
+  locationButton: {
+    flexDirection: 'row',
+    paddingTop: 8,
   },
-  button: {
-    backgroundColor: Colors.tintColor,
-    borderRadius: 5,
-    height: '10%',
-    width: '20%',
-    marginLeft: '1%',
-    marginTop : '1%'
+  locationArrow: {
+    textAlign: 'center',
+    paddingLeft: 8,
+    paddingRight: 5
   },
 });
 
@@ -145,7 +175,7 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-    searchClassList,
-    setKeyword,
-    setAddress,
+  searchClassList,
+  setKeyword,
+  setAddress,
 })(SearchClassScreen)
