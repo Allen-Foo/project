@@ -23,7 +23,7 @@ class SearchScreen extends React.Component {
       <TouchableOpacity 
         style={styles.headerButtonContainer} 
         onPress={()=>{params.handleSearch ? params.handleSearch() : () => console.warn('not define')}}>
-        <Text style={styles.headerButtonText}>Search</Text>
+        <Text style={styles.headerButtonText}>{screenProps.locale.common.search}</Text>
       </TouchableOpacity>
     )
 
@@ -31,14 +31,14 @@ class SearchScreen extends React.Component {
       <TouchableOpacity 
         style={styles.headerButtonContainer} 
         onPress={()=>{params.switchToNormalMode ? params.switchToNormalMode() : () => console.warn('not define')}}>
-        <Text style={styles.headerButtonText}>Cancel</Text>
+        <Text style={styles.headerButtonText}>{screenProps.locale.common.cancel}</Text>
       </TouchableOpacity>
     )
 
     if (params.searchMode) {
       return {
-        headerTitle: params.searchMode ? null : screenProps.locale.newsfeed.title,
-        tabBarLabel: screenProps.locale.newsfeed.title,
+        headerTitle: params.searchMode ? null : screenProps.locale.search.title,
+        tabBarLabel: screenProps.locale.search.title,
         headerLeft: params.searchMode ? headerLeft : null,
         headerRight: params.searchMode ? headerRight : null,
         headerTintColor: '#fff',
@@ -47,7 +47,10 @@ class SearchScreen extends React.Component {
         },
       }
     } else {
-      return {header: null}
+      return {
+        header: null,
+        tabBarLabel: screenProps.locale.search.title,
+      }
     }
   };
 

@@ -35,7 +35,7 @@ class AdvancedSearchScreen extends React.Component {
       <TouchableOpacity 
         style={styles.headerButtonContainer} 
         onPress={()=>{navigation.goBack(null)}}>
-        <Text style={styles.headerButtonText}>Cancel</Text>
+        <Text style={styles.headerButtonText}>{screenProps.locale.common.cancel}</Text>
       </TouchableOpacity>
     )
 

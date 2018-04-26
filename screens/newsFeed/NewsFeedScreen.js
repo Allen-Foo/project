@@ -38,7 +38,7 @@ class NewsFeedScreen extends React.Component {
           params.switchToNormalMode()
           params.handleSearch()
         }}>
-        <Text style={styles.headerButtonText}>Search</Text>
+        <Text style={styles.headerButtonText}>{screenProps.locale.common.search}</Text>
       </TouchableOpacity>
     )
 
@@ -46,7 +46,7 @@ class NewsFeedScreen extends React.Component {
       <TouchableOpacity 
         style={styles.headerButtonContainer} 
         onPress={()=>{params.switchToNormalMode ? params.switchToNormalMode() : () => console.warn('not define')}}>
-        <Text style={styles.headerButtonText}>Cancel</Text>
+        <Text style={styles.headerButtonText}>{screenProps.locale.common.cancel}</Text>
       </TouchableOpacity>
     )
     
