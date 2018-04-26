@@ -43,8 +43,7 @@ class TutorDetailScreen extends React.Component {
       </TouchableOpacity>
     );
     if (screenProps.appType == 'tutor') {
-        return {
-        tabBarLabel: screenProps.locale.tutorDetail.title,
+      return {
         headerTitle: screenProps.locale.tutorDetail.title,
         headerTintColor: headerTintColor,
         headerStyle: {
@@ -53,8 +52,7 @@ class TutorDetailScreen extends React.Component {
         headerRight
       }
     } else {
-        return {
-        tabBarLabel: screenProps.locale.classList.title,
+      return {
         headerTitle: screenProps.locale.classList.title,
         headerTintColor: headerTintColor,
         headerStyle: {
@@ -181,9 +179,9 @@ class TutorDetailScreen extends React.Component {
               color={'#ff0000'}
             />
           </View>
-        <View style={styles.innerTextContainer}>
-          <Text style={styles.tutorName}> {this.props.classDetail.phone} </Text>
-        </View>
+          <View style={styles.innerTextContainer}>
+            <Text style={styles.tutorName}> {this.props.classDetail.phone} </Text>
+          </View>
         </View>
     )} 
   }
@@ -291,7 +289,7 @@ class TutorDetailScreen extends React.Component {
               </Text>
             </View>
             <View style={styles.tutorAvatarContainer}>
-               <Avatar
+              <Avatar
                 large
                 rounded
                 source={{url: classDetail.user && classDetail.user.avatarUrl}}
@@ -316,22 +314,24 @@ class TutorDetailScreen extends React.Component {
       classDetail.studentInfo.length > 0 &&
         <View>
           <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.allStudent} </Text>
-          { classDetail.studentInfo.filter((x, i) => i < 1).map((userId, index) => 
-            <View style={styles.studentDetailContainer} key={index}>
-              <View style={styles.studentAvatarContainer}>
-                <Avatar
-                  large
-                  rounded
-                  source={{url: userId && userId.avatarUrl}}
-                  activeOpacity={0.7}
-                  containerStyle={styles.avatarContainer}
-                />
-                <View style={styles.usernameText}>
-                  <Text style={{fontSize: 20}}>{userId.username}</Text>
+          { 
+            classDetail.studentInfo.filter((x, i) => i < 1).map((userId, index) => 
+              <View style={styles.studentDetailContainer} key={index}>
+                <View style={styles.studentAvatarContainer}>
+                  <Avatar
+                    large
+                    rounded
+                    source={{url: userId && userId.avatarUrl}}
+                    activeOpacity={0.7}
+                    containerStyle={styles.avatarContainer}
+                  />
+                  <View style={styles.usernameText}>
+                    <Text style={{fontSize: 20}}>{userId.username}</Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          )}
+            )
+          }
           <TouchableOpacity style={styles.displayAllButton} onPress={() => {this.setState({collapsed: false})}}>
             <View style={styles.studentRowContainer}>
               <Text style={{marginRight: 10}}>{locale.tutorDetail.text.viewAllStudent}</Text>
@@ -343,7 +343,7 @@ class TutorDetailScreen extends React.Component {
             </View>
           </TouchableOpacity> 
         </View>
-    )
+      )
     } else {
       return (
         classDetail.studentInfo.length > 0 &&
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
   innerTutorDetailContainer: {
-    borderWidth :1,
+    borderWidth: 1,
     borderColor: '#bebebe',
     borderRadius: 20,
     paddingVertical: 10,
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#fff'
   },
-  studentDetailContainer:{
+  studentDetailContainer: {
     width: '100%',
     backgroundColor: '#fff',
     paddingTop: '5%',
