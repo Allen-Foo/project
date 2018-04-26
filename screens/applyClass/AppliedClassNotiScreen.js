@@ -32,7 +32,7 @@ class appliedClassNoti extends React.Component {
         </View>
         <TouchableOpacity 
           style={styles.viewMyRecordButton}
-          // onPress={onPress}
+          onPress={() => this.props.navigation.navigate('Search')}
         >
           <View>
             <Text style={styles.subTabText}>
@@ -50,7 +50,7 @@ class appliedClassNoti extends React.Component {
         <Separator style={{backgroundColor: '#eee'}}/>
         <TouchableOpacity 
           style={styles.continueFindClassButton}
-          // onPress={onPress}
+          onPress={() => this.props.navigation.navigate('AppliedClassList')}
         >
           <View>
             <Text style={styles.whiteText}>

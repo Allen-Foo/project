@@ -120,7 +120,7 @@ class TutorDetailScreen extends React.Component {
           <View style={{height: 100}} />
         </ScrollView>
         { 
-          this.props.mode == 'leanrer' &&
+          this.props.mode == 'learner' &&
           <View style={styles.bottomContainer}>
             <View style={styles.bottomPrice}>
               <FontAwesome 
