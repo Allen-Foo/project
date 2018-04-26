@@ -309,13 +309,13 @@ class TutorDetailScreen extends React.Component {
 
   renderLearnerInfo(classDetail) {
     let { locale } = this.props;
-    if (this.state.collapsed) {
+    let studentInfo = this.state.collapsed ? classDetail.studentInfo.filter((x, i) => i < 2) : classDetail.studentInfo
     return (
       classDetail.studentInfo.length > 0 &&
         <View>
           <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.allStudent} </Text>
           { 
-            classDetail.studentInfo.filter((x, i) => i < 1).map((userId, index) => 
+            studentInfo.map((userId, index) => 
               <View style={styles.studentDetailContainer} key={index}>
                 <View style={styles.studentAvatarContainer}>
                   <Avatar
@@ -332,53 +332,32 @@ class TutorDetailScreen extends React.Component {
               </View>
             )
           }
-          <TouchableOpacity style={styles.displayAllButton} onPress={() => {this.setState({collapsed: false})}}>
-            <View style={styles.studentRowContainer}>
-              <Text style={{marginRight: 10}}>{locale.tutorDetail.text.viewAllStudent}</Text>
-              <Entypo
-                name={"chevron-thin-down"}
-                size={15}
-                color={'#555'}
-              />
-            </View>
-          </TouchableOpacity> 
-        </View>
-      )
-    } else {
-      return (
-        classDetail.studentInfo.length > 0 &&
-          <View>
-            <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.allStudent} </Text>
-            { 
-              classDetail.studentInfo.map((userId, index) => 
-                <View style={styles.studentDetailContainer} key={index}>
-                  <View style={styles.studentAvatarContainer}>
-                    <Avatar
-                      large
-                      rounded
-                      source={{url: userId && userId.avatarUrl}}
-                      activeOpacity={0.7}
-                      containerStyle={styles.avatarContainer}
+          {
+            classDetail.studentInfo.length > 2 &&
+            <TouchableOpacity style={styles.displayAllButton} onPress={() => {this.setState({collapsed: false})}}>
+              {
+                this.state.collapsed ?
+                  <View style={styles.studentRowContainer}>
+                    <Text style={{marginRight: 10}}>{locale.tutorDetail.text.viewAllStudent}</Text>
+                    <Entypo
+                      name={"chevron-thin-down"}
+                      size={15}
+                      color={'#555'}
                     />
-                    <View style={styles.usernameText}>
-                      <Text style={{fontSize: 20}}>{userId.username}</Text>
-                    </View>
                   </View>
-                </View>
-              )
-            }
-            <TouchableOpacity style={styles.displayAllButton} onPress={() => {this.setState({collapsed: true})}}>
-              <View style={styles.studentRowContainer}>
-                <Entypo
-                  name={"chevron-thin-up"}
-                  size={15}
-                  color={'#555'}
-                />
-              </View>
+                :
+                  <View style={styles.studentRowContainer}>
+                    <Entypo
+                      name={"chevron-thin-up"}
+                      size={15}
+                      color={'#555'}
+                    />
+                  </View>
+              }
             </TouchableOpacity> 
-          </View>
-      )
-    }
+          }
+        </View>
+    )
   }
 
   render() {
