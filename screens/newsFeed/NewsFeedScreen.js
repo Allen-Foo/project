@@ -149,7 +149,7 @@ class NewsFeedScreen extends React.Component {
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
             onFocus={() => this.switchToSearchMode()}
-            placeholder='Type Here...'
+            placeholder={this.props.locale.searchResult.placeholder.typeHere}
             placeholderTextColor={'#DDDDDD'}
           />
           

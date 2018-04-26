@@ -109,6 +109,7 @@ class SearchClassResultScreen extends React.Component {
           handleTextInputPress={() => this.props.handleTextInputPress()}
           handleFilterPress={() => this.props.handleFilterPress()}
           handleToggleMode={() => this.props.handleToggleMode()}
+          locale={locale}
         />
         <TouchableOpacity 
           style={styles.chargeTypeButton} 
@@ -154,7 +155,7 @@ const SearchBar = props => {
         />
         <TouchableOpacity style={styles.inputStyle} onPress={() => props.handleTextInputPress()}>
           <Text style={{color: '#999'}}>
-           {'Type Here...'}
+           {props.locale.searchResult.placeholder.typeHere}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => props.handleFilterPress()}>
