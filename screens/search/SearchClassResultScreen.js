@@ -101,7 +101,7 @@ class SearchClassResultScreen extends React.Component {
   }
 
   render() {
-    let { locale } = this.props;
+    let { locale, keyword, address } = this.props;
     
     return (
       <View style={{flex:1}}>
@@ -110,6 +110,8 @@ class SearchClassResultScreen extends React.Component {
           handleFilterPress={() => this.props.handleFilterPress()}
           handleToggleMode={() => this.props.handleToggleMode()}
           locale={locale}
+          keyword={keyword}
+          address={address}
         />
         <TouchableOpacity 
           style={styles.chargeTypeButton} 
@@ -144,6 +146,25 @@ class SearchClassResultScreen extends React.Component {
 }
 
 const SearchBar = props => {
+  let address = props.address || props.locale.searchResult.placeholder.currentLocation
+  let placeholder = (
+    <Text style={{color: '#999'}}>
+     {props.locale.searchResult.placeholder.typeHere}
+    </Text>
+  )
+  if (props.keyword) {
+    placeholder = (
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={{color: '#333'}}>
+          {props.keyword}
+        </Text>
+        <Text style={{color: '#999', fontSize: 12, paddingLeft: 10,}}>
+          {address}
+        </Text>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.searchBarContainer}>
       <View style={styles.textInput}>
@@ -154,9 +175,7 @@ const SearchBar = props => {
           style={styles.icon}
         />
         <TouchableOpacity style={styles.inputStyle} onPress={() => props.handleTextInputPress()}>
-          <Text style={{color: '#999'}}>
-           {props.locale.searchResult.placeholder.typeHere}
-          </Text>
+          { placeholder }
         </TouchableOpacity>
         <TouchableOpacity onPress={() => props.handleFilterPress()}>
           <FontAwesome
@@ -297,6 +316,8 @@ const mapStateToProps = (state) => {
     locale: state.language.locale,
     isLoading: state.filter.isLoading,
     sort: state.filter.sort,
+    keyword: state.filter.keyword,
+    address: state.filter.address,
     filteredClassList: state.filter.filteredClassList,
     fetchErrorMsg: state.filter.fetchErrorMsg,
     fetchErrorLastUpdate: state.filter.fetchErrorLastUpdate

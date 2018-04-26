@@ -77,6 +77,7 @@ class SearchClassScreen extends React.Component {
             placeholder={this.props.locale.searchClass.classSearch}
             placeholderTextColor={'#DDDDDD'}
             returnKeyType={ "search" }
+            autoCapitalize={'none'}
             onSubmitEditing={() => this.handleSearch()}
             value={keyword}
           />
