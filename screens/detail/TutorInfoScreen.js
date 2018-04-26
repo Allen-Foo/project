@@ -55,7 +55,16 @@ class TutorInfo extends React.Component {
             />
             <View style={styles.usernameContainer}>
               <Text style={styles.usernameText}>{classDetail.user.username}</Text>
+              <View style={{flexDirection: 'row'}}>
+                <FontAwesome
+                  name={"check-square-o"}
+                  size={20}
+                  color={'#f72470'}
+                />
+                <Text style={{marginLeft: 5, color: '#f72470'}}>{locale.tutorDetail.text.verifiedBy}</Text>
+              </View>
             </View>
+
           </View>
         </View>
           <View style={styles.introContainer}>

@@ -299,6 +299,14 @@ class TutorDetailScreen extends React.Component {
               <View style={styles.usernameText}>
                 <Text style={{fontSize: 20}}>{classDetail.user.username}</Text>
                 <Text style={{fontSize: 14, color: '#bebebe'}}>{`Rating ${classDetail.totalRatings}/5`}</Text>
+                <View style={{flexDirection: 'row', marginTop: 5}}>
+                  <FontAwesome
+                    name={"check-square-o"}
+                    size={20}
+                    color={'#f72470'}
+                  />
+                  <Text style={{marginLeft: 5, color: '#f72470'}}>{this.props.locale.tutorDetail.text.verifiedBy}</Text>
+                </View>
               </View>
             </View>
           </TouchableOpacity>
