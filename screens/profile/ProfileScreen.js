@@ -95,54 +95,82 @@ class ProfileScreen extends React.Component {
     }
   }
 
-  renderClassList() {
-    if (this.props.appType == 'learner'){
-    return(
-      <ListItem
-        title={this.props.locale.profile.text.viewClasses.learner}
-        leftIcon={{name: 'class'}}
-        onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
-      />  
-    )} else {
-      return(
+  renderClassList(isLoggedIn) {
+    if (this.props.appType == 'learner' && isLoggedIn){
+      return (
+        <ListItem
+          title={this.props.locale.profile.text.viewClasses.learner}
+          leftIcon={{name: 'class'}}
+          onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
+        />  
+      )
+    } else if (this.props.appType == 'learner' && !isLoggedIn){
+      return (
+        <ListItem
+          title={this.props.locale.profile.text.viewClasses.learner}
+          leftIcon={{name: 'class'}}
+          onPress={() => {this.props.navigation.navigate('Signin')}}
+        /> 
+      )
+    } else {
+      return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.tutor}
           leftIcon={{name: 'class'}}
           onPress={() => {this.props.navigation.navigate('ClassList')}}
         />   
-    )}
-
+      )
+    }
   }
-
   render() {
-    return (
-      <ScrollView contentContainerStyle={styles.container}>
+    if (this.props.appType == 'learner'){
+      return (
+        <ScrollView contentContainerStyle={styles.container}>
 
-        {this.renderHeader(this.props.isLoggedIn)}
+          {this.renderHeader(this.props.isLoggedIn)}
 
-        <List containerStyle={styles.contentContainer}>
-          {
-            this.props.appType &&
+          <List containerStyle={styles.contentContainer}>
+            {
+              this.renderClassList(this.props.isLoggedIn)
+            }
             <ListItem
-              title={this.props.locale.profile.text.switchMode[this.props.appType]}
-              leftIcon={{name: 'swap-horiz'}}
-              onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
-            />
-          }
-          {
-            this.renderClassList()
-          }
-          <ListItem
-            title={this.props.locale.profile.text.settings}
-            leftIcon={{name: 'settings'}}
-            onPress={() => {this.props.navigation.navigate('Settings')}}
-          />        
-        </List>
-      </ScrollView>
-    );
+              title={this.props.locale.profile.text.settings}
+              leftIcon={{name: 'settings'}}
+              onPress={() => {this.props.navigation.navigate('Settings')}}
+            />        
+          </List>
+        </ScrollView>
+      )
+    } else {
+      return (
+        <ScrollView contentContainerStyle={styles.container}>
+
+          {this.renderHeader(this.props.isLoggedIn)}
+
+          <List containerStyle={styles.contentContainer}>
+            {
+              this.props.appType &&
+              <ListItem
+                title={this.props.locale.profile.text.switchMode[this.props.appType]}
+                leftIcon={{name: 'swap-horiz'}}
+                onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
+              />
+            }
+            {
+              this.renderClassList()
+            }
+            <ListItem
+              title={this.props.locale.profile.text.settings}
+              leftIcon={{name: 'settings'}}
+              onPress={() => {this.props.navigation.navigate('Settings')}}
+            />        
+          </List>
+        </ScrollView>
+      )
+    }
   }
 }
-
+  
 const SocialIcon = props => {
   const { name, onPress } = props;
   // it is actually using MaterialIcons
