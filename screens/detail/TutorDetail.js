@@ -183,7 +183,50 @@ class TutorDetailScreen extends React.Component {
             <Text style={styles.tutorName}> {this.props.classDetail.phone} </Text>
           </View>
         </View>
-    )} 
+      )
+    } 
+  }
+  renderAddress() {
+    if (this.props.classDetail.address.formatted_address === 'On site') {
+      return (
+        <View style={styles.rowContainer}>
+          <View style={styles.innerContainer}>
+            <MaterialIcons
+              name={'location-on'} 
+              size={20}
+              color={'#ff0000'}
+            />
+          </View>
+          <View style={[styles.innerTextContainer, {width: '70%'}]}>
+            <Text style={styles.address}> {this.props.classDetail.address.formatted_address} </Text>
+          </View>
+        </View>
+      )
+    } else {
+      return (
+        <TouchableOpacity onPress={() => {this.props.navigation.navigate('ClassMap', this.props.classDetail.address)}}>
+          <View style={styles.rowContainer}>
+            <View style={styles.innerContainer}>
+              <MaterialIcons
+                name={'location-on'} 
+                size={20}
+                color={'#ff0000'}
+              />
+            </View>
+            <View style={[styles.innerTextContainer, {width: '70%'}]}>
+              <Text style={styles.address}> {this.props.classDetail.address.formatted_address} </Text>
+            </View>
+            <View style={styles.chevronContainer}>
+              <Entypo
+                name={"chevron-thin-right"}
+                size={15}
+                color={'#555'}
+              />
+            </View>
+          </View>
+        </TouchableOpacity>
+      )
+    }
   }
 
   renderLoading() {
@@ -230,27 +273,9 @@ class TutorDetailScreen extends React.Component {
             {
               this.renderContact()
             }
-          <TouchableOpacity onPress={() => {this.props.navigation.navigate('ClassMap', classDetail.address)}}>
-            <View style={styles.rowContainer}>
-              <View style={styles.innerContainer}>
-                <MaterialIcons
-                  name={'location-on'} 
-                  size={20}
-                  color={'#ff0000'}
-                />
-              </View>
-              <View style={[styles.innerTextContainer, {width: '70%'}]}>
-                <Text style={styles.address}> {classDetail.address.formatted_address} </Text>
-              </View>
-              <View style={styles.chevronContainer}>
-                <Entypo
-                  name={"chevron-thin-right"}
-                  size={15}
-                  color={'#555'}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
+            {
+              this.renderAddress()
+            }
           <TouchableOpacity style={styles.commentButton} onPress={() => this.handleCommentButtonPress()} >
             <Text style={{color: 'green', }}> 
               { locale.tutorDetail.text.giveComment.label }
