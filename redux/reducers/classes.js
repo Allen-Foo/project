@@ -58,6 +58,7 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoading: false,
         requireUpdateClassList: true,
+        classList: [],
         ...action.payload,
       };
     case CREATE_CLASS_FAIL:
@@ -138,6 +139,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
+        classList: [],
         requireUpdateClassList: true,
         classDetail: action.payload,
       };
@@ -159,6 +161,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
+        classList: [],
         requireUpdateClassList: true,
         classDetail: null,
       };

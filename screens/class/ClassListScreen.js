@@ -69,11 +69,6 @@ class ClassListScreen extends React.Component {
     if (nextProps.classList.length > 0 && nextProps.classList !== this.state.classList) {
       this.setState({classList: nextProps.classList})
     }
-
-    // after create class, fetch the new classes
-    if (nextProps.requireUpdateClassList && !this.props.requireUpdateClassList) {
-      this.props.getClassList(this.props.userId)
-    }
   }
 
   handleAddClass = () => {

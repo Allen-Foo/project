@@ -197,7 +197,7 @@ export const deleteClassEpic = (action$, store, { request }) =>
 
 // this epic will create a class at dynamoDb
 export const getClassListEpic = (action$, store, { request }) =>
-  action$.ofType(GET_CLASS_LIST)
+  action$.ofType(GET_CLASS_LIST, CREATE_CLASS_SUCCESS, UPDATE_CLASS_SUCCESS, DELETE_CLASS_SUCCESS)
     .mergeMap(action => 
       Observable.fromPromise(request({
         url: '/getClassList',
