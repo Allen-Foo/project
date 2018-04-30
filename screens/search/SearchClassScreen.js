@@ -86,7 +86,7 @@ class SearchClassScreen extends React.Component {
   handleSearch = () => {
     let {address, keyword} = this.state;
     this.props.setKeyword(keyword.toLowerCase())
-    this.props.setAddress(address)
+    // this.props.setAddress(address)
     this.props.switchToNormalMode()
     this.props.searchClassList()
     this.props.navigation.navigate('Search')
@@ -114,6 +114,7 @@ class SearchClassScreen extends React.Component {
         isCurrentLocationSelected: false,
         address: null
       })
+      setFilter({location: null})
     }
   }
 
@@ -123,7 +124,7 @@ class SearchClassScreen extends React.Component {
     if (isCurrentLocationSelected) {
       inputStyle = [inputStyle, {color: 'purple'}]
     }
-    
+
     return (
       <View style={styles.container}>
         <View style={styles.searchBarRowContainer}>
@@ -227,6 +228,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   searchClassList,
   setKeyword,
-  setAddress,
+  // setAddress,
   setFilter,
 })(SearchClassScreen)
