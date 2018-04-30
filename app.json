@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "tutor",
+    "name": "APlus",
     "description": "No description",
-    "slug": "tutor",
+    "slug": "APlus",
     "privacy": "public",
     "sdkVersion": "22.0.0",
     "version": "1.0.0",
@@ -18,7 +18,11 @@
       "assetExts": ["ttf"]
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier" : "com.genkontech.tutor"
+    },
+    "android": {
+		"package": "com.genkontech.tutor"
     }
   }
 }
