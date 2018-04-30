@@ -10,6 +10,8 @@ import {
   Dimensions,
 } from 'react-native';
 
+import moment from 'moment';
+
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements'
@@ -37,8 +39,8 @@ class TutorDetailScreen extends React.Component {
       <TouchableOpacity onPress={()=>navigation.navigate('EditClass', {classId: params.classId})}>
         <MaterialIcons
           name={"edit"}
-          size={30}
-          style={{ paddingRight: 15, paddingTop: 5 }}
+          size={25}
+          style={{ paddingRight: 15}}
         />
       </TouchableOpacity>
     );
@@ -82,6 +84,25 @@ class TutorDetailScreen extends React.Component {
     }
   }
 
+  formateTime = (time) => {
+    let allTimeSlots = []
+    Object.values(time).forEach(date => date.forEach(timeSlot => allTimeSlots.push(timeSlot)))
+
+    let formattedTimeSlots = [];
+
+    allTimeSlots.forEach((timeSlot, index) => {
+      // only show 5 time slots
+      if (index < 5) {
+        let str = `${moment(timeSlot.startTime).format('YYYY-MM-DD')} from ${moment(timeSlot.startTime).format('HH:mm')} to ${moment(timeSlot.endTime).format('HH:mm')}`
+        formattedTimeSlots.push(str)
+      } else if (index == 5) {
+        formattedTimeSlots.push('...')
+      }
+    })
+
+    return formattedTimeSlots.join('\n')
+  }
+
   renderClassDetail() {
     let { locale, classDetail } = this.props;
     let photoList = classDetail.photoList.map(photo => ({uri: photo.location}))
@@ -117,7 +138,7 @@ class TutorDetailScreen extends React.Component {
             </View>
           }
 
-          <View style={{height: 100}} />
+          <View style={{height: 100}}/>
         </ScrollView>
         { 
           this.props.mode == 'learner' &&
@@ -195,6 +216,7 @@ class TutorDetailScreen extends React.Component {
               name={'location-on'} 
               size={20}
               color={'#ff0000'}
+              style={{position: 'absolute', right: 0}}
             />
           </View>
           <View style={[styles.innerTextContainer, {width: '70%'}]}>
@@ -234,14 +256,14 @@ class TutorDetailScreen extends React.Component {
   }
 
   renderClassContent(classDetail) {
-    // console.warn('classDetail',classDetail)
+
     let { locale } = this.props;
-    // console.warn('this.props.locale.tutorDetail.text', this.props.locale.tutorDetail.text)
+    // console.warn('123', classDetail.time)
     return (
       <View>
         <View style={styles.contentContainer}>
           <Text style={styles.className}> {classDetail.title} </Text>
-          <Text style={[styles.tutorName, {paddingVertical: 5}]}> {'Chan Tai Man'} </Text>
+          <Text style={[styles.tutorName, {paddingVertical: 5}]}> {classDetail.user.username} </Text>
           <View style={styles.ratingRow}>
             <Text style={styles.comment}> {`${classDetail.comments.length} reviews`} </Text>
           </View>
@@ -266,7 +288,7 @@ class TutorDetailScreen extends React.Component {
               />
             </View>
             <View style={styles.innerTextContainer}>
-              <Text style={styles.tutorName}> {`4:30pm - 5:30pm `}</Text>
+              <Text style={styles.tutorName}>{this.formateTime(classDetail.time)}</Text>
             </View>
           </View>
           
@@ -283,7 +305,7 @@ class TutorDetailScreen extends React.Component {
             <Entypo
               name={"chevron-thin-right"}
               size={15}
-              style={{position: 'absolute', right: 0}}
+              style={{position: 'absolute', right: 3}}
               color={'#555'}
             />
           </TouchableOpacity>

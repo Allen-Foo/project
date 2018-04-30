@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   textInput: {
     marginHorizontal: width * 0.05,
     fontSize: 14,
-    color: '#43484A',
+    // color: '#43484A',
     height: 18, 
     width: 200, 
     borderColor: '#d9d9d9',

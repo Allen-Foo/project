@@ -123,7 +123,25 @@ class ProfileScreen extends React.Component {
     }
   }
   render() {
-    if (this.props.appType == 'learner'){
+    if (!this.props.isLoggedIn){
+      return (
+        <ScrollView contentContainerStyle={styles.container}>
+
+          {this.renderHeader(this.props.isLoggedIn)}
+
+          <List containerStyle={styles.contentContainer}>
+            {
+              this.renderClassList(this.props.isLoggedIn)
+            }
+            <ListItem
+              title={this.props.locale.profile.text.settings}
+              leftIcon={{name: 'settings'}}
+              onPress={() => {this.props.navigation.navigate('Settings')}}
+            />        
+          </List>
+        </ScrollView>
+      )
+    } else if ( this.props.isLoggedIn && !this.props.user.isTutor ) {
       return (
         <ScrollView contentContainerStyle={styles.container}>
 

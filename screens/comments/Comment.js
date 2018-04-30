@@ -51,6 +51,7 @@ class Comment extends React.Component {
           </View>
                 
           <TouchableOpacity style={styles.contentContainer} onPress={() => {this.setState({collapsed: false})}}>
+            <Text>{comment.user.username}</Text>
             <View style={styles.ratingRow}>
               <StarRating
                 disabled
