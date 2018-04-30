@@ -21,7 +21,7 @@ class ScheduleScreen extends React.Component {
     let headerRight = (
       <TouchableOpacity onPress={()=>{params.switchMode ? params.switchMode() : () => console.warn('not define')}}>
         <FontAwesome
-          name={params.mode === "calendar" ? "calendar" : "calendar-o"}
+          name={params.mode === "calendar" ? "calendar-o" : "calendar"}
           size={22}
           color={'white'}
           style={{ paddingRight: 15 }}
@@ -45,7 +45,7 @@ class ScheduleScreen extends React.Component {
     super(props);
     this.list = props.mode == 'tutor' ? props.classList : props.appliedClassList
     this.state = {
-      mode: 'agenda',
+      mode: 'calendar',
       items: this.getItems(this.list),
       markedDates: this.getMarkedItems(this.list),
     };
@@ -66,7 +66,8 @@ class ScheduleScreen extends React.Component {
   componentDidMount() {
     // We can only set the function after the component has been initialized
     this.props.navigation.setParams({ 
-      switchMode: this.switchMode, 
+      switchMode: this.switchMode,
+      mode: 'calendar'
     });
   }
 
