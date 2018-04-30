@@ -76,13 +76,10 @@ class NewsFeedScreen extends React.Component {
       interval: null,
       dataSource: [
         {
-          uri: "https://s3.amazonaws.com/aws-test-dev-uploads/banner-hk.jpg"
+          uri: "https://s3.amazonaws.com/aws-test-dev-uploads/Banner+1-01.jpg"
         },
         {
-          uri: "https://s3.amazonaws.com/aws-test-dev-uploads/28238810_1728240187232890_6875778536766435073_o.jpg"
-        },
-        {
-          uri: "https://s3.amazonaws.com/aws-test-dev-uploads/SEO_TopSchoolsHongKong_FB.jpg"
+          uri: "https://s3.amazonaws.com/aws-test-dev-uploads/Banner+3-01.jpg"
         },
       ],
     }
