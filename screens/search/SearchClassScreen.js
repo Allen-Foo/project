@@ -11,6 +11,8 @@ import {
   Dimensions,
 } from 'react-native';
 
+import { Constants, Location, Permissions } from 'expo';
+
 import Swiper from 'react-native-swiper';
 let {width, height} = Dimensions.get('window');
 import { Slideshow, Spinner} from '../../components';
@@ -20,7 +22,7 @@ import Colors from '../../constants/Colors';
 import { mockData } from '../../constants/mockData';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
-import { searchClassList, setKeyword, setAddress } from '../../redux/actions';
+import { searchClassList, setKeyword, setAddress, setFilter } from '../../redux/actions';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 class SearchClassScreen extends React.Component {
@@ -31,8 +33,48 @@ class SearchClassScreen extends React.Component {
       address: props.address,
       keyword: props.keyword,
       isCurrentLocationSelected: false,
+      latitude: 22.2965866,
+      longitude: 114.1748086,
+      error: null,
     }
   }
+
+  componentWillMount() {
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+      this.setState({
+        error: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+      });
+    } else {
+      this._getLocationAsync();
+    }
+  }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        error: 'Permission to access location was denied',
+      });
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+      },
+      (error) => {
+        this.setState({
+          latitude: 22.2965866,
+          longitude: 114.1748086,
+          error: error.message,
+        })
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    )
+  };
 
   componentDidMount() {
     // We can only set the function after the component has been initialized
@@ -56,6 +98,14 @@ class SearchClassScreen extends React.Component {
       address: this.props.locale.searchResult.placeholder.currentLocation,
     })
     // get current location, and go to search
+    this.props.setFilter({
+      location: {
+        lat: this.state.latitude,
+        lng: this.state.longitude,
+      }
+    })
+    this.props.searchClassList()
+    this.props.navigation.navigate('Search')
   }
 
   handleInputFocus = () => {
@@ -68,7 +118,7 @@ class SearchClassScreen extends React.Component {
   }
 
   render() {
-    let { address, keyword, isCurrentLocationSelected } = this.state;
+    let { address, keyword, isCurrentLocationSelected, error } = this.state;
     let inputStyle = styles.searchBarInput;
     if (isCurrentLocationSelected) {
       inputStyle = [inputStyle, {color: 'purple'}]
@@ -107,7 +157,7 @@ class SearchClassScreen extends React.Component {
           />
         </View>
         {
-          !isCurrentLocationSelected && 
+          !isCurrentLocationSelected && !error &&
           <TouchableOpacity
             style={styles.locationButton}
             onPress={() => this.handleCurrentLocationPress()}
@@ -178,4 +228,5 @@ export default connect(mapStateToProps, {
   searchClassList,
   setKeyword,
   setAddress,
+  setFilter,
 })(SearchClassScreen)

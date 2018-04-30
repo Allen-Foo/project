@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, PixelRatio } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, PixelRatio, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 
-import { MapView, Constants } from 'expo';
+import { MapView, Constants, Location, Permissions } from 'expo';
 import { Tutor, IndexMarker } from '../../components';
 import { mockData } from '../../constants/mockData';
 import { searchClassList } from '../../redux/actions';
@@ -64,28 +64,7 @@ class SearchScreen extends React.Component {
       latitude: null,
       longitude: null,
       region: null,
-      error: null,
     }
-  }
-
-  componentWillMount() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          error: null,
-        });
-      },
-      (error) => {
-        this.setState({
-          latitude: 22.2965866,
-          longitude: 114.1748086,
-          error: error.message,
-        })
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    )
   }
 
   componentDidMount() {
