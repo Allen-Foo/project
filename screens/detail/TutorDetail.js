@@ -310,7 +310,7 @@ class TutorDetailScreen extends React.Component {
             />
           </TouchableOpacity>
         </View>
-        { this.props.mode == 'learner' ? this.renderTutorInfo(classDetail) : this.renderLearnerInfo(classDetail) }
+        { this.props.mode == 'learner' ? this.renderTutorInfo(classDetail, locale) : this.renderLearnerInfo(classDetail) }
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.classDescription} </Text>
         <View style={styles.tutorDetailContainer}>
           <View style={{marginTop: -20}}>
@@ -321,7 +321,7 @@ class TutorDetailScreen extends React.Component {
     )
   }
 
-  renderTutorInfo(classDetail) {
+  renderTutorInfo(classDetail, locale) {
     return (
       <View>
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
@@ -345,7 +345,7 @@ class TutorDetailScreen extends React.Component {
               />
               <View style={styles.usernameText}>
                 <Text style={{fontSize: 20}}>{classDetail.user.username}</Text>
-                <Text style={{fontSize: 14, color: '#bebebe'}}>{`Rating ${classDetail.totalRatings}/5`}</Text>
+                <Text style={{fontSize: 14, color: '#bebebe'}}>{`${locale.tutorDetail.text.rating + parseFloat(classDetail.totalRatings).toFixed(1)}/5`}</Text>
                 <View style={{flexDirection: 'row', marginTop: 5}}>
                   <FontAwesome
                     name={"check-square-o"}
