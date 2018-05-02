@@ -51,7 +51,7 @@ export const searchClassListEpic = (action$, store, { request }) =>
         url: '/searchClassList',
         method: 'post',
         data: {
-          address: store.getState().filter.address,
+          // address: store.getState().filter.address,
           keyword: store.getState().filter.keyword,
           filter: store.getState().filter.filter,
           sort: store.getState().filter.sort,

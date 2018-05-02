@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  PixelRatio,
 } from 'react-native';
 
 import { Constants, Location, Permissions } from 'expo';
@@ -24,6 +25,10 @@ import icons from '../../assets/icon';
 import { connect } from 'react-redux';
 import { searchClassList, setKeyword, setAddress, setFilter } from '../../redux/actions';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import Qs from 'qs';
+import axios from 'axios';
+
+const GOOGLE_API_KEY = 'AIzaSyBqwQcXoFKOxK0cx3qfuwhH_ryqsI-HlMI';
 
 class SearchClassScreen extends React.Component {
 
@@ -36,6 +41,7 @@ class SearchClassScreen extends React.Component {
       latitude: 22.2965866,
       longitude: 114.1748086,
       error: null,
+      dataSource: [],
     }
   }
 
@@ -118,6 +124,49 @@ class SearchClassScreen extends React.Component {
     }
   }
 
+  handleChangeText(text) {
+    this.setState({address: text})
+    let query = {
+      key: GOOGLE_API_KEY,
+      language: this.props.languageKey,
+    }
+
+    if (text.length >= 2) {
+      axios({
+        method: 'get',
+        url: 'https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=' 
+              + encodeURIComponent(text) + '&' + Qs.stringify(query)
+      }).then(res => {
+        // console.warn('res', res)
+        this.setState({
+          dataSource: res.data.predictions,
+        });
+      })
+    } else {
+      this.setState({
+        dataSource: [],
+      });
+    }
+  }
+
+  handlePressAddress(address) {
+    let query = {
+      key: GOOGLE_API_KEY,
+      language: this.props.languageKey,
+      placeid: address.place_id
+    }
+
+    axios({
+      method: 'get',
+      url: 'https://maps.googleapis.com/maps/api/place/details/json?' + Qs.stringify(query)
+    }).then(res => {
+      this.setState({address: res.data.result.formatted_address})
+        console.warn('res', res.data)
+
+      this.props.setFilter({location: res.data.result.geometry.location})
+    })
+  } 
+
   render() {
     let { address, keyword, isCurrentLocationSelected, error } = this.state;
     let inputStyle = styles.searchBarInput;
@@ -150,7 +199,7 @@ class SearchClassScreen extends React.Component {
             containerStyle={styles.searchBarContainer}
             inputStyle={inputStyle}
             onFocus={this.handleInputFocus}
-            onChangeText={(address) => this.setState({address})}
+            onChangeText={(address) => this.handleChangeText(address)}
             onSubmitEditing={() => this.handleSearch()}
             placeholder={this.props.locale.searchClass.districtSearch}
             placeholderTextColor={'#DDDDDD'}
@@ -165,7 +214,7 @@ class SearchClassScreen extends React.Component {
           >
             <FontAwesome
               name={'location-arrow'}
-              size={18}
+              size={15}
               color={'purple'}
               style={styles.locationArrow}
             />
@@ -174,7 +223,17 @@ class SearchClassScreen extends React.Component {
             </Text>
           </TouchableOpacity>
         }
-        
+        {
+          this.state.dataSource.map((data, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.addressRow}
+              onPress={() => this.handlePressAddress(data)}
+            >
+              <Text numberOfLines={1} style={{fontWeight: '600', fontSize: 13}}>{data.description}</Text>
+            </TouchableOpacity>
+          ))
+        }
         { this.props.isLoading && <Spinner intensity={30}/> }
       </View>
     );
@@ -204,16 +263,27 @@ const styles = StyleSheet.create({
   locationButton: {
     flexDirection: 'row',
     paddingTop: 8,
+    borderBottomWidth: 1 / PixelRatio.get(),
+    paddingBottom: 10,
   },
   locationArrow: {
     textAlign: 'center',
     paddingLeft: 8,
     paddingRight: 5
   },
+  addressRow: {
+    borderTopWidth: 1 / PixelRatio.get(),
+    borderBottomWidth: 1 / PixelRatio.get(),
+    flexWrap: 'nowrap',
+    padding: 10,
+    borderBottomColor: 'grey',
+    borderTopColor: 'grey',
+  }
 });
 
 const mapStateToProps = (state) => {
   return {
+    languageKey: state.language.key,
     address: state.filter.address,
     keyword: state.filter.keyword,
     languageKey: state.language.key,
