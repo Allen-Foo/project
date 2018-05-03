@@ -94,10 +94,7 @@ class SearchClassScreen extends React.Component {
 
   handleCurrentLocationPress = () => {
     let currentAddress = this.props.locale.searchResult.placeholder.currentLocation
-    this.setState({
-      isCurrentLocationSelected: true,
-      address: currentAddress,
-    })
+   
     // get current location, and go to search
     this.props.setFilter({
       location: {
@@ -105,21 +102,28 @@ class SearchClassScreen extends React.Component {
         lng: this.state.longitude,
       }
     })
-    this.props.setAddress(currentAddress, true)
 
-    this.props.searchClassList()
-    this.props.navigation.navigate('Search')
+    this.setState({
+      isCurrentLocationSelected: true,
+      address: currentAddress,
+    }, () => {
+      this.handleSearch()
+    })
   }
 
   handleInputFocus = () => {
     if (this.state.isCurrentLocationSelected) {
-      this.setState({
-        isCurrentLocationSelected: false,
-        address: null
-      })
-      this.props.setAddress(null, false)
-      setFilter({location: null})
+      this.handleClear()
     }
+  }
+
+  handleClear = () => {
+    this.setState({
+      isCurrentLocationSelected: false,
+      address: null
+    })
+    this.props.setAddress(null, false)
+    this.props.setFilter(null)
   }
 
   handleChangeText(text) {
@@ -129,7 +133,9 @@ class SearchClassScreen extends React.Component {
       language: this.props.languageKey,
     }
 
-    if (text.length >= 2) {
+    if (text.length === 0) {
+      this.handleClear()
+    } else if (text.length >= 2) {
       axios({
         method: 'get',
         url: 'https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=' 
@@ -173,7 +179,7 @@ class SearchClassScreen extends React.Component {
             lightTheme
             autoFocus
             icon={{color: '#DDDDDD'}}
-            clearIcon={{ color: '#DDDDDD', name: 'clear' }}
+            clearIcon={{ color: '#DDDDDD', name: 'close' }}
             containerStyle={styles.searchBarContainer}
             inputStyle={styles.searchBarInput}
             onChangeText={(keyword) => this.setState({keyword})}
@@ -186,8 +192,8 @@ class SearchClassScreen extends React.Component {
           />
           <SearchBar
             lightTheme
-            icon={{color: '#DDDDDD'}}
-            clearIcon={{ color: '#DDDDDD', name: 'clear' }}
+            icon={{color: '#DDDDDD', name: 'location-on'}}
+            clearIcon={{ color: '#DDDDDD', name: 'close' }}
             containerStyle={styles.searchBarContainer}
             inputStyle={inputStyle}
             onFocus={this.handleInputFocus}
