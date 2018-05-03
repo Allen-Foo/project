@@ -16,8 +16,7 @@ import Swiper from 'react-native-swiper';
 import { SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
-import { mockData } from '../../constants/mockData';
-import { Tutor, Separator, Slideshow } from '../../components';
+import { Tutor, Separator, Slideshow, HeaderButton } from '../../components';
 import icons from '../../assets/icon';
 import { Constants } from 'expo';
 import { connect } from 'react-redux';
@@ -32,22 +31,20 @@ class NewsFeedScreen extends React.Component {
     const { params = {} }  = navigation.state;
 
     let headerRight = (
-      <TouchableOpacity 
-        style={styles.headerButtonContainer} 
+      <HeaderButton
         onPress={()=>{
           params.switchToNormalMode()
           params.handleSearch()
-        }}>
-        <Text style={styles.headerButtonText}>{screenProps.locale.common.search}</Text>
-      </TouchableOpacity>
+        }}
+        text={screenProps.locale.common.search}
+      />
     )
 
     let headerLeft = (
-      <TouchableOpacity 
-        style={styles.headerButtonContainer} 
-        onPress={()=>{params.switchToNormalMode ? params.switchToNormalMode() : () => console.warn('not define')}}>
-        <Text style={styles.headerButtonText}>{screenProps.locale.common.cancel}</Text>
-      </TouchableOpacity>
+      <HeaderButton
+        onPress={()=>{params.switchToNormalMode ? params.switchToNormalMode() : () => console.warn('not define')}}
+        text={screenProps.locale.common.cancel}
+      />
     )
     
     return {
@@ -63,7 +60,7 @@ class NewsFeedScreen extends React.Component {
   };
 
   loadMoreItems = () => {
-    this.props.getAllClassList(this.props.allClassList[this.props.allClassList.length -1].classId)
+    this.props.getAllClassList(this.props.allClassList[this.props.allClassList.length - 1].classId)
   }
 
   constructor(props) {
@@ -249,35 +246,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#eee',
   },
-  loadClassButton: {
-    backgroundColor: '#fff',
-    paddingVertical: 10,
-    width: '90%',
-    marginTop: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderRadius: 10
-  },
-  statusBar: {
-    height: Constants.statusBarHeight,
-    width: '100%',
-    backgroundColor: Colors.tintColor,
-  },
-  searchText: {
-    color: '#919191', 
-    paddingVertical: 5
-  },
-  searchButton: {
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#919191',
-    width: '20%',
-    marginRight: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.tintColor,
-  },
   searchBarRowContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -320,13 +288,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
   },
-  headerButtonContainer: {
-    paddingHorizontal: 10,
-  },
-  headerButtonText: {
-    color: '#fff',
-    fontSize: 16,
-  }
 });
 
 const mapStateToProps = (state) => {

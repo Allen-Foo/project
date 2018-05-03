@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
-import { Tutor, Separator, Spinner} from '../../components';
+import { Tutor, Separator, Spinner, HeaderButton } from '../../components';
 import { connect } from 'react-redux';
 import { searchClassList, setFilter } from '../../redux/actions';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
@@ -21,19 +21,17 @@ class AdvancedSearchScreen extends React.Component {
     const { params = {} }  = navigation.state;
 
     let headerLeft = (
-      <TouchableOpacity 
-        style={styles.headerButtonContainer} 
-        onPress={()=>{navigation.goBack(null)}}>
-        <Text style={styles.headerButtonText}>{screenProps.locale.common.cancel}</Text>
-      </TouchableOpacity>
+      <HeaderButton
+        onPress={()=>{navigation.goBack(null)}}
+        text={screenProps.locale.common.cancel}
+      />
     )
 
     let headerRight = (
-      <TouchableOpacity 
-        style={styles.headerButtonContainer} 
-        onPress={()=>{params.handleSearch ? params.handleSearch() : () => console.warn('not define')}}>
-        <Text style={styles.headerButtonText}>{screenProps.locale.common.submit}</Text>
-      </TouchableOpacity>
+      <HeaderButton
+        onPress={()=>{params.handleSearch ? params.handleSearch() : () => console.warn('not define')}}
+        text={screenProps.locale.common.search}
+      />
     )
 
     return {
@@ -307,13 +305,6 @@ const styles = StyleSheet.create({
   },
   chevronContainer: {
     paddingRight: 10,
-  },
-  headerButtonContainer: {
-    paddingHorizontal: 10,
-  },
-  headerButtonText: {
-    color: '#fff',
-    fontSize: 16,
   },
 });
 

@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 
 import { MapView, Constants, Location, Permissions } from 'expo';
-import { Tutor, IndexMarker } from '../../components';
-import { mockData } from '../../constants/mockData';
+import { Tutor, IndexMarker, HeaderButton} from '../../components';
 import { searchClassList } from '../../redux/actions';
 import { FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
 import SearchClassScreen from '../search/SearchClassScreen';
@@ -20,19 +19,17 @@ class SearchScreen extends React.Component {
     const { params = {} }  = navigation.state;
 
     let headerRight = (
-      <TouchableOpacity 
-        style={styles.headerButtonContainer} 
-        onPress={()=>{params.handleSearch ? params.handleSearch() : () => console.warn('not define')}}>
-        <Text style={styles.headerButtonText}>{screenProps.locale.common.search}</Text>
-      </TouchableOpacity>
+      <HeaderButton
+        onPress={()=>{params.handleSearch ? params.handleSearch() : () => console.warn('not define')}}
+        text={screenProps.locale.common.search}
+      />
     )
 
     let headerLeft = (
-      <TouchableOpacity 
-        style={styles.headerButtonContainer} 
-        onPress={()=>{params.switchToNormalMode ? params.switchToNormalMode() : () => console.warn('not define')}}>
-        <Text style={styles.headerButtonText}>{screenProps.locale.common.cancel}</Text>
-      </TouchableOpacity>
+      <HeaderButton
+        onPress={()=>{params.switchToNormalMode ? params.switchToNormalMode() : () => console.warn('not define')}}
+        text={screenProps.locale.common.cancel}
+      />
     )
 
     if (params.searchMode) {
@@ -255,13 +252,6 @@ const styles = StyleSheet.create({
   icon: {
     paddingHorizontal: 8,
   },
-  headerButtonContainer: {
-    paddingHorizontal: 10,
-  },
-  headerButtonText: {
-    color: '#fff',
-    fontSize: 16,
-  }
 });
 
 const mapStateToProps = (state) => {
