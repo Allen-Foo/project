@@ -15,6 +15,7 @@ const defaultState = {
   sort: null,
   isLoading: false,
   filteredClassList: [],
+  isCurrentLocationSelected: false,
 }
 
 export default (state = defaultState, action) => {
@@ -27,7 +28,8 @@ export default (state = defaultState, action) => {
     case SET_ADDRESS:
       return {
         ...state,
-        address: action.payload,
+        address: action.payload.address,
+        isCurrentLocationSelected: action.payload.isCurrentLocationSelected
       }
     case SET_FILTER:
       return {

@@ -37,7 +37,7 @@ class SearchClassScreen extends React.Component {
     this.state = {
       address: props.address,
       keyword: props.keyword,
-      isCurrentLocationSelected: false,
+      isCurrentLocationSelected: props.isCurrentLocationSelected,
       latitude: 22.2965866,
       longitude: 114.1748086,
       error: null,
@@ -90,18 +90,19 @@ class SearchClassScreen extends React.Component {
   }
 
   handleSearch = () => {
-    let {address, keyword} = this.state;
+    let {address, keyword, isCurrentLocationSelected} = this.state;
     this.props.setKeyword(keyword.toLowerCase())
-    // this.props.setAddress(address)
+    this.props.setAddress(address, isCurrentLocationSelected)
     this.props.switchToNormalMode()
     this.props.searchClassList()
     this.props.navigation.navigate('Search')
   }
 
   handleCurrentLocationPress = () => {
+    let currentAddress = this.props.locale.searchResult.placeholder.currentLocation
     this.setState({
       isCurrentLocationSelected: true,
-      address: this.props.locale.searchResult.placeholder.currentLocation,
+      address: currentAddress,
     })
     // get current location, and go to search
     this.props.setFilter({
@@ -110,6 +111,8 @@ class SearchClassScreen extends React.Component {
         lng: this.state.longitude,
       }
     })
+    this.props.setAddress(currentAddress, true)
+
     this.props.searchClassList()
     this.props.navigation.navigate('Search')
   }
@@ -120,6 +123,7 @@ class SearchClassScreen extends React.Component {
         isCurrentLocationSelected: false,
         address: null
       })
+      this.props.setAddress(null, false)
       setFilter({location: null})
     }
   }
@@ -286,6 +290,7 @@ const mapStateToProps = (state) => {
     languageKey: state.language.key,
     address: state.filter.address,
     keyword: state.filter.keyword,
+    isCurrentLocationSelected: state.filter.isCurrentLocationSelected,
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
@@ -298,6 +303,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   searchClassList,
   setKeyword,
-  // setAddress,
+  setAddress,
   setFilter,
 })(SearchClassScreen)

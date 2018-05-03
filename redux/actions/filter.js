@@ -17,10 +17,13 @@ export function setKeyword(keyword) {
   };
 }
 
-export function setAddress(address) {
+export function setAddress(address, isCurrentLocationSelected = false) {
   return {
     type: SET_ADDRESS,
-    payload: address
+    payload: {
+      address,
+      isCurrentLocationSelected
+    }
   };
 }
 

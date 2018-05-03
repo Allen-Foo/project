@@ -146,20 +146,19 @@ class SearchClassResultScreen extends React.Component {
 }
 
 const SearchBar = props => {
-  let address = props.address || props.locale.searchResult.placeholder.currentLocation
   let placeholder = (
     <Text style={{color: '#999'}}>
      {props.locale.searchResult.placeholder.typeHere}
     </Text>
   )
-  if (props.keyword) {
+  if (props.keyword || props.address) {
     placeholder = (
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Text style={{color: '#333'}}>
           {props.keyword}
         </Text>
         <Text style={{color: '#999', fontSize: 12, paddingLeft: 10,}}>
-          {address}
+          {props.address}
         </Text>
       </View>
     )
