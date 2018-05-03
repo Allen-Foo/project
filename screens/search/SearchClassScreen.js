@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  FlatList,
   Image,
   Platform,
   ScrollView,
@@ -8,20 +7,15 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Dimensions,
   PixelRatio,
 } from 'react-native';
 
 import { Constants, Location, Permissions } from 'expo';
 
-import Swiper from 'react-native-swiper';
-let {width, height} = Dimensions.get('window');
-import { Slideshow, Spinner} from '../../components';
+import { Spinner} from '../../components';
 import { SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
-import { mockData } from '../../constants/mockData';
-import icons from '../../assets/icon';
 import { connect } from 'react-redux';
 import { searchClassList, setKeyword, setAddress, setFilter } from '../../redux/actions';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -142,14 +136,10 @@ class SearchClassScreen extends React.Component {
               + encodeURIComponent(text) + '&' + Qs.stringify(query)
       }).then(res => {
         // console.warn('res', res)
-        this.setState({
-          dataSource: res.data.predictions,
-        });
+        this.setState({dataSource: res.data.predictions});
       })
     } else {
-      this.setState({
-        dataSource: [],
-      });
+      this.setState({dataSource: []});
     }
   }
 
@@ -165,8 +155,6 @@ class SearchClassScreen extends React.Component {
       url: 'https://maps.googleapis.com/maps/api/place/details/json?' + Qs.stringify(query)
     }).then(res => {
       this.setState({address: res.data.result.formatted_address})
-        console.warn('res', res.data)
-
       this.props.setFilter({location: res.data.result.geometry.location})
     })
   } 
@@ -291,7 +279,6 @@ const mapStateToProps = (state) => {
     address: state.filter.address,
     keyword: state.filter.keyword,
     isCurrentLocationSelected: state.filter.isCurrentLocationSelected,
-    languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     filteredClassList: state.classes.filteredClassList,

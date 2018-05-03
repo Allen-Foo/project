@@ -1,27 +1,16 @@
 import React from 'react';
 import {
-  FlatList,
-  Image,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Dimensions,
   AsyncStorage,
   Slider,
   Picker,
 } from 'react-native';
 
-import Swiper from 'react-native-swiper';
-let {width, height} = Dimensions.get('window');
-import { SearchBar } from 'react-native-elements';
-import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
-import { mockData } from '../../constants/mockData';
 import { Tutor, Separator, Spinner} from '../../components';
-import icons from '../../assets/icon';
 import { connect } from 'react-redux';
 import { searchClassList, setFilter } from '../../redux/actions';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
@@ -63,10 +52,10 @@ class AdvancedSearchScreen extends React.Component {
 
     this.state = {
       searchPrice: props.filter && props.filter.searchPrice,
-      showPicker: false,
       chargeType: props.filter && props.filter.chargeType,
       category: props.filter && props.filter.category,
       skill: props.filter && props.filter.skill,
+      showPicker: false,
     }
   }
 
@@ -81,7 +70,7 @@ class AdvancedSearchScreen extends React.Component {
     let {showPicker, ...rest} = this.state
     this.props.setFilter(rest)
     this.props.searchClassList()
-    this.props.navigation.navigate('Search', rest)
+    this.props.navigation.goBack(null)
   }
 
   handleCategoryReturnData = (categoryData) => {
@@ -169,7 +158,6 @@ class AdvancedSearchScreen extends React.Component {
         }
         { isLoading && <Spinner intensity={30}/> }
       </View>
-      
     );
   }
 }
@@ -320,19 +308,6 @@ const styles = StyleSheet.create({
   chevronContainer: {
     paddingRight: 10,
   },
-  submitButton: {
-    position: 'absolute',
-    bottom: '5%',
-    left: '10%',
-    right: '10%',
-    backgroundColor: Colors.tintColor,
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-  submitText: {
-    color: '#fff',
-    paddingVertical: 10,
-  },
   headerButtonContainer: {
     paddingHorizontal: 10,
   },
@@ -354,6 +329,6 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-    searchClassList,
-    setFilter,
+  searchClassList,
+  setFilter,
 })(AdvancedSearchScreen)
