@@ -8,13 +8,21 @@ import {
 
 import Colors from '../constants/Colors';
 
-export default NextButton = props => {
+const NextButton = props => {
   return (
     <TouchableOpacity onPress={props.onPress} style={styles.nextButton}>
       <Text style={styles.nextText}>{props.text}</Text>
     </TouchableOpacity>
   )
 }
+
+const HeaderButton = props => (
+  <TouchableOpacity 
+    style={styles.headerButtonContainer} 
+    onPress={()=>props.onPress()}>
+    <Text style={styles.headerButtonText}>{props.text}</Text>
+  </TouchableOpacity>
+)
 
 const styles = StyleSheet.create({
   nextButton: {
@@ -29,5 +37,17 @@ const styles = StyleSheet.create({
   nextText: {
     color: '#fff',
     paddingVertical: 10,
-  }
+  },
+  headerButtonContainer: {
+    paddingHorizontal: 10,
+  },
+  headerButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
 })
+
+export {
+  NextButton,
+  HeaderButton,
+}
