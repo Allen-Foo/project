@@ -95,7 +95,7 @@ class SearchScreen extends React.Component {
   }
 
   renderMap = () => {
-    let { filteredClassList } = this.props;
+    let { filteredClassList, locale, keyword, address } = this.props;
 
     return (
       <View style={styles.container}>
@@ -138,6 +138,9 @@ class SearchScreen extends React.Component {
           handleTextInputPress={this.switchToSearchMode}
           handleFilterPress={() => this.props.navigation.navigate('AdvancedSearch')}
           handleToggleMode={() => this.toggleMode()}
+          locale={locale}
+          keyword={keyword}
+          address={address}
         />
         {
           this.state.selectedMarkerIndex !== null && filteredClassList[this.state.selectedMarkerIndex] &&
@@ -176,6 +179,24 @@ class SearchScreen extends React.Component {
 }
 
 const SearchBar = props => {
+  let placeholder = (
+    <Text style={{color: '#999'}}>
+     {props.locale.searchResult.placeholder.typeHere}
+    </Text>
+  )
+  if (props.keyword || props.address) {
+    placeholder = (
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={{color: '#333'}}>
+          {props.keyword}
+        </Text>
+        <Text style={{color: '#999', fontSize: 12, paddingLeft: 10,}}>
+          {props.address}
+        </Text>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.searchBarContainer}>
       <MaterialIcons
@@ -185,9 +206,7 @@ const SearchBar = props => {
         style={styles.icon}
       />
       <TouchableOpacity style={styles.inputStyle} onPress={() => props.handleTextInputPress()}>
-        <Text style={{color: '#999'}}>
-         {'Type Here...'}
-        </Text>
+        { placeholder }
       </TouchableOpacity>
       <TouchableOpacity onPress={() => props.handleFilterPress()}>
         <FontAwesome
@@ -255,8 +274,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  // console.warn('state', state)
   return {
+    keyword: state.filter.keyword,
+    address: state.filter.address,
     locale: state.language.locale,
     filteredClassList: state.filter.filteredClassList,
   }

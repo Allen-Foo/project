@@ -216,7 +216,7 @@ class SearchClassScreen extends React.Component {
               color={'purple'}
               style={styles.locationArrow}
             />
-            <Text style={{color: 'purple'}}>
+            <Text style={{color: 'purple', fontSize: 15}}>
               {this.props.locale.searchResult.placeholder.currentLocation}
             </Text>
           </TouchableOpacity>
@@ -228,7 +228,7 @@ class SearchClassScreen extends React.Component {
               style={styles.addressRow}
               onPress={() => this.handlePressAddress(data)}
             >
-              <Text numberOfLines={1} style={{fontWeight: '600', fontSize: 13}}>{data.description}</Text>
+              <Text numberOfLines={1} style={{fontWeight: '600', fontSize: 15}}>{data.description}</Text>
             </TouchableOpacity>
           ))
         }
