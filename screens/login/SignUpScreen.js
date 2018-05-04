@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: 'grey', 
     flexDirection: 'row',
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingLeft: 10,
     backgroundColor: '#fff',
     width: '100%',
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   textInput: {
-    height: 40, 
+    paddingVertical: 15, 
     borderColor: 'grey', 
     borderBottomWidth: 1, 
     width: '100%',
@@ -275,8 +275,10 @@ const styles = StyleSheet.create({
   },
   phoneNumber: {
     fontSize: 14,
+    paddingVertical: 6,
     backgroundColor: '#fff',
     paddingLeft :20,
+    width: '100%'
   },
   button: {
     height: 40, 
