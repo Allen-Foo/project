@@ -54,6 +54,10 @@ class SigninScreen extends React.Component {
     }
   }
 
+  _handleSubmit = (email, password) => {
+    this.props.signInEmail(email, password);
+  }
+
   validateInput() {
     const { email, password } = this.state;
     if (!email) {
@@ -101,49 +105,40 @@ class SigninScreen extends React.Component {
           color={'#CF563C'}
           onPress={() => {signInGoogle()}}
         />
-        <View style={{width: '80%'}}>
+        <View style={{width: '80%', paddingVertical: 15}}>
           <Hr text="Or" marginLeft={0} marginRight={0}/>
         </View>
         
-        <HideoTextInput
-          autoCapitalize={'none'}
-          iconClass={MaterialIcons}
-          iconName={'email'}
-          iconColor={'white'}
-          // this is used as backgroundColor of icon container view.
-          iconBackgroundColor={'#EAB083'}
-          style={{width: "80%", marginTop: 20, borderWidth: 1, borderColor: '#EAB083'}}
-          inputStyle={{ color: '#464949', fontSize: 16}}
-          onChangeText={email => { this.setState({email}) }}
+        <TextInput
+          style={styles.textInput}
+          placeholder={locale.signin.textInput.email.placeholder}
+          onChangeText={(email) => this.setState({email})}
           value={this.state.email}
+          returnKeyType={"next"}
         />
 
-        <HideoTextInput
-          autoCapitalize={'none'}
-          secureTextEntry={true}
-          iconClass={MaterialIcons}
-          iconName={'vpn-key'}
-          iconColor={'white'}
-          iconBackgroundColor={'#EAB083'}
-          style={{width: "80%", marginTop: 10, borderWidth: 1, borderColor: '#EAB083'}}
-          inputStyle={{ color: '#464949', fontSize: 16}}
-          onChangeText={password => { this.setState({password}) }}
+        <TextInput
+          style={styles.textInput}
+          placeholder={locale.signin.textInput.password.placeholder}
+          onChangeText={(password) => this.setState({password})}
           value={this.state.password}
+          returnKeyType={"done"}
+          onSubmitEditing={(email, password) => this._handleSubmit(this.state.email, this.state.password)}
         />
-        
-        
+
         <TouchableOpacity 
-          style={[styles.button, {marginTop: 20} ]}
+          style={[styles.button, {marginTop: 20}]}
           onPress={() => this.validateInput()}
         >
           <Text style={{color: 'white'}}> {locale.signin.text.signIn.label} </Text>
         </TouchableOpacity>
 
         <Text>{locale.forgotPassword.text.forgotPassword.label}</Text>
-        <Text onPress={() => this.props.navigation.navigate('PreSignUp')}>
-          {this.props.locale.profile.text.signUp} 
-        </Text>
-
+        <TouchableOpacity style={[styles.button, {backgroundColor: '#ececec'}]} onPress={() => this.props.navigation.navigate('PreSignUp')}>
+          <Text style={{color: '#a4a5a7'}}>
+            {locale.profile.text.signUp} 
+          </Text>
+        </TouchableOpacity>
         { this.props.isLoading && <Spinner /> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>
@@ -185,6 +180,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center', 
     borderRadius: 10, 
+  },
+  textInput: {
+    height: 50,
+    width: '80%',
+    paddingLeft: 10,
+    borderWidth: 1,
+    borderColor: '#c1cfd4',
+    marginTop: 20,
   }
 });
 
