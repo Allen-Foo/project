@@ -122,6 +122,7 @@ class SigninScreen extends React.Component {
           placeholder={locale.signin.textInput.password.placeholder}
           onChangeText={(password) => this.setState({password})}
           value={this.state.password}
+          secureTextEntry={true}
           returnKeyType={"done"}
           onSubmitEditing={(email, password) => this._handleSubmit(this.state.email, this.state.password)}
         />
