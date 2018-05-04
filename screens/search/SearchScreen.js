@@ -140,7 +140,7 @@ class SearchScreen extends React.Component {
           handleToggleMode={() => this.toggleMode()}
         />
         {
-          this.state.selectedMarkerIndex !== null &&
+          this.state.selectedMarkerIndex !== null && filteredClassList[this.state.selectedMarkerIndex] &&
           <View style={styles.bottomViewClassDetail}>
             <Tutor 
               data={filteredClassList[this.state.selectedMarkerIndex]}
