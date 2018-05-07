@@ -6,6 +6,7 @@ import {
   SEARCH_CLASS_LIST,
   SEARCH_CLASS_LIST_SUCCESS,
   SEARCH_CLASS_LIST_FAIL,
+  SET_CURRENT_LOCATION,
 } from '../types'
 
 const defaultState = {
@@ -15,6 +16,7 @@ const defaultState = {
   sort: null,
   isLoading: false,
   filteredClassList: [],
+  currentLocation: null,
   isCurrentLocationSelected: false,
 }
 
@@ -40,6 +42,11 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         sort: action.payload,
+      }
+    case SET_CURRENT_LOCATION:
+      return {
+        ...state,
+        currentLocation: action.payload,
       }
     case SEARCH_CLASS_LIST:
       // console.warn('here', 'SEARCH_CLASS_LIST')

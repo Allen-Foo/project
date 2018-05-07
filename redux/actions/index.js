@@ -35,6 +35,7 @@ import {
   setAddress,
   setFilter,
   setSort,
+  setCurrentLocation,
   searchClassList,
 } from './filter';
 
@@ -71,4 +72,5 @@ export {
   setFilter,
   setSort,
   duplicateClass,
+  setCurrentLocation,
 }

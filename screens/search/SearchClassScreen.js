@@ -17,7 +17,7 @@ import { SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { searchClassList, setKeyword, setAddress, setFilter } from '../../redux/actions';
+import { searchClassList, setKeyword, setAddress, setFilter, setCurrentLocation } from '../../redux/actions';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import Qs from 'qs';
 import axios from 'axios';
@@ -63,7 +63,7 @@ class SearchClassScreen extends React.Component {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           error: null,
-        });
+        }, () => this.props.setCurrentLocation(position.coords));
       },
       (error) => {
         this.setState({
@@ -298,4 +298,5 @@ export default connect(mapStateToProps, {
   setKeyword,
   setAddress,
   setFilter,
+  setCurrentLocation,
 })(SearchClassScreen)

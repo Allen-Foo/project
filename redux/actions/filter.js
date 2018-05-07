@@ -6,6 +6,7 @@ import {
   SEARCH_CLASS_LIST,
   SEARCH_CLASS_LIST_FAIL,
   SEARCH_CLASS_LIST_SUCCESS,
+  SET_CURRENT_LOCATION,
 } from '../types'
 
 import { Observable } from 'rxjs/Observable';
@@ -39,6 +40,13 @@ export function setSort(sort) {
     type: SET_SORT,
     payload: sort
   };
+}
+
+export function setCurrentLocation(location) {
+  return {
+    type: SET_CURRENT_LOCATION,
+    payload: location
+  }
 }
 
 export function searchClassList() {
