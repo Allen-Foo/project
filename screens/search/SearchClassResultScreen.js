@@ -73,9 +73,10 @@ class SearchClassResultScreen extends React.Component {
           {
             list && list.map((cls, index) => {
               let clsLocation = cls.address.coordinate
-              if (clsLocation && clsLocation.lat && clsLocation.lng && currentLocation && currentLocation.latitude && currentLocation.longitude) {
-                let distance = calcDistanceBetween(clsLocation.lat, clsLocation.lng, currentLocation.latitude, currentLocation.longitude)
-                cls.distance = distance;
+              if (clsLocation === 'On site') {
+                cls.distance = 'On site'
+              } else if (clsLocation && clsLocation.lat && clsLocation.lng && currentLocation && currentLocation.latitude && currentLocation.longitude) {
+                cls.distance = calcDistanceBetween(clsLocation.lat, clsLocation.lng, currentLocation.latitude, currentLocation.longitude)
               }
               return (
                 <View key={index} style={{width: '100%'}}>

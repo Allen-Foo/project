@@ -72,9 +72,11 @@ class Tutor extends React.Component {
               <View style={styles.distance}>
                 <Text style={styles.distanceText}>
                   {
-                    data.distance < 1
-                    ? `${parseFloat(data.distance * 1000).toFixed(1)} m`
-                    : `${parseFloat(data.distance).toFixed(1)} km`
+                    data.distance == 'On site'
+                    ? locale.classAddress.label.onSite
+                    : data.distance < 1
+                      ? `${parseFloat(data.distance * 1000).toFixed(1)} m`
+                      : `${parseFloat(data.distance).toFixed(1)} km`
                   }
                 </Text>
               </View>
