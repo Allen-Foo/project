@@ -21,6 +21,7 @@ import { Tutor, Separator, Spinner } from '../../components';
 import icons from '../../assets/icon';
 import { connect } from 'react-redux';
 import { searchClassList, sortClassList, setSort } from '../../redux/actions';
+import { calcDistanceBetween } from '../../lib/Helpers';
 
 class SearchClassResultScreen extends React.Component {
 
@@ -65,16 +66,24 @@ class SearchClassResultScreen extends React.Component {
   }
 
   renderList = (list) => {
+    let { currentLocation } = this.props;
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.searchBarRowContainer}>
           {
-            list && list.map((cls, index) => (
-              <View key={index} style={{width: '100%'}}>
-                <Tutor data={cls} onPress={() => this.props.navigation.navigate('TutorDetail', {classId: cls.classId})} />
-                <Separator style={{backgroundColor: '#aaa'}}/>
-              </View>
-            ))
+            list && list.map((cls, index) => {
+              let clsLocation = cls.address.coordinate
+              if (clsLocation && clsLocation.lat && clsLocation.lng && currentLocation && currentLocation.latitude && currentLocation.longitude) {
+                let distance = calcDistanceBetween(clsLocation.lat, clsLocation.lng, currentLocation.latitude, currentLocation.longitude)
+                cls.distance = distance;
+              }
+              return (
+                <View key={index} style={{width: '100%'}}>
+                  <Tutor data={cls} onPress={() => this.props.navigation.navigate('TutorDetail', {classId: cls.classId})} />
+                  <Separator style={{backgroundColor: '#aaa'}}/>
+                </View>
+              )
+            })
           }
         </View>
       </ScrollView>
@@ -311,6 +320,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    currentLocation: state.filter.currentLocation,
     languageKey: state.language.key,
     locale: state.language.locale,
     isLoading: state.filter.isLoading,

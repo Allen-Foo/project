@@ -67,6 +67,18 @@ class Tutor extends React.Component {
               resizeMode={'cover'}
               onPress={onPress}
             />
+            {
+              data.distance &&
+              <View style={styles.distance}>
+                <Text style={styles.distanceText}>
+                  {
+                    data.distance < 1
+                    ? `${parseFloat(data.distance * 1000).toFixed(1)} m`
+                    : `${parseFloat(data.distance).toFixed(1)} km`
+                  }
+                </Text>
+              </View>
+            }
           </View>
           <View style={{paddingLeft: 5}}>
             <Text style={styles.className}> {data.title} </Text>
@@ -121,7 +133,6 @@ class Tutor extends React.Component {
             />
           </TouchableOpacity>
         }
-        
       </View>
     );
   }
@@ -183,6 +194,15 @@ const styles = StyleSheet.create({
     right: '0.2%',
     top: '-0.1%',
   },
+  distance: {
+    position: 'absolute',
+    right: 10,
+    bottom: 10,
+    backgroundColor: 'transparent',
+  },
+  distanceText: {
+    color: '#fff',
+  }
 });
 
 const mapStateToProps = (state) => {
