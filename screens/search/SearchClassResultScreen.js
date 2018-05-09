@@ -30,14 +30,17 @@ class SearchClassResultScreen extends React.Component {
     this.state = {
       sortingItem: null,
       showPicker: false,
-      sortType: props.sort && props.sort.sortType,
+      sortType: props.sort && props.sort.sortType || 'distance',
       isAscending: props.sort && props.sort.isAscending,
     }
   }
 
   showPicker = () => {this.setState({ showPicker: true })}
+
   hidePicker = () => {this.setState({ showPicker: false })}
+
   handleCancel = () => {this.hidePicker()}
+
   handleConfirm = (v) => {
     this.setState({sortingItem: v}, () => {
       // console.warn('sortingItem', this.state.sortingItem)
@@ -48,6 +51,7 @@ class SearchClassResultScreen extends React.Component {
       this.props.setSort({sortType, isAscending})
       
       this.props.searchClassList()
+      this.setState({sortType, isAscending})
     })
     this.hidePicker()
   }
@@ -66,18 +70,11 @@ class SearchClassResultScreen extends React.Component {
   }
 
   renderList = (list) => {
-    let { currentLocation } = this.props;
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.searchBarRowContainer}>
           {
             list && list.map((cls, index) => {
-              let clsLocation = cls.address.coordinate
-              if (clsLocation === 'On site') {
-                cls.distance = 'On site'
-              } else if (clsLocation && clsLocation.lat && clsLocation.lng && currentLocation && currentLocation.latitude && currentLocation.longitude) {
-                cls.distance = calcDistanceBetween(clsLocation.lat, clsLocation.lng, currentLocation.latitude, currentLocation.longitude)
-              }
               return (
                 <View key={index} style={{width: '100%'}}>
                   <Tutor data={cls} onPress={() => this.props.navigation.navigate('TutorDetail', {classId: cls.classId})} />
@@ -97,7 +94,11 @@ class SearchClassResultScreen extends React.Component {
     } else if (this.props.filteredClassList.length < 1) {
       return this.renderEmptyPage()
     } else {
-      return this.renderList(this.props.filteredClassList)
+      let list = this.injectDistance(this.props.filteredClassList);
+      if (this.state.sortType === 'distance') {
+        return this.renderList(this.sortByDistance(list))
+      }
+      return this.renderList(list)
     }
   }
 
@@ -108,6 +109,38 @@ class SearchClassResultScreen extends React.Component {
       return isAscend + sortType
     }
     return null
+  }
+
+  injectDistance(list) {
+    let { currentLocation } = this.props;
+    return list.map((cls, index) => {
+      let clsLocation = cls.address.coordinate
+      if (clsLocation === 'On site') {
+        cls.distance = 'On site'
+      } else if (clsLocation && clsLocation.lat && clsLocation.lng && currentLocation && currentLocation.latitude && currentLocation.longitude) {
+        cls.distance = calcDistanceBetween(clsLocation.lat, clsLocation.lng, currentLocation.latitude, currentLocation.longitude)
+      }
+      return cls
+    })
+  }
+
+  sortByDistance(list) {
+    return list.sort((a, b) => {
+      let distanceA = a.distance
+      let distanceB = b.distance
+
+      if (distanceA && distanceB) {
+        if (distanceA && distanceA == 'On site') {
+          distanceA = 0
+        } 
+        if (distanceB && distanceB == 'On site') {
+          distanceB = 0
+        }
+        return distanceA - distanceB
+      } else {
+        return 0
+      }
+    })
   }
 
   render() {
