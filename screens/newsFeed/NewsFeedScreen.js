@@ -83,7 +83,9 @@ class NewsFeedScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getAllClassList()
+    if (!this.props.allClassList || this.props.allClassList.length == 0) {
+      this.props.getAllClassList()
+    }
 
     this.setState({
       interval: setInterval(() => {

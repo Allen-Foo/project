@@ -57,7 +57,10 @@ class ClassListScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getClassList(this.props.userId)
+    // if the store has some items, don't fetch
+    if (!this.props.classList || this.props.classList.length == 0) {
+      this.props.getClassList(this.props.userId)
+    }
   }
 
   componentDidMount() {
@@ -124,7 +127,7 @@ class ClassListScreen extends React.Component {
     return (
       <FlatList
         contentContainerStyle={styles.listContainer}
-        data={classList.sort((a, b) => a.title.localeCompare(b.title))}
+        data={classList}
         keyExtractor={(item) => (item.classId)}
         renderItem={({item}) => {
           item.uri = item.photoList[0].location
