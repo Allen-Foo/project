@@ -4,7 +4,8 @@ import {
   StyleSheet, 
   View, 
   Text, 
-  TextInput, 
+  TextInput,
+  Keyboard,
   Alert,
   TouchableOpacity
 } from 'react-native';
@@ -55,6 +56,7 @@ class SigninScreen extends React.Component {
   }
 
   _handleSubmit = (email, password) => {
+    Keyboard.dismiss()
     this.props.signInEmail(email, password);
   }
 
@@ -66,7 +68,7 @@ class SigninScreen extends React.Component {
       Alert.alert('password is empty!')
     } else {
       // submit to server
-      this.props.signInEmail(email, password);
+      this._handleSubmit(email, password);
     }
   }
 
