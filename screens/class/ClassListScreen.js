@@ -10,11 +10,12 @@ import {
   View,
   Dimensions,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { getClassList, deleteClass } from '../../redux/actions';
+import { getClassList, deleteClass, duplicateClass } from '../../redux/actions';
 import { Separator, Spinner, Toast, ClassItem} from '../../components';
 import Swipeout from 'react-native-swipeout';
 
@@ -43,7 +44,6 @@ class ClassListScreen extends React.Component {
   };
 
   loadMoreItems = () => {
-    // console.warn('loadMoreItems')
     this.props.getClassList(this.props.userId, this.props.classList[this.props.classList.length -1].classId)
   }
 
@@ -91,17 +91,40 @@ class ClassListScreen extends React.Component {
   };
 
   renderClassList = (classList) => {
+
     const getSwipeoutBtns = (item) => [
       {
+        text: this.props.locale.common.duplicate,
+        onPress: () => 
+          Alert.alert(
+          this.props.locale.classList.duplicateClass,
+          null,
+          [
+            {text: this.props.locale.common.cancel, onPress: () => this.props.navigation.goBack()},
+            {text: this.props.locale.common.okMsg, onPress: () => this.props.duplicateClass(item)},
+          ],
+        ),
+        backgroundColor: Colors.tintColor,
+      },
+      {
         text: this.props.locale.common.delete,
-        onPress: () => this.props.deleteClass(item),
+        onPress: () => 
+          Alert.alert(
+          this.props.locale.classList.deleteClass,
+          null,
+          [
+            {text: this.props.locale.common.cancel, onPress: () => this.props.navigation.goBack()},
+            {text: this.props.locale.common.okMsg, onPress: () => this.props.deleteClass(item)},
+          ],
+        ),
         type: 'delete',
       }
+
     ]
     return (
       <FlatList
         contentContainerStyle={styles.listContainer}
-        data={classList}
+        data={classList.sort((a, b) => a.title.localeCompare(b.title))}
         keyExtractor={(item) => (item.classId)}
         renderItem={({item}) => {
           item.uri = item.photoList[0].location
@@ -121,7 +144,7 @@ class ClassListScreen extends React.Component {
         ListFooterComponent={this.renderFooter}
         onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false;}}
         onMomentumScrollEnd={() => {
-          if (this.shouldLoadMore && this.props.isLastClass == false) {
+          if (this.shouldLoadMore && this.props.isLastClassList == false) {
             this.loadMoreItems();
             this.shouldLoadMore = false
           }
@@ -196,7 +219,7 @@ const mapStateToProps = (state) => {
     userId: state.socialLogin.user && state.socialLogin.user.userId,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    isLastClassList: state.classes.isLastClass,
+    isLastClassList: state.classes.isLastClassList,
     classList: state.classes.classList,
     requireUpdateClassList: state.classes.requireUpdateClassList,
     fetchErrorMsg: state.classes.fetchErrorMsg,
@@ -207,4 +230,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getClassList,
   deleteClass,
+  duplicateClass,
 })(ClassListScreen)

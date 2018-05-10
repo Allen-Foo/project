@@ -11,6 +11,7 @@ import {
   giveComment,
   getFavouriteClassList,
   applyClass,
+  duplicateClass,
 } from './classes';
 
 import { signInEmail,
@@ -69,4 +70,5 @@ export {
   searchClassList,
   setFilter,
   setSort,
+  duplicateClass,
 }

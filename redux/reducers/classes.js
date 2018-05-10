@@ -31,6 +31,9 @@ import {
   APPLY_CLASS,
   APPLY_CLASS_SUCCESS,
   APPLY_CLASS_FAIL,
+  DUPLICATE_CLASS,
+  DUPLICATE_CLASS_SUCCESS,
+  DUPLICATE_CLASS_FAIL,
 } from '../types';
 
 const defaultState = {
@@ -166,6 +169,29 @@ export default (state = {...defaultState}, action) => {
         classDetail: null,
       };
     case DELETE_CLASS_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        requireUpdateClassList: false,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case DUPLICATE_CLASS:
+      return {
+        ...state,
+        isLoading: true,
+        requireUpdateClassList: false,
+      }
+    case DUPLICATE_CLASS_SUCCESS:
+      console.warn('DUPLICATE_CLASS_SUCCESS') 
+      return {
+        ...state,
+        isLoading: false,
+        classList: [],
+        requireUpdateClassList: true,
+        // classDetail: null,
+      };
+    case DUPLICATE_CLASS_FAIL:
       return {
         ...state,
         isLoading: false,

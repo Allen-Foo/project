@@ -28,6 +28,9 @@ import {
   APPLY_CLASS,
   APPLY_CLASS_SUCCESS,
   APPLY_CLASS_FAIL,
+  DUPLICATE_CLASS,
+  DUPLICATE_CLASS_SUCCESS,
+  DUPLICATE_CLASS_FAIL,
 } from '../types';
 
 import { Observable } from 'rxjs/Observable';
@@ -71,6 +74,13 @@ export function updateClass(newClass) {
 export function deleteClass(cls) {
   return {
     type: DELETE_CLASS,
+    payload: cls
+  }
+}
+
+export function duplicateClass(cls) {
+  return {
+    type: DUPLICATE_CLASS,
     payload: cls
   }
 }
@@ -194,10 +204,32 @@ export const deleteClassEpic = (action$, store, { request }) =>
       }))
     )
 
+export const duplicateClassEpic = (action$, store, { request }) =>
+  action$.ofType(DUPLICATE_CLASS)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: `/duplicateClass/${action.payload.classId}`,
+        method: 'post',
+        data: {
+          ...action.payload
+        } 
+      }))
+      .map(res => {
+        return {
+          type: DUPLICATE_CLASS_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: DUPLICATE_CLASS_FAIL,
+        payload: err.message
+      }))
+    )
+
 
 // this epic will create a class at dynamoDb
 export const getClassListEpic = (action$, store, { request }) =>
-  action$.ofType(GET_CLASS_LIST, CREATE_CLASS_SUCCESS, UPDATE_CLASS_SUCCESS, DELETE_CLASS_SUCCESS)
+  action$.ofType(GET_CLASS_LIST, CREATE_CLASS_SUCCESS, UPDATE_CLASS_SUCCESS, DELETE_CLASS_SUCCESS, DUPLICATE_CLASS_SUCCESS)
     .mergeMap(action => 
       Observable.fromPromise(request({
         url: '/getClassList',

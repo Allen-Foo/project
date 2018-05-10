@@ -37,7 +37,8 @@ import {
   getAllClassListEpic,
   giveCommentEpic,
   getFavouriteClassListEpic,
-  applyClassEpic
+  applyClassEpic,
+  duplicateClassEpic,
 } from '../actions/classes';
 
 import {
@@ -82,4 +83,5 @@ export const rootEpic = combineEpics(
   applyClassEpic,
   getAppliedClassListEpic,
   searchClassListEpic,
+  duplicateClassEpic,
 )
