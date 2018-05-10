@@ -115,6 +115,7 @@ class SigninScreen extends React.Component {
           onChangeText={(email) => this.setState({email})}
           value={this.state.email}
           returnKeyType={"next"}
+          autoCapitalize = 'none'
         />
 
         <TextInput
