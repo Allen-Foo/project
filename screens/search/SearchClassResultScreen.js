@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
   Dimensions,
   Picker,
@@ -252,32 +253,36 @@ class SortingPicker extends React.Component {
     const { sortingItem, locale, onCancel, onConfirm } = this.props;
     // console.warn('SortingPicker, sortingItem', this.state.sortingItem)
     return (
-      <View style={styles.pickerContainer}>
-        <View style={styles.innerRowContainer}>
-          <TouchableOpacity onPress={() => onCancel()}>
-            <Text style={[styles.text, {color: '#FF5A5F', }]}>
-              {locale.common.cancel} 
-            </Text>
-          </TouchableOpacity>
-          {
-            <TouchableOpacity onPress={() => onConfirm(this.state.sortingItem)}>
-              <Text style={[styles.text, {color: '#666', }]}>
-                {locale.common.confirm} 
-              </Text>
-            </TouchableOpacity>  
-          }
+      <TouchableWithoutFeedback onPress={() => onCancel()}>
+        <View style={styles.emptyArea}>
+          <View style={styles.pickerContainer}>
+            <View style={styles.innerRowContainer}>
+              <TouchableOpacity onPress={() => onCancel()}>
+                <Text style={[styles.text, {color: '#FF5A5F', }]}>
+                  {locale.common.cancel} 
+                </Text>
+              </TouchableOpacity>
+              {
+                <TouchableOpacity onPress={() => onConfirm(this.state.sortingItem)}>
+                  <Text style={[styles.text, {color: '#666', }]}>
+                    {locale.common.confirm} 
+                  </Text>
+                </TouchableOpacity>  
+              }
+            </View>
+            <Picker
+              selectedValue={this.state.sortingItem}
+              onValueChange={(itemValue) => this.setState({sortingItem: itemValue})}>
+              <Picker.Item label={locale.searchResult.label.ascfee} value={'ascfee'} />
+              <Picker.Item label={locale.searchResult.label.desfee} value={'desfee'} />
+              <Picker.Item label={locale.searchResult.label.asctotalRatings} value={'asctotalRatings'} />
+              <Picker.Item label={locale.searchResult.label.destotalRatings} value={'destotalRatings'} />
+              <Picker.Item label={locale.searchResult.label.asctotalComments} value={'asctotalComments'} />
+              <Picker.Item label={locale.searchResult.label.destotalComments} value={'destotalComments'} />
+            </Picker>
+          </View>
         </View>
-        <Picker
-          selectedValue={this.state.sortingItem}
-          onValueChange={(itemValue) => this.setState({sortingItem: itemValue})}>
-          <Picker.Item label={locale.searchResult.label.ascfee} value={'ascfee'} />
-          <Picker.Item label={locale.searchResult.label.desfee} value={'desfee'} />
-          <Picker.Item label={locale.searchResult.label.asctotalRatings} value={'asctotalRatings'} />
-          <Picker.Item label={locale.searchResult.label.destotalRatings} value={'destotalRatings'} />
-          <Picker.Item label={locale.searchResult.label.asctotalComments} value={'asctotalComments'} />
-          <Picker.Item label={locale.searchResult.label.destotalComments} value={'destotalComments'} />
-        </Picker>
-      </View>
+      </TouchableWithoutFeedback>
     )
   }
 }
@@ -345,11 +350,21 @@ const styles = StyleSheet.create({
   inputStyle: {
     flex: 1,
     paddingVertical: 10,
-    // backgroundColor: '#fff'
   },
   icon: {
     paddingHorizontal: 8,
   },
+  text: {
+    fontSize: 16,
+  },
+  emptyArea: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+  }
 });
 
 const mapStateToProps = (state) => {
