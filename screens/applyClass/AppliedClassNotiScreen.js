@@ -83,8 +83,6 @@ const styles = StyleSheet.create({
   headingText: {
     color: '#2f2f2f',
     fontSize: 20,
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   contentText: {
     color: '#303030',

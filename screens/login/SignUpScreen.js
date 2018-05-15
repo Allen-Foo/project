@@ -140,27 +140,27 @@ class SignUpScreen extends React.Component {
           }}
           value={this.state.password}
         />
-          <View style={styles.countryPickerContainer}>
-            <CountryPicker
-              styles={countryPickerStyle}
-              onChange={(value)=> {
-                // console.warn('cca2', value)
-                this.setState({cca2: value.cca2, callingCode: value.callingCode});
-              }}
-              cca2={this.state.cca2}
-              translation='eng'
-            />
-            <TextInput 
-              style={styles.phoneNumber}
-              placeholder={locale.signUp.textInput.phoneNumber.placeholder}
-              onChangeText={phoneNumber => {
-                // console.warn('text', text);
-                this.setState({phoneNumber})
-              }}
-              value={this.state.phoneNumber}
-              underlineColorAndroid={'transparent'}
-            />
-          </View>
+        <View style={styles.countryPickerContainer}>
+          <CountryPicker
+            styles={countryPickerStyle}
+            onChange={(value)=> {
+              // console.warn('cca2', value)
+              this.setState({cca2: value.cca2, callingCode: value.callingCode});
+            }}
+            cca2={this.state.cca2}
+            translation='eng'
+          />
+          <TextInput 
+            style={styles.phoneNumber}
+            placeholder={locale.signUp.textInput.phoneNumber.placeholder}
+            onChangeText={phoneNumber => {
+              // console.warn('text', text);
+              this.setState({phoneNumber})
+            }}
+            value={this.state.phoneNumber}
+            underlineColorAndroid={'transparent'}
+          />
+        </View>
         { 
            // userRole == 'tutor' &&
           // <TextInput
@@ -253,9 +253,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  // contact: {
-  //   flexDirection: 'row',
-  // },
   countryPickerContainer: {
     borderBottomWidth: 1,
     borderColor: 'grey', 
@@ -284,7 +281,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingVertical: 6,
     backgroundColor: '#fff',
-    paddingLeft :20,
+    paddingLeft: 20,
     width: '100%'
   },
   button: {

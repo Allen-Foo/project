@@ -19,7 +19,7 @@ class ForgotPasswordScreen extends React.Component {
     title: 'Forgot Password',
   };
 
-	constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
       email: '',
@@ -56,7 +56,7 @@ class ForgotPasswordScreen extends React.Component {
           value={this.state.email}
         />
         <TouchableOpacity style={styles.button}>
-          <Text style={{color:'#FFF'}}> {locale.forgotPassword.text.confirm.label} </Text>
+          <Text style={{color: '#FFF'}}> {locale.forgotPassword.text.confirm.label} </Text>
         </TouchableOpacity>
       </View>
     );
@@ -74,13 +74,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
-    //justifyContent: 'center',
     alignItems: 'center',
   },
   forgotPasswordEmail: {
-    fontSize:20,
-    marginTop:20,
-
+    fontSize: 20,
+    marginTop: 20,
   },
   textInput: {
     height: 40, 
@@ -88,16 +86,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1, 
     width: '100%',
     fontSize: 14,
-    backgroundColor:'#FFF',
-    paddingLeft:20,
-    marginTop:20,
+    backgroundColor: '#FFF',
+    paddingLeft: 20,
+    marginTop: 20,
   },
   forgotPassword: {
-    fontSize:26,
-    marginTop:60,
-
+    fontSize: 26,
+    marginTop: 60,
   },
-  button:{
+  button: {
     height: 40, 
     width: '60%',
     backgroundColor: '#5ECC3F', 
@@ -106,8 +103,6 @@ const styles = StyleSheet.create({
     borderRadius: 10, 
     marginTop: 20
   },
-  
-
 });
 
 export default connect(mapStateToPorps)(ForgotPasswordScreen)

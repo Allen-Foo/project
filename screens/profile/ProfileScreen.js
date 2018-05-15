@@ -96,7 +96,6 @@ class ProfileScreen extends React.Component {
   }
 
   renderClassList(isLoggedIn) {
-    console.warn('', this.props.user.userRole)
     if (this.props.appType == 'learner' && this.props.isLoggedIn){
       return (
         <ListItem
