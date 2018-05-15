@@ -162,18 +162,18 @@ class SignUpScreen extends React.Component {
           />
         </View>
         { 
-           // userRole == 'tutor' &&
-          // <TextInput
-          //   style={[styles.textInput, {height: 100}]}
-          //   multiline= {true}
-          //   numberOfLines={5}
-          //   placeholder={locale.signUp.textInput.skill.placeholder}
-          //   onChangeText={skill => {
-          //     // console.warn('text', text);
-          //     this.setState({skill})
-          //   }}
-          //   value={this.state.skill}
-          // />
+          userRole == 'tutor' &&
+            <TextInput
+              style={[styles.textInput, {height: 100}]}
+              multiline= {true}
+              numberOfLines={5}
+              placeholder={locale.signUp.textInput.skill.placeholder}
+              onChangeText={skill => {
+                // console.warn('text', text);
+                this.setState({skill})
+              }}
+              value={this.state.skill}
+            />
         }
         <TouchableOpacity 
           style={[styles.button, {marginTop: 20} ]}
