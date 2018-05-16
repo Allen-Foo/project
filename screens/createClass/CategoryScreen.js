@@ -19,7 +19,8 @@ const categoryList = [
   'personal', 
   'photography', 
   'recover', 
-  'talent'
+  'talent',
+  'stem',
   ]
 const languages = 'languages'
 

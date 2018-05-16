@@ -11,4 +11,5 @@ export default icons = {
 	recover: require('../../assets/icon/recover.png'),
 	sport: require('../../assets/icon/sport.png'),
 	talent: require('../../assets/icon/talent.png'),
+	stem: require('../../assets/icon/stem.png'),
 }

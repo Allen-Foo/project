@@ -55,5 +55,11 @@ export const classData = {
 			'leadershipAndManagement',
 			'professionalSKills'
 		],
+		stem: [
+			'science',
+			'technology',
+			'engineering',
+			'mathematics',
+		],
 	}
 }
