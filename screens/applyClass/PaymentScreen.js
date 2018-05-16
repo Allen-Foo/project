@@ -1,29 +1,35 @@
 import React from 'react';
 import {
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  Dimensions,
+  WebView,
 } from 'react-native';
 
-import Swiper from 'react-native-swiper';
-let {width, height} = Dimensions.get('window');
-import { Slideshow, Spinner} from '../../components';
 import Colors from '../../constants/Colors';
 
-import { mockData } from '../../constants/mockData';
 import { connect } from 'react-redux';
-import { FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { applyClass } from '../../redux/actions';
+import axios from 'axios';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 class PaymentScreen extends React.Component {
 
-handleSubmit = () => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      showWebView: false,
+      paypalUrl: null,
+    }
+  }
+
+  handleSubmit = () => {
     // console.warn('rest', rest)
     this.props.applyClass(
       this.props.navigation.state.params.classId,
@@ -32,10 +38,29 @@ handleSubmit = () => {
     this.props.navigation.navigate('AppliedClassNoti')
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
+  handlePressPaypal = () => {
+    this.setState({isLoading: true})
+    axios({
+      method: 'post',
+      url: 'https://reaf1dgnga.execute-api.us-east-1.amazonaws.com/dev/buy',
+      data: {
+        name: "item 1",
+        sku: 1234,
+        price: "20",
+        curr: "HKD",
+        quan:1, 
+        desc: "hello i am Mr.Description"
+      }
+    }).then(res => {
+      this.setState({
+        isLoading: false,
+        showWebView: true,
+        paypalUrl: res.data.redirect_url
+      })
+      console.warn('res', res.data)
+    }).catch(err => {
+      this.setState({isLoading: false})
+    })
   }
 
   render() {
@@ -47,7 +72,7 @@ handleSubmit = () => {
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <Text style={{fontSize: 18 }}>{locale.payment.text.paymentMethod}</Text>
-          <TouchableOpacity style={styles.button} onPress={()=>{this.handleSubmit()}}>
+          <TouchableOpacity style={styles.button} onPress={()=>{this.handlePressPaypal()}}>
             <Image
               source={require('../../assets/payment_icon/paypal_logo.png')}
               style={styles.paymentLogo}
@@ -60,7 +85,31 @@ handleSubmit = () => {
             />
           </TouchableOpacity>
         </View>
-          { this.props.isLoading && <Spinner intensity={30}/> }
+        {
+          this.state.showWebView &&
+          <View style={styles.webview}>
+            <WebView
+              source={{uri: this.state.paypalUrl}}
+              style={{margin: 20, borderWidth: 1,}}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({
+                  showWebView: false,
+                  paypalUrl: null,
+                })
+              }}
+              style={styles.closeButton}
+            >
+              <MaterialCommunityIcons
+                name={"close-circle"}
+                size={25}
+                color={Colors.tintColor}
+              />
+            </TouchableOpacity> 
+          </View>
+        }
+        { this.props.isLoading && <Spinner intensity={30}/> }
       </View>
     );
   }
@@ -86,6 +135,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  webview: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: 'grey',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 7.5,
+    left: 7.5,
+    backgroundColor: 'transparent',
+  }
 });
 
 const mapStateToProps = (state) => {
