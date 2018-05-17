@@ -96,7 +96,8 @@ class ProfileScreen extends React.Component {
   }
 
   renderClassList(isLoggedIn) {
-    if (this.props.appType == 'learner' && isLoggedIn){
+    console.warn('', this.props.user.userRole)
+    if (this.props.appType == 'learner' && this.props.isLoggedIn){
       return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.learner}
@@ -104,7 +105,7 @@ class ProfileScreen extends React.Component {
           onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
         />  
       )
-    } else if (this.props.appType == 'learner' && !isLoggedIn){
+    } else if (this.props.appType == 'learner' && !this.props.isLoggedIn){
       return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.learner}
@@ -112,7 +113,7 @@ class ProfileScreen extends React.Component {
           onPress={() => {this.props.navigation.navigate('Signin')}}
         /> 
       )
-    } else {
+    } else if (this.props.user.userRole == 'tutor'){
       return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.tutor}
@@ -141,24 +142,24 @@ class ProfileScreen extends React.Component {
           </List>
         </ScrollView>
       )
-    } else if ( this.props.isLoggedIn && !this.props.user.isTutor ) {
-      return (
-        <ScrollView contentContainerStyle={styles.container}>
+    // } else if ( this.props.isLoggedIn && this.props.user.userRole == 'learner' ) {
+    //   return (
+    //     <ScrollView contentContainerStyle={styles.container}>
 
-          {this.renderHeader(this.props.isLoggedIn)}
+    //       {this.renderHeader(this.props.isLoggedIn)}
 
-          <List containerStyle={styles.contentContainer}>
-            {
-              this.renderClassList(this.props.isLoggedIn)
-            }
-            <ListItem
-              title={this.props.locale.profile.text.settings}
-              leftIcon={{name: 'settings'}}
-              onPress={() => {this.props.navigation.navigate('Settings')}}
-            />        
-          </List>
-        </ScrollView>
-      )
+    //       <List containerStyle={styles.contentContainer}>
+    //         {
+    //           this.renderClassList(this.props.isLoggedIn)
+    //         }
+    //         <ListItem
+    //           title={this.props.locale.profile.text.settings}
+    //           leftIcon={{name: 'settings'}}
+    //           onPress={() => {this.props.navigation.navigate('Settings')}}
+    //         />        
+    //       </List>
+    //     </ScrollView>
+    //   )
     } else {
       return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -167,7 +168,7 @@ class ProfileScreen extends React.Component {
 
           <List containerStyle={styles.contentContainer}>
             {
-              this.props.appType &&
+              this.props.user.userRole == 'tutor' &&
               <ListItem
                 title={this.props.locale.profile.text.switchMode[this.props.appType]}
                 leftIcon={{name: 'swap-horiz'}}

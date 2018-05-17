@@ -14,7 +14,8 @@ import {
   duplicateClass,
 } from './classes';
 
-import { signInEmail,
+import {
+  signInEmail,
   signInFacebook,
   signInGoogle,
   signOut,

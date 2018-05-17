@@ -27,7 +27,7 @@ class SignUpScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
     return {
-      title: screenProps.locale.signUp.title[state.params.isTutor ? 'tutor' : 'learner'],
+      title: screenProps.locale.signUp.title[state.params.userRole],
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -45,7 +45,7 @@ class SignUpScreen extends React.Component {
       phoneNumber: '',
       cca2: 'HK',
       skill: '',
-      isTutor: props.navigation.state.params.isTutor,
+      userRole: props.navigation.state.params.userRole,
     }
   }
 
@@ -88,7 +88,8 @@ class SignUpScreen extends React.Component {
   }
 
   render() {
-    let isTutor = this.props.navigation.state.params.isTutor;
+    let userRole = this.props.navigation.state.params.userRole;
+    console.warn('userRole', userRole)
     let { locale } = this.props
     return (
       <View style={styles.container}>
@@ -155,7 +156,7 @@ class SignUpScreen extends React.Component {
             />
           </View>
         { 
-          isTutor &&
+          userRole == 'tutor' &&
           <TextInput
             style={[styles.textInput, {height: 100}]}
             multiline= {true}
@@ -180,7 +181,7 @@ class SignUpScreen extends React.Component {
         </Text>
 
         { 
-          !isTutor &&
+          userRole == 'learner' &&
           <View style={styles.socialLogins}>
             <SocialButton
               name={'facebook'}

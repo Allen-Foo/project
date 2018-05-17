@@ -29,14 +29,21 @@ class PreSignUpScreen extends React.Component {
         <Text style={styles.chooseUserType}>{locale.signUp.text.chooseUserType.label}</Text>
         <TouchableOpacity 
           style={styles.button}
-          onPress={() => this.props.navigation.navigate('SignUp', {isTutor: true})}
+          onPress={() => this.props.navigation.navigate('SignUp', {userRole: 'company'})}
+        >
+          <Text style={styles.textStyle}> {locale.signUp.text.company.label} </Text>
+        </TouchableOpacity>
+        <Separator style={{backgroundColor: '#eee'}}/>
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate('SignUp', {userRole: 'tutor'})}
         >
           <Text style={styles.textStyle}> {locale.signUp.text.tutor.label} </Text>
         </TouchableOpacity>
         <Separator style={{backgroundColor: '#eee'}}/>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.props.navigation.navigate('SignUp', {isTutor: false})}
+          onPress={() => this.props.navigation.navigate('SignUp', {userRole: 'learner'})}
         >
           <Text style={styles.textStyle}> {locale.signUp.text.learner.label} </Text>
         </TouchableOpacity> 
