@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import { applyClass } from '../../redux/actions';
 import axios from 'axios';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { Spinner, Toast } from '../../components';
 
 class PaymentScreen extends React.Component {
 
@@ -46,14 +46,14 @@ class PaymentScreen extends React.Component {
       data: {
         name: "item 1",
         sku: 1234,
-        price: "20",
+        price: "100",
         curr: "HKD",
         quan:1, 
         desc: "hello i am Mr.Description"
       }
     }).then(res => {
       this.setState({
-        isLoading: false,
+        isLoading: false,               
         showWebView: true,
         paypalUrl: res.data.redirect_url
       })
@@ -61,6 +61,21 @@ class PaymentScreen extends React.Component {
     }).catch(err => {
       this.setState({isLoading: false})
     })
+  }
+
+  handleNavigationStateChange = (navState) => {
+    let event = navState.url
+
+    if (navState.url.includes('success') && navState.title =='') {
+      console.warn('success')
+      // console.warn('url', navState.url, navState.title, navState.jsEvaluationValue)
+      this.setState({
+        showWebView: false,
+        paypalUrl: null,
+      }, () => {
+        this.props.navigation.navigate('AppliedClassNoti')
+      })
+    }
   }
 
   render() {
@@ -90,7 +105,8 @@ class PaymentScreen extends React.Component {
           <View style={styles.webview}>
             <WebView
               source={{uri: this.state.paypalUrl}}
-              style={{margin: 20, borderWidth: 1,}}
+              style={{margin: 20, borderWidth: 1}}
+              onNavigationStateChange={this.handleNavigationStateChange}
             />
             <TouchableOpacity
               onPress={() => {
@@ -109,7 +125,7 @@ class PaymentScreen extends React.Component {
             </TouchableOpacity> 
           </View>
         }
-        { this.props.isLoading && <Spinner intensity={30}/> }
+        { this.state.isLoading && <Spinner intensity={30}/> }
       </View>
     );
   }
@@ -156,7 +172,6 @@ const mapStateToProps = (state) => {
     user: state.socialLogin.user,
     languageKey: state.language.key,
     locale: state.language.locale,
-    isLoading: state.classes.isLoading,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
