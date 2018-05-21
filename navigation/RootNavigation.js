@@ -12,6 +12,7 @@ import ProfileSetting from '../screens/settings/ProfileSettingScreen';
 import TutorDetail from '../screens/detail/TutorDetail';
 import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
+import SignUpTutorOfferClassScreen from '../screens/login/SignUpTutorOfferClassScreen'
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 import ChangePassword from '../screens/settings/ChangePasswordScreen';
 import SearchClass from '../screens/search/SearchClassScreen';
@@ -185,6 +186,9 @@ const AuthStack = StackNavigator(
     },
     PreSignUp: {
       screen: PreSignUp,
+    },
+    SignUpTutorOfferClassScreen : {
+      screen: SignUpTutorOfferClassScreen,
     },
   }
 )

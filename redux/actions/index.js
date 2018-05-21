@@ -40,6 +40,10 @@ import {
   searchClassList,
 } from './filter';
 
+import {
+  setOfferClass,
+} from './tutorRegistration'
+
 export {
   setLanguage,
   setAppType,
@@ -74,4 +78,5 @@ export {
   setSort,
   duplicateClass,
   setCurrentLocation,
+  setOfferClass,
 }

@@ -82,8 +82,14 @@ class SignUpScreen extends React.Component {
     } else if (!this.state.phoneNumber) {
       Alert.alert('Phone Number cannot be empty!')
     } else {
-      // submit to server
-      this.handleSignUp();
+      if (this.props.navigation.state.params.userRole == 'tutor') {
+        // Next step
+        this.props.navigation.navigate('SignUpTutorOfferClassScreen')
+      }
+      else {
+        // submit to server
+        this.handleSignUp();
+      }
     }
   }
 
@@ -156,24 +162,24 @@ class SignUpScreen extends React.Component {
             />
           </View>
         { 
-          userRole == 'tutor' &&
-          <TextInput
-            style={[styles.textInput, {height: 100}]}
-            multiline= {true}
-            numberOfLines={5}
-            placeholder={locale.signUp.textInput.skill.placeholder}
-            onChangeText={skill => {
-              // console.warn('text', text);
-              this.setState({skill})
-            }}
-            value={this.state.skill}
-          />
+           // userRole == 'tutor' &&
+          // <TextInput
+          //   style={[styles.textInput, {height: 100}]}
+          //   multiline= {true}
+          //   numberOfLines={5}
+          //   placeholder={locale.signUp.textInput.skill.placeholder}
+          //   onChangeText={skill => {
+          //     // console.warn('text', text);
+          //     this.setState({skill})
+          //   }}
+          //   value={this.state.skill}
+          // />
         }
         <TouchableOpacity 
           style={[styles.button, {marginTop: 20} ]}
           onPress={() => this.validateInput()}
         >
-          <Text style={{color: 'white'}}> {locale.signin.text.signUp.label} </Text>
+          <Text style={{color: 'white'}}> {userRole == 'tutor' ? locale.signin.text.next.label : locale.signin.text.signUp.label} </Text>
         </TouchableOpacity>
 
         <Text style={styles.agreement}>
