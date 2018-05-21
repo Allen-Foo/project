@@ -13,7 +13,7 @@ import {
 import Colors from '../../constants/Colors';
 
 import { connect } from 'react-redux';
-import { applyClass } from '../../redux/actions';
+import { applyClass, renewAppliedClass } from '../../redux/actions';
 import axios from 'axios';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Spinner, Toast } from '../../components';
@@ -52,6 +52,7 @@ class PaymentScreen extends React.Component {
         desc: "hello i am Mr.Description"
       }
     }).then(res => {
+      this.props.renewAppliedClass()
       this.setState({
         isLoading: false,               
         showWebView: true,
@@ -179,4 +180,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   applyClass,
+  renewAppliedClass,
 })(PaymentScreen)

@@ -31,6 +31,7 @@ import {
   DUPLICATE_CLASS,
   DUPLICATE_CLASS_SUCCESS,
   DUPLICATE_CLASS_FAIL,
+  RENEW_APPLIED_CLASSLIST,
 } from '../types';
 
 import { Observable } from 'rxjs/Observable';
@@ -134,6 +135,12 @@ export function applyClass(classId, userId) {
       classId,
       userId,
     }
+  }
+}
+
+export function renewAppliedClass() {
+  return {
+    type: RENEW_APPLIED_CLASSLIST,
   }
 }
 

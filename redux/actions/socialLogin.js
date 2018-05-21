@@ -50,7 +50,8 @@ import {
   GET_APPLIED_CLASS_LIST,
   GET_APPLIED_CLASS_LIST_SUCCESS,
   GET_APPLIED_CLASS_LIST_FAIL,
-  APPLY_CLASS_SUCCESS
+  APPLY_CLASS_SUCCESS,
+  RENEW_APPLIED_CLASSLIST,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -524,7 +525,7 @@ export const requireUpdateClassListEpic = (action$, store, { request }) =>
     })
 
 export const getAppliedClassListEpic = (action$, store, { request }) =>
-  action$.ofType(LOGIN_SUCCESS, APPLY_CLASS_SUCCESS)
+  action$.ofType(LOGIN_SUCCESS, APPLY_CLASS_SUCCESS, RENEW_APPLIED_CLASSLIST)
     .mergeMap(action => 
       Observable.fromPromise(request({
         url: '/getAppliedClassList',

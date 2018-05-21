@@ -12,6 +12,7 @@ import {
   getFavouriteClassList,
   applyClass,
   duplicateClass,
+  renewAppliedClass,
 } from './classes';
 
 import {
@@ -79,4 +80,5 @@ export {
   duplicateClass,
   setCurrentLocation,
   setOfferClass,
+  renewAppliedClass,
 }
