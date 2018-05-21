@@ -96,23 +96,39 @@ class ProfileScreen extends React.Component {
   }
 
   renderClassList(isLoggedIn) {
-    if (this.props.appType == 'learner' && this.props.isLoggedIn){
-      return (
-        <ListItem
-          title={this.props.locale.profile.text.viewClasses.learner}
-          leftIcon={{name: 'class'}}
-          onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
-        />  
-      )
-    } else if (this.props.appType == 'learner' && !this.props.isLoggedIn){
+    if (!this.props.isLoggedIn){
       return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.learner}
           leftIcon={{name: 'class'}}
           onPress={() => {this.props.navigation.navigate('Signin')}}
+        />  
+      )
+    } else if (this.props.appType == 'learner' && this.props.isLoggedIn){
+      return (
+        <ListItem
+          title={this.props.locale.profile.text.viewClasses.learner}
+          leftIcon={{name: 'class'}}
+          onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
+        /> 
+      )
+    } else if (this.props.user.userRole == 'learner' && this.props.isLoggedIn){
+      return (
+        <ListItem
+          title={this.props.locale.profile.text.viewClasses.learner}
+          leftIcon={{name: 'class'}}
+          onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
         /> 
       )
     } else if (this.props.user.userRole == 'tutor'){
+      return (
+        <ListItem
+          title={this.props.locale.profile.text.viewClasses.tutor}
+          leftIcon={{name: 'class'}}
+          onPress={() => {this.props.navigation.navigate('ClassList')}}
+        />   
+      )
+    } else if (this.props.user.userRole == 'company') {
       return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.tutor}
@@ -141,24 +157,82 @@ class ProfileScreen extends React.Component {
           </List>
         </ScrollView>
       )
-    // } else if ( this.props.isLoggedIn && this.props.user.userRole == 'learner' ) {
-    //   return (
-    //     <ScrollView contentContainerStyle={styles.container}>
+    } else if ( this.props.isLoggedIn && this.props.user.userRole == 'learner' ) {
+      return (
+        <ScrollView contentContainerStyle={styles.container}>
 
-    //       {this.renderHeader(this.props.isLoggedIn)}
+          {this.renderHeader(this.props.isLoggedIn)}
 
-    //       <List containerStyle={styles.contentContainer}>
-    //         {
-    //           this.renderClassList(this.props.isLoggedIn)
-    //         }
-    //         <ListItem
-    //           title={this.props.locale.profile.text.settings}
-    //           leftIcon={{name: 'settings'}}
-    //           onPress={() => {this.props.navigation.navigate('Settings')}}
-    //         />        
-    //       </List>
-    //     </ScrollView>
-    //   )
+          <List containerStyle={styles.contentContainer}>
+            {
+              this.renderClassList(this.props.isLoggedIn)
+            }
+            <ListItem
+              title={this.props.locale.profile.text.settings}
+              leftIcon={{name: 'settings'}}
+              onPress={() => {this.props.navigation.navigate('Settings')}}
+            />        
+          </List>
+        </ScrollView>
+      )
+    } else if (this.props.isLoggedIn && this.props.user.userRole == 'company') {
+        return(
+
+          <ScrollView contentContainerStyle={styles.container}>
+
+            {this.renderHeader(this.props.isLoggedIn)}
+
+            <List containerStyle={styles.contentContainer}>
+              {
+                this.props.user.userRole == 'tutor' || this.props.user.userRole == 'company' &&
+                <ListItem
+                  title={this.props.locale.profile.text.switchMode[this.props.appType]}
+                  leftIcon={{name: 'swap-horiz'}}
+                  onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
+                />
+              }
+              {
+                this.renderClassList()
+              }
+              <ListItem
+                title={this.props.locale.profile.text.settings}
+                leftIcon={{name: 'person-add'}}
+                onPress={() => {this.props.navigation.navigate('Settings')}}
+              />
+              <ListItem
+                title={this.props.locale.profile.text.settings}
+                leftIcon={{name: 'settings'}}
+                onPress={() => {this.props.navigation.navigate('Settings')}}
+              />        
+            </List>
+          </ScrollView>
+        )
+    } else if (this.props.isLoggedIn && this.props.user.userRole == 'tutor') {
+      return (
+        <ScrollView contentContainerStyle={styles.container}>
+
+          {this.renderHeader(this.props.isLoggedIn)}
+
+          <List containerStyle={styles.contentContainer}>
+            {
+              this.props.user.userRole == 'tutor' &&
+              <ListItem
+                title={this.props.locale.profile.text.switchMode[this.props.appType]}
+                leftIcon={{name: 'swap-horiz'}}
+                onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
+              />
+            }
+            {
+              this.renderClassList()
+            }
+            <ListItem
+              title={this.props.locale.profile.text.settings}
+              leftIcon={{name: 'settings'}}
+              onPress={() => {this.props.navigation.navigate('Settings')}}
+            />        
+          </List>
+        </ScrollView>
+      )
     } else {
       return (
         <ScrollView contentContainerStyle={styles.container}>
