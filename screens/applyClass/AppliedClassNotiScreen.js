@@ -1,9 +1,7 @@
 import React from 'react';
 import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text, Dimensions } from 'react-native';
-import { Avatar } from 'react-native-elements';
 
 import { connect } from 'react-redux';
-const { height, width } = Dimensions.get('window')
 import Colors from '../../constants/Colors';
 import { getClassList } from '../../redux/actions';
 import { Separator, Tutor } from '../../components';

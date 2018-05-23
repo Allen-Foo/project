@@ -39,26 +39,27 @@ class PaymentScreen extends React.Component {
   }
 
   handlePressPaypal = () => {
+    let classInfo = this.props.navigation.state.params.classInfo
     this.setState({isLoading: true})
     axios({
       method: 'post',
       url: 'https://reaf1dgnga.execute-api.us-east-1.amazonaws.com/dev/buy',
       data: {
-        name: "item 1",
-        sku: 1234,
-        price: "100",
+        name: classInfo.title,
+        sku: classInfo.classId,
+        price: classInfo.fee,
         curr: "HKD",
         quan:1, 
-        desc: "hello i am Mr.Description"
+        desc: 'null',
+        userId: this.props.user.userId
       }
     }).then(res => {
-      this.props.renewAppliedClass()
       this.setState({
         isLoading: false,               
         showWebView: true,
         paypalUrl: res.data.redirect_url
       })
-      console.warn('res', res.data)
+      // console.warn('res', res.data)
     }).catch(err => {
       this.setState({isLoading: false})
     })
@@ -68,20 +69,19 @@ class PaymentScreen extends React.Component {
     let event = navState.url
 
     if (navState.url.includes('success') && navState.title =='') {
-      console.warn('success')
+      // console.warn('success')
       // console.warn('url', navState.url, navState.title, navState.jsEvaluationValue)
       this.setState({
         showWebView: false,
         paypalUrl: null,
       }, () => {
+        this.props.renewAppliedClass()
         this.props.navigation.navigate('AppliedClassNoti')
       })
     }
   }
 
   render() {
-    // console.warn('classId', this.props.navigation.state.params.classId)
-    // console.warn('userId', this.props.user.userId)
 
     let { locale } = this.props;
     return (

@@ -161,12 +161,13 @@ class TutorDetailScreen extends React.Component {
   }
 
   renderApplyButton() {
-    let classId = this.props.navigation.state.params.classId;
+    let classInfo = this.props.classDetail;
+    let classId = classInfo.classId;
     let userId = this.props.classDetail.user.userId
 
     if (this.props.appliedClassList && this.props.appliedClassList.some(list => list.classId === classId)) {
       return (
-        <View style={styles.appliedButton} onPress={() => this.props.navigation.navigate('Payment', {classId: classId, userId: userId})}>
+        <View style={styles.appliedButton} onPress={() => this.props.navigation.navigate('Payment', {classInfo})}>
           <Text style={{color: 'white', }}> 
             { this.props.locale.tutorDetail.text.applied.label }
           </Text>
@@ -176,7 +177,7 @@ class TutorDetailScreen extends React.Component {
       return (
         <TouchableOpacity 
           style={styles.applyButton} 
-          onPress={() => {this.props.user ? this.props.navigation.navigate('Payment', {classId: classId, userId: userId}) : this.props.navigation.navigate('Signin')}}
+          onPress={() => {this.props.user ? this.props.navigation.navigate('Payment', {classInfo}) : this.props.navigation.navigate('Signin')}}
         >
           <Text style={{color: 'white', }}> 
             { this.props.locale.tutorDetail.text.applyNow.label }
