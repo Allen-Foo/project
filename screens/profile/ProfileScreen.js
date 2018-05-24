@@ -104,32 +104,31 @@ class ProfileScreen extends React.Component {
           onPress={() => {this.props.navigation.navigate('Signin')}}
         />  
       )
-    } else if (this.props.appType == 'learner' && this.props.isLoggedIn){
+    } else if (this.props.appType == 'learner' || this.props.user.userRole == 'learner') {
       return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.learner}
           leftIcon={{name: 'class'}}
           onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
         /> 
-      )
-    } else if (this.props.user.userRole == 'learner' && this.props.isLoggedIn){
-      return (
-        <ListItem
-          title={this.props.locale.profile.text.viewClasses.learner}
-          leftIcon={{name: 'class'}}
-          onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
-        /> 
-      )
-    } else if (this.props.user.userRole == 'tutor'){
-      return (
-        <ListItem
-          title={this.props.locale.profile.text.viewClasses.tutor}
-          leftIcon={{name: 'class'}}
-          onPress={() => {this.props.navigation.navigate('ClassList')}}
-        />   
       )
     } else if (this.props.user.userRole == 'company') {
       return (
+        <View>
+          <ListItem
+            title={this.props.locale.profile.text.viewClasses.tutor}
+            leftIcon={{name: 'class'}}
+            onPress={() => {this.props.navigation.navigate('ClassList')}}
+          />
+          <ListItem
+            title={this.props.locale.profile.text.createTutor}
+            leftIcon={{name: 'person-add'}}
+            onPress={() => {this.props.navigation.navigate('CreateTutor')}}
+          />
+        </View>
+      )
+    } else {
+      return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.tutor}
           leftIcon={{name: 'class'}}
@@ -138,146 +137,36 @@ class ProfileScreen extends React.Component {
       )
     }
   }
+
   render() {
-    if (!this.props.isLoggedIn){
-      return (
-        <ScrollView contentContainerStyle={styles.container}>
+    return (
+      <ScrollView contentContainerStyle={styles.container}>
 
-          {this.renderHeader(this.props.isLoggedIn)}
+        { this.renderHeader(this.props.isLoggedIn) }
 
-          <List containerStyle={styles.contentContainer}>
-            {
-              this.renderClassList(this.props.isLoggedIn)
-            }
+        <List containerStyle={styles.contentContainer}>
+          {
+            this.props.user && (this.props.user.userRole == 'company' || this.props.user.userRole == 'tutor') &&
             <ListItem
-              title={this.props.locale.profile.text.settings}
-              leftIcon={{name: 'settings'}}
-              onPress={() => {this.props.navigation.navigate('Settings')}}
-            />        
-          </List>
-        </ScrollView>
-      )
-    } else if ( this.props.isLoggedIn && this.props.user.userRole == 'learner' ) {
-      return (
-        <ScrollView contentContainerStyle={styles.container}>
+              title={this.props.locale.profile.text.switchMode[this.props.appType]}
+              leftIcon={{name: 'swap-horiz'}}
+              onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
+            />
+          }
 
-          {this.renderHeader(this.props.isLoggedIn)}
-
-          <List containerStyle={styles.contentContainer}>
-            {
-              this.renderClassList(this.props.isLoggedIn)
-            }
-            <ListItem
-              title={this.props.locale.profile.text.settings}
-              leftIcon={{name: 'settings'}}
-              onPress={() => {this.props.navigation.navigate('Settings')}}
-            />        
-          </List>
-        </ScrollView>
-      )
-    } else if (this.props.isLoggedIn && this.props.user.userRole == 'company') {
-        return(
-
-          <ScrollView contentContainerStyle={styles.container}>
-
-            {this.renderHeader(this.props.isLoggedIn)}
-
-            <List containerStyle={styles.contentContainer}>
-              {
-                this.props.user.userRole == 'tutor' || this.props.user.userRole == 'company' &&
-                <ListItem
-                  title={this.props.locale.profile.text.switchMode[this.props.appType]}
-                  leftIcon={{name: 'swap-horiz'}}
-                  onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
-                />
-              }
-              {
-                this.renderClassList()
-              }
-              <ListItem
-                title={this.props.locale.profile.text.settings}
-                leftIcon={{name: 'person-add'}}
-                onPress={() => {this.props.navigation.navigate('Settings')}}
-              />
-              <ListItem
-                title={this.props.locale.profile.text.settings}
-                leftIcon={{name: 'settings'}}
-                onPress={() => {this.props.navigation.navigate('Settings')}}
-              />        
-            </List>
-          </ScrollView>
-        )
-    } else if (this.props.isLoggedIn && this.props.user.userRole == 'tutor') {
-      return (
-        <ScrollView contentContainerStyle={styles.container}>
-
-          {this.renderHeader(this.props.isLoggedIn)}
-
-          <List containerStyle={styles.contentContainer}>
-            {
-              this.props.user.userRole == 'tutor' &&
-              <ListItem
-                title={this.props.locale.profile.text.switchMode[this.props.appType]}
-                leftIcon={{name: 'swap-horiz'}}
-                onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
-              />
-            }
-            {
-              this.renderClassList()
-            }
-            <ListItem
-              title={this.props.locale.profile.text.settings}
-              leftIcon={{name: 'settings'}}
-              onPress={() => {this.props.navigation.navigate('Settings')}}
-            />        
-          </List>
-        </ScrollView>
-      )
-    } else {
-      return (
-        <ScrollView contentContainerStyle={styles.container}>
-
-          {this.renderHeader(this.props.isLoggedIn)}
-
-          <List containerStyle={styles.contentContainer}>
-            {
-              this.props.user.userRole == 'tutor' &&
-              <ListItem
-                title={this.props.locale.profile.text.switchMode[this.props.appType]}
-                leftIcon={{name: 'swap-horiz'}}
-                onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
-              />
-            }
-            {
-              this.renderClassList()
-            }
-            <ListItem
-              title={this.props.locale.profile.text.settings}
-              leftIcon={{name: 'settings'}}
-              onPress={() => {this.props.navigation.navigate('Settings')}}
-            />        
-          </List>
-        </ScrollView>
-      )
-    }
+          { this.renderClassList(this.props.isLoggedIn) }
+          
+          <ListItem
+            title={this.props.locale.profile.text.settings}
+            leftIcon={{name: 'settings'}}
+            onPress={() => {this.props.navigation.navigate('Settings')}}
+          />        
+        </List>
+      </ScrollView>
+    )
   }
 }
   
-const SocialIcon = props => {
-  const { name, onPress } = props;
-  // it is actually using MaterialIcons
-  return (
-    <TouchableOpacity onPress={onPress} style={{width: '30%'}}>
-      <FontAwesome
-        name={name}
-        size={22}
-        color={'#fff'}
-        style={{textAlign: 'center'}}
-      />
-    </TouchableOpacity>
-  )
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -294,7 +183,6 @@ const styles = StyleSheet.create({
   loginContainer: {
     width: '100%',
     backgroundColor: '#fff',
-    //alignItems: 'center',
     paddingVertical: 10,
     paddingLeft: 20,
     marginTop: 40,
@@ -315,8 +203,6 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   avatarContainer: {
-    // marginTop: '10%',
-    // marginBottom: '5%',
     backgroundColor: '#eee'
   },
   socialContainer: {
