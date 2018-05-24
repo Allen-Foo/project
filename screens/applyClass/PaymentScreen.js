@@ -18,6 +18,8 @@ import axios from 'axios';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Spinner, Toast } from '../../components';
 
+import appSecrets from '../../appSecrets';
+
 class PaymentScreen extends React.Component {
 
   constructor(props) {
@@ -40,10 +42,12 @@ class PaymentScreen extends React.Component {
 
   handlePressPaypal = () => {
     let classInfo = this.props.navigation.state.params.classInfo
+    let baseURL = appSecrets.aws.apiURL
+
     this.setState({isLoading: true})
     axios({
       method: 'post',
-      url: 'https://reaf1dgnga.execute-api.us-east-1.amazonaws.com/dev/buy',
+      url: baseURL + '/payment',
       data: {
         name: classInfo.title,
         sku: classInfo.classId,
@@ -66,9 +70,7 @@ class PaymentScreen extends React.Component {
   }
 
   handleNavigationStateChange = (navState) => {
-    let event = navState.url
-
-    if (navState.url.includes('success') && navState.title =='') {
+    if (navState.url.includes('paymentSuccess') && navState.title =='') {
       // console.warn('success')
       // console.warn('url', navState.url, navState.title, navState.jsEvaluationValue)
       this.setState({
