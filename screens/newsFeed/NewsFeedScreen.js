@@ -250,8 +250,8 @@ const styles = StyleSheet.create({
   },
   searchBarRowContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     width: '100%',
     backgroundColor: Colors.tintColor,
   },
@@ -261,8 +261,8 @@ const styles = StyleSheet.create({
   },
   swiperPage: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     flexWrap: 'wrap',
     paddingBottom: 10,
   },
