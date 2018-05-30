@@ -34,6 +34,9 @@ import {
   DUPLICATE_CLASS,
   DUPLICATE_CLASS_SUCCESS,
   DUPLICATE_CLASS_FAIL,
+  CREATE_TUTOR,
+  CREATE_TUTOR_SUCCESS,
+  CREATE_TUTOR_FAIL,
 } from '../types';
 
 const defaultState = {

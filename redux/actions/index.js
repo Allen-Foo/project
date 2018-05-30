@@ -30,6 +30,8 @@ import {
   addToBookmark,
   removeFromBookmark,
   getAppliedClassList,
+  createTutor,
+  getTutorList,
 } from './socialLogin';
 
 import {
@@ -81,4 +83,6 @@ export {
   setCurrentLocation,
   setOfferClass,
   renewAppliedClass,
+  createTutor,
+  getTutorList,
 }

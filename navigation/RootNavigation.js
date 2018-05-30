@@ -40,6 +40,8 @@ import ClassDescription from '../screens/createClass/ClassDescriptionScreen';
 import ClassType from '../screens/createClass/ClassTypeScreen';
 import EditClass from '../screens/createClass/EditClassScreen';
 import Contact from '../screens/createClass/ContactScreen';
+import ManageTutor from '../screens/profile/ManageTutorScreen';
+import CreateTutor from '../screens/profile/CreateTutorScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -166,6 +168,12 @@ const TutorStackNavigator = StackNavigator(
     TutorDetail: {
       screen: TutorDetail,
     },
+    CreateTutor: {
+      screen: CreateTutor
+    },
+    ManageTutor: {
+      screen: ManageTutor
+    }
   },
   {
     navigationOptions: () => ({

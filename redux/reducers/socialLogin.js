@@ -45,6 +45,12 @@ import {
   GET_APPLIED_CLASS_LIST,
   GET_APPLIED_CLASS_LIST_SUCCESS,
   GET_APPLIED_CLASS_LIST_FAIL,
+  CREATE_TUTOR,
+  CREATE_TUTOR_SUCCESS,
+  CREATE_TUTOR_FAIL,
+  GET_TUTOR_LIST,
+  GET_TUTOR_LIST_SUCCESS,
+  GET_TUTOR_LIST_FAIL,
 } from '../types';
 
 
@@ -376,6 +382,53 @@ export default (state = {...defaultState}, action) => {
         appliedClassList: action.payload.appliedClassList,
       };
     case GET_APPLIED_CLASS_LIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+
+    case CREATE_TUTOR:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case CREATE_TUTOR_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload
+      };
+    case CREATE_TUTOR_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case GET_TUTOR_LIST:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_TUTOR_LIST_SUCCESS:
+      let tutorList
+      if (state.tutorList && state.tutorList.length > 0) {
+        tutorList = state.tutorList.concat(action.payload.tutorList)
+      } else {
+        tutorList = action.payload.tutorList
+      }
+    console.warn('tutorList', tutorList)
+      
+      return {
+        ...state,
+        isLastTutorList: action.payload.isLastTutor,
+        isLoading: false,
+        tutorList: tutorList,
+        requireUpdateTutorList: false,
+      };
+    case GET_TUTOR_LIST_FAIL:
       return {
         ...state,
         isLoading: false,

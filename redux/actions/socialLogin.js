@@ -52,6 +52,12 @@ import {
   GET_APPLIED_CLASS_LIST_FAIL,
   APPLY_CLASS_SUCCESS,
   RENEW_APPLIED_CLASSLIST,
+  CREATE_TUTOR,
+  CREATE_TUTOR_SUCCESS,
+  CREATE_TUTOR_FAIL,
+  GET_TUTOR_LIST,
+  GET_TUTOR_LIST_SUCCESS,
+  GET_TUTOR_LIST_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -146,6 +152,24 @@ export function getAppliedClassList(userId) {
   }
 }
 
+export const createTutor = (tutorData) => {
+  return {
+    type: CREATE_TUTOR,
+    payload: {
+      tutorData,
+    }
+  }
+}
+
+export const getTutorList = (userId, lastTutorId) => {
+  return {
+    type: GET_TUTOR_LIST,
+    payload: {
+      userId,
+      lastStartKey: lastTutorId,
+    }
+  }
+}
 // this epic will sign in user through AWS Cognito
 export const signInEmailEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_IN_EMAIL)
@@ -546,3 +570,51 @@ export const getAppliedClassListEpic = (action$, store, { request }) =>
         payload: err.message
       }))
     )
+
+export const createTutorEpic = (action$, store, { request }) =>
+  action$.ofType(CREATE_TUTOR)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        method: 'post',
+        url: '/createTutor',
+        data: {
+          tutorData: action.payload.tutorData,
+          userId: store.getState().socialLogin.user.userId,
+        }
+       }))
+      .map(res => {
+        // console.warn('update profile success', res.data)
+        return {
+          type: CREATE_TUTOR_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: CREATE_TUTOR_FAIL,
+        payload: err.message
+      }))
+    )
+
+export const getTutorListEpic = (action$, store, { request }) =>
+  action$.ofType(GET_TUTOR_LIST, CREATE_TUTOR_SUCCESS)//, UPDATE_TUTOR_SUCCESS, DELETE_TUTOR_SUCCESS, DUPLICATE_TUTOR_SUCCESS)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: '/getTutorList',
+        method: 'post',
+        data: {
+          ...action.payload
+        } 
+      }))
+      .map(res => {
+        // console.warn('GET_CLASS_LIST success', res.data)
+        return {
+          type: GET_TUTOR_LIST_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: GET_TUTOR_LIST_FAIL,
+        payload: err.message
+      }))
+    )
+

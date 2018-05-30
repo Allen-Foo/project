@@ -10,6 +10,7 @@ import Slideshow from'./Slideshow';
 import ClassItem from'./ClassItem';
 import AppliedClassItem from'./AppliedClassItem';
 import IndexMarker from'./IndexMarker';
+import TutorListItem from'./TutorListItem';
 
 export {
   Separator,
@@ -26,4 +27,5 @@ export {
   IndexMarker,
   ClassItem,
   AppliedClassItem,
+  TutorListItem,
 }

@@ -27,6 +27,8 @@ import {
   removeFromBookmarkEpic,
   requireUpdateClassListEpic,
   getAppliedClassListEpic,
+  createTutorEpic,
+  getTutorListEpic,
 } from '../actions/socialLogin';
 
 import {
@@ -86,4 +88,6 @@ export const rootEpic = combineEpics(
   getAppliedClassListEpic,
   searchClassListEpic,
   duplicateClassEpic,
+  createTutorEpic,
+  getTutorListEpic,
 )

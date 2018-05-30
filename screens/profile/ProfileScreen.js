@@ -121,9 +121,9 @@ class ProfileScreen extends React.Component {
             onPress={() => {this.props.navigation.navigate('ClassList')}}
           />
           <ListItem
-            title={this.props.locale.profile.text.createTutor}
-            leftIcon={{name: 'person-add'}}
-            onPress={() => {this.props.navigation.navigate('CreateTutor')}}
+            title={this.props.locale.profile.text.manageTutor}
+            leftIcon={{name: 'group'}}
+            onPress={() => {this.props.navigation.navigate('ManageTutor')}}
           />
         </View>
       )
