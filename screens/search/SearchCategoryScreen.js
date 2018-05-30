@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
   },
-
 });
 
 const mapStateToProps = (state) => {

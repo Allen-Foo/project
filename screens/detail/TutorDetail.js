@@ -19,7 +19,7 @@ import { Entypo, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons
 import { Avatar } from 'react-native-elements';
 import Comment from '../comments/Comment';
 import { getClassDetail } from '../../redux/actions';
-import { Hr, Slideshow, Spinner, Separator} from '../../components';
+import { Hr, Slideshow, Spinner, Separator, EditButton } from '../../components';
 
 let {width, height} = Dimensions.get('window');
 const RATING = ['punctualityRating', 'environmentRating', 'attitudeRating', 'professionRating']
@@ -29,41 +29,30 @@ class TutorDetailScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { params = {} } = navigation.state;
 
-    let headerTintColor = '#fff';
-    let backgroundColor = Colors.tintColor;
-    if (screenProps.appType == 'tutor') {
-      headerTintColor = '#000';
-      backgroundColor = '#f7f7f7';
-    }
     let headerRight = (
-      <TouchableOpacity onPress={()=>navigation.navigate('EditClass', {classId: params.classId})}>
-        <MaterialIcons
-          name={"edit"}
-          size={25}
-          style={{ paddingRight: 15}}
-        />
-      </TouchableOpacity>
-    );
+      <EditButton onPress={()=>navigation.navigate('EditClass', {classId: params.classId})} />
+    )
+
     if (screenProps.appType == 'tutor') {
       return {
         headerTitle: screenProps.locale.tutorDetail.title,
-        headerTintColor: headerTintColor,
+        headerTintColor: '#000',
         headerStyle: {
-          backgroundColor: backgroundColor,
+          backgroundColor: '#f7f7f7',
         },
         headerRight
       }
     } else {
       return {
         headerTitle: screenProps.locale.classList.title,
-        headerTintColor: headerTintColor,
+        headerTintColor: '#fff',
         headerStyle: {
-          backgroundColor: backgroundColor,
+          backgroundColor: Colors.tintColor,
         },
       }
     }
-
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -104,7 +93,7 @@ class TutorDetailScreen extends React.Component {
   }
 
   renderClassDetail() {
-    let { locale, classDetail } = this.props;
+    let { locale, classDetail, languageKey } = this.props;
     let photoList = classDetail.photoList.map(photo => ({uri: photo.location}))
     return (
       <View>
@@ -120,6 +109,7 @@ class TutorDetailScreen extends React.Component {
               {
                 RATING.map((type, i) => (
                   <OverallRating
+                    languageKey={languageKey}
                     locale={locale}
                     key={i}
                     type={type}
@@ -292,13 +282,8 @@ class TutorDetailScreen extends React.Component {
               <Text style={styles.tutorName}>{this.formateTime(classDetail.time)}</Text>
             </View>
           </View>
-          
-            {
-              this.renderContact()
-            }
-            {
-              this.renderAddress()
-            }
+            { this.renderContact() }
+            { this.renderAddress() }
           <TouchableOpacity style={styles.commentButton} onPress={() => this.handleCommentButtonPress()} >
             <Text style={{color: 'green', }}> 
               { locale.tutorDetail.text.giveComment.label }
@@ -426,10 +411,15 @@ class TutorDetailScreen extends React.Component {
 }
 
 const OverallRating = props => {
-  let { type, value, locale } = props;
+  let { type, value, locale, languageKey } = props;
+
+  let innerRatingRow = styles.innerRatingRow
+  if (languageKey == 'en') {
+    innerRatingRow = [innerRatingRow, {paddingHorizontal: '10%'}]
+  }
 
   return (
-    <View style={styles.innerRatingRow}>
+    <View style={innerRatingRow}>
       <Text style={styles.textStyle}> {locale.tutorDetail.text[type]} </Text>
       <Text style={styles.ratingStyle}>{parseFloat(value).toFixed(1)}</Text>
     </View>
@@ -519,9 +509,10 @@ const styles = StyleSheet.create({
   },
   innerRatingRow: {
     marginTop: 10,
-    paddingLeft: '10%',
+    paddingHorizontal: '15%',
     flexDirection: 'row',
     width: '50%',
+    justifyContent: 'space-between',
   },
   bottomContainer: {
     flexDirection: 'row',
@@ -608,6 +599,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    languageKey: state.language.key,
     mode: state.appType.mode,
     appliedClassList: state.socialLogin.appliedClassList,
     user: state.socialLogin.user,
