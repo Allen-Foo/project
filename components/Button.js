@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import Colors from '../constants/Colors';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const NextButton = props => {
   return (
@@ -21,6 +22,16 @@ const HeaderButton = props => (
     style={styles.headerButtonContainer} 
     onPress={()=>props.onPress()}>
     <Text style={styles.headerButtonText}>{props.text}</Text>
+  </TouchableOpacity>
+)
+
+const EditButton = props => (
+  <TouchableOpacity onPress={()=> props.onPress()}>
+    <MaterialIcons
+      name={"edit"}
+      size={25}
+      style={{ paddingRight: 15}}
+    />
   </TouchableOpacity>
 )
 
@@ -50,4 +61,5 @@ const styles = StyleSheet.create({
 export {
   NextButton,
   HeaderButton,
+  EditButton,
 }
