@@ -34,41 +34,18 @@ class TutorListItem extends React.Component {
         <TouchableOpacity style={styles.avatarContainer} onPress={onPress}>
           <Image source={{uri: data.uri}} style={styles.avatar}/>
         </TouchableOpacity>
-
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
-          <Text style={styles.className}> {data.tutorName} </Text>
-          <View style={styles.ratingRow}>
-            <StarRating
-              disabled
-              emptyStar={'ios-star-outline'}
-              fullStar={'ios-star'}
-              halfStar={'ios-star-half'}
-              starSize={25}
-              iconSet={'Ionicons'}
-              maxStars={5}
-              rating={Number(data.rating)}
-              starColor={Colors.tintColor}
-              emptyStarColor={Colors.tintColor}
-            />
-            <Text style={styles.comment}> {`${data.comment || 0} comments`} </Text>
-          </View>
-          <Text>
-            <FontAwesome 
-              name={'dollar'} 
-              size={14}
-              style={{marginLeft: '5%'}}
-              color={'#E8DA3A'}
-            />
-            <Text> {`${data.fee} ${locale.classSummary.label[data.chargeType]}`}</Text>
-          </Text>
-          <Text>
-            <MaterialIcons
-              name={'location-on'} 
-              size={14}
-              color={'#ff0000'}
-            />
-            <Text style={styles.tutorName}> {data.address.formatted_address} </Text>
-          </Text>
+            <Text style={styles.tutorName}>{data.tutorName}</Text>
+            <View style={{flexDirection: 'row'}}>
+              <View>
+                <Text style={styles.email}>{`${locale.createTutor.text.email}: `}</Text>
+                <Text style={styles.phone}>{`${locale.createTutor.text.phone}: `}</Text>
+              </View>
+              <View style={{paddingLeft: 5}}>
+                <Text style={styles.email}>{data.email}</Text>
+                <Text style={styles.phone}>{data.phone}</Text>
+              </View>
+            </View>
         </TouchableOpacity>
 
       </View>
@@ -92,31 +69,27 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     width: 90,
     height: 90,
-    marginHorizontal: '5%'
   },
   contentContainer: {
+    flex: 2,
     justifyContent: 'center',
-    flex: 2
   },
-  ratingRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-end'
-  },
-  className: {
-    fontSize: 18,
-    color: '#555',
-    fontWeight: '400',
+  tutorInfo: {
+    alignItems: 'center'
   },
   tutorName: {
-    color: '#555',
-    fontSize: 14,
-    marginLeft: '8%'
+    textAlign: 'left',
+    fontSize: 16,
+    paddingVertical: 2,
   },
-  comment: {
-    alignItems: 'flex-end',
-    fontSize: 10,
-    fontWeight: '500'
+  email: {
+    paddingVertical: 2,
+    textAlign: 'left',
   },
+  phone: {
+    textAlign: 'left',
+    paddingVertical: 2,
+  }
 });
 
 const mapStateToProps = (state) => {
