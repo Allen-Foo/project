@@ -29,6 +29,7 @@ import {
   getAppliedClassListEpic,
   createTutorEpic,
   getTutorListEpic,
+  deleteTutorEpic,
 } from '../actions/socialLogin';
 
 import {
@@ -90,4 +91,5 @@ export const rootEpic = combineEpics(
   duplicateClassEpic,
   createTutorEpic,
   getTutorListEpic,
+  deleteTutorEpic,
 )

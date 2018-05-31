@@ -51,6 +51,9 @@ import {
   GET_TUTOR_LIST,
   GET_TUTOR_LIST_SUCCESS,
   GET_TUTOR_LIST_FAIL,
+  DELETE_TUTOR,
+  DELETE_TUTOR_SUCCESS,
+  DELETE_TUTOR_FAIL,
 } from '../types';
 
 
@@ -426,7 +429,6 @@ export default (state = {...defaultState}, action) => {
         isLastTutorList: action.payload.isLastTutor,
         isLoading: false,
         tutorList: tutorList,
-        requireUpdateTutorList: false,
       };
     case GET_TUTOR_LIST_FAIL:
       return {
@@ -435,6 +437,25 @@ export default (state = {...defaultState}, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
+    case DELETE_TUTOR:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case DELETE_TUTOR_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        tutorList: [],
+      };
+    case DELETE_TUTOR_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+
     default:
       return state
   }

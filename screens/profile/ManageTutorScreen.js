@@ -15,7 +15,7 @@ import {
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { getTutorList, deleteClass, duplicateClass } from '../../redux/actions';
+import { getTutorList, deleteTutor } from '../../redux/actions';
 import { Separator, Spinner, Toast, ClassItem, TutorListItem} from '../../components';
 import Swipeout from 'react-native-swipeout';
 
@@ -98,27 +98,14 @@ class ManageTutorScreen extends React.Component {
 
     const getSwipeoutBtns = (item) => [
       {
-        text: this.props.locale.common.duplicate,
-        onPress: () => 
-          Alert.alert(
-          this.props.locale.tutorList.duplicateClass,
-          null,
-          [
-            {text: this.props.locale.common.cancel, onPress: () => this.props.navigation.goBack()},
-            {text: this.props.locale.common.okMsg, onPress: () => this.props.duplicateClass(item)},
-          ],
-        ),
-        backgroundColor: Colors.tintColor,
-      },
-      {
         text: this.props.locale.common.delete,
         onPress: () => 
           Alert.alert(
-          this.props.locale.tutorList.deleteClass,
+          this.props.locale.manageTutor.text.deleteTutor,
           null,
           [
             {text: this.props.locale.common.cancel, onPress: () => this.props.navigation.goBack()},
-            {text: this.props.locale.common.okMsg, onPress: () => this.props.deleteClass(item)},
+            {text: this.props.locale.common.okMsg, onPress: () => this.props.deleteTutor(item)},
           ],
         ),
         type: 'delete',
@@ -136,7 +123,7 @@ class ManageTutorScreen extends React.Component {
           return (
             <View style={{width: '100%'}}>
               <Swipeout right={getSwipeoutBtns(item)}>
-                <TutorListItem data={item} onPress={() => this.props.navigation.navigate('TutorDetail', {tutorId: item.tutorId})} />
+                <TutorListItem data={item}/>
               </Swipeout>
               <Separator />
             </View>
@@ -186,7 +173,7 @@ class ManageTutorScreen extends React.Component {
 
   render() {
     const { tutorList } = this.props;
-    if (tutorList.length > 0) {
+    if ( tutorList && tutorList.length > 0) {
       return this.renderTutorList(tutorList)
     }
     return this.renderEmptyPage()
@@ -231,6 +218,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getTutorList,
-  deleteClass,
-  duplicateClass,
+  deleteTutor,
 })(ManageTutorScreen)

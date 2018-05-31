@@ -32,6 +32,7 @@ import {
   getAppliedClassList,
   createTutor,
   getTutorList,
+  deleteTutor,
 } from './socialLogin';
 
 import {
@@ -85,4 +86,5 @@ export {
   renewAppliedClass,
   createTutor,
   getTutorList,
+  deleteTutor,
 }

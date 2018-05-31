@@ -58,6 +58,9 @@ import {
   GET_TUTOR_LIST,
   GET_TUTOR_LIST_SUCCESS,
   GET_TUTOR_LIST_FAIL,
+  DELETE_TUTOR,
+  DELETE_TUTOR_SUCCESS,
+  DELETE_TUTOR_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -170,6 +173,14 @@ export const getTutorList = (userId, lastTutorId) => {
     }
   }
 }
+
+export function deleteTutor(cls) {
+  return {
+    type: DELETE_TUTOR,
+    payload: cls
+  }
+}
+
 // this epic will sign in user through AWS Cognito
 export const signInEmailEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_IN_EMAIL)
@@ -596,7 +607,7 @@ export const createTutorEpic = (action$, store, { request }) =>
     )
 
 export const getTutorListEpic = (action$, store, { request }) =>
-  action$.ofType(GET_TUTOR_LIST, CREATE_TUTOR_SUCCESS)//, UPDATE_TUTOR_SUCCESS, DELETE_TUTOR_SUCCESS, DUPLICATE_TUTOR_SUCCESS)
+  action$.ofType(GET_TUTOR_LIST, CREATE_TUTOR_SUCCESS,  DELETE_TUTOR_SUCCESS) // UPDATE_TUTOR_SUCCESS, DUPLICATE_TUTOR_SUCCESS)
     .mergeMap(action => 
       Observable.fromPromise(request({
         url: '/getTutorList',
@@ -614,6 +625,28 @@ export const getTutorListEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GET_TUTOR_LIST_FAIL,
+        payload: err.message
+      }))
+    )
+
+export const deleteTutorEpic = (action$, store, { request }) =>
+  action$.ofType(DELETE_TUTOR)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: `/deleteTutor/${action.payload.tutorId}`,
+        method: 'post',
+        data: {
+          ...action.payload
+        } 
+      }))
+      .map(res => {
+        return {
+          type: DELETE_TUTOR_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: DELETE_TUTOR_FAIL,
         payload: err.message
       }))
     )
