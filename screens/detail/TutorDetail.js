@@ -198,6 +198,7 @@ class TutorDetailScreen extends React.Component {
       )
     } 
   }
+  
   renderAddress() {
     if (this.props.classDetail.address.formatted_address === 'On site') {
       return (
@@ -229,13 +230,12 @@ class TutorDetailScreen extends React.Component {
             <View style={[styles.innerTextContainer, {width: '70%'}]}>
               <Text style={styles.address}> {this.props.classDetail.address.formatted_address} </Text>
             </View>
-            <View style={styles.chevronContainer}>
-              <Entypo
-                name={"chevron-thin-right"}
-                size={15}
-                color={'#555'}
-              />
-            </View>
+            <Entypo
+              name={"chevron-thin-right"}
+              size={15}
+              color={'#555'}
+              style={styles.chevronContainer}
+            />
           </View>
         </TouchableOpacity>
       )
@@ -291,7 +291,7 @@ class TutorDetailScreen extends React.Component {
             <Entypo
               name={"chevron-thin-right"}
               size={15}
-              style={{position: 'absolute', right: 3}}
+              style={styles.chevronContainer}
               color={'#555'}
             />
           </TouchableOpacity>
@@ -488,6 +488,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     flexDirection: 'row',
     backgroundColor: '#fff',
+    alignItems: 'center',
   },
   innerContainer: {
     backgroundColor: '#fff',
@@ -540,9 +541,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   chevronContainer: {
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    paddingLeft: 45
+    position: 'absolute',
+    right: '5%',
   },
   address: {
     color: '#555',
@@ -589,11 +589,10 @@ const styles = StyleSheet.create({
   commentButton: {
     flexDirection: 'row',
     paddingVertical: 20,
-    width: '90%',
+    width: '100%',
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center', 
-    borderRadius: 5, 
   }
 });
 
