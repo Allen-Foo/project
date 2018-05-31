@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+let {width, height} = Dimensions.get('window');
+
 import Colors from '../../constants/Colors';
 import { ImagePicker } from 'expo';
 import { connect } from 'react-redux';
@@ -163,32 +165,38 @@ const styles = StyleSheet.create({
     width: '90%',
     paddingLeft: 30
   },
+  text: {
+    color: '#3b85be',
+    fontSize: 16,
+    marginTop: 10
+  },
   textInput: {
     paddingVertical: 10, 
     borderColor: 'grey', 
     width: '100%',
     fontSize: 14,
     backgroundColor: '#FFF',
-    paddingLeft: 20,
+    paddingHorizontal: 10,
   },
   fieldName: {
     paddingTop: 10,
     paddingVertical: 10
   },
   introTextInput: {
-    borderColor: 'grey', 
-    width: '100%',
-    fontSize: 14,
-    backgroundColor: '#FFF',
-    paddingLeft: 20,
-    height: '20%',
+    borderWidth: 1,
+    height: '50%',
+    fontSize: 15,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    width: '100%', 
+    borderColor: '#fff',
+    paddingHorizontal: 10,
   },
   avatarContainer: {
     alignSelf: 'center'
   },
   loginContainer: {
     width: '100%',
-    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
