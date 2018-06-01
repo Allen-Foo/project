@@ -3,9 +3,9 @@ import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Te
 import { Avatar } from 'react-native-elements';
 
 import { connect } from 'react-redux';
-import { FontAwesome, Entypo } from '@expo/vector-icons';
-import { List, ListItem } from 'react-native-elements'
+import { FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
 const { height, width } = Dimensions.get('window')
+
 
 import Colors from '../../constants/Colors';
 
@@ -65,7 +65,7 @@ class ProfileScreen extends React.Component {
           <View style={styles.chevronContainer}>
             <Entypo
               name={"chevron-thin-right"}
-              size={15}
+              size={18}
               color={'#555'}
             />
           </View>
@@ -86,7 +86,7 @@ class ProfileScreen extends React.Component {
           <View style={styles.chevronContainer}>
             <Entypo
               name={"chevron-thin-right"}
-              size={15}
+              size={18}
               color={'#555'}
             />
           </View>
@@ -144,7 +144,7 @@ class ProfileScreen extends React.Component {
 
         { this.renderHeader(this.props.isLoggedIn) }
 
-        <List containerStyle={styles.contentContainer}>
+        <View style={styles.contentContainer}>
           {
             this.props.user && (this.props.user.userRole == 'company' || this.props.user.userRole == 'tutor') &&
             <ListItem
@@ -161,10 +161,34 @@ class ProfileScreen extends React.Component {
             leftIcon={{name: 'settings'}}
             onPress={() => {this.props.navigation.navigate('Settings')}}
           />        
-        </List>
+        </View>
       </ScrollView>
     )
   }
+}
+
+const ListItem = props => {
+  let { title, leftIcon, onPress } = props;
+  return (
+    <TouchableOpacity 
+      style={styles.listItem}
+      onPress={() => onPress()}
+    >
+      <MaterialIcons
+        name={leftIcon.name}
+        size={25}
+        color={'#555'}
+        style={{paddingLeft: '5%', paddingRight: '7%'}}
+      />
+      <Text style={styles.itemText}>{title}</Text>
+      <Entypo
+        name={"chevron-thin-right"}
+        size={18}
+        color={'#555'}
+        style={styles.chevronRight}
+      />
+    </TouchableOpacity>
+  )
 }
   
 const styles = StyleSheet.create({
@@ -172,13 +196,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#efeff3',
     alignItems: 'center',
-  },
-  nonLoginContainer: {
-    width: '100%',
-    backgroundColor: '#fff',
-    marginTop: 40,
-    paddingVertical: 20,
-    alignItems: 'center'
   },
   loginContainer: {
     width: '100%',
@@ -192,9 +209,8 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   chevronContainer: {
-    paddingRight: 10,
     position: 'absolute',
-    right: 0,
+    right: '5%',
     alignSelf: 'center'
   },
   username: {
@@ -205,19 +221,21 @@ const styles = StyleSheet.create({
   avatarContainer: {
     backgroundColor: '#eee'
   },
-  socialContainer: {
+  listItem: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: '5%',
+    paddingVertical: 12,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+    backgroundColor: '#fff'
   },
-  button: {
-    paddingVertical: 15,
-    width: width * 0.8,
-    backgroundColor: '#41B252', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderRadius: 10, 
+  itemText: {
+    fontSize: 17
   },
+  chevronRight: {
+    position: 'absolute',
+    right: '5%'
+  }
 });
 
 const mapStateToPorps = (state) => {
