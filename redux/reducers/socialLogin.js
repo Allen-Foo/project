@@ -401,7 +401,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
-        data: action.payload
+        tutorList:[]
       };
     case CREATE_TUTOR_FAIL:
       return {
@@ -422,7 +422,6 @@ export default (state = {...defaultState}, action) => {
       } else {
         tutorList = action.payload.tutorList
       }
-    console.warn('tutorList', tutorList)
       
       return {
         ...state,

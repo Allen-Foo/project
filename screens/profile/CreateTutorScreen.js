@@ -16,7 +16,11 @@ import Colors from '../../constants/Colors';
 import { ImagePicker } from 'expo';
 import { connect } from 'react-redux';
 import { Avatar } from 'react-native-elements';
+import { Separator, Spinner, Toast } from '../../components';
+
 import { createTutor } from '../../redux/actions';
+import axios from 'axios';
+import appSecrets from '../../appSecrets';
 
 class CreateTutor extends React.Component {
 
@@ -42,9 +46,13 @@ class CreateTutor extends React.Component {
   }
 
   _handleSubmit = () => {
-    console.warn('state', this.state)
     this.props.createTutor(this.state)
-    this.props.navigation.goBack();
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLoading && this.props.isLoading) {
+      this.props.navigation.goBack();
+    }
   }
 
   constructor(props) {
@@ -69,8 +77,8 @@ class CreateTutor extends React.Component {
         activeOpacity={0.7}
         containerStyle={styles.avatarContainer}
       />
+      
     if (this.state.avatarUrl) {
-      // console.warn('avatarUrl', this.props.user.avatarUrl)
       avatar = 
         <Avatar
           xlarge
@@ -123,6 +131,7 @@ class CreateTutor extends React.Component {
             multiline={true}
           />
         </View>
+        { this.props.isLoading && <Spinner intensity={100}/> }
       </ScrollView>
     )
   }
@@ -133,12 +142,39 @@ class CreateTutor extends React.Component {
       aspect: [4, 3],
       base64: true,
     });
-    // console.warn('photo', result);
 
     if (!result.cancelled) {
-      this.setState({ avatarUrl: result })
+      this.uploadPhoto(result)
     }
-  };
+  }
+
+  _takePhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+    });
+
+    if (!result.cancelled) {
+      this.uploadPhoto(result)
+    }
+  }
+
+  uploadPhoto(data) {
+    let baseURL = appSecrets.aws.apiURL;
+    axios({
+      method: 'post',
+      url: baseURL + '/upload',
+      data: {
+        key: 'testKey',
+        file: data.base64,
+      }
+    }).then(res => {
+      this.setState({
+        avatarUrl: res.data.Location,
+      })
+    }).catch(err => console.warn(err))
+  }
 }
 
 const TextInputItems = props => {
@@ -203,8 +239,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  // console.warn('state', state)
   return {
+    isLoading: state.socialLogin.isLoading,
     locale: state.language.locale,
   }
 }

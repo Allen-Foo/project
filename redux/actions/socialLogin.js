@@ -164,7 +164,7 @@ export const createTutor = (tutorData) => {
   }
 }
 
-export const getTutorList = (userId, lastTutorId) => {
+export const getTutorList = (userId = 'testid', lastTutorId) => {
   return {
     type: GET_TUTOR_LIST,
     payload: {
@@ -613,11 +613,11 @@ export const getTutorListEpic = (action$, store, { request }) =>
         url: '/getTutorList',
         method: 'post',
         data: {
-          ...action.payload
+          ...action.payload,
+          userId: store.getState().socialLogin.user.userId
         } 
       }))
       .map(res => {
-        // console.warn('GET_CLASS_LIST success', res.data)
         return {
           type: GET_TUTOR_LIST_SUCCESS,
           payload: res.data
