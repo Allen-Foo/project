@@ -49,9 +49,7 @@ class ManageTutorScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onEndReachedCalledDuringMomentum = true,
     this.state = {
-      tutorList: [],
       refreshing: false,
     }
   }
@@ -59,7 +57,6 @@ class ManageTutorScreen extends React.Component {
   componentWillMount() {
     // if the store has some items, don't fetch
     if (!this.props.tutorList || this.props.tutorList.length == 0) {
-      console.warn('here')
       this.props.getTutorList(this.props.user.userId)
     }
   }
@@ -70,7 +67,7 @@ class ManageTutorScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.tutorList.length > 0 && nextProps.tutorList !== this.state.tutorList) {
+    if (nextProps.tutorList && nextProps.tutorList !== this.props.tutorList) {
       this.setState({tutorList: nextProps.tutorList})
     }
   }
@@ -78,21 +75,6 @@ class ManageTutorScreen extends React.Component {
   handleCreateTutor = () => {
     this.props.navigation.navigate('CreateTutor')
   }
-
-  renderFooter = () => {
-    if (!this.props.loading) return null;
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
 
   renderTutorList = (tutorList) => {
 
@@ -113,7 +95,6 @@ class ManageTutorScreen extends React.Component {
 
     ]
     return (
-      
       <FlatList
         contentContainerStyle={styles.listContainer}
         data={tutorList}
@@ -134,7 +115,6 @@ class ManageTutorScreen extends React.Component {
           this.shouldLoadMore = true
         }}
         ListFooterComponent={this.renderFooter}
-        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false;}}
         onMomentumScrollEnd={() => {
           if (this.shouldLoadMore && this.props.isLastTutorList == false) {
             this.loadMoreItems();
@@ -155,7 +135,7 @@ class ManageTutorScreen extends React.Component {
         />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.handleAddClass()}
+          onPress={() => this.handleCreateTutor()}
         >
           <Ionicons
             name={'ios-add-circle-outline'}
@@ -165,18 +145,23 @@ class ManageTutorScreen extends React.Component {
           />
           <Text style={styles.text}> {this.props.locale.manageTutor.text.addATutor} </Text>
         </TouchableOpacity>  
-        { this.props.isLoading && <Spinner intensity={100}/> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
       </View>
     )
   }
 
   render() {
-    const { tutorList } = this.props;
-    if ( tutorList && tutorList.length > 0) {
+    const { tutorList, isLoading } = this.props;
+
+    if (isLoading && !tutorList) {
+      return (
+        <Spinner intensity={100}/>
+      )
+    } else if (!isLoading && tutorList && tutorList.length == 0) {
+      return this.renderEmptyPage()
+    } else {
       return this.renderTutorList(tutorList)
     }
-    return this.renderEmptyPage()
   }
 }
 
@@ -204,7 +189,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%',
   },
 });
-
 
 const mapStateToProps = (state) => {
   return {
