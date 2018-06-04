@@ -35,19 +35,18 @@ class TutorListItem extends React.Component {
           <Image source={{uri: data.uri}} style={styles.avatar}/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
-            <Text style={styles.tutorName}>{data.tutorName}</Text>
-            <View style={{flexDirection: 'row'}}>
-              <View>
-                <Text style={styles.email}>{`${locale.createTutor.text.email}: `}</Text>
-                <Text style={styles.phone}>{`${locale.createTutor.text.phone}: `}</Text>
-              </View>
-              <View style={{paddingLeft: 5}}>
-                <Text style={styles.email}>{data.email}</Text>
-                <Text style={styles.phone}>{data.phone}</Text>
-              </View>
+          <Text style={styles.tutorName}>{data.tutorName}</Text>
+          <View style={{flexDirection: 'row'}}>
+            <View>
+              <Text style={styles.email}>{`${locale.createTutor.text.email}: `}</Text>
+              <Text style={styles.phone}>{`${locale.createTutor.text.phone}: `}</Text>
             </View>
+            <View style={{paddingLeft: 5}}>
+              <Text style={styles.email}>{data.email}</Text>
+              <Text style={styles.phone}>{data.phone}</Text>
+            </View>
+          </View>
         </TouchableOpacity>
-
       </View>
     );
   }
@@ -69,18 +68,17 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     width: 90,
     height: 90,
+    borderRadius: 45
   },
   contentContainer: {
     flex: 2,
     justifyContent: 'center',
   },
-  tutorInfo: {
-    alignItems: 'center'
-  },
   tutorName: {
     textAlign: 'left',
     fontSize: 16,
     paddingVertical: 2,
+    fontWeight: '500',
   },
   email: {
     paddingVertical: 2,

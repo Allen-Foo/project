@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   username: {
     marginTop: 10,
     paddingLeft: 10,
-    fontSize: 20
+    fontSize: 20,
   },
   avatarContainer: {
     backgroundColor: '#eee'
@@ -226,6 +226,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderBottomWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#555',
+    borderBottomColor: '#555',
     alignItems: 'center',
     backgroundColor: '#fff'
   },
