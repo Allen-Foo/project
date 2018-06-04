@@ -12,7 +12,11 @@ import ProfileSetting from '../screens/settings/ProfileSettingScreen';
 import TutorDetail from '../screens/detail/TutorDetail';
 import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
-import SignUpTutorOfferClassScreen from '../screens/login/SignUpTutorOfferClassScreen'
+import SignUpTutorSelfIntroScreen from '../screens/login/SignUpTutorSelfIntroScreen'
+import SignUpTutorProfessionScreen from '../screens/login/SignUpTutorProfessionScreen'
+import SignUpTutorExperienceScreen from '../screens/login/SignUpTutorExperienceScreen'
+import SignUpTutorAchievementScreen from '../screens/login/SignUpTutorAchievementScreen'
+import SignUpTutorConfirmScreen from '../screens/login/SignUpTutorConfirmScreen'
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 import ChangePassword from '../screens/settings/ChangePasswordScreen';
 import SearchClass from '../screens/search/SearchClassScreen';
@@ -200,8 +204,20 @@ const AuthStack = StackNavigator(
     PreSignUp: {
       screen: PreSignUp,
     },
-    SignUpTutorOfferClassScreen : {
-      screen: SignUpTutorOfferClassScreen,
+    SignUpTutorProfessionScreen : {
+      screen: SignUpTutorProfessionScreen,
+    },
+    SignUpTutorSelfIntroScreen : {
+      screen: SignUpTutorSelfIntroScreen,
+    },
+    SignUpTutorExperienceScreen : {
+      screen: SignUpTutorExperienceScreen,
+    },
+    SignUpTutorAchievementScreen: {
+      screen: SignUpTutorAchievementScreen,
+    },
+    SignUpTutorConfirmScreen: {
+      screen: SignUpTutorConfirmScreen,
     },
   }
 )

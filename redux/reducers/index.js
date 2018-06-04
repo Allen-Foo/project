@@ -7,7 +7,7 @@ import appType from './appType';
 import classes from './classes';
 import socialLogin from './socialLogin';
 import filter from './filter';
-import tutorResgistration from './tutorRegistration'
+import tutorRegistration from './tutorRegistration'
 
 import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest';
 import {
@@ -57,7 +57,7 @@ export const rootReducer = combineReducers({
   classes,
   socialLogin,
   filter,
-  tutorResgistration,
+  tutorRegistration,
 })
 
 export const rootEpic = combineEpics(

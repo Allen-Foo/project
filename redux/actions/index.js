@@ -46,7 +46,11 @@ import {
 } from './filter';
 
 import {
-  setOfferClass,
+  setTutorProfile,
+  setSelfIntro,
+  setProfession,
+  setExperience,
+  setAchievement,
 } from './tutorRegistration'
 
 export {
@@ -83,7 +87,11 @@ export {
   setSort,
   duplicateClass,
   setCurrentLocation,
-  setOfferClass,
+  setTutorProfile,
+  setSelfIntro,
+  setProfession,
+  setExperience,
+  setAchievement,
   renewAppliedClass,
   createTutor,
   getTutorList,

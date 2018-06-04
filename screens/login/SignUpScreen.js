@@ -20,7 +20,7 @@ import Prompt from 'react-native-prompt';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
 import { Spinner, Toast } from '../../components';
-import { signUp, verifyCode, verifyCodeCancel, signInFacebook, signInGoogle } from '../../redux/actions'
+import { signUp, verifyCode, verifyCodeCancel, signInFacebook, signInGoogle, setTutorProfile } from '../../redux/actions'
 
 
 class SignUpScreen extends React.Component {
@@ -84,8 +84,12 @@ class SignUpScreen extends React.Component {
       Alert.alert('Phone Number cannot be empty!')
     } else {
       if (this.props.navigation.state.params.userRole == 'tutor') {
+
+        let { ...profile } = this.state;
+
+        this.props.setTutorProfile(profile);
         // Next step
-        this.props.navigation.navigate('SignUpTutorOfferClassScreen')
+        this.props.navigation.navigate('SignUpTutorSelfIntroScreen');
       }
       else {
         // submit to server
@@ -165,20 +169,6 @@ class SignUpScreen extends React.Component {
             underlineColorAndroid={'transparent'}
           />
         </View>
-        { 
-          userRole == 'tutor' &&
-            <TextInput
-              style={[styles.textInput, {height: 100}]}
-              multiline= {true}
-              numberOfLines={5}
-              placeholder={locale.signUp.textInput.skill.placeholder}
-              onChangeText={skill => {
-                // console.warn('text', text);
-                this.setState({skill})
-              }}
-              value={this.state.skill}
-            />
-        }
         <TouchableOpacity 
           style={[styles.button, {marginTop: 20} ]}
           onPress={() => this.validateInput()}
@@ -286,7 +276,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     backgroundColor: '#fff',
     paddingLeft: 20,
-    width: '100%'
+    width: '70%'
   },
   button: {
     height: 40, 
@@ -336,5 +326,6 @@ export default connect(mapStateToProps, {
   verifyCodeCancel,
   signInFacebook,
   signInGoogle,
+  setTutorProfile,
 })(SignUpScreen)
 

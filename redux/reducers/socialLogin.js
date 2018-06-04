@@ -20,6 +20,9 @@ import {
   SIGN_UP,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
+  SIGN_UP_TUTOR,
+  SIGN_UP_TUTOR_SUCCESS,
+  SIGN_UP_TUTOR_FAIL,
   VERIFY_CODE,
   VERIFY_CODE_SUCCESS,
   VERIFY_CODE_FAIL,
@@ -89,6 +92,26 @@ export default (state = {...defaultState}, action) => {
         ...action.payload,
       };
     case SIGN_UP_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case SIGN_UP_TUTOR:
+      // console.warn('here', 'SIGN_UP')
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case SIGN_UP_TUTOR_SUCCESS:
+      // console.warn('here', 'SIGN_UP_SUCCESS')
+      return {
+        ...state,
+        isLoading: false,
+        ...action.payload,
+      };
+    case SIGN_UP_TUTOR_FAIL:
       return {
         ...state,
         isLoading: false,

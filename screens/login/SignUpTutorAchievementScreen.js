@@ -6,15 +6,28 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+
+import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { Separator } from '../../components';
+import { setAchievement } from '../../redux/actions';
 
-class SignUpTutorOfferClassScreen extends React.Component {
+class SignUpTutorAchievementScreen extends React.Component {
+
+  static navigationOptions = ({navigation, screenProps}) => {
+    return {
+      // title: screenProps.locale.signUp.title[state.params.userRole],
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      offerClass: ''
+      achievement: ''
     }
   }
 
@@ -22,25 +35,25 @@ class SignUpTutorOfferClassScreen extends React.Component {
     let { locale } = this.props
     return (
       <View style={styles.container}>
-        <Text style={styles.question}>{locale.signUp.text.offerClass.label}</Text>
+        <Text style={styles.question}>{locale.signUp.text.achievement.label}</Text>
 
         <TextInput 
           style={styles.textInput}
           multiline={true}
-          placeholder={locale.signUp.textInput.class.placeholder}
           numberOfLines={5}
-          onChangeText={offerClass => {
+          onChangeText={achievement => {
             // console.warn('text', text);
-            this.setState({offerClass})
+            this.setState({achievement})
           }}
-          value={this.state.offerClass}
+          value={this.state.achievement}
         />
         <TouchableOpacity 
           style={[styles.button, {marginTop: 20} ]}
           onPress={
             () => {
+              this.props.setAchievement (this.state.achievement);
               // Next step
-              this.props.navigation.navigate('SignUpTutorOfferClassScreen')
+              this.props.navigation.navigate('SignUpTutorConfirmScreen')
             }
           }
         >
@@ -59,15 +72,18 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   question: {
-    fontSize: 18,
+    fontSize: 22,
+    width: '80%',
     marginBottom: 10,
+    textAlign: 'center',
   },
   textInput: {
     paddingVertical: 15, 
     borderColor: 'grey', 
     borderBottomWidth: 1, 
     width: '100%',
-    fontSize: 14,
+    height: 200,
+    fontSize: 18,
     backgroundColor: '#FFF',
     paddingLeft: 20,
   },
@@ -88,4 +104,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(SignUpTutorOfferClassScreen)
+export default connect(mapStateToProps,{
+  setAchievement,
+})(SignUpTutorAchievementScreen)

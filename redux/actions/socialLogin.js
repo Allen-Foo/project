@@ -21,6 +21,9 @@ import {
   SIGN_UP,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
+  SIGN_UP_TUTOR,
+  SIGN_UP_TUTOR_SUCCESS,
+  SIGN_UP_TUTOR_FAIL,
   VERIFY_CODE,
   VERIFY_CODE_SUCCESS,
   VERIFY_CODE_FAIL,
@@ -76,7 +79,7 @@ import { ServerErrorCode } from '../../constants/ServerErrorCode'
 import Expo from 'expo';
 import axios from 'axios';
 
-import { onSignInEmail, onSignUpEmail, onVerifyCode, getIdentityId } from '../../lib/Auth/AWS_Auth';
+import { onSignInEmail, onSignUpEmail, onSignUpTutorEmail, onVerifyCode, getIdentityId } from '../../lib/Auth/AWS_Auth';
 
 export const signOut = () => ({
   type: SIGN_OUT_SUCCESS
@@ -86,6 +89,17 @@ export const signUp = (profile) => ({
   type: SIGN_UP,
   payload: {
     profile
+  }
+})
+
+export const signUpTutor = (profile, selfIntro, profession, exp, achievement) => ({
+  type: SIGN_UP_TUTOR,
+  payload: {
+    profile,
+    selfIntro,
+    profession,
+    exp,
+    achievement
   }
 })
 
@@ -243,6 +257,27 @@ export const signUpEmailEpic = (action$, store, { request }) =>
       .catch(err => Observable.of({
         type: SIGN_UP_FAIL,
         payload: err
+      }))
+    )
+
+// this epic will sign up user through AWS Cognito
+export const signUpTutorEmailEpic = (action$, store, { request }) =>
+  action$.ofType(SIGN_UP_TUTOR)
+    .mergeMap(action =>
+      Observable.fromPromise(onSignUpTutorEmail(action.payload))
+      .map(res => {
+        // console.warn('signUpEmailEpic', res)
+        return {
+          type: SIGN_UP_TUTOR_SUCCESS,
+          payload: {
+            showMFAPrompt: !res.userConfirmed,
+            user: action.payload.profile
+          }
+        }
+      })
+      .catch(err => Observable.of({
+        type: SIGN_UP_TUTOR_FAIL,
+        payload: err.message
       }))
     )
 
