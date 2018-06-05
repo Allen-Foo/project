@@ -16,19 +16,21 @@ import { connect } from 'react-redux';
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
-
+import { CheckBox } from 'react-native-elements'
 
 class TutorListItem extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      liked: false
+      checked: false
     }
   }
 
+
+
   render() {
-    const { data, onPress, locale } = this.props;
+    const { data, onPress, locale, isCheckMode } = this.props;
     return (
       <View style={styles.rowContainer}>
         <TouchableOpacity style={styles.avatarContainer} onPress={onPress}>
@@ -47,10 +49,30 @@ class TutorListItem extends React.Component {
             </View>
           </View>
         </TouchableOpacity>
+        {
+          isCheckMode &&
+          <TouchableOpacity style={[styles.contentContainer, {flex: 1}]} onPress={onPress}>
+            <CheckBox
+              checkedColor={Colors.tintColor}
+              containerStyle={styles.checkBox}
+              iconType='material'
+              checkedIcon='check-circle'
+              uncheckedIcon='radio-button-unchecked'
+              size={28}
+              checked={this.state.checked}
+              onPress={this.state.checked ? () => this.setState({checked: false}) : () => this.setState({checked: true})}
+            />
+          </TouchableOpacity>
+        }
       </View>
     );
   }
 }
+
+TutorListItem.defaultProps = {
+  isCheckMode: false
+};
+
 
 const styles = StyleSheet.create({
   rowContainer: {
@@ -62,7 +84,7 @@ const styles = StyleSheet.create({
   avatarContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
+    flex: 2,
   },
   avatar: {
     marginTop: '5%',
@@ -71,7 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 45
   },
   contentContainer: {
-    flex: 2,
+    flex: 3,
     justifyContent: 'center',
   },
   tutorName: {
@@ -87,6 +109,11 @@ const styles = StyleSheet.create({
   phone: {
     textAlign: 'left',
     paddingVertical: 2,
+  },
+  checkBox: {
+    backgroundColor: '#fff',
+    borderWidth: 0,
+    padding: 0,
   }
 });
 
