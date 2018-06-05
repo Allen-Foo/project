@@ -27,6 +27,7 @@ import Payment from '../screens/applyClass/PaymentScreen';
 import AppliedClassNoti from '../screens/applyClass/AppliedClassNotiScreen';
 import AppliedClassList from '../screens/class/AppliedClassListScreen';
 
+// for tutor mode
 import Category from '../screens/createClass/CategoryScreen';
 import Skill from '../screens/createClass/SkillScreen';
 import TutionFee from '../screens/createClass/TutionFeeScreen';
@@ -40,6 +41,7 @@ import ClassDescription from '../screens/createClass/ClassDescriptionScreen';
 import ClassType from '../screens/createClass/ClassTypeScreen';
 import EditClass from '../screens/createClass/EditClassScreen';
 import Contact from '../screens/createClass/ContactScreen';
+import AssignTutor from '../screens/createClass/AssignTutorScreen';
 import ManageTutor from '../screens/profile/ManageTutorScreen';
 import CreateTutor from '../screens/profile/CreateTutorScreen';
 
@@ -152,6 +154,9 @@ const TutorStackNavigator = StackNavigator(
     },
     ClassAddress: {
       screen: ClassAddress,
+    },
+    AssignTutor: {
+      screen: AssignTutor,
     },
     ClassSummary: {
       screen: ClassSummary,
