@@ -21,6 +21,7 @@ import { Separator, Spinner, Toast } from '../../components';
 import { createTutor } from '../../redux/actions';
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class CreateTutor extends React.Component {
 
@@ -102,7 +103,7 @@ class CreateTutor extends React.Component {
   render() {
     let { locale } = this.props
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <KeyboardAwareScrollView style={styles.container} behavior="padding">
         {this.renderHeader()}
         <TextInputItems
           fieldName={locale.createTutor.text.tutorName}
@@ -131,8 +132,9 @@ class CreateTutor extends React.Component {
             multiline={true}
           />
         </View>
+
         { this.props.isLoading && <Spinner intensity={100}/> }
-      </ScrollView>
+      </KeyboardAwareScrollView>
     )
   }
 
