@@ -27,7 +27,15 @@ class TutorListItem extends React.Component {
     }
   }
 
-
+  handleToggle() {
+    const { data, onPress, locale, isCheckMode, handleAddTutor, handleRemoveTutor} = this.props;
+    if (this.state.checked) {
+      handleRemoveTutor(data)
+    } else {
+      handleAddTutor(data)
+    }
+    this.setState({checked: !this.state.checked})
+  }
 
   render() {
     const { data, onPress, locale, isCheckMode } = this.props;
@@ -60,7 +68,7 @@ class TutorListItem extends React.Component {
               uncheckedIcon='radio-button-unchecked'
               size={28}
               checked={this.state.checked}
-              onPress={this.state.checked ? () => this.setState({checked: false}) : () => this.setState({checked: true})}
+              onPress={() => this.handleToggle()}
             />
           </TouchableOpacity>
         }
@@ -72,7 +80,6 @@ class TutorListItem extends React.Component {
 TutorListItem.defaultProps = {
   isCheckMode: false
 };
-
 
 const styles = StyleSheet.create({
   rowContainer: {

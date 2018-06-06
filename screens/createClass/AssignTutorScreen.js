@@ -43,7 +43,15 @@ class AssignTutorScreen extends React.Component {
     super(props);
     let { params = {} } = this.props.navigation.state;
     this.state = {
+      selectedTutorList: [],
       phone: params.phone && String(params.phone),
+    }
+  }
+
+  componentWillMount() {
+    // if the store has some items, don't fetch
+    if (!this.props.tutorList || this.props.tutorList.length == 0) {
+      this.props.getTutorList(this.props.user.userId)
     }
   }
 
@@ -57,6 +65,21 @@ class AssignTutorScreen extends React.Component {
       phone: Number(this.state.phone),
     })
     this.props.navigation.goBack();
+  }
+
+  handleAddTutor = (tutor) => {
+    this.setState({
+      selectedTutorList: [
+        ...this.state.selectedTutorList,
+        tutor,
+      ] 
+    })
+  }
+
+  handleRemoveTutor = (tutor) => {
+     this.setState({
+      selectedTutorList: this.state.selectedTutorList.filter(x => x != tutor)
+    })
   }
 
   handleNext = () => {
@@ -81,6 +104,8 @@ class AssignTutorScreen extends React.Component {
               <TutorListItem
                 data={item} 
                 isCheckMode={true}
+                handleAddTutor={this.handleAddTutor}
+                handleRemoveTutor={this.handleRemoveTutor}
               />
               <Separator />
             </View>
