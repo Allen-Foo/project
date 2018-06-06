@@ -43,8 +43,7 @@ class AssignTutorScreen extends React.Component {
     super(props);
     let { params = {} } = this.props.navigation.state;
     this.state = {
-      selectedTutorList: [],
-      phone: params.phone && String(params.phone),
+      selectedTutorList: params.tutorList || [],
     }
   }
 
@@ -62,7 +61,7 @@ class AssignTutorScreen extends React.Component {
 
   _handleSubmit = () => {
     this.props.editClass({
-      phone: Number(this.state.phone),
+      tutorList: this.state.selectedTutorList,
     })
     this.props.navigation.goBack();
   }
@@ -84,7 +83,7 @@ class AssignTutorScreen extends React.Component {
 
   handleNext = () => {
     let { params = {} } = this.props.navigation.state;
-    params.phone = Number(this.state.phone)
+    params.tutorList = this.state.selectedTutorList;
     this.props.navigation.navigate('TutionFee', params)
   }
 
@@ -93,36 +92,45 @@ class AssignTutorScreen extends React.Component {
     let { params = {} } = this.props.navigation.state;
 
     return (
-      <FlatList
-        contentContainerStyle={styles.listContainer}
-        data={tutorList}
-        keyExtractor={(item) => (item.tutorId)}
-        renderItem={({item}) => {
-          item.uri = item.avatarUrl
-          return (
-            <View style={{width: '100%'}}>
-              <TutorListItem
-                data={item} 
-                isCheckMode={true}
-                handleAddTutor={this.handleAddTutor}
-                handleRemoveTutor={this.handleRemoveTutor}
-              />
-              <Separator />
-            </View>
-          )
-        }}
-        onEndReachedThreshold={0.1}
-        onEndReached={({ distanceFromEnd }) => {
-          this.shouldLoadMore = true
-        }}
-        ListFooterComponent={this.renderFooter}
-        onMomentumScrollEnd={() => {
-          if (this.shouldLoadMore && this.props.isLastTutorList == false) {
-            this.loadMoreItems();
-            this.shouldLoadMore = false
-          }
-        }}
-      />
+      <View>
+        <FlatList
+          contentContainerStyle={styles.listContainer}
+          data={tutorList}
+          keyExtractor={(item) => (item.tutorId)}
+          renderItem={({item}) => {
+            item.uri = item.avatarUrl
+            return (
+              <View style={{width: '100%'}}>
+                <TutorListItem
+                  data={item} 
+                  isCheckMode={true}
+                  handleAddTutor={this.handleAddTutor}
+                  handleRemoveTutor={this.handleRemoveTutor}
+                />
+                <Separator />
+              </View>
+            )
+          }}
+          onEndReachedThreshold={0.1}
+          onEndReached={({ distanceFromEnd }) => {
+            this.shouldLoadMore = true
+          }}
+          ListFooterComponent={this.renderFooter}
+          onMomentumScrollEnd={() => {
+            if (this.shouldLoadMore && this.props.isLastTutorList == false) {
+              this.loadMoreItems();
+              this.shouldLoadMore = false
+            }
+          }}
+        />
+        {
+          this.state.selectedTutorList.length > 0 && !params.isEditMode &&
+          <NextButton 
+            onPress={() => this.handleNext()}
+            text={locale.common.next}
+          />
+        }
+      </View>
     );
   }
 }
