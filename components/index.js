@@ -8,6 +8,7 @@ import HideoTextInput from'./HideoTextInput';
 import { NextButton, HeaderButton, EditButton } from'./Button';
 import Slideshow from'./Slideshow';
 import ClassItem from'./ClassItem';
+import ProgressBar from'./ProgressBar';
 import AppliedClassItem from'./AppliedClassItem';
 import IndexMarker from'./IndexMarker';
 import TutorListItem from'./TutorListItem';
@@ -26,6 +27,7 @@ export {
   EditButton,
   IndexMarker,
   ClassItem,
+  ProgressBar,
   AppliedClassItem,
   TutorListItem,
 }
