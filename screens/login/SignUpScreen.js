@@ -70,7 +70,7 @@ class SignUpScreen extends React.Component {
     let { cca2, phoneNumber, callingCode, ...profile } = this.state;
     profile.phone = callingCode + phoneNumber;
 
-    this.props.signUp(profile)
+    this.props.signUp(profile, "", "", "", "")
   }
 
   validateInput() {
@@ -100,10 +100,9 @@ class SignUpScreen extends React.Component {
 
   render() {
     let userRole = this.props.navigation.state.params.userRole;
-    console.warn('userRole', userRole)
     let { locale, fetchErrorMsg } = this.props
 
-    var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+    let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
 
     return (
       <View style={styles.container}>

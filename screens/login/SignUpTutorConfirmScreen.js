@@ -12,10 +12,11 @@ import {
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { signUpTutor } from '../../redux/actions';
+import { verifyCode, verifyCodeCancel, signUp } from '../../redux/actions';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
+import Prompt from 'react-native-prompt';
 
-import { Toast } from '../../components';
+import { Spinner, Toast } from '../../components';
 
 
 class SignUpTutorConfirmScreen extends React.Component {
@@ -23,7 +24,7 @@ class SignUpTutorConfirmScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
     return {
-      title: screenProps.locale.signUp.text.signUp.label,
+      title: screenProps.locale.common.confirm,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -31,20 +32,43 @@ class SignUpTutorConfirmScreen extends React.Component {
     }
   };
 
+  componentWillReceiveProps(nextProps) {
+    console.warn('componentWillReceiveProps : ',nextProps);
+
+    // if sign up fail, show message 
+    if (nextProps.fetchErrorLastUpdate instanceof Date) {
+          console.warn('1');
+
+      if (!(this.props.fetchErrorLastUpdate instanceof Date) ||
+        nextProps.fetchErrorLastUpdate.getTime() !== this.props.fetchErrorLastUpdate.getTime()
+      ) {
+            console.warn('2');
+        this.Toast.show();
+      }
+    }
+    console.warn('3');
+
+    if (nextProps.isVerified && !this.props.isVerified) {
+          console.warn('4');
+
+      // console.warn('verify success!')
+      this.props.navigation.navigate('Signin');
+    }
+  }
+
   handleSignUp() {
-
-
     let { cca2, phoneNumber, callingCode, ...profile } = this.props.profile;
-    let { selfIntro, profession, exp, achievement } = this.props;
+    let { selfIntro, profession, experience, achievement } = this.props;
     profile.phone = callingCode + phoneNumber;
 
-    this.props.signUpTutor(profile, selfIntro, profession, exp, achievement);
+    this.props.signUp(profile, selfIntro, profession, experience, achievement);
   }
 
   render() {
 
     let { locale, profile, selfIntro, profession, experience, achievement} = this.props
     return (
+      <View style = {{flex:1, alignItems:'center'}}>
         <ScrollView 
             contentContainerStyle={styles.scrollContainer}
           >
@@ -134,20 +158,18 @@ class SignUpTutorConfirmScreen extends React.Component {
             {achievement}
             </Text>
           </View>
-          
-          <TouchableOpacity 
+        </ScrollView>
+        { this.props.isLoading && <Spinner /> }
+        <TouchableOpacity 
             style={[styles.button, {marginTop:20, marginBottom:30}]}
             onPress={() => this.handleSignUp()}
           >
             <Text style={{color: 'white'}}>
             {locale.signin.text.signUp.label}
             </Text>
-          </TouchableOpacity>
-
-
-          { this.props.isLoading && <Spinner /> }
-          <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
-        </ScrollView>
+        </TouchableOpacity>
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
+      </View>
     );
   }
 }
@@ -189,7 +211,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   countryPickerContainer: {
-    borderBottomWidth: 1,
     borderColor: 'grey', 
     flexDirection: 'row',
     paddingVertical: 8,
@@ -262,6 +283,14 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
+    isLoading: state.socialLogin.isLoading,
+    
+    isVerified: state.socialLogin.isVerified,
+    verfiedErrorMsg: state.socialLogin.verfiedErrorMsg,
+    fetchErrorMsg: state.socialLogin.fetchErrorMsg,
+    fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate,
+    showMFAPrompt: state.socialLogin.showMFAPrompt,
+
     profile: state.tutorRegistration.profile,
     selfIntro: state.tutorRegistration.selfIntro,
     profession: state.tutorRegistration.profession,
@@ -271,7 +300,8 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  signUpTutor,
-  
+  signUp,
+  verifyCode,
+  verifyCodeCancel,
 })(SignUpTutorConfirmScreen)
 

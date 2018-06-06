@@ -5,18 +5,20 @@ import {
   StyleSheet,
   TouchableOpacity,
   Picker,
+  Alert,
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { Separator } from '../../components';
+import { Separator, Toast } from '../../components';
 import { setExperience } from '../../redux/actions';
+import { ProgressBar, NextButton } from '../../components';
 
 class SignUpTutorExperienceScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     return {
-      // title: screenProps.locale.signUp.title[state.params.userRole],
+      title: screenProps.locale.signUp.title.experience,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -35,6 +37,7 @@ class SignUpTutorExperienceScreen extends React.Component {
     let { locale } = this.props
     return (
       <View style={styles.container}>
+        <ProgressBar step = {3} />
         <Text style={styles.question}>{locale.signUp.text.experience.label}</Text>
         <Picker
           selectedValue={this.state.experience}
@@ -56,18 +59,22 @@ class SignUpTutorExperienceScreen extends React.Component {
           <Picker.Item label="9" value={9} />
           <Picker.Item label="10+" value={10} />
         </Picker>
-        <TouchableOpacity 
-          style={[styles.button, {marginTop: 20} ]}
+        <NextButton 
           onPress={
             () => {
-              this.props.setExperience (this.state.experience);
-              // Next step
-              this.props.navigation.navigate('SignUpTutorAchievementScreen')
+              if (!this.state.experience) {
+                this.Toast.show();
+              }
+              else {
+                this.props.setExperience (this.state.experience);
+                // Next step
+                this.props.navigation.navigate('SignUpTutorAchievementScreen')
+              }
             }
           }
-        >
-          <Text style={{color: 'white'}}> {locale.signin.text.next.label} </Text>
-        </TouchableOpacity>
+          text={locale.signin.text.next.label}
+        />
+        <Toast timeout={3000} ref={(r) => { this.Toast = r; }} text={locale.alert.pleaseAnswer} />
       </View>
     );
   }
@@ -78,11 +85,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E4E4E4',
     alignItems: 'center',
-    paddingTop: 40,
+    paddingTop: 20,
   },
   question: {
     fontSize: 22,
     width: '80%',
+    marginTop: 20,
     marginBottom: 10,
     textAlign: 'center',
   },

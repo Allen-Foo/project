@@ -5,18 +5,22 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { Separator } from '../../components';
+import { Separator, Toast } from '../../components';
 import { setProfession } from '../../redux/actions';
+import { ProgressBar, NextButton } from '../../components';
 
 class SignUpTutorProfessionScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     return {
-      // title: screenProps.locale.signUp.title[state.params.userRole],
+      title: screenProps.locale.signUp.title.profession,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -34,30 +38,38 @@ class SignUpTutorProfessionScreen extends React.Component {
   render() {
     let { locale } = this.props
     return (
-      <View style={styles.container}>
-        <Text style={styles.question}>{locale.signUp.text.profession.label}</Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <ProgressBar step = {2} />
 
-        <TextInput 
-          style={styles.textInput}
-          onChangeText={profession => {
-            // console.warn('text', text);
-            this.setState({profession})
-          }}
-          value={this.state.profession}
-        />
-        <TouchableOpacity 
-          style={[styles.button, {marginTop: 20} ]}
-          onPress={
-            () => {
-              this.props.setProfession (this.state.profession);
-              // Next step
-              this.props.navigation.navigate('SignUpTutorExperienceScreen')
+          <Text style={styles.question}>{locale.signUp.text.profession.label}</Text>
+
+          <TextInput 
+            style={styles.textInput}
+            onChangeText={profession => {
+              // console.warn('text', text);
+              this.setState({profession})
+            }}
+            value={this.state.profession}
+          />
+          <NextButton 
+            onPress={
+              () => {
+                if (!this.state.profession) {
+                  this.Toast.show();
+                }
+                else {
+                  this.props.setProfession (this.state.profession);
+                  // Next step
+                  this.props.navigation.navigate('SignUpTutorExperienceScreen')
+                }
+              }
             }
-          }
-        >
-          <Text style={{color: 'white'}}> {locale.signin.text.next.label} </Text>
-        </TouchableOpacity>
-      </View>
+            text={locale.signin.text.next.label}
+          />
+          <Toast timeout={3000} ref={(r) => { this.Toast = r; }} text={locale.alert.pleaseAnswer} />
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -67,11 +79,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E4E4E4',
     alignItems: 'center',
-    paddingTop: 40,
+    paddingTop: 20,
   },
   question: {
     fontSize: 22,
     width: '80%',
+    marginTop: 20,
     marginBottom: 10,
     textAlign: 'center',
   },

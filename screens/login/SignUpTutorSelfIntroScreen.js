@@ -5,18 +5,23 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { Separator } from '../../components';
+import { Separator, Toast } from '../../components';
 import { setSelfIntro } from '../../redux/actions';
+import { ProgressBar, NextButton } from '../../components';
+
 
 class SignUpTutorSelfIntroScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     return {
-      // title: screenProps.locale.signUp.title[state.params.userRole],
+      title: screenProps.locale.signUp.title.selfIntro,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -34,32 +39,40 @@ class SignUpTutorSelfIntroScreen extends React.Component {
   render() {
     let { locale } = this.props
     return (
-      <View style={styles.container}>
-        <Text style={styles.question}>{locale.signUp.text.selfIntroduction.label}</Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <ProgressBar step = {1} />
 
-        <TextInput 
-          style={styles.textInput}
-          multiline={true}
-          numberOfLines={10}
-          onChangeText={selfIntroduction => {
-            // console.warn('text', text);
-            this.setState({selfIntroduction})
-          }}
-          value={this.state.selfIntroduction}
-        />
-        <TouchableOpacity 
-          style={[styles.button, {marginTop: 20} ]}
-          onPress={
-            () => {
-              this.props.setSelfIntro (this.state.selfIntroduction);
-              // Next step
-              this.props.navigation.navigate('SignUpTutorProfessionScreen')
+          <Text style={styles.question}>{locale.signUp.text.selfIntro.label}</Text>
+
+          <TextInput 
+            style={styles.textInput}
+            multiline={true}
+            numberOfLines={10}
+            onChangeText={selfIntroduction => {
+              // console.warn('text', text);
+              this.setState({selfIntroduction})
+            }}
+            value={this.state.selfIntroduction}
+          />
+          <NextButton 
+            onPress={
+              () => {
+                if (!this.state.selfIntroduction) {
+                  this.Toast.show();
+                }
+                else {
+                  this.props.setSelfIntro (this.state.selfIntroduction);
+                  // Next step
+                  this.props.navigation.navigate('SignUpTutorProfessionScreen')
+                }
+              }
             }
-          }
-        >
-          <Text style={{color: 'white'}}> {locale.signin.text.next.label} </Text>
-        </TouchableOpacity>
-      </View>
+            text={locale.signin.text.next.label}
+          />
+          <Toast timeout={3000} ref={(r) => { this.Toast = r; }} text={locale.alert.pleaseAnswer} />
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -69,11 +82,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E4E4E4',
     alignItems: 'center',
-    paddingTop: 40,
+    paddingTop: 20,
   },
   question: {
     fontSize: 22,
     width: '80%',
+    marginTop: 20,
     marginBottom: 10,
     textAlign: 'center',
   },

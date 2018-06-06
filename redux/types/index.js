@@ -31,10 +31,6 @@ export const SIGN_UP = 'SIGN_UP';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAIL = 'SIGN_UP_FAIL';
 
-export const SIGN_UP_TUTOR = 'SIGN_UP_TUTOR';
-export const SIGN_UP_TUTOR_SUCCESS = 'SIGN_UP_TUTOR_SUCCESS';
-export const SIGN_UP_TUTOR_FAIL = 'SIGN_UP_TUTOR_FAIL';
-
 export const VERIFY_CODE = 'VERIFY_CODE';
 export const VERIFY_CODE_SUCCESS = 'VERIFY_CODE_SUCCESS';
 export const VERIFY_CODE_FAIL = 'VERIFY_CODE_FAIL';

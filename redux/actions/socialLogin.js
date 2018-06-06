@@ -79,26 +79,19 @@ import { ServerErrorCode } from '../../constants/ServerErrorCode'
 import Expo from 'expo';
 import axios from 'axios';
 
-import { onSignInEmail, onSignUpEmail, onSignUpTutorEmail, onVerifyCode, getIdentityId } from '../../lib/Auth/AWS_Auth';
+import { onSignInEmail, onSignUpEmail, onVerifyCode, getIdentityId } from '../../lib/Auth/AWS_Auth';
 
 export const signOut = () => ({
   type: SIGN_OUT_SUCCESS
 })
 
-export const signUp = (profile) => ({
+export const signUp = (profile, selfIntro, profession, experience, achievement) => ({
   type: SIGN_UP,
-  payload: {
-    profile
-  }
-})
-
-export const signUpTutor = (profile, selfIntro, profession, exp, achievement) => ({
-  type: SIGN_UP_TUTOR,
   payload: {
     profile,
     selfIntro,
     profession,
-    exp,
+    experience,
     achievement
   }
 })
@@ -218,10 +211,12 @@ export const signInEmailEpic = (action$, store, { request }) =>
           const {password, ...user} = store.getState().socialLogin.user
           user.loginType = 'email';
           user.awsId = res;
+          const { tutorInformation } = store.getState().socialLogin;
           return {
             type: REGISTER,
             payload: {
-              user
+              user,
+              tutorInformation
             }
           }  
         } else {
@@ -243,7 +238,7 @@ export const signInEmailEpic = (action$, store, { request }) =>
 export const signUpEmailEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_UP)
     .mergeMap(action =>
-      Observable.fromPromise(onSignUpEmail(action.payload.profile))
+      Observable.fromPromise(onSignUpEmail(action.payload))
       .map(res => {
         // console.warn('signUpEmailEpic', res)
         return {
@@ -260,27 +255,6 @@ export const signUpEmailEpic = (action$, store, { request }) =>
       }))
     )
 
-// this epic will sign up user through AWS Cognito
-export const signUpTutorEmailEpic = (action$, store, { request }) =>
-  action$.ofType(SIGN_UP_TUTOR)
-    .mergeMap(action =>
-      Observable.fromPromise(onSignUpTutorEmail(action.payload))
-      .map(res => {
-        // console.warn('signUpEmailEpic', res)
-        return {
-          type: SIGN_UP_TUTOR_SUCCESS,
-          payload: {
-            showMFAPrompt: !res.userConfirmed,
-            user: action.payload.profile
-          }
-        }
-      })
-      .catch(err => Observable.of({
-        type: SIGN_UP_TUTOR_FAIL,
-        payload: err.message
-      }))
-    )
-
 // this epic will register user at dynamoDb
 export const registerEpic = (action$, store, { request }) =>
   action$.ofType(REGISTER)
@@ -289,7 +263,7 @@ export const registerEpic = (action$, store, { request }) =>
         url: '/register',
         method: 'post',
         data: {
-          ...action.payload.user,
+          ...action.payload,
         } 
       }))
       .map(res => {

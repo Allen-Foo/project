@@ -5,18 +5,22 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { Separator } from '../../components';
+import { Separator, Toast } from '../../components';
 import { setAchievement } from '../../redux/actions';
+import { ProgressBar, NextButton } from '../../components';
 
 class SignUpTutorAchievementScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     return {
-      // title: screenProps.locale.signUp.title[state.params.userRole],
+      title: screenProps.locale.signUp.title.achievement,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -34,32 +38,39 @@ class SignUpTutorAchievementScreen extends React.Component {
   render() {
     let { locale } = this.props
     return (
-      <View style={styles.container}>
-        <Text style={styles.question}>{locale.signUp.text.achievement.label}</Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <ProgressBar step = {4} />
+          <Text style={styles.question}>{locale.signUp.text.achievement.label}</Text>
 
-        <TextInput 
-          style={styles.textInput}
-          multiline={true}
-          numberOfLines={5}
-          onChangeText={achievement => {
-            // console.warn('text', text);
-            this.setState({achievement})
-          }}
-          value={this.state.achievement}
-        />
-        <TouchableOpacity 
-          style={[styles.button, {marginTop: 20} ]}
-          onPress={
-            () => {
-              this.props.setAchievement (this.state.achievement);
-              // Next step
-              this.props.navigation.navigate('SignUpTutorConfirmScreen')
+          <TextInput 
+            style={styles.textInput}
+            multiline={true}
+            numberOfLines={5}
+            onChangeText={achievement => {
+              // console.warn('text', text);
+              this.setState({achievement})
+            }}
+            value={this.state.achievement}
+          />
+          <NextButton 
+            onPress={
+              () => {
+                if (!this.state.achievement) {
+                  this.Toast.show();
+                }
+                else {
+                  this.props.setAchievement (this.state.achievement);
+                  // Next step
+                  this.props.navigation.navigate('SignUpTutorConfirmScreen')
+                }
+              }
             }
-          }
-        >
-          <Text style={{color: 'white'}}> {locale.signin.text.next.label} </Text>
-        </TouchableOpacity>
-      </View>
+            text={locale.signin.text.next.label}
+          />
+          <Toast timeout={3000} ref={(r) => { this.Toast = r; }} text={locale.alert.pleaseAnswer} />
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -69,11 +80,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E4E4E4',
     alignItems: 'center',
-    paddingTop: 40,
+    paddingTop: 20,
   },
   question: {
     fontSize: 22,
     width: '80%',
+    marginTop: 20,
     marginBottom: 10,
     textAlign: 'center',
   },
