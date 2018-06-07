@@ -23,7 +23,7 @@ class TutorListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: false
+      checked: props.checked || false
     }
   }
 
@@ -42,7 +42,7 @@ class TutorListItem extends React.Component {
     return (
       <View style={styles.rowContainer}>
         <TouchableOpacity style={styles.avatarContainer} onPress={onPress}>
-          <Image source={{uri: data.uri}} style={styles.avatar}/>
+          <Image source={{uri: data.avatarUrl}} style={styles.avatar}/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
           <Text style={styles.tutorName}>{data.tutorName}</Text>
