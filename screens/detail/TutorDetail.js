@@ -208,7 +208,6 @@ class TutorDetailScreen extends React.Component {
               name={'location-on'} 
               size={20}
               color={'#ff0000'}
-              style={{position: 'absolute', right: 0}}
             />
           </View>
           <View style={[styles.innerTextContainer, {width: '70%'}]}>
@@ -284,17 +283,20 @@ class TutorDetailScreen extends React.Component {
           </View>
             { this.renderContact() }
             { this.renderAddress() }
-          <TouchableOpacity style={styles.commentButton} onPress={() => this.handleCommentButtonPress()} >
-            <Text style={{color: 'green', }}> 
-              { locale.tutorDetail.text.giveComment.label }
-            </Text>
-            <Entypo
-              name={"chevron-thin-right"}
-              size={15}
-              style={styles.chevronContainer}
-              color={'#555'}
-            />
-          </TouchableOpacity>
+            {
+              this.props.mode == 'learner' && 
+              <TouchableOpacity style={styles.commentButton} onPress={() => this.handleCommentButtonPress()} >
+                <Text style={{color: 'green', }}> 
+                  { locale.tutorDetail.text.giveComment.label }
+                </Text>
+                <Entypo
+                  name={"chevron-thin-right"}
+                  size={15}
+                  style={styles.chevronContainer}
+                  color={'#555'}
+                />
+              </TouchableOpacity>
+            }
         </View>
         { this.props.mode == 'learner' ? this.renderTutorInfo(classDetail, locale) : this.renderLearnerInfo(classDetail) }
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.classDescription} </Text>
