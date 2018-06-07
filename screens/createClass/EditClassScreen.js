@@ -124,7 +124,7 @@ class EditClassScreen extends React.Component {
           style={styles.rowContainer}
           onPress={() => this.props.navigation.navigate('AssignTutor', Object.assign(params, {isEditMode: true}))}
         >
-          <View style={styles.leftContainer}>
+          <View style={[styles.leftContainer, {justifyContent: 'center'}]}>
             <Text style={styles.label}>{'Tutor'}</Text>
           </View>
           <View style={styles.rightContainer}>
@@ -252,7 +252,7 @@ const AvatarList = props => {
         urlList.map((url, i) => 
           <Image
             key={i}
-            style={{width: 30, height: 30, borderRadius: 15, marginRight: 5}}
+            style={{width: 34, height: 34, borderRadius: 17, marginRight: 5}}
             source={{url: url}}
           />
         )
