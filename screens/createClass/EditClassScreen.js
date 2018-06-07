@@ -120,6 +120,17 @@ class EditClassScreen extends React.Component {
           value={params.description}
           onPress={() => this.props.navigation.navigate('ClassDescription', Object.assign(params, {isEditMode: true}))}
         />
+        <TouchableOpacity
+          style={styles.rowContainer}
+          onPress={() => this.props.navigation.navigate('AssignTutor', Object.assign(params, {isEditMode: true}))}
+        >
+          <View style={styles.leftContainer}>
+            <Text style={styles.label}>{'Tutor'}</Text>
+          </View>
+          <View style={styles.rightContainer}>
+            <AvatarList urlList={params.tutorList && params.tutorList.map(x => x.avatarUrl)} />
+          </View>
+        </TouchableOpacity>
         <ClassInfoRow
           label={locale.classSummary.label.category}
           appliedClassList={appliedClassList}
@@ -169,18 +180,17 @@ class EditClassScreen extends React.Component {
         </TouchableOpacity>
         {
           appliedClassList && appliedClassList.some(list => list.classId === params.classId)?
-            
-              <TouchableOpacity style={styles.deleteButton} onPress={() => {
-                Alert.alert(
-                  locale.classSummary.label.deleteMsg,
-                  null,
-                  [{text: locale.common.okMsg}],
-                )
-              }}>
-                <Text style={{color: 'white', }}> 
-                  { locale.common.delete }
-                </Text>
-              </TouchableOpacity>
+            <TouchableOpacity style={styles.deleteButton} onPress={() => {
+              Alert.alert(
+                locale.classSummary.label.deleteMsg,
+                null,
+                [{text: locale.common.okMsg}],
+              )
+            }}>
+              <Text style={{color: 'white', }}> 
+                { locale.common.delete }
+              </Text>
+            </TouchableOpacity>
           :
             <TouchableOpacity style={styles.deleteButton} onPress={() => this.props.deleteClass(params)}>
               <Text style={{color: 'white', }}> 
@@ -215,7 +225,7 @@ const ClassInfoRow = props => {
           <Text style={[styles.text, textStyle]}>{value}</Text>
         </View>
       </TouchableOpacity>
-   )
+    )
   } else {
     return (
       <TouchableOpacity
@@ -233,6 +243,26 @@ const ClassInfoRow = props => {
   }
 }
 
+const AvatarList = props => {
+  let { urlList } = props
+  if (urlList && urlList.length > 0) {
+    return (
+      <View style={styles.avatarList}>
+      {
+        urlList.map((url, i) => 
+          <Image
+            key={i}
+            style={{width: 30, height: 30, borderRadius: 15, marginRight: 5}}
+            source={{url: url}}
+          />
+        )
+      }
+      </View>
+    )
+  }
+  return null
+}
+
 const sliderContainer = {
   width: width * 0.9,
   height: width * 0.9 * 3 / 4,
@@ -240,13 +270,9 @@ const sliderContainer = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#F0F0F0',
     alignItems: 'center',
     paddingTop: 20,
-  },
-  title: {
-    paddingVertical: 20,
   },
   label: {
     fontWeight: '600'
@@ -285,6 +311,9 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     borderRadius: 5, 
     marginVertical: 20,
+  },
+  avatarList: {
+    flexDirection: 'row',
   }
 });
 
