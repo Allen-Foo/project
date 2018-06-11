@@ -298,7 +298,11 @@ class TutorDetailScreen extends React.Component {
               </TouchableOpacity>
             }
         </View>
-        { this.props.mode == 'learner' ? this.renderTutorInfo(classDetail, locale) : this.renderLearnerInfo(classDetail) }
+        { 
+          this.props.mode == 'learner' 
+          ? classDetail.tutorList && classDetail.tutorList.length > 0 ? this.renderTutorList(classDetail, locale) : this.renderTutorInfo(classDetail, locale)
+          : this.renderLearnerInfo(classDetail) 
+        }
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.classDescription} </Text>
         <View style={styles.tutorDetailContainer}>
           <View style={{marginTop: -20}}>
@@ -345,6 +349,50 @@ class TutorDetailScreen extends React.Component {
               </View>
             </View>
           </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
+
+  renderTutorList(classDetail, locale) {
+    let { tutorList } = classDetail;
+    return (
+      <View>
+        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
+        <View style={styles.tutorDetailContainer}>
+          { 
+            tutorList.map((tutor, index) => (
+              <View key={index} style={styles.innerTutorDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfo')}>
+                <View style={{paddingTop: 50}}>
+                  <Text style={{paddingHorizontal: 10}}>Introduction:</Text>
+                  <Text style={{paddingHorizontal: 10, paddingTop: 5}}>
+                    {tutor.introduction}
+                  </Text>
+                </View>
+                <View style={styles.tutorAvatarContainer}>
+                  <Avatar
+                    large
+                    rounded
+                    source={{url: tutor.avatarUrl}}
+                    activeOpacity={0.7}
+                    containerStyle={styles.avatarContainer}
+                  />
+                  <View style={styles.usernameText}>
+                    <Text style={{fontSize: 20}}>{tutor.tutorName}</Text>
+                    <Text style={{fontSize: 14, color: '#bebebe'}}>{`${locale.tutorDetail.text.rating + parseFloat(classDetail.totalRatings).toFixed(1)}/5`}</Text>
+                    <View style={{flexDirection: 'row', marginTop: 5}}>
+                      <FontAwesome
+                        name={"check-square-o"}
+                        size={20}
+                        color={'#f72470'}
+                      />
+                      <Text style={{marginLeft: 5, color: '#f72470'}}>{this.props.locale.tutorDetail.text.verifiedBy}</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            ))
+          }
         </View>
       </View>
     )
@@ -452,6 +500,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingLeft: 10,
     marginTop: 20,
+    marginBottom: 20,
   },
   tutorAvatarContainer: {
     flexDirection: 'row',
