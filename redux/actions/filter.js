@@ -76,7 +76,7 @@ export const searchClassListEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: SEARCH_CLASS_LIST_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
       

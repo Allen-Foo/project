@@ -21,6 +21,7 @@ import appSecrets from '../../appSecrets';
 import { createClass, updateClass } from '../../redux/actions';
 import { NavigationActions } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
+import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
 class ClassSummaryScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -131,7 +132,9 @@ class ClassSummaryScreen extends React.Component {
     let { params } = this.props.navigation.state;
     params.userId = this.props.userId;
 
-    let {locale} = this.props;
+    let {locale, fetchErrorMsg} = this.props;
+
+    var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
 
     // console.warn('params', params)
 
@@ -176,7 +179,7 @@ class ClassSummaryScreen extends React.Component {
           text={this.props.locale.common.submit}
         /> 
         { this.props.isLoading && <Spinner /> }
-        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
     );
   }

@@ -163,7 +163,7 @@ export const createClassEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: CREATE_CLASS_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -185,7 +185,7 @@ export const updateClassEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: UPDATE_CLASS_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -207,7 +207,7 @@ export const deleteClassEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: DELETE_CLASS_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -229,7 +229,7 @@ export const duplicateClassEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: DUPLICATE_CLASS_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -254,7 +254,7 @@ export const getClassListEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GET_CLASS_LIST_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -274,7 +274,7 @@ export const getClassDetailEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GET_CLASS_DETAIL_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -297,7 +297,7 @@ export const getAllClassListEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GET_ALL_CLASS_LIST_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -321,7 +321,7 @@ export const giveCommentEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GIVE_COMMENT_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -342,7 +342,7 @@ export const getFavouriteClassListEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GET_FAVOURITE_CLASS_LIST_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -364,6 +364,6 @@ export const applyClassEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: APPLY_CLASS_FAIL,
-        payload: err.message
+        payload: err
       }))
     )

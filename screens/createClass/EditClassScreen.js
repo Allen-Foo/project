@@ -24,6 +24,7 @@ import appSecrets from '../../appSecrets';
 import { getClassDetail, updateClass, deleteClass } from '../../redux/actions';
 import { NavigationActions } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
+import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
 class EditClassScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -102,6 +103,8 @@ class EditClassScreen extends React.Component {
  
   render() {
     let params = this.props.classDetail;
+
+    var errMessage = getLocaleErrorMessage (this.props.locale, this.props.fetchErrorMsg);
 
     if (this.props.isLoading || !params) {
       return <Spinner />
@@ -202,7 +205,7 @@ class EditClassScreen extends React.Component {
               </Text>
             </TouchableOpacity>
         }
-        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </ScrollView>
     );
   }

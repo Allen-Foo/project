@@ -20,6 +20,7 @@ import { Hr, HideoTextInput} from '../../components';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import { onSignIn } from '../../lib/Auth/AWS_Auth';
+import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
 
 class SigninScreen extends React.Component {
@@ -83,13 +84,17 @@ class SigninScreen extends React.Component {
       if (!(this.props.fetchErrorLastUpdate instanceof Date) ||
         nextProps.fetchErrorLastUpdate.getTime() !== this.props.fetchErrorLastUpdate.getTime()
       ) {
+        console.log("this.Toast.show");
         this.Toast.show();
       }
     }
   }
 
   render() {
-    let { locale, signInFacebook, signInGoogle } = this.props
+    let { locale, signInFacebook, signInGoogle, fetchErrorMsg } = this.props
+
+    var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+
     return (
       <View style={styles.container}>
         
@@ -144,7 +149,7 @@ class SigninScreen extends React.Component {
           </Text>
         </TouchableOpacity>
         { this.props.isLoading && <Spinner /> }
-        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
     );
   }

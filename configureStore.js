@@ -36,6 +36,20 @@ const epicMiddleware = createEpicMiddleware(rootEpic, {
   // },
 });
 
+// add interceptors to handle the response
+restClient.interceptors.response.use((response) => {
+    switch (response.data.statusCode) {
+      case 200:     // API_CODE_OK
+        return response;
+      default:
+        return Promise.reject({type: response.data.statusCode}); 
+    }
+}, function (error) {
+    var errorResponse = {...error.response, type: -1};
+    return Promise.reject(errorResponse);
+
+});
+
 function configureStore() {
   const store = createStore(
     persistedReducer,

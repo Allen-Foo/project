@@ -17,6 +17,7 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Hr, HideoTextInput} from '../../components';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
 import Prompt from 'react-native-prompt';
+import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
 import { Spinner, Toast } from '../../components';
 import { signUp, verifyCode, verifyCodeCancel, signInFacebook, signInGoogle } from '../../redux/actions'
@@ -96,7 +97,10 @@ class SignUpScreen extends React.Component {
   render() {
     let userRole = this.props.navigation.state.params.userRole;
     console.warn('userRole', userRole)
-    let { locale } = this.props
+    let { locale, fetchErrorMsg } = this.props
+
+    var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+
     return (
       <View style={styles.container}>
         {
@@ -206,7 +210,7 @@ class SignUpScreen extends React.Component {
         }
 
         { this.props.isLoading && <Spinner /> }
-        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
     );
   }

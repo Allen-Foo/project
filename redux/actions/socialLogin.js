@@ -71,6 +71,8 @@ import awsmobile from '../../aws-exports';
 import appSecrets from '../../appSecrets';
 import { Observable } from 'rxjs/Observable';
 
+import { ServerErrorCode } from '../../constants/ServerErrorCode'
+
 import Expo from 'expo';
 import axios from 'axios';
 
@@ -219,7 +221,7 @@ export const signInEmailEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: SIGN_IN_EMAIL_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -240,7 +242,7 @@ export const signUpEmailEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: SIGN_UP_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -264,7 +266,7 @@ export const registerEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: REGISTER_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -288,7 +290,7 @@ export const loginEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: LOGIN_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -312,7 +314,7 @@ export const getIdentityIdEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: LOGIN_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -333,7 +335,7 @@ export const verifyCodeEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: VERIFY_CODE_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -355,18 +357,18 @@ export const signInFacebookEpic = (action$, store, { request }) =>
           case 'cancel':
             return {
               type: SIGN_IN_FACEBOOK_FAIL,
-              payload: 'login canceled'
+              payload: { type: ServerErrorCode.FACEBOOK_LOGIN_CANCEL }
             }
           default:
             return {
               type: SIGN_IN_FACEBOOK_FAIL,
-              payload: 'login failed'
+              payload: { type: ServerErrorCode.FACEBOOK_LOGIN_FAIL }//'login failed'
             }
         }
       })
       .catch(error => Observable.of({
         type: SIGN_IN_FACEBOOK_FAIL,
-        payload: 'login failed'
+        payload: { type: ServerErrorCode.FACEBOOK_LOGIN_FAIL }
       })),
     )
 
@@ -390,7 +392,7 @@ export const getFacebookProfileEpic = (action$, store, { request }) =>
       })
       .catch(error => Observable.of({
         type: GET_FACEBOOK_PROFILE_FAIL,
-        payload: 'get profile failed'
+        payload: ServerErrorCode.FACEBOOK_GET_PROFILE_FAIL // 'get profile failed'
       })),
     )
 
@@ -423,7 +425,7 @@ export const getFacebookPictureEpic = (action$, store, { request }) =>
       })
       .catch(error => Observable.of({
         type: GET_FACEBOOK_PICTURE_FAIL,
-        payload: 'get profile failed'
+        payload: ServerErrorCode.FACEBOOK_GET_PICTURE_FAIL // 'get profile failed'
       })),
     )
 
@@ -452,18 +454,18 @@ export const signInGoogleEpic = (action$, store, { request }) =>
           case 'cancel':
             return {
               type: SIGN_IN_GOOGLE_FAIL,
-              payload: 'login canceled'
+              payload: { type: ServerErrorCode.GOOGLE_LOGIN_CANCEL }
             }
           default:
             return {
               type: SIGN_IN_GOOGLE_FAIL,
-              payload: 'login failed'
+              payload: { type: ServerErrorCode.GOOGLE_LOGIN_FAIL }
             }
         }
       })
       .catch(error => Observable.of({
         type: SIGN_IN_GOOGLE_FAIL,
-        payload: 'login failed'
+        payload: { type: ServerErrorCode.GOOGLE_LOGIN_FAIL }
       })),
     )
 
@@ -488,7 +490,7 @@ export const updateAvatarEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: UPDATE_AVATAR_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -513,7 +515,7 @@ export const updateProfileEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: UPDATE_PROFILE_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -536,7 +538,7 @@ export const addToBookmarkEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: ADD_TO_BOOKMARK_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -559,7 +561,7 @@ export const removeFromBookmarkEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: REMOVE_FROM_BOOKMARK_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -588,7 +590,7 @@ export const getAppliedClassListEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GET_APPLIED_CLASS_LIST_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 

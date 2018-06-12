@@ -17,6 +17,8 @@ import { getAppliedClassList, deleteClass } from '../../redux/actions';
 import { Separator, Spinner, Toast, AppliedClassItem} from '../../components';
 import Swipeout from 'react-native-swipeout';
 import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
+import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
+
 const {width, height} = Dimensions.get('window');
 
 class AppliedClassListScreen extends React.Component {
@@ -78,7 +80,7 @@ class AppliedClassListScreen extends React.Component {
     )
   }
 
-  renderEmptyPage = () => {
+  renderEmptyPage = (errMessage) => {
     return (
       <View style={styles.container}>
         <Entypo
@@ -99,17 +101,21 @@ class AppliedClassListScreen extends React.Component {
           <Text style={styles.text}>{this.props.locale.appliedClassList.exploreClasses}</Text>
         </TouchableOpacity>  
         { this.props.isLoading && <Spinner intensity={100}/> }
-        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
     )
   }
 
-  render() {
-    const { appliedClassList } = this.props;
+  render() {        
+    const { appliedClassList, locale, fetchErrorMsg } = this.props;
+
+    var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+
+
     if (appliedClassList.length > 0) {
       return this.renderClassList(appliedClassList)
     }
-    return this.renderEmptyPage()
+    return this.renderEmptyPage(errMessage)
   }
 }
 
