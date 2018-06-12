@@ -183,7 +183,7 @@ class ClassListScreen extends React.Component {
     )
   }
 
-  render() {
+  render() {    
     const { classList, locale, fetchErrorMsg } = this.props;
 
     var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);

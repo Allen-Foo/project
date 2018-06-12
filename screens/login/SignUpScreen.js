@@ -100,9 +100,10 @@ class SignUpScreen extends React.Component {
 
   render() {
     let userRole = this.props.navigation.state.params.userRole;
+
     let { locale, fetchErrorMsg } = this.props
 
-    let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+    var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
 
     return (
       <View style={styles.container}>

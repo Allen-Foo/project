@@ -623,7 +623,7 @@ export const createTutorEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: CREATE_TUTOR_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -646,7 +646,7 @@ export const getTutorListEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GET_TUTOR_LIST_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -668,7 +668,7 @@ export const deleteTutorEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: DELETE_TUTOR_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
 
@@ -690,6 +690,6 @@ export const updateTutorEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: UPDATE_TUTOR_FAIL,
-        payload: err.message
+        payload: err
       }))
     )
