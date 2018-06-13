@@ -54,6 +54,9 @@ import {
   DELETE_TUTOR,
   DELETE_TUTOR_SUCCESS,
   DELETE_TUTOR_FAIL,
+  UPDATE_TUTOR,
+  UPDATE_TUTOR_SUCCESS,
+  UPDATE_TUTOR_FAIL,
 } from '../types';
 
 
@@ -430,6 +433,24 @@ export default (state = {...defaultState}, action) => {
         tutorList: tutorList,
       };
     case GET_TUTOR_LIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case UPDATE_TUTOR:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case UPDATE_TUTOR_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        tutorList: [],
+      };
+    case UPDATE_TUTOR_FAIL:
       return {
         ...state,
         isLoading: false,

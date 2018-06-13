@@ -61,6 +61,9 @@ import {
   DELETE_TUTOR,
   DELETE_TUTOR_SUCCESS,
   DELETE_TUTOR_FAIL,
+  UPDATE_TUTOR,
+  UPDATE_TUTOR_SUCCESS,
+  UPDATE_TUTOR_FAIL,
 } from '../types';
 
 import AWS from 'aws-sdk';
@@ -178,6 +181,13 @@ export function deleteTutor(cls) {
   return {
     type: DELETE_TUTOR,
     payload: cls
+  }
+}
+
+export function updateTutor(tutor) {
+  return {
+    type: UPDATE_TUTOR,
+    payload: tutor
   }
 }
 
@@ -607,7 +617,7 @@ export const createTutorEpic = (action$, store, { request }) =>
     )
 
 export const getTutorListEpic = (action$, store, { request }) =>
-  action$.ofType(GET_TUTOR_LIST, CREATE_TUTOR_SUCCESS,  DELETE_TUTOR_SUCCESS) // UPDATE_TUTOR_SUCCESS, DUPLICATE_TUTOR_SUCCESS)
+  action$.ofType(GET_TUTOR_LIST, CREATE_TUTOR_SUCCESS,  DELETE_TUTOR_SUCCESS, UPDATE_TUTOR_SUCCESS) //, DUPLICATE_TUTOR_SUCCESS)
     .mergeMap(action => 
       Observable.fromPromise(request({
         url: '/getTutorList',
@@ -651,3 +661,24 @@ export const deleteTutorEpic = (action$, store, { request }) =>
       }))
     )
 
+export const updateTutorEpic = (action$, store, { request }) =>
+  action$.ofType(UPDATE_TUTOR)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: `/updateTutor/${action.payload.tutorId}`,
+        method: 'post',
+        data: {
+          ...action.payload
+        } 
+      }))
+      .map(res => {
+        return {
+          type: UPDATE_TUTOR_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: UPDATE_TUTOR_FAIL,
+        payload: err.message
+      }))
+    )
