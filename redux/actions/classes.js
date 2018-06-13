@@ -313,14 +313,14 @@ export const giveCommentEpic = (action$, store, { request }) =>
         }
        }))
       .map(res => {
-        // console.warn('update profile success', res.data)
+        // console.warn('GIVE_COMMENT success', res.data)
         return {
           type: GIVE_COMMENT_SUCCESS,
           payload: res.data
         }
       })
       .catch(err => Observable.of({
-        type: GET_FAVOURITE_CLASS_LIST_FAIL,
+        type: GIVE_COMMENT_FAIL,
         payload: err.message
       }))
     )
