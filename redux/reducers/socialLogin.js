@@ -63,9 +63,9 @@ import {
 const defaultState = {
   isLoading: false,
   isLoggedIn: false,
-  awsId: null,                                                        
-  avatarUrl: null,
-  user: null,
+  // awsId: null,                                                        
+  // avatarUrl: null,
+  // user: null,
   isVerified: false,
   verfiedErrorMsg: null,
   fetchErrorMsg: null,
@@ -114,7 +114,7 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoading: false,
         isLoggedIn: true,
-        user: action.payload,
+        // user: action.payload,
         bookmark: action.payload.bookmark || [],
       };
     case REGISTER_FAIL:
@@ -137,7 +137,7 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoading: false,
         isLoggedIn: true,
-        user: action.payload,
+        // user: action.payload,
         bookmark: action.payload.bookmark || [],
       };
     case LOGIN_FAIL:
@@ -190,7 +190,7 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        awsId: action.payload.awsId
+        // awsId: action.payload.awsId
       };
     case SIGN_IN_EMAIL_FAIL:
       // console.warn('here', 'SIGN_IN_EMAIL_FAIL', action.payload)
@@ -213,7 +213,7 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        awsId: action.payload
+        // awsId: action.payload
       };
     case SIGN_IN_FACEBOOK_FAIL:
       // console.warn('here', 'DO_GET_SUCCESS', action.payload)
@@ -309,7 +309,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
-        user: action.payload
+        // user: action.payload
       };
     case UPDATE_AVATAR_FAIL:
       return {
@@ -329,7 +329,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
-        user: action.payload
+        // user: action.payload
       };
     case UPDATE_PROFILE_FAIL:
       // console.warn('here', 'UPDATE_PROFILE_FAIL', action.payload)
@@ -350,7 +350,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
-        user: action.payload,
+        // user: action.payload,
         bookmark: action.payload.bookmark || [],
       };
     case ADD_TO_BOOKMARK_FAIL:
@@ -372,7 +372,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
-        user: action.payload,
+        // user: action.payload,
         bookmark: action.payload.bookmark || [],
       };
     case REMOVE_FROM_BOOKMARK_FAIL:

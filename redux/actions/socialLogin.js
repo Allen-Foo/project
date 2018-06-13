@@ -208,7 +208,7 @@ export const signInEmailEpic = (action$, store, { request }) =>
       .map(res => {
         if (action.payload.isNewUser) {
           // remove password field and add login type and awsId
-          const {password, ...user} = store.getState().socialLogin.user
+          const {password, ...user} = store.getState().userProfile.user
           user.loginType = 'email';
           user.awsId = res;
           const { tutorInformation } = store.getState().socialLogin;
@@ -336,8 +336,8 @@ export const verifyCodeEpic = (action$, store, { request }) =>
         return {
           type: SIGN_IN_EMAIL,
           payload: {
-            username: store.getState().socialLogin.user.username,
-            password: store.getState().socialLogin.user.password,
+            username: store.getState().userProfile.user.username,
+            password: store.getState().userProfile.user.password,
             isNewUser: true
           }
         }
@@ -487,7 +487,7 @@ export const updateAvatarEpic = (action$, store, { request }) =>
         data: {
           key: 'test',
           file: action.payload.avatar.base64,
-          awsId: store.getState().socialLogin.user.awsId//this.props.user.awsId
+          awsId: store.getState().userProfile.user.awsId//this.props.user.awsId
         }
        }))
       .map(res => {
@@ -511,7 +511,7 @@ export const updateProfileEpic = (action$, store, { request }) =>
         url: '/updateProfile',
         data: {
           key: 'test',
-          awsId: store.getState().socialLogin.user.awsId,//this.props.user.awsId
+          awsId: store.getState().userProfile.user.awsId,//this.props.user.awsId
           user: action.payload.profile
         }
        }))
@@ -535,7 +535,7 @@ export const addToBookmarkEpic = (action$, store, { request }) =>
         url: `/addToBookmark/${action.payload}`,
         method: 'post',
         data: {
-          userId: store.getState().socialLogin.user.userId
+          userId: store.getState().userProfile.user.userId
         } 
       }))
       .map(res => {
@@ -558,7 +558,7 @@ export const removeFromBookmarkEpic = (action$, store, { request }) =>
         url: `/removeFromBookmark/${action.payload}`,
         method: 'post',
         data: {
-          userId: store.getState().socialLogin.user.userId //"b26f7ab4-ef3e-4d27-8cef-0cf984243e07"
+          userId: store.getState().userProfile.user.userId //"b26f7ab4-ef3e-4d27-8cef-0cf984243e07"
         } 
       }))
       .map(res => {
@@ -587,7 +587,7 @@ export const getAppliedClassListEpic = (action$, store, { request }) =>
         url: '/getAppliedClassList',
         method: 'post',
         data: {
-          userId: store.getState().socialLogin.user.userId
+          userId: store.getState().userProfile.user.userId
         } 
       }))
       .map(res => {

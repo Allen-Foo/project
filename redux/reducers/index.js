@@ -5,6 +5,7 @@ import { combineEpics } from 'redux-observable';
 import language from './language';
 import appType from './appType';
 import classes from './classes';
+import userProfile from './userProfile';
 import socialLogin from './socialLogin';
 import filter from './filter';
 import tutorRegistration from './tutorRegistration'
@@ -56,6 +57,7 @@ export const rootReducer = combineReducers({
   appType,
   classes,
   socialLogin,
+  userProfile,
   filter,
   tutorRegistration,
 })

@@ -17,7 +17,8 @@ import appSecrets from './appSecrets';
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['language', 'classes', 'filter'] // language will not be persisted
+  whiteList: ['socialLogin'],
+  // blacklist: ['language', 'classes', 'filter'] // language will not be persisted
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

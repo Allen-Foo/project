@@ -309,7 +309,7 @@ export const giveCommentEpic = (action$, store, { request }) =>
         url: `/giveComment/${action.payload.classId}`,
         data: {
           comment: action.payload.comment,
-          userId: store.getState().socialLogin.user.userId,
+          userId: store.getState().userProfile.user.userId,
         }
        }))
       .map(res => {

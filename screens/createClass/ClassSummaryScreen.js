@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.socialLogin.user && state.socialLogin.user.userId,
+    userId: state.userProfile.user && state.userProfile.user.userId,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     requireUpdateClassList: state.classes.requireUpdateClassList,

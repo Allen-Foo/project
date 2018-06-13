@@ -652,7 +652,7 @@ const mapStateToProps = (state) => {
     languageKey: state.language.key,
     mode: state.appType.mode,
     appliedClassList: state.socialLogin.appliedClassList,
-    user: state.socialLogin.user,
+    user: state.userProfile.user,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     classDetail: state.classes.classDetail,

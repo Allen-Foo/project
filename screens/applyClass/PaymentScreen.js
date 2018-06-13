@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    user: state.socialLogin.user,
+    user: state.userProfile.user,
     languageKey: state.language.key,
     locale: state.language.locale,
     fetchErrorMsg: state.classes.fetchErrorMsg,

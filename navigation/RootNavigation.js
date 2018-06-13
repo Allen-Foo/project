@@ -310,7 +310,7 @@ const mapStateToProps = (state) => {
   return {
     locale: state.language.locale,
     appType: state.appType.mode,
-    user: state.socialLogin.user,
+    user: state.userProfile.user,
   }
 }
 

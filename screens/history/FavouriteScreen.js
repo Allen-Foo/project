@@ -100,7 +100,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    user: state.socialLogin.user,
+    user: state.userProfile.user,
     isLoading: state.classes.isLoading,
     favouriteClassList: state.classes.favouriteClassList,
     requireUpdateClassList: state.classes.requireUpdateClassList,
