@@ -69,7 +69,7 @@ class ClassListScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.classList.length > 0 && nextProps.classList !== this.state.classList) {
+    if (nextProps.classList && nextProps.classList.length > 0 && nextProps.classList !== this.state.classList) {
       this.setState({classList: nextProps.classList})
     }
   }
@@ -184,7 +184,7 @@ class ClassListScreen extends React.Component {
 
   render() {
     const { classList } = this.props;
-    if (classList.length > 0) {
+    if (classList && classList.length > 0) {
       return this.renderClassList(classList)
     }
     return this.renderEmptyPage()
