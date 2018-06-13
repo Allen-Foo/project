@@ -103,7 +103,7 @@ class SignUpScreen extends React.Component {
 
     let { locale, fetchErrorMsg } = this.props
 
-    var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+    let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
 
     return (
       <View style={styles.container}>

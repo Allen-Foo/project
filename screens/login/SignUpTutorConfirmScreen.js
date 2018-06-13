@@ -66,7 +66,10 @@ class SignUpTutorConfirmScreen extends React.Component {
 
   render() {
 
-    let { locale, profile, selfIntro, profession, experience, achievement} = this.props
+    let { locale, profile, selfIntro, profession, experience, achievement, fetchErrorMsg} = this.props
+
+    let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+
     return (
       <View style = {{flex:1, alignItems:'center'}}>
         <ScrollView 
@@ -168,7 +171,7 @@ class SignUpTutorConfirmScreen extends React.Component {
             {locale.signin.text.signUp.label}
             </Text>
         </TouchableOpacity>
-        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
     );
   }

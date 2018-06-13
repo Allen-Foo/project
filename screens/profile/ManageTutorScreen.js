@@ -94,6 +94,10 @@ class ManageTutorScreen extends React.Component {
       }
 
     ]
+
+    let { locale, fetchErrorMsg } = this.props
+    let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+
     return (
       <FlatList
         contentContainerStyle={styles.listContainer}
@@ -144,7 +148,7 @@ class ManageTutorScreen extends React.Component {
           />
           <Text style={styles.text}> {this.props.locale.manageTutor.text.addATutor} </Text>
         </TouchableOpacity>  
-        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.props.fetchErrorMsg} />
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
     )
   }
