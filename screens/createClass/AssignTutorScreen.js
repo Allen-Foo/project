@@ -111,17 +111,6 @@ class AssignTutorScreen extends React.Component {
               </View>
             )
           }}
-          onEndReachedThreshold={0.1}
-          onEndReached={({ distanceFromEnd }) => {
-            this.shouldLoadMore = true
-          }}
-          ListFooterComponent={this.renderFooter}
-          onMomentumScrollEnd={() => {
-            if (this.shouldLoadMore && this.props.isLastTutorList == false) {
-              this.loadMoreItems();
-              this.shouldLoadMore = false
-            }
-          }}
         />
         {
           this.state.selectedTutorList.length > 0 && !params.isEditMode &&
