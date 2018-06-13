@@ -21,9 +21,10 @@ import {
   SIGN_UP,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
-  SIGN_UP_TUTOR,
-  SIGN_UP_TUTOR_SUCCESS,
-  SIGN_UP_TUTOR_FAIL,
+  VALIDATE_NEW_USER_INFO,
+  VALIDATE_NEW_USER_INFO_SUCCESS,
+  VALIDATE_NEW_USER_INFO_FAIL,
+  RESET_VALIDATE_NEW_USER_INFO_BOOL,
   VERIFY_CODE,
   VERIFY_CODE_SUCCESS,
   VERIFY_CODE_FAIL,
@@ -95,6 +96,14 @@ export const signUp = (profile, selfIntro, profession, experience, achievement) 
     achievement
   }
 })
+
+export const validateNewUserInfo = (email, username) => ({
+  type: VALIDATE_NEW_USER_INFO,
+  payload: {
+    email,
+    username,
+  }
+}) 
 
 export const verifyCode = (username, code) => ({
   type: VERIFY_CODE,
@@ -251,6 +260,29 @@ export const signUpEmailEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: SIGN_UP_FAIL,
+        payload: err
+      }))
+    )
+
+export const validateNewUserInfoEpic = (action$, store, { request }) =>
+  action$.ofType(VALIDATE_NEW_USER_INFO)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: '/validateNewUserInfo',
+        method: 'post',
+        data: {
+          ...action.payload,
+        } 
+      }))
+      .map(res => {
+        // console.warn('register success', res)
+        return {
+          type: VALIDATE_NEW_USER_INFO_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: VALIDATE_NEW_USER_INFO_FAIL,
         payload: err
       }))
     )

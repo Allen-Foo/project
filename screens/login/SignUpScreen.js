@@ -20,7 +20,7 @@ import Prompt from 'react-native-prompt';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
 import { Spinner, Toast } from '../../components';
-import { signUp, verifyCode, verifyCodeCancel, signInFacebook, signInGoogle, setTutorProfile } from '../../redux/actions'
+import { signUp, verifyCode, verifyCodeCancel, signInFacebook, signInGoogle, setTutorProfile, validateNewUserInfo } from '../../redux/actions'
 
 
 class SignUpScreen extends React.Component {
@@ -64,6 +64,14 @@ class SignUpScreen extends React.Component {
       // console.warn('verify success!')
       this.props.navigation.navigate('Signin');
     }
+
+    if (nextProps.hasValidateNewUserInfo && !this.props.hasValidateNewUserInfo) {
+      let { ...profile } = this.state;
+
+      this.props.setTutorProfile(profile);
+      // Next step
+      this.props.navigation.navigate('SignUpTutorSelfIntroScreen');
+    }
   }
 
   handleSignUp() {
@@ -84,12 +92,9 @@ class SignUpScreen extends React.Component {
       Alert.alert('Phone Number cannot be empty!')
     } else {
       if (this.props.navigation.state.params.userRole == 'tutor') {
-
-        let { ...profile } = this.state;
-
-        this.props.setTutorProfile(profile);
-        // Next step
-        this.props.navigation.navigate('SignUpTutorSelfIntroScreen');
+      
+        this.props.validateNewUserInfo (this.state.email, this.state.username);
+        
       }
       else {
         // submit to server
@@ -317,6 +322,7 @@ const mapStateToProps = (state) => {
     verfiedErrorMsg: state.socialLogin.verfiedErrorMsg,
     fetchErrorMsg: state.socialLogin.fetchErrorMsg,
     fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate,
+    hasValidateNewUserInfo: state.socialLogin.hasValidateNewUserInfo,
   }
 }
 
@@ -327,5 +333,6 @@ export default connect(mapStateToProps, {
   signInFacebook,
   signInGoogle,
   setTutorProfile,
+  validateNewUserInfo,
 })(SignUpScreen)
 

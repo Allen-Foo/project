@@ -20,6 +20,9 @@ import {
   SIGN_UP,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
+  VALIDATE_NEW_USER_INFO,
+  VALIDATE_NEW_USER_INFO_SUCCESS,
+  VALIDATE_NEW_USER_INFO_FAIL,
   VERIFY_CODE,
   VERIFY_CODE_SUCCESS,
   VERIFY_CODE_FAIL,
@@ -63,6 +66,7 @@ import {
 const defaultState = {
   isLoading: false,
   isLoggedIn: false,
+  hasValidateNewUserInfo: false,
   // awsId: null,                                                        
   // avatarUrl: null,
   // user: null,
@@ -99,6 +103,26 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case VALIDATE_NEW_USER_INFO:
+      return {
+        ...state,
+        isLoading: true,
+        hasValidateNewUserInfo: false,
+      }
+    case VALIDATE_NEW_USER_INFO_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        hasValidateNewUserInfo: true,
+      }
+    case VALIDATE_NEW_USER_INFO_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        hasValidateNewUserInfo: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
