@@ -611,7 +611,7 @@ export const createTutorEpic = (action$, store, { request }) =>
         url: '/createTutor',
         data: {
           tutorData: action.payload.tutorData,
-          userId: store.getState().socialLogin.user.userId,
+          userId: store.getState().userProfile.user.userId,
         }
        }))
       .map(res => {
@@ -635,7 +635,7 @@ export const getTutorListEpic = (action$, store, { request }) =>
         method: 'post',
         data: {
           ...action.payload,
-          userId: store.getState().socialLogin.user.userId
+          userId: store.getState().userProfile.user.userId
         } 
       }))
       .map(res => {
