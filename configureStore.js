@@ -17,7 +17,7 @@ import appSecrets from './appSecrets';
 const persistConfig = {
   key: 'root',
   storage,
-  whiteList: ['socialLogin'],
+  whitelist: ['userProfile'],
   // blacklist: ['language', 'classes', 'filter'] // language will not be persisted
 }
 
