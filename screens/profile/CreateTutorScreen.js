@@ -35,7 +35,7 @@ class CreateTutorScreen extends React.Component {
     );
 
     return {
-      headerTitle: screenProps.locale.createTutor.title,
+      headerTitle: params.isEditMode ? screenProps.locale.createTutor.editTutor : screenProps.locale.createTutor.title,
       headerTintColor: '#000',
       headerRight,
     }
@@ -47,10 +47,15 @@ class CreateTutorScreen extends React.Component {
   }
 
   _handleSubmit = () => {
-    this.props.updateTutor({
-      ...this.props.navigation.state.params,
-      ...this.state
-    })
+    const { params = {} }  = this.props.navigation.state;
+    if (params.isEditMode) {
+      this.props.updateTutor({
+        ...this.props.navigation.state.params,
+        ...this.state
+      })
+    } else {
+      this.props.createTutor(this.state)
+    }
   }
   
   componentWillReceiveProps(nextProps) {
@@ -68,7 +73,7 @@ class CreateTutorScreen extends React.Component {
       email: params.email,
       phone: params.phone,
       introduction: params.introduction,
-      uri: params.uri,
+      avatarUrl: params.avatarUrl,
     }
   }
 
@@ -84,12 +89,12 @@ class CreateTutorScreen extends React.Component {
         containerStyle={styles.avatarContainer}
       />
       
-    if (this.state.uri) {
+    if (this.state.avatarUrl) {
       avatar = 
         <Avatar
           xlarge
           rounded
-          source={{url: this.state.uri}}
+          source={{url: this.state.avatarUrl}}
           onPress={this._pickImage}
           activeOpacity={0.7}
           containerStyle={styles.avatarContainer}
@@ -178,7 +183,7 @@ class CreateTutorScreen extends React.Component {
       }
     }).then(res => {
       this.setState({
-        uri: res.data.Location,
+        avatarUrl: res.data.Location,
       })
     }).catch(err => console.warn(err))
   }

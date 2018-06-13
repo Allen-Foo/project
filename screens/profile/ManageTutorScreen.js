@@ -100,11 +100,10 @@ class ManageTutorScreen extends React.Component {
         data={tutorList}
         keyExtractor={(item) => (item.tutorId)}
         renderItem={({item}) => {
-          item.uri = item.avatarUrl
           return (
             <View style={{width: '100%'}}>
               <Swipeout right={getSwipeoutBtns(item)}>
-                <TutorListItem data={item}/>
+                <TutorListItem data={item} onPress={() => this.props.navigation.navigate('CreateTutor', {...item, isEditMode: true})} />
               </Swipeout>
               <Separator />
             </View>
