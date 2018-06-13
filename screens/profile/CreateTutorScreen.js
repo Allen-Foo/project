@@ -18,19 +18,19 @@ import { connect } from 'react-redux';
 import { Avatar } from 'react-native-elements';
 import { Separator, Spinner, Toast } from '../../components';
 
-import { createTutor } from '../../redux/actions';
+import { createTutor, updateTutor } from '../../redux/actions';
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-class CreateTutor extends React.Component {
+class CreateTutorScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
     const { params = {} } = navigation.state;
     let headerRight = (
       <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
-        <Text style={{paddingRight: 15, fontSize: 14}}>{screenProps.locale.common.confirm}</Text>
+        <Text style={{paddingRight: 15, fontSize: 16}}>{screenProps.locale.common.confirm}</Text>
       </TouchableOpacity>
     );
 
@@ -47,7 +47,10 @@ class CreateTutor extends React.Component {
   }
 
   _handleSubmit = () => {
-    this.props.createTutor(this.state)
+    this.props.updateTutor({
+      ...this.props.navigation.state.params,
+      ...this.state
+    })
   }
   
   componentWillReceiveProps(nextProps) {
@@ -58,12 +61,14 @@ class CreateTutor extends React.Component {
 
   constructor(props) {
     super(props);
+    const { params = {} }  = this.props.navigation.state;
+
     this.state = {
-      tutorName: '',
-      email: '',
-      phone: '',
-      introduction: '',
-      avatarUrl: '',
+      tutorName: params.tutorName,
+      email: params.email,
+      phone: params.phone,
+      introduction: params.introduction,
+      uri: params.uri,
     }
   }
 
@@ -79,12 +84,12 @@ class CreateTutor extends React.Component {
         containerStyle={styles.avatarContainer}
       />
       
-    if (this.state.avatarUrl) {
+    if (this.state.uri) {
       avatar = 
         <Avatar
           xlarge
           rounded
-          source={{url: this.state.avatarUrl}}
+          source={{url: this.state.uri}}
           onPress={this._pickImage}
           activeOpacity={0.7}
           containerStyle={styles.avatarContainer}
@@ -173,7 +178,7 @@ class CreateTutor extends React.Component {
       }
     }).then(res => {
       this.setState({
-        avatarUrl: res.data.Location,
+        uri: res.data.Location,
       })
     }).catch(err => console.warn(err))
   }
@@ -248,6 +253,7 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  createTutor
-})(CreateTutor)
+  createTutor,
+  updateTutor,
+})(CreateTutorScreen)
 
