@@ -107,7 +107,7 @@ class EditClassScreen extends React.Component {
       return <Spinner />
     }
 
-    let { locale, appliedClassList} = this.props;
+    let { locale, appliedClassList, user } = this.props;
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <ClassInfoRow
@@ -120,17 +120,21 @@ class EditClassScreen extends React.Component {
           value={params.description}
           onPress={() => this.props.navigation.navigate('ClassDescription', Object.assign(params, {isEditMode: true}))}
         />
-        <TouchableOpacity
-          style={styles.rowContainer}
-          onPress={() => this.props.navigation.navigate('AssignTutor', Object.assign(params, {isEditMode: true}))}
-        >
-          <View style={[styles.leftContainer, {justifyContent: 'center'}]}>
-            <Text style={styles.label}>{'Tutor'}</Text>
-          </View>
-          <View style={styles.rightContainer}>
-            <AvatarList urlList={params.tutorList && params.tutorList.map(x => x.avatarUrl)} />
-          </View>
-        </TouchableOpacity>
+        {
+          user.userRole == 'company' &&
+          <TouchableOpacity
+            style={styles.rowContainer}
+            onPress={() => this.props.navigation.navigate('AssignTutor', Object.assign(params, {isEditMode: true}))}
+          >
+            <View style={[styles.leftContainer, {justifyContent: 'center'}]}>
+              <Text style={styles.label}>{'Tutor'}</Text>
+            </View>
+            <View style={styles.rightContainer}>
+              <AvatarList urlList={params.tutorList && params.tutorList.map(x => x.avatarUrl)} />
+            </View>
+          </TouchableOpacity>
+        }
+       
         <ClassInfoRow
           label={locale.classSummary.label.category}
           appliedClassList={appliedClassList}
@@ -319,6 +323,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    user: state.socialLogin.user,
     userId: state.socialLogin.user && state.socialLogin.user.userId,
     appliedClassList: state.socialLogin.appliedClassList,
     locale: state.language.locale,
