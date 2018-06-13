@@ -125,7 +125,7 @@ class SignUpTutorConfirmScreen extends React.Component {
 
           <View style={styles.textContainers}>
             <Text style={styles.title}>
-            {locale.signUp.text.selfIntro.label}
+            {locale.signUp.title.selfIntro}
             </Text>
             <Text style={styles.text}>
             {selfIntro}
@@ -134,7 +134,7 @@ class SignUpTutorConfirmScreen extends React.Component {
 
           <View style={styles.textContainers}>
             <Text style={styles.title}>
-            {locale.signUp.text.profession.label}
+            {locale.signUp.title.profession}
             </Text>
             <Text style={styles.text}>
             {profession}
@@ -143,7 +143,7 @@ class SignUpTutorConfirmScreen extends React.Component {
 
           <View style={styles.textContainers}>
             <Text style={styles.title}>
-            {locale.signUp.text.experience.label}
+            {locale.signUp.title.experience}
             </Text>
             <Text style={styles.text}>
             {experience}
@@ -152,7 +152,7 @@ class SignUpTutorConfirmScreen extends React.Component {
 
           <View style={styles.textContainers}>
             <Text style={styles.title}>
-            {locale.signUp.text.achievement.label}
+            {locale.signUp.title.achievement}
             </Text>
             <Text style={styles.text}>
             {achievement}
