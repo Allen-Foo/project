@@ -82,6 +82,14 @@ class ClassAddressScreen extends React.Component {
     }
   }
 
+  handleNext = (params) => {
+    if (this.props.user.userRole == 'company') {
+      this.props.navigation.navigate('AssignTutor', params)
+    } else {
+      this.props.navigation.navigate('Contact', params)
+    }
+  }
+
   render() {
     let { data, details, checked } = this.state;
     let { params = {} } = this.props.navigation.state;
@@ -110,7 +118,7 @@ class ClassAddressScreen extends React.Component {
             onPress={this.state.checked ? () => this.setState({checked: false}) : () => this.setState({checked: true})}
           />
           <NextButton 
-            onPress={() => this.props.navigation.navigate('Contact', params)}
+            onPress={() => this.handleNext(params)}
             text={this.props.locale.common.next}
           />
         </View>
@@ -183,7 +191,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    user: state.socialLogin.user,
   }
 }
 
