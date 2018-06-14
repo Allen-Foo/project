@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import { getTutorList, deleteTutor } from '../../redux/actions';
 import { Separator, Spinner, Toast, ClassItem, TutorListItem} from '../../components';
 import Swipeout from 'react-native-swipeout';
+import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
 import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
 const {width, height} = Dimensions.get('window');
@@ -95,9 +96,6 @@ class ManageTutorScreen extends React.Component {
 
     ]
 
-    let { locale, fetchErrorMsg } = this.props
-    let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
-
     return (
       <FlatList
         contentContainerStyle={styles.listContainer}
@@ -129,6 +127,9 @@ class ManageTutorScreen extends React.Component {
   }
 
   renderEmptyPage = () => {
+    let { locale, fetchErrorMsg } = this.props
+    let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+    
     return (
       <View style={styles.container}>
         <Ionicons
@@ -200,6 +201,7 @@ const mapStateToProps = (state) => {
     isLoading: state.socialLogin.isLoading,
     isLastTutorList: state.socialLogin.isLastTutorList,
     tutorList: state.socialLogin.tutorList,
+    fetchErrorMsg: state.socialLogin.fetchErrorMsg,
   }
 }
 

@@ -7,6 +7,7 @@ import {
   UPDATE_PROFILE_SUCCESS,
   ADD_TO_BOOKMARK_SUCCESS,
   REMOVE_FROM_BOOKMARK_SUCCESS,
+  SIGN_OUT_SUCCESS,
 } from '../types'
 
 const defaultState = {
@@ -63,6 +64,11 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         user: action.payload,
+      };
+    case SIGN_OUT_SUCCESS:
+      // console.warn('here', 'SIGN_OUT_SUCCESS')
+      return {
+        ...defaultState
       };
     default:
       return state

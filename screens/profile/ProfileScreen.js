@@ -35,7 +35,7 @@ class ProfileScreen extends React.Component {
     isLoggedIn: false
   }
 
-  renderHeader(isLoggedIn) {
+  renderHeader() {
     let avatar = 
       <Avatar
         large
@@ -57,7 +57,7 @@ class ProfileScreen extends React.Component {
         />
     }
 
-    if (isLoggedIn) {
+    if (this.props.user) {
       return (
         <TouchableOpacity style={[styles.loginContainer,{flexDirection: 'row'}]} onPress={() => this.props.navigation.navigate('ProfileSetting')}>
           { avatar }
@@ -95,8 +95,8 @@ class ProfileScreen extends React.Component {
     }
   }
 
-  renderClassList(isLoggedIn) {
-    if (!this.props.isLoggedIn){
+  renderClassList() {
+    if (!this.props.user){
       return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.learner}
@@ -142,7 +142,7 @@ class ProfileScreen extends React.Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
 
-        { this.renderHeader(this.props.isLoggedIn) }
+        { this.renderHeader() }
 
         <View style={styles.contentContainer}>
           {
@@ -154,7 +154,7 @@ class ProfileScreen extends React.Component {
             />
           }
 
-          { this.renderClassList(this.props.isLoggedIn) }
+          { this.renderClassList() }
           
           <ListItem
             title={this.props.locale.profile.text.settings}
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
 const mapStateToPorps = (state) => {
   return {
     locale: state.language.locale,
-    isLoggedIn: state.socialLogin.isLoggedIn,
+    // isLoggedIn: state.socialLogin.isLoggedIn,
     user: state.userProfile.user,
     appType: state.appType.mode,
   }
