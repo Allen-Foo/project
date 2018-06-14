@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     locale: state.language.locale,
-    user: state.socialLogin.user,
+    user: state.userProfile.user,
   }
 }
 

@@ -195,7 +195,7 @@ export default (state = {...defaultState}, action) => {
         isLoading: false,
         showMFAPrompt: true,
         isVerified: false,
-        verfiedErrorMsg: action.payload,
+        verfiedErrorMsg: action.payload.message,
       }
     case VERIFY_CODE_CANCEL:
       return {
