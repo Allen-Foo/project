@@ -52,6 +52,7 @@ import {
   setProfession,
   setExperience,
   setAchievement,
+  clearTutorProfile,
 } from './tutorRegistration'
 
 export {
@@ -94,6 +95,7 @@ export {
   setProfession,
   setExperience,
   setAchievement,
+  clearTutorProfile,
   renewAppliedClass,
   createTutor,
   getTutorList,

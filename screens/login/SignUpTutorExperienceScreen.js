@@ -33,6 +33,10 @@ class SignUpTutorExperienceScreen extends React.Component {
     }
   }
 
+  componentWillMount () {
+    this.state.experience = this.props.experience;
+  }
+
   render() {
     let { locale } = this.props
     return (
@@ -114,7 +118,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    experience: state.tutorRegistration.experience,
   }
 }
 

@@ -12,9 +12,10 @@ import {
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { verifyCode, verifyCodeCancel, signUp } from '../../redux/actions';
+import { verifyCode, verifyCodeCancel, signUp, clearTutorProfile } from '../../redux/actions';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
 import Prompt from 'react-native-prompt';
+import { getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
 import { Spinner, Toast } from '../../components';
 
@@ -32,25 +33,19 @@ class SignUpTutorConfirmScreen extends React.Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
-    console.warn('componentWillReceiveProps : ',nextProps);
-
+  componentDidUpdate(prevProps, prevState, snapshot) {
     // if sign up fail, show message 
-    if (nextProps.fetchErrorLastUpdate instanceof Date) {
-          console.warn('1');
+    if (this.props.fetchErrorLastUpdate instanceof Date) {
 
-      if (!(this.props.fetchErrorLastUpdate instanceof Date) ||
-        nextProps.fetchErrorLastUpdate.getTime() !== this.props.fetchErrorLastUpdate.getTime()
+      if (!(prevProps.fetchErrorLastUpdate instanceof Date) ||
+        this.props.fetchErrorLastUpdate.getTime() !== prevProps.fetchErrorLastUpdate.getTime()
       ) {
-            console.warn('2');
         this.Toast.show();
       }
     }
-    console.warn('3');
 
-    if (nextProps.isVerified && !this.props.isVerified) {
-          console.warn('4');
-
+    if (this.props.isVerified && !prevProps.isVerified) {
+      this.props.clearTutorProfile ();
       // console.warn('verify success!')
       this.props.navigation.navigate('Signin');
     }
@@ -306,5 +301,6 @@ export default connect(mapStateToProps, {
   signUp,
   verifyCode,
   verifyCodeCancel,
+  clearTutorProfile,
 })(SignUpTutorConfirmScreen)
 

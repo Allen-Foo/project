@@ -36,6 +36,10 @@ class SignUpTutorSelfIntroScreen extends React.Component {
     }
   }
 
+  componentWillMount () {
+    this.state.selfIntroduction = this.props.selfIntro;
+  }
+
   render() {
     let { locale } = this.props
     return (
@@ -114,7 +118,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    selfIntro: state.tutorRegistration.selfIntro,
   }
 }
 

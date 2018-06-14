@@ -35,6 +35,10 @@ class SignUpTutorAchievementScreen extends React.Component {
     }
   }
 
+  componentWillMount () {
+    this.state.achievement = this.props.achievement;
+  }
+
   render() {
     let { locale } = this.props
     return (
@@ -112,7 +116,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    achievement: state.tutorRegistration.achievement,
   }
 }
 

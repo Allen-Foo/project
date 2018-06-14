@@ -4,6 +4,7 @@ import {
   SET_PROFESSION,
   SET_EXPERIENCE,
   SET_ACHIEVEMENT,
+  CLEAR_TUTORPROFILE,
 } from '../types'
 
 export function setTutorProfile(profile) {
@@ -38,5 +39,11 @@ export function setAchievement(achievement) {
   return {
     type: SET_ACHIEVEMENT,
     payload: achievement
+  };
+}
+
+export function clearTutorProfile () {
+  return {
+    type: CLEAR_TUTORPROFILE,
   };
 }

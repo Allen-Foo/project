@@ -35,6 +35,10 @@ class SignUpTutorProfessionScreen extends React.Component {
     }
   }
 
+  componentWillMount () {
+    this.state.profession = this.props.profession;
+  }
+
   render() {
     let { locale } = this.props
     return (
@@ -112,7 +116,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    profession: state.tutorRegistration.profession,
   }
 }
 

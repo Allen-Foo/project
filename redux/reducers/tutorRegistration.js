@@ -4,6 +4,7 @@ import {
   SET_PROFESSION,
   SET_EXPERIENCE,
   SET_ACHIEVEMENT,
+  CLEAR_TUTORPROFILE,
 } from '../types'
 
 const defaultState = {
@@ -40,6 +41,15 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         achievement: action.payload,
+      }
+    case CLEAR_TUTORPROFILE:
+      return {
+        ...state,
+        profile: {},
+        selfIntro:'',
+        profession:'',
+        experience: 0,
+        achievement: '',
       }
     default:
       return state

@@ -13,6 +13,8 @@ import {
 import { connect } from 'react-redux';
 import { Separator } from '../../components';
 import { SocialIcon } from 'react-native-elements';
+import { clearTutorProfile } from '../../redux/actions';
+
 
 const { height, width } = Dimensions.get('window')
 
@@ -36,7 +38,10 @@ class PreSignUpScreen extends React.Component {
         <Separator style={{backgroundColor: '#eee'}}/>
         <TouchableOpacity 
           style={styles.button}
-          onPress={() => this.props.navigation.navigate('SignUp', {userRole: 'tutor'})}
+          onPress={() => {
+            this.props.clearTutorProfile ();
+            this.props.navigation.navigate('SignUp', {userRole: 'tutor'});
+          }}
         >
           <Text style={styles.textStyle}> {locale.signUp.text.tutor.label} </Text>
         </TouchableOpacity>
@@ -86,4 +91,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(PreSignUpScreen)
+export default connect(mapStateToProps ,{
+  clearTutorProfile,
+})(PreSignUpScreen)
