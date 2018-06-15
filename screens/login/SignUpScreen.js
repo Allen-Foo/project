@@ -92,13 +92,32 @@ class SignUpScreen extends React.Component {
   validateInput() {
     if (!this.state.username) {
       Alert.alert('Username cannot be empty!')
-    } else if (!this.state.email) {
+    }
+     else if (this.state.username.includes(" ")) {
+      Alert.alert('Invalid username')
+    }
+     else if (!this.state.email.includes("@")) {
+      Alert.alert('Invalid email')
+    }
+     else if (!/[a-z]/.test(this.state.password)) {
+      Alert.alert('Password must includes lowercase characters')
+    }
+     else if (!/\d/.test(this.state.password)) {
+      Alert.alert('Password must includes numbers')
+    }
+     else if (this.state.password.length < 6) {
+      Alert.alert('Password must have length greater than or equal to 6')
+    }
+     else if (!this.state.email) {
       Alert.alert('Email cannot be empty!')
-    } else if (!this.state.password) {
+    }
+     else if (!this.state.password) {
       Alert.alert('Password cannot be empty!')
-    } else if (!this.state.phoneNumber) {
+    }
+     else if (!this.state.phoneNumber) {
       Alert.alert('Phone Number cannot be empty!')
-    } else {
+    }
+     else {
       if (this.props.navigation.state.params.userRole == 'tutor') {
       
         this.props.validateNewUserInfo (this.state.email, this.state.username);
@@ -161,6 +180,7 @@ class SignUpScreen extends React.Component {
           />
           <TextInput 
             style={styles.phoneNumber}
+            keyboardType = 'numeric'
             placeholder={locale.signUp.textInput.phoneNumber.placeholder}
             onChangeText={phoneNumber => {
               // console.warn('text', text);
