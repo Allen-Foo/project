@@ -10,6 +10,7 @@ import {
   TextInput,
   Alert,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
@@ -23,6 +24,7 @@ class VerifyCodeScreen extends Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
     return {
+      title: screenProps.locale.verifyCode.title,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -34,7 +36,8 @@ class VerifyCodeScreen extends Component {
     super(props);
     
     this.state = {
-      code: ''
+      code: '',
+      username: null,
     };
   }
   
@@ -64,18 +67,18 @@ class VerifyCodeScreen extends Component {
     
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.wrapper}>
+        <View style={styles.wrapper}>
           <View style={styles.inputWrapper}>
-            <Text style={styles.inputLabel}>{this.props.verfiedErrorMsg || this.props.locale.signUp.text.verifyCode.label}</Text>
+            <Text style={styles.inputLabel}>{this.props.verfiedErrorMsg || this.props.locale.verifyCode.label}</Text>
             <ConfirmationCodeInput
               ref="codeInputRef2"
               keyboardType="numeric"
               codeLength={6}
               className={'border-circle'}
-              autoFocus={false}
+              autoFocus={true}
               cellBorderWidth={2}
               size={45}
-              codeInputStyle={{ fontWeight: '800' }}
+              codeInputStyle={{ fontWeight: '800', fontSize: 18 }}
               activeColor={'rgba(94, 204, 63, 1)'}
               inactiveColor={'rgba(94, 204, 63, 0.2)'}
               onFulfill={(code) => this.props.verifyCode(this.state.username, code)}
@@ -90,7 +93,17 @@ class VerifyCodeScreen extends Component {
               {this.props.locale.common.submit}
             </Text>
           </TouchableOpacity>
-        </ScrollView> 
+        </View> 
+        <KeyboardAvoidingView style={styles.avoidView} behavior="position" >
+          <TouchableOpacity
+            onPress={() => this.props.verifyCode(this.state.username, code)}
+            style={styles.resendButton}
+          >
+            <Text style={styles.resendText}>
+              {this.props.locale.verifyCode.resend}
+            </Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
       </View>
     );
   }
@@ -99,18 +112,7 @@ class VerifyCodeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
-  },
-  titleWrapper: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  title: {
-    color: 'red',
-    fontSize: 16,
-    fontWeight: '800',
-    paddingVertical: 30
+    justifyContent: 'space-between',
   },
   wrapper: {
     marginTop: 30
@@ -132,11 +134,31 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 30,
   },
   submitText: {
     paddingVertical: 10,
     // paddingHorizontal: 30,
     color: '#fff',
+  },
+  avoidView: {
+    // position: 'absolute',
+    // bottom: 360,
+    // width: '100%',
+    // flex: 1,
+  },
+  resendButton: {
+    backgroundColor: '#FEF6F9',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    paddingVertical: 15,
+    marginBottom: 100,
+  },
+  resendText: {
+    color: '#F078A3',
+    fontWeight: '600',
+    fontSize: 16,
   }
 });
 
