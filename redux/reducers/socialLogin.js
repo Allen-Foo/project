@@ -33,6 +33,9 @@ import {
   REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  UPDATE_AWSID,
+  UPDATE_AWSID_SUCCESS,
+  UPDATE_AWSID_FAIL,
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -141,12 +144,32 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: true,
+        // isLoggedIn: true,
         // user: action.payload,
         bookmark: action.payload.bookmark || [],
+        showMFAPrompt: true,
       };
     case REGISTER_FAIL:
       // console.warn('here', 'REGISTER_FAIL')
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case UPDATE_AWSID:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case UPDATE_AWSID_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        showMFAPrompt: false,
+        isVerified: true,
+      }
+    case UPDATE_AWSID_FAIL:
       return {
         ...state,
         isLoading: false,
@@ -184,14 +207,14 @@ export default (state = {...defaultState}, action) => {
         isVerified: false,
         showMFAPrompt: false,
       }
-    case VERIFY_CODE_SUCCESS:
-      // console.warn('here', 'VERIFY_CODE_SUCCESS')
-      return {
-        ...state,
-        isLoading: false,
-        showMFAPrompt: false,
-        isVerified: true,
-      };
+    // case VERIFY_CODE_SUCCESS:
+    //   // console.warn('here', 'VERIFY_CODE_SUCCESS')
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     showMFAPrompt: false,
+    //     isVerified: true,
+    //   };
     case VERIFY_CODE_FAIL:
       // console.warn('VERIFY_CODE_FAIL', action.payload)
       return {
@@ -205,6 +228,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         showMFAPrompt: false,
+        verfiedErrorMsg: null,
       }
     case RESEND_CODE:
       // console.warn('here', 'RESEND_CODE')
@@ -229,6 +253,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: true,
+        showMFAPrompt: false,
       }
     case SIGN_IN_EMAIL_SUCCESS:
       // console.warn('here', 'SIGN_IN_EMAIL_SUCCESS')
@@ -236,7 +261,7 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        // awsId: action.payload.awsId
+        awsId: action.payload.awsId
       };
     case SIGN_IN_EMAIL_FAIL:
       // console.warn('here', 'SIGN_IN_EMAIL_FAIL', action.payload)
@@ -246,6 +271,7 @@ export default (state = {...defaultState}, action) => {
         isLoggedIn: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
+        showMFAPrompt: (action.payload.statusCode == 400),
       }
     case SIGN_IN_FACEBOOK:
       // console.warn('here', 'SIGN_IN_FACEBOOK')

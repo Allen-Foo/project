@@ -11,13 +11,14 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { signInEmail, signInFacebook, signInGoogle } from '../../redux/actions'
+import { signInEmail, signInFacebook, signInGoogle, verifyCode, verifyCodeCancel } from '../../redux/actions'
 import { Spinner, Toast } from '../../components';
 
 import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Hr, HideoTextInput} from '../../components';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import Prompt from 'react-native-prompt';
 
 import { onSignIn } from '../../lib/Auth/AWS_Auth';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
@@ -86,6 +87,11 @@ class SigninScreen extends React.Component {
       ) {
         console.log("this.Toast.show");
         this.Toast.show();
+
+        // If error == not confirmed
+        if (nextProps.showMFAPrompt && !this.props.showMFAPrompt) {
+          this.props.navigation.navigate('VerifyCode', {username: this.state.email, password: this.state.password});
+        }
       }
     }
   }
@@ -97,7 +103,7 @@ class SigninScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        
+
         <Text style= {{marginTop: 20, fontSize: 20}}>{locale.signin.text.signIn.label}</Text>
 
         <SocialButton
@@ -206,13 +212,17 @@ const mapStateToProps = (state) => {
     isLoading: state.socialLogin.isLoading,
     isLoggedIn: state.socialLogin.isLoggedIn,
     fetchErrorMsg: state.socialLogin.fetchErrorMsg,
-    fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate
+    fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate,
+    verfiedErrorMsg: state.socialLogin.verfiedErrorMsg,
+    showMFAPrompt: state.socialLogin.showMFAPrompt,
   }
 }
 
 export default connect(mapStateToProps, {
   signInEmail,
   signInFacebook,
-  signInGoogle
+  signInGoogle,
+  verifyCode,
+  verifyCodeCancel,
 })(SigninScreen);
 

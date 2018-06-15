@@ -21,7 +21,7 @@ import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerEr
 import { NavigationActions } from 'react-navigation';
 
 import { Spinner, Toast } from '../../components';
-import { signUp, verifyCode, verifyCodeCancel, signInFacebook, signInGoogle, setTutorProfile, validateNewUserInfo } from '../../redux/actions'
+import { signUp, signInFacebook, signInGoogle, setTutorProfile, validateNewUserInfo } from '../../redux/actions'
 
 
 class SignUpScreen extends React.Component {
@@ -40,11 +40,11 @@ class SignUpScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: 'admin@genkontech.com',
+      password: 'asd123',
       username: '',
       callingCode: '+852',
-      phoneNumber: '',
+      phoneNumber: '84657862',
       cca2: 'HK',
       skill: '',
       userRole: props.navigation.state.params.userRole,
@@ -67,7 +67,7 @@ class SignUpScreen extends React.Component {
         index: 1,
         actions: [
           NavigationActions.navigate({ routeName: 'Signin' }),
-          NavigationActions.navigate({ routeName: 'VerifyCode', params: {username: this.state.username}})
+          NavigationActions.navigate({ routeName: 'VerifyCode', params: {username: this.state.username, password: this.state.password}})
         ],
       });
       this.props.navigation.dispatch(resetAction);
@@ -324,8 +324,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   signUp,
-  verifyCode,
-  verifyCodeCancel,
   signInFacebook,
   signInGoogle,
   setTutorProfile,

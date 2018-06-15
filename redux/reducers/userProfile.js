@@ -33,7 +33,7 @@ export default (state = defaultState, action) => {
       // console.warn('here', 'REGISTER_SUCCESS')
       return {
         ...state,
-        user: action.payload,
+        // user: action.payload,
       };
     case LOGIN_SUCCESS:
       // console.warn('here', 'LOGIN_SUCCESS')

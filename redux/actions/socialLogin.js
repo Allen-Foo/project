@@ -35,6 +35,9 @@ import {
   REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  UPDATE_AWSID,
+  UPDATE_AWSID_SUCCESS,
+  UPDATE_AWSID_FAIL,
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -108,10 +111,11 @@ export const validateNewUserInfo = (email, username) => ({
   }
 }) 
 
-export const verifyCode = (username, code) => ({
+export const verifyCode = (username, password, code) => ({
   type: VERIFY_CODE,
   payload: {
     username,
+    password,
     code
   }
 })
@@ -227,17 +231,14 @@ export const signInEmailEpic = (action$, store, { request }) =>
       .map(res => {
         if (action.payload.isNewUser) {
           // remove password field and add login type and awsId
-          const {password, ...user} = store.getState().userProfile.user
-          user.loginType = 'email';
-          user.awsId = res;
-          const { tutorInformation } = store.getState().socialLogin;
+          const username = action.payload.username
           return {
-            type: REGISTER,
+            type: UPDATE_AWSID,
             payload: {
-              user,
-              tutorInformation
+              username: username,
+              awsId: res
             }
-          }  
+          }
         } else {
           return {
             type: LOGIN,
@@ -253,18 +254,44 @@ export const signInEmailEpic = (action$, store, { request }) =>
       }))
     )
 
+// this epic will sign in user through AWS Cognito
+export const updateAWSIdEpic = (action$, store, { request }) =>
+  action$.ofType(UPDATE_AWSID)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: '/updateAWSId',
+        method: 'post',
+        data: {
+          ...action.payload,
+        } 
+      }))
+      .map(res => {
+        // console.warn('register success', res)
+        return {
+          type: UPDATE_AWSID_SUCCESS,
+        }
+      })
+      .catch(err => Observable.of({
+        type: UPDATE_AWSID_FAIL,
+        payload: err
+      }))
+    )
+
 // this epic will sign up user through AWS Cognito
 export const signUpEmailEpic = (action$, store, { request }) =>
   action$.ofType(SIGN_UP)
     .mergeMap(action =>
       Observable.fromPromise(onSignUpEmail(action.payload))
       .map(res => {
-        // console.warn('signUpEmailEpic', res)
+        const {password, ...user} = action.payload.profile;
+        user.loginType = 'email';
+        const { tutorInformation } = action.payload;
         return {
-          type: SIGN_UP_SUCCESS,
+          type: REGISTER,
           payload: {
-            showMFAPrompt: !res.userConfirmed,
-            user: action.payload.profile
+              showMFAPrompt: !res.userConfirmed,
+              user,
+              tutorInformation,
           }
         }
       })
@@ -378,8 +405,8 @@ export const verifyCodeEpic = (action$, store, { request }) =>
         return {
           type: SIGN_IN_EMAIL,
           payload: {
-            username: store.getState().userProfile.user.username,
-            password: store.getState().userProfile.user.password,
+            username: action.payload.username,
+            password: action.payload.password,
             isNewUser: true
           }
         }

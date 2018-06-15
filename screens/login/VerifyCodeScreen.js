@@ -37,13 +37,14 @@ class VerifyCodeScreen extends Component {
       code: '',
       username: params.username,
       delay: 0,
+      password: params.password,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isVerified && !this.props.isVerified) {
       // console.warn('verify success!')
-      this.props.navigation.navigate('Signin');
+      this.props.navigation.goBack(null);
     }
   }
 
@@ -82,12 +83,12 @@ class VerifyCodeScreen extends Component {
               codeInputStyle={{ fontWeight: '800', fontSize: 18 }}
               activeColor={'rgba(94, 204, 63, 1)'}
               inactiveColor={'rgba(94, 204, 63, 0.2)'}
-              onFulfill={(code) => this.props.verifyCode(this.state.username, code)}
+              onFulfill={(code) => this.props.verifyCode(this.state.username, this.state.password, code)}
             />
           </View>
           
           <TouchableOpacity
-            onPress={() => this.props.verifyCode(this.state.username, code)}
+            onPress={() => this.props.verifyCode(this.state.username, this.state.password, code)}
             style={styles.submitButton}
           >
             <Text style={styles.submitText}>

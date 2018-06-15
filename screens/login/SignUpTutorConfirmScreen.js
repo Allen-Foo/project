@@ -70,18 +70,6 @@ class SignUpTutorConfirmScreen extends React.Component {
         <ScrollView 
             contentContainerStyle={styles.scrollContainer}
           >
-          {
-            // <Prompt
-            //   title={this.props.verfiedErrorMsg || this.props.locale.signUp.text.verifyCode.label}
-            //   placeholder={this.props.locale.signUp.text.verifyCodePlaceholder.label}
-            //   submitText={this.props.locale.common.ok}
-            //   cancelText={this.props.locale.common.cancel}
-            //   textInputProps={{keyboardType: 'numeric'}}
-            //   visible={this.props.showMFAPrompt}
-            //   onCancel={() => this.props.verifyCodeCancel()}
-            //   onSubmit={(code) => this.props.verifyCode(this.state.username, code)}
-            // />
-          }
 
           <View style={styles.textContainers}>
             <Text style={styles.title}>
