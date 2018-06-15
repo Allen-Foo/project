@@ -29,6 +29,9 @@ import {
   VERIFY_CODE_SUCCESS,
   VERIFY_CODE_FAIL,
   VERIFY_CODE_CANCEL,
+  RESEND_CODE,
+  RESEND_CODE_SUCCESS,
+  RESEND_CODE_FAIL,
   REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -80,7 +83,7 @@ import { ServerErrorCode } from '../../constants/ServerErrorCode'
 import Expo from 'expo';
 import axios from 'axios';
 
-import { onSignInEmail, onSignUpEmail, onVerifyCode, getIdentityId } from '../../lib/Auth/AWS_Auth';
+import { onSignInEmail, onSignUpEmail, onVerifyCode, onResendCode, getIdentityId } from '../../lib/Auth/AWS_Auth';
 
 export const signOut = () => ({
   type: SIGN_OUT_SUCCESS
@@ -115,6 +118,13 @@ export const verifyCode = (username, code) => ({
 
 export const verifyCodeCancel = () => ({
   type: VERIFY_CODE_CANCEL
+})
+
+export const resendCode = (username) => ({
+  type: RESEND_CODE,
+  payload: {
+    username,
+  }
 })
 
 export const signInEmail = (username, password) => ({
@@ -376,6 +386,21 @@ export const verifyCodeEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: VERIFY_CODE_FAIL,
+        payload: err
+      }))
+    )
+
+export const resendCodeEpic = (action$, store, { request }) =>
+  action$.ofType(RESEND_CODE)
+    .mergeMap(action => 
+      Observable.fromPromise(onResendCode(action.payload.username))
+      .map(res => {
+        return {
+          type: RESEND_CODE_SUCCESS,
+        }
+      })
+      .catch(err => Observable.of({
+        type: RESEND_CODE_FAIL,
         payload: err
       }))
     )

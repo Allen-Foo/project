@@ -27,6 +27,9 @@ import {
   VERIFY_CODE_SUCCESS,
   VERIFY_CODE_FAIL,
   VERIFY_CODE_CANCEL,
+  RESEND_CODE,
+  RESEND_CODE_SUCCESS,
+  RESEND_CODE_FAIL,
   REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -201,6 +204,24 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         showMFAPrompt: false,
+      }
+    case RESEND_CODE:
+      // console.warn('here', 'RESEND_CODE')
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case RESEND_CODE_SUCCESS:
+      // console.warn('here', 'RESEND_CODE_SUCCESS')
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case RESEND_CODE_FAIL:
+      // console.warn('RESEND_CODE_FAIL', action.payload)
+      return {
+        ...state,
+        isLoading: false,
       }
     case SIGN_IN_EMAIL:
       // console.warn('here', 'SIGN_IN_EMAIL')
