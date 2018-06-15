@@ -14,7 +14,7 @@ import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import { Hr, HideoTextInput} from '../../components';
+import { Hr, HideoTextInput } from '../../components';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
 import Prompt from 'react-native-prompt';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
@@ -60,9 +60,9 @@ class SignUpScreen extends React.Component {
       }
     }
 
-    if (nextProps.isVerified && !this.props.isVerified) {
+    if (nextProps.showMFAPrompt && !this.props.showMFAPrompt) {
       // console.warn('verify success!')
-      this.props.navigation.navigate('Signin');
+      this.props.navigation.navigate('VerifyCode', {username: this.state.username});
     }
 
     if (nextProps.hasValidateNewUserInfo && !this.props.hasValidateNewUserInfo) {
@@ -112,18 +112,6 @@ class SignUpScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        {
-          <Prompt
-            title={this.props.verfiedErrorMsg || this.props.locale.signUp.text.verifyCode.label}
-            placeholder={this.props.locale.signUp.text.verifyCodePlaceholder.label}
-            submitText={this.props.locale.common.ok}
-            cancelText={this.props.locale.common.cancel}
-            textInputProps={{keyboardType: 'numeric'}}
-            visible={this.props.showMFAPrompt}
-            onCancel={() => this.props.verifyCodeCancel()}
-            onSubmit={(code) => this.props.verifyCode(this.state.username, code)}
-          />
-        }
         <TextInput 
           autoCapitalize={'none'}
           style={styles.textInput}
