@@ -12,6 +12,7 @@ import ProgressBar from'./ProgressBar';
 import AppliedClassItem from'./AppliedClassItem';
 import IndexMarker from'./IndexMarker';
 import TutorListItem from'./TutorListItem';
+import ConfirmationCodeInput from'./ConfirmationCodeInput';
 
 export {
   Separator,
@@ -29,5 +30,6 @@ export {
   ClassItem,
   ProgressBar,
   AppliedClassItem,
+  ConfirmationCodeInput,
   TutorListItem,
 }
