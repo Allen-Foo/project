@@ -87,6 +87,7 @@ export default (state = {...defaultState}, action) => {
       // console.warn('here', 'SIGN_UP')
       return {
         ...state,
+        showMFAPrompt: false,
         isLoading: true,
         tutorInformation:{
           selfIntro : action.payload.selfIntro,

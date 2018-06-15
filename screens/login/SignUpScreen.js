@@ -18,6 +18,7 @@ import { Hr, HideoTextInput } from '../../components';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
 import Prompt from 'react-native-prompt';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
+import { NavigationActions } from 'react-navigation';
 
 import { Spinner, Toast } from '../../components';
 import { signUp, verifyCode, verifyCodeCancel, signInFacebook, signInGoogle, setTutorProfile, validateNewUserInfo } from '../../redux/actions'
@@ -62,7 +63,14 @@ class SignUpScreen extends React.Component {
 
     if (nextProps.showMFAPrompt && !this.props.showMFAPrompt) {
       // console.warn('verify success!')
-      this.props.navigation.navigate('VerifyCode', {username: this.state.username});
+      const resetAction = NavigationActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Signin' }),
+          NavigationActions.navigate({ routeName: 'VerifyCode', params: {username: this.state.username}})
+        ],
+      });
+      this.props.navigation.dispatch(resetAction);
     }
 
     if (nextProps.hasValidateNewUserInfo && !this.props.hasValidateNewUserInfo) {
