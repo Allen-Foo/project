@@ -36,6 +36,7 @@ class VerifyCodeScreen extends Component {
     this.state = {
       code: '',
       username: params.username,
+      delay: 0,
     };
   }
 
@@ -43,6 +44,24 @@ class VerifyCodeScreen extends Component {
     if (nextProps.isVerified && !this.props.isVerified) {
       // console.warn('verify success!')
       this.props.navigation.navigate('Signin');
+    }
+  }
+
+  componentWillUnmount() {
+    this.interval && clearInterval(this.interval);
+  }
+
+  handleResendPress = () => {
+    this.props.resendCode(this.state.username)
+    
+    // reset state
+    this.setState({delay: 60})
+    if (!this.interval) {
+      this.interval = setInterval(() => {
+        if (this.state.delay > 0) {
+          this.setState({delay: this.state.delay - 1});
+        }
+      }, 1000);
     }
   }
   
@@ -77,20 +96,43 @@ class VerifyCodeScreen extends Component {
           </TouchableOpacity>
         </View> 
         <KeyboardAvoidingView style={styles.avoidView} behavior="position" >
-          <TouchableOpacity
-            onPress={() => this.props.resendCode(this.state.username)}
+          <ResendButton
+            handleResendPress={() => this.handleResendPress()}
+            delay={this.state.delay}
             style={styles.resendButton}
-          >
-            <Text style={styles.resendText}>
-              {this.props.locale.verifyCode.resend}
-            </Text>
-          </TouchableOpacity>
+            locale={this.props.locale}
+            isEnabled={this.state.delay === 0}
+          />
         </KeyboardAvoidingView>
 
         { this.props.isLoading && <Spinner /> }
       </View>
     );
   }
+}
+
+const ResendButton = props => {
+  let { isEnabled, delay, handleResendPress, locale } = props;
+
+  return (
+    isEnabled ?
+      <TouchableOpacity
+        onPress={() => handleResendPress()}
+        style={styles.resendButton}
+      >
+        <Text style={styles.resendText}>
+          {locale.verifyCode.resend}
+        </Text>
+      </TouchableOpacity>
+    :
+      <View style={styles.resendButtonDisable}>
+        <Text style={styles.resendTextDisable}>
+          {
+            eval('`'+ locale.verifyCode.delayResend +'`')
+          }
+        </Text>
+      </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -139,8 +181,21 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     marginBottom: 100,
   },
+  resendButtonDisable: {
+    backgroundColor: '#ddd',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    paddingVertical: 15,
+    marginBottom: 100,
+  },
   resendText: {
     color: '#F078A3',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  resendTextDisable: {
+    color: '#999',
     fontWeight: '600',
     fontSize: 16,
   }
