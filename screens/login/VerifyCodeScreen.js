@@ -1,6 +1,3 @@
-/**
- * Created by dungtran on 8/20/17.
- */
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -14,9 +11,9 @@ import {
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
-import { ConfirmationCodeInput } from '../../components';
+import { ConfirmationCodeInput, Spinner, Toast } from '../../components';
 import { connect } from 'react-redux';
-import { signUp, verifyCode, verifyCodeCancel } from '../../redux/actions'
+import { signUp, verifyCode, verifyCodeCancel, resendCode, } from '../../redux/actions'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 class VerifyCodeScreen extends Component {
@@ -35,43 +32,28 @@ class VerifyCodeScreen extends Component {
   constructor(props) {
     super(props);
     
+    let { params = {} } = this.props.navigation.state;
     this.state = {
       code: '',
-      username: null,
+      username: params.username,
     };
   }
-  
-  _onFinishCheckingCode2(isValid, code) {
-    console.log(isValid);
-    if (!isValid) {
-      Alert.alert(
-        'Confirmation Code',
-        'Code not match!',
-        [{text: 'OK'}],
-        { cancelable: false }
-      );
-    } else {
-      this.setState({ code });
-      Alert.alert(
-        'Confirmation Code',
-        'Successful!',
-        [{text: 'OK'}],
-        { cancelable: false }
-      );
 
-      this.refs.codeInputRef2.clear();
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isVerified && !this.props.isVerified) {
+      // console.warn('verify success!')
+      this.props.navigation.navigate('Signin');
     }
   }
   
   render() {
-    
     return (
       <View style={styles.container}>
         <View style={styles.wrapper}>
           <View style={styles.inputWrapper}>
             <Text style={styles.inputLabel}>{this.props.verfiedErrorMsg || this.props.locale.verifyCode.label}</Text>
             <ConfirmationCodeInput
-              ref="codeInputRef2"
+              ref="codeInputRef"
               keyboardType="numeric"
               codeLength={6}
               className={'border-circle'}
@@ -96,7 +78,7 @@ class VerifyCodeScreen extends Component {
         </View> 
         <KeyboardAvoidingView style={styles.avoidView} behavior="position" >
           <TouchableOpacity
-            onPress={() => this.props.verifyCode(this.state.username, code)}
+            onPress={() => this.props.resendCode(this.state.username)}
             style={styles.resendButton}
           >
             <Text style={styles.resendText}>
@@ -104,6 +86,8 @@ class VerifyCodeScreen extends Component {
             </Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
+
+        { this.props.isLoading && <Spinner /> }
       </View>
     );
   }
@@ -178,4 +162,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   verifyCode,
   verifyCodeCancel,
+  resendCode,
 })(VerifyCodeScreen)
