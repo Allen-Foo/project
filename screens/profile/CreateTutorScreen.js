@@ -69,7 +69,7 @@ class CreateTutorScreen extends React.Component {
     const { params = {} }  = this.props.navigation.state;
 
     this.state = {
-      tutorName: params.tutorName,
+      username: params.username,
       email: params.email,
       phone: params.phone,
       introduction: params.introduction,
@@ -118,8 +118,8 @@ class CreateTutorScreen extends React.Component {
         <TextInputItems
           fieldName={locale.createTutor.text.tutorName}
           style={styles.textInput}
-          onChangeText={(tutorName) => this.setState({tutorName})}
-          value={this.state.tutorName}
+          onChangeText={(username) => this.setState({username})}
+          value={this.state.username}
         />
         <TextInputItems
           fieldName={locale.createTutor.text.email}

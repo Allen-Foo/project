@@ -45,7 +45,7 @@ class ManageTutorScreen extends React.Component {
   };
 
   loadMoreItems = () => {
-    this.props.getTutorList(this.props.user.userId, this.props.tutorList[this.props.tutorList.length -1].tutorId)
+    this.props.getTutorList(this.props.user.userId, this.props.tutorList[this.props.tutorList.length -1].userId)
   }
 
   constructor(props) {
@@ -100,7 +100,7 @@ class ManageTutorScreen extends React.Component {
       <FlatList
         contentContainerStyle={styles.listContainer}
         data={tutorList}
-        keyExtractor={(item) => (item.tutorId)}
+        keyExtractor={(item) => (item.userId)}
         renderItem={({item}) => {
           return (
             <View style={{width: '100%'}}>

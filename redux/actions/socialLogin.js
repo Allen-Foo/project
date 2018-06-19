@@ -738,7 +738,7 @@ export const deleteTutorEpic = (action$, store, { request }) =>
   action$.ofType(DELETE_TUTOR)
     .mergeMap(action => 
       Observable.fromPromise(request({
-        url: `/deleteTutor/${action.payload.tutorId}`,
+        url: `/deleteTutor/${action.payload.userId}`,
         method: 'post',
         data: {
           ...action.payload
@@ -760,7 +760,7 @@ export const updateTutorEpic = (action$, store, { request }) =>
   action$.ofType(UPDATE_TUTOR)
     .mergeMap(action => 
       Observable.fromPromise(request({
-        url: `/updateTutor/${action.payload.tutorId}`,
+        url: `/updateTutor/${action.payload.userId}`,
         method: 'post',
         data: {
           ...action.payload
