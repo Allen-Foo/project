@@ -41,7 +41,7 @@ class SignUpTutorExperienceScreen extends React.Component {
     let { locale } = this.props
     return (
       <View style={styles.container}>
-        <ProgressBar step = {3} />
+        <ProgressBar step = {2} />
         <Text style={styles.question}>{locale.signUp.text.experience.label}</Text>
         <Picker
           selectedValue={this.state.experience}

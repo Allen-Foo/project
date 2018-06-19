@@ -44,7 +44,7 @@ class SignUpTutorProfessionScreen extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
-          <ProgressBar step = {2} />
+          <ProgressBar step = {1} />
 
           <Text style={styles.question}>{locale.signUp.text.profession.label}</Text>
 

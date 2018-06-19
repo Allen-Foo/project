@@ -45,7 +45,7 @@ class SignUpTutorSelfIntroScreen extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
-          <ProgressBar step = {1} />
+          <ProgressBar step = {4} />
 
           <Text style={styles.question}>{locale.signUp.text.selfIntro.label}</Text>
 
@@ -68,7 +68,7 @@ class SignUpTutorSelfIntroScreen extends React.Component {
                 else {
                   this.props.setSelfIntro (this.state.selfIntroduction);
                   // Next step
-                  this.props.navigation.navigate('SignUpTutorProfessionScreen')
+                  this.props.navigation.navigate('SignUpTutorConfirmScreen')
                 }
               }
             }

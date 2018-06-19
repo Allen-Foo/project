@@ -44,7 +44,7 @@ class SignUpTutorAchievementScreen extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
-          <ProgressBar step = {4} />
+          <ProgressBar step = {3} />
           <Text style={styles.question}>{locale.signUp.text.achievement.label}</Text>
 
           <TextInput 
@@ -66,7 +66,7 @@ class SignUpTutorAchievementScreen extends React.Component {
                 else {
                   this.props.setAchievement (this.state.achievement);
                   // Next step
-                  this.props.navigation.navigate('SignUpTutorConfirmScreen')
+                  this.props.navigation.navigate('SignUpTutorSelfIntroScreen')
                 }
               }
             }

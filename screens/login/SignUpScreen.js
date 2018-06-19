@@ -78,7 +78,7 @@ class SignUpScreen extends React.Component {
 
       this.props.setTutorProfile(profile);
       // Next step
-      this.props.navigation.navigate('SignUpTutorSelfIntroScreen');
+      this.props.navigation.navigate('SignUpTutorProfessionScreen');
     }
   }
 
