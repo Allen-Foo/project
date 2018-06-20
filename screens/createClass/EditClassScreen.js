@@ -328,7 +328,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.userProfile.user,
     userId: state.userProfile.user && state.userProfile.user.userId,
-    appliedClassList: state.socialLogin.appliedClassList,
+    appliedClassList: state.userProfile.appliedClassList,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     classDetail: state.classes.classDetail,

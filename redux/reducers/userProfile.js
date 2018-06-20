@@ -8,11 +8,13 @@ import {
   ADD_TO_BOOKMARK_SUCCESS,
   REMOVE_FROM_BOOKMARK_SUCCESS,
   SIGN_OUT_SUCCESS,
+  GET_APPLIED_CLASS_LIST_SUCCESS,
 } from '../types'
 
 const defaultState = {
   awsId: null,                                                        
   user: null,
+  appliedClassList: [],
 }
 
 export default (state = defaultState, action) => {
@@ -64,6 +66,11 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         user: action.payload,
+      };
+    case GET_APPLIED_CLASS_LIST_SUCCESS:
+      return {
+        ...state,
+        appliedClassList: action.payload.appliedClassList,
       };
     case SIGN_OUT_SUCCESS:
       // console.warn('here', 'SIGN_OUT_SUCCESS')

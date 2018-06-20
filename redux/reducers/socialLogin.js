@@ -464,7 +464,7 @@ export default (state = {...defaultState}, action) => {
       return {
         ...state,
         isLoading: false,
-        appliedClassList: action.payload.appliedClassList,
+        // appliedClassList: action.payload.appliedClassList,
       };
     case GET_APPLIED_CLASS_LIST_FAIL:
       return {

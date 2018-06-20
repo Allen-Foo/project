@@ -111,8 +111,7 @@ class AppliedClassListScreen extends React.Component {
 
     var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
 
-
-    if (appliedClassList.length > 0) {
+    if (appliedClassList && appliedClassList.length > 0) {
       return this.renderClassList(appliedClassList)
     }
     return this.renderEmptyPage(errMessage)
@@ -149,7 +148,7 @@ const mapStateToProps = (state) => {
   return {
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
-    appliedClassList: state.socialLogin.appliedClassList,
+    appliedClassList: state.userProfile.appliedClassList,
     fetchErrorMsg: state.classes.fetchErrorMsg,
     fetchErrorLastUpdate: state.classes.fetchErrorLastUpdate
   }
