@@ -23,7 +23,7 @@ import { Hr, Slideshow, Spinner, Separator, EditButton, Avatar } from '../../com
 let {width, height} = Dimensions.get('window');
 const RATING = ['punctualityRating', 'environmentRating', 'attitudeRating', 'professionRating']
 
-class TutorDetailScreen extends React.Component {
+class ClassDetailScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     const { params = {} } = navigation.state;
@@ -34,7 +34,7 @@ class TutorDetailScreen extends React.Component {
 
     if (screenProps.appType == 'tutor') {
       return {
-        headerTitle: screenProps.locale.tutorDetail.title,
+        headerTitle: screenProps.locale.classDetail.title,
         headerTintColor: '#000',
         headerStyle: {
           backgroundColor: '#f7f7f7',
@@ -122,7 +122,7 @@ class TutorDetailScreen extends React.Component {
           {
             classDetail.comments.length > 0 &&
             <View>
-              <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.comment} </Text>
+              <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.comment} </Text>
               { classDetail.comments.map((comment, index) => <Comment key={index} comment={comment}/>) }
             </View>
           }
@@ -158,7 +158,7 @@ class TutorDetailScreen extends React.Component {
       return (
         <View style={styles.appliedButton} onPress={() => this.props.navigation.navigate('Payment', {classInfo})}>
           <Text style={{color: 'white', }}> 
-            { this.props.locale.tutorDetail.text.applied.label }
+            { this.props.locale.classDetail.text.applied.label }
           </Text>
         </View>
       ) 
@@ -169,7 +169,7 @@ class TutorDetailScreen extends React.Component {
           onPress={() => {this.props.user ? this.props.navigation.navigate('Payment', {classInfo}) : this.props.navigation.navigate('Signin')}}
         >
           <Text style={{color: 'white', }}> 
-            { this.props.locale.tutorDetail.text.applyNow.label }
+            { this.props.locale.classDetail.text.applyNow.label }
           </Text>
         </TouchableOpacity>
       )
@@ -286,7 +286,7 @@ class TutorDetailScreen extends React.Component {
               this.props.mode == 'learner' && 
               <TouchableOpacity style={styles.commentButton} onPress={() => this.handleCommentButtonPress()} >
                 <Text style={{color: 'green', }}> 
-                  { locale.tutorDetail.text.giveComment.label }
+                  { locale.classDetail.text.giveComment.label }
                 </Text>
                 <Entypo
                   name={"chevron-thin-right"}
@@ -302,8 +302,8 @@ class TutorDetailScreen extends React.Component {
           ? classDetail.tutorList && classDetail.tutorList.length > 0 ? this.renderTutorList(classDetail, locale) : this.renderTutorInfo(classDetail, locale)
           : this.renderLearnerInfo(classDetail) 
         }
-        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.classDescription} </Text>
-        <View style={styles.tutorDetailContainer}>
+        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.classDescription} </Text>
+        <View style={styles.classDetailContainer}>
           <View style={{marginTop: -20}}>
             <Text>{classDetail.description}</Text>
           </View>
@@ -315,9 +315,9 @@ class TutorDetailScreen extends React.Component {
   renderTutorInfo(classDetail, locale) {
     return (
       <View>
-        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
-        <View style={styles.tutorDetailContainer}>
-          <TouchableOpacity style={styles.innerTutorDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfo')}>
+        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.tutor} </Text>
+        <View style={styles.classDetailContainer}>
+          <TouchableOpacity style={styles.innerClassDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfoScreen')}>
             <View style={{paddingTop: 50}}>
               <Text style={{paddingHorizontal: 10}}>Introduction:</Text>
               <Text style={{paddingHorizontal: 10, paddingTop: 5}}>
@@ -333,14 +333,14 @@ class TutorDetailScreen extends React.Component {
               />
               <View style={styles.usernameText}>
                 <Text style={{fontSize: 20}}>{classDetail.user.username}</Text>
-                <Text style={{fontSize: 14, color: '#bebebe'}}>{`${locale.tutorDetail.text.rating + parseFloat(classDetail.totalRatings).toFixed(1)}/5`}</Text>
+                <Text style={{fontSize: 14, color: '#bebebe'}}>{`${locale.classDetail.text.rating + parseFloat(classDetail.totalRatings).toFixed(1)}/5`}</Text>
                 <View style={{flexDirection: 'row', marginTop: 5}}>
                   <FontAwesome
                     name={"check-square-o"}
                     size={20}
                     color={'#f72470'}
                   />
-                  <Text style={{marginLeft: 5, color: '#f72470'}}>{this.props.locale.tutorDetail.text.verifiedBy}</Text>
+                  <Text style={{marginLeft: 5, color: '#f72470'}}>{this.props.locale.classDetail.text.verifiedBy}</Text>
                 </View>
               </View>
             </View>
@@ -354,11 +354,11 @@ class TutorDetailScreen extends React.Component {
     let { tutorList } = classDetail;
     return (
       <View>
-        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.tutor} </Text>
-        <View style={styles.tutorDetailContainer}>
+        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.tutor} </Text>
+        <View style={styles.classDetailContainer}>
           { 
             tutorList.map((tutor, index) => (
-              <View key={index} style={styles.innerTutorDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfo')}>
+              <View key={index} style={styles.innerClassDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfoScreen')}>
                 <View style={{paddingTop: 50}}>
                   <Text style={{paddingHorizontal: 10}}>Introduction:</Text>
                   <Text style={{paddingHorizontal: 10, paddingTop: 5}}>
@@ -372,14 +372,14 @@ class TutorDetailScreen extends React.Component {
                   />
                   <View style={styles.usernameText}>
                     <Text style={{fontSize: 20}}>{tutor.tutorName}</Text>
-                    <Text style={{fontSize: 14, color: '#bebebe'}}>{`${locale.tutorDetail.text.rating + parseFloat(classDetail.totalRatings).toFixed(1)}/5`}</Text>
+                    <Text style={{fontSize: 14, color: '#bebebe'}}>{`${locale.classDetail.text.rating + parseFloat(classDetail.totalRatings).toFixed(1)}/5`}</Text>
                     <View style={{flexDirection: 'row', marginTop: 5}}>
                       <FontAwesome
                         name={"check-square-o"}
                         size={20}
                         color={'#f72470'}
                       />
-                      <Text style={{marginLeft: 5, color: '#f72470'}}>{this.props.locale.tutorDetail.text.verifiedBy}</Text>
+                      <Text style={{marginLeft: 5, color: '#f72470'}}>{this.props.locale.classDetail.text.verifiedBy}</Text>
                     </View>
                   </View>
                 </View>
@@ -397,7 +397,7 @@ class TutorDetailScreen extends React.Component {
     return (
       classDetail.studentInfo.length > 0 &&
         <View>
-          <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.tutorDetail.text.allStudent} </Text>
+          <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.allStudent} </Text>
           { 
             studentInfo.map((userId, index) => 
               <View style={styles.studentDetailContainer} key={index}>
@@ -419,7 +419,7 @@ class TutorDetailScreen extends React.Component {
               {
                 this.state.collapsed ?
                   <View style={styles.studentRowContainer}>
-                    <Text style={{marginRight: 10}}>{locale.tutorDetail.text.viewAllStudent}</Text>
+                    <Text style={{marginRight: 10}}>{locale.classDetail.text.viewAllStudent}</Text>
                     <Entypo
                       name={"chevron-thin-down"}
                       size={15}
@@ -460,7 +460,7 @@ const OverallRating = props => {
 
   return (
     <View style={innerRatingRow}>
-      <Text style={styles.textStyle}> {locale.tutorDetail.text[type]} </Text>
+      <Text style={styles.textStyle}> {locale.classDetail.text[type]} </Text>
       <Text style={styles.ratingStyle}>{parseFloat(value).toFixed(1)}</Text>
     </View>
   )
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#eee',
   },
-  tutorDetailContainer: {
+  classDetailContainer: {
     width: '100%',
     backgroundColor: '#fff',
     paddingTop: '10%',
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
     paddingRight: '5%',
     paddingVertical: 10
   },
-  innerTutorDetailContainer: {
+  innerClassDetailContainer: {
     borderWidth: 1,
     borderColor: '#bebebe',
     borderRadius: 20,
@@ -653,4 +653,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getClassDetail,
-})(TutorDetailScreen)
+})(ClassDetailScreen)

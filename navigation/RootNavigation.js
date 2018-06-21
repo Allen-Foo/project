@@ -9,7 +9,7 @@ import Settings from '../screens/settings/SettingsScreen';
 import ApiTest from '../screens/settings/ApiTestScreen';
 import Language from '../screens/settings/LanguageScreen';
 import ProfileSetting from '../screens/settings/ProfileSettingScreen';
-import TutorDetail from '../screens/detail/TutorDetail';
+import ClassDetailScreen from '../screens/detail/ClassDetailScreen';
 import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
 import VerifyCode from '../screens/login/VerifyCodeScreen';
@@ -27,7 +27,7 @@ import GiveComment from '../screens/comments/GiveCommentScreen';
 import AdvancedSearch from '../screens/search/AdvancedSearchScreen';
 import SearchCategory from '../screens/search/SearchCategoryScreen';
 import SearchSkill from '../screens/search/SearchSkillScreen';
-import TutorInfo from '../screens/detail/TutorInfoScreen';
+import TutorInfoScreen from '../screens/detail/TutorInfoScreen';
 import Payment from '../screens/applyClass/PaymentScreen';
 import AppliedClassNoti from '../screens/applyClass/AppliedClassNotiScreen';
 import AppliedClassList from '../screens/class/AppliedClassListScreen';
@@ -70,8 +70,8 @@ const RootStackNavigator = StackNavigator(
     Language: {
       screen: Language,
     },
-    TutorDetail: {
-      screen: TutorDetail,
+    ClassDetailScreen: {
+      screen: ClassDetailScreen,
     },
     ApiTest: {
       screen: ApiTest
@@ -97,8 +97,8 @@ const RootStackNavigator = StackNavigator(
     GiveComment: {
       screen: GiveComment,
     },
-    TutorInfo: {
-      screen: TutorInfo,
+    TutorInfoScreen: {
+      screen: TutorInfoScreen,
     },
     Payment: {
       screen: Payment,
@@ -175,8 +175,8 @@ const TutorStackNavigator = StackNavigator(
     Contact: {
       screen: Contact
     },
-    TutorDetail: {
-      screen: TutorDetail,
+    ClassDetailScreen: {
+      screen: ClassDetailScreen,
     },
     CreateTutor: {
       screen: CreateTutor

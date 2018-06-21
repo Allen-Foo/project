@@ -49,7 +49,7 @@ class FavouriteScreen extends React.Component {
             <View style={{width: '100%'}}>
               <Tutor 
                 data={item}
-                onPress={() => this.props.navigation.navigate('TutorDetail', {classId: item.classId})} 
+                onPress={() => this.props.navigation.navigate('ClassDetailScreen', {classId: item.classId})} 
                 handleUnauthorizedCall={() => this.props.navigation.navigate('Signin')}
               />
               <Separator />

@@ -147,7 +147,7 @@ class SearchScreen extends React.Component {
           <View style={styles.bottomViewClassDetail}>
             <Tutor 
               data={filteredClassList[this.state.selectedMarkerIndex]}
-              onPress={() => this.props.navigation.navigate('TutorDetail', {
+              onPress={() => this.props.navigation.navigate('ClassDetailScreen', {
                 classId: filteredClassList[this.state.selectedMarkerIndex].classId
               })} 
               handleUnauthorizedCall={() => this.props.navigation.navigate('Signin')}

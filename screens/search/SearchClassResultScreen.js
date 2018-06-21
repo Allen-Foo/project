@@ -78,7 +78,7 @@ class SearchClassResultScreen extends React.Component {
             list && list.map((cls, index) => {
               return (
                 <View key={index} style={{width: '100%'}}>
-                  <Tutor data={cls} onPress={() => this.props.navigation.navigate('TutorDetail', {classId: cls.classId})} />
+                  <Tutor data={cls} onPress={() => this.props.navigation.navigate('ClassDetailScreen', {classId: cls.classId})} />
                   <Separator style={{backgroundColor: '#aaa'}}/>
                 </View>
               )

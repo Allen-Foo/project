@@ -70,7 +70,7 @@ class AppliedClassListScreen extends React.Component {
           return (
             <View style={{width: '100%'}}>
               <Swipeout right={getSwipeoutBtns(item)}>
-                <AppliedClassItem data={item} onPress={() => this.props.navigation.navigate('TutorDetail', {classId: item.classId})} />
+                <AppliedClassItem data={item} onPress={() => this.props.navigation.navigate('ClassDetailScreen', {classId: item.classId})} />
               </Swipeout>
               <Separator />
             </View>

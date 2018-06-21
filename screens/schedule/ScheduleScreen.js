@@ -139,7 +139,7 @@ class ScheduleScreen extends React.Component {
 
   handleAgendaItemPress = (classId) => {
     if (classId) {
-      this.props.navigation.navigate('TutorDetail', {classId})
+      this.props.navigation.navigate('ClassDetailScreen', {classId})
     }
   }
 

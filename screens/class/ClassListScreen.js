@@ -135,7 +135,7 @@ class ClassListScreen extends React.Component {
           return (
             <View style={{width: '100%'}}>
               <Swipeout right={getSwipeoutBtns(item)}>
-                <ClassItem data={item} onPress={() => this.props.navigation.navigate('TutorDetail', {classId: item.classId})} />
+                <ClassItem data={item} onPress={() => this.props.navigation.navigate('ClassDetailScreen', {classId: item.classId})} />
               </Swipeout>
               <Separator />
             </View>

@@ -10,7 +10,7 @@ import { getClassList } from '../../redux/actions';
 import { Separator, Tutor, Avatar } from '../../components';
 import StarRating from 'react-native-star-rating';
 
-class TutorInfo extends React.Component {
+class TutorInfoScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     return {
       header: null
@@ -56,7 +56,7 @@ class TutorInfo extends React.Component {
                   size={20}
                   color={'#f72470'}
                 />
-                <Text style={{marginLeft: 5, color: '#f72470'}}>{locale.tutorDetail.text.verifiedBy}</Text>
+                <Text style={{marginLeft: 5, color: '#f72470'}}>{locale.classDetail.text.verifiedBy}</Text>
               </View>
             </View>
 
@@ -79,7 +79,7 @@ class TutorInfo extends React.Component {
                 <View key={index} style={{width: '100%'}}>
                   <Tutor 
                     data={cls} 
-                    onPress={() => this.props.navigation.navigate('TutorDetail', {classId: cls.classId})}
+                    onPress={() => this.props.navigation.navigate('ClassDetailScreen', {classId: cls.classId})}
                     handleUnauthorizedCall={() => this.props.navigation.navigate('Signin')}
                   />
                   <Separator style={{backgroundColor: '#aaa'}}/>
@@ -142,4 +142,4 @@ const mapStateToPorps = (state) => {
 
 export default connect(mapStateToPorps, {
   getClassList,
-})(TutorInfo)
+})(TutorInfoScreen)

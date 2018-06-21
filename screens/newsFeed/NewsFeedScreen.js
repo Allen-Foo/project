@@ -209,7 +209,7 @@ class NewsFeedScreen extends React.Component {
               <View key={index} style={{width: '100%'}}>
                 <Tutor 
                   data={cls} 
-                  onPress={() => this.props.navigation.navigate('TutorDetail', {classId: cls.classId})}
+                  onPress={() => this.props.navigation.navigate('ClassDetailScreen', {classId: cls.classId})}
                   handleUnauthorizedCall={() => this.props.navigation.navigate('Signin')}
                 />
                 <Separator style={{backgroundColor: '#aaa'}}/>
