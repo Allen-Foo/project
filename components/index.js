@@ -13,6 +13,7 @@ import AppliedClassItem from'./AppliedClassItem';
 import IndexMarker from'./IndexMarker';
 import TutorListItem from'./TutorListItem';
 import ConfirmationCodeInput from'./ConfirmationCodeInput';
+import Avatar from'./Avatar';
 
 export {
   Separator,
@@ -30,6 +31,7 @@ export {
   ClassItem,
   ProgressBar,
   AppliedClassItem,
+  Avatar,
   ConfirmationCodeInput,
   TutorListItem,
 }
