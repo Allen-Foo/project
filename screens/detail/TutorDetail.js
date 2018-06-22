@@ -16,10 +16,9 @@ import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements'
 import { Entypo, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import { Avatar } from 'react-native-elements';
 import Comment from '../comments/Comment';
 import { getClassDetail } from '../../redux/actions';
-import { Hr, Slideshow, Spinner, Separator, EditButton } from '../../components';
+import { Hr, Slideshow, Spinner, Separator, EditButton, Avatar } from '../../components';
 
 let {width, height} = Dimensions.get('window');
 const RATING = ['punctualityRating', 'environmentRating', 'attitudeRating', 'professionRating']
@@ -330,10 +329,7 @@ class TutorDetailScreen extends React.Component {
             <View style={styles.tutorAvatarContainer}>
               <Avatar
                 large
-                rounded
-                source={{url: classDetail.user && classDetail.user.avatarUrl}}
-                activeOpacity={0.7}
-                containerStyle={styles.avatarContainer}
+                uri={classDetail.user && classDetail.user.avatarUrl}
               />
               <View style={styles.usernameText}>
                 <Text style={{fontSize: 20}}>{classDetail.user.username}</Text>
@@ -372,10 +368,7 @@ class TutorDetailScreen extends React.Component {
                 <View style={styles.tutorAvatarContainer}>
                   <Avatar
                     large
-                    rounded
-                    source={{url: tutor.avatarUrl}}
-                    activeOpacity={0.7}
-                    containerStyle={styles.avatarContainer}
+                    uri={tutor.avatarUrl}
                   />
                   <View style={styles.usernameText}>
                     <Text style={{fontSize: 20}}>{tutor.tutorName}</Text>
@@ -411,10 +404,7 @@ class TutorDetailScreen extends React.Component {
                 <View style={styles.studentAvatarContainer}>
                   <Avatar
                     large
-                    rounded
-                    source={{url: userId && userId.avatarUrl}}
-                    activeOpacity={0.7}
-                    containerStyle={styles.avatarContainer}
+                    uri={userId && userId.avatarUrl}
                   />
                   <View style={styles.usernameText}>
                     <Text style={{fontSize: 20}}>{userId.username}</Text>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text, Dimensions } from 'react-native';
-import { Avatar } from 'react-native-elements';
+// import { Avatar } from 'react-native-elements';
+import { Avatar } from '../../components';
 
 import { connect } from 'react-redux';
 import { FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
@@ -36,25 +37,9 @@ class ProfileScreen extends React.Component {
   }
 
   renderHeader() {
-    let avatar = 
-      <Avatar
-        large
-        rounded
-        icon={{name: 'account-box'}}
-        onPress={() => this.props.navigation.navigate('ProfileSetting')}
-        activeOpacity={0.7}
-        containerStyle={styles.avatarContainer}
-      />
+    let avatar = <Avatar large/>
     if (this.props.user && this.props.user.avatarUrl) {
-      avatar = 
-        <Avatar
-          large
-          rounded
-          source={{url: this.props.user.avatarUrl}}
-          onPress={() => this.props.navigation.navigate('ProfileSetting')}
-          activeOpacity={0.7}
-          containerStyle={styles.avatarContainer}
-        />
+      avatar = <Avatar large uri={this.props.user.avatarUrl} />
     }
 
     if (this.props.user) {
@@ -74,14 +59,7 @@ class ProfileScreen extends React.Component {
     } else {
       return (
         <TouchableOpacity style={[styles.loginContainer,{flexDirection: 'row'}]} onPress={() => this.props.navigation.navigate('Signin')}>
-          <Avatar
-            large
-            rounded
-            icon={{name: 'account-box'}}
-            onPress={() => this.props.navigation.navigate('Signin')}
-            activeOpacity={0.7}
-            containerStyle={styles.avatarContainer}
-          />
+          <Avatar large/>
           <Text style={styles.username}>{this.props.locale.profile.text.signUpOrLogin}</Text>
           <View style={styles.chevronContainer}>
             <Entypo

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text, Dimensions, Image, FlatList } from 'react-native';
-import { Avatar } from 'react-native-elements';
 
 import { connect } from 'react-redux';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
@@ -8,7 +7,7 @@ import { List, ListItem } from 'react-native-elements'
 const { height, width } = Dimensions.get('window')
 import Colors from '../../constants/Colors';
 import { getClassList } from '../../redux/actions';
-import { Separator, Tutor } from '../../components';
+import { Separator, Tutor, Avatar } from '../../components';
 import StarRating from 'react-native-star-rating';
 
 class TutorInfo extends React.Component {
@@ -47,11 +46,7 @@ class TutorInfo extends React.Component {
           <View style={styles.tutorAvatarContainer}>
             <Avatar
               large
-              rounded
-              source={{url: classDetail.user.avatarUrl}}
-              // onPress={() => this.props.navigation.navigate('ProfileSetting')}
-              activeOpacity={0.7}
-              // containerStyle={styles.avatarContainer}
+              uri={classDetail.user.avatarUrl}
             />
             <View style={styles.usernameContainer}>
               <Text style={styles.usernameText}>{classDetail.user.username}</Text>

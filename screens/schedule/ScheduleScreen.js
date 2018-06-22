@@ -6,6 +6,7 @@ import Colors from '../../constants/Colors';
 import {Agenda, Calendar} from 'react-native-calendars';
 import moment from 'moment';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { Avatar } from '../../components';
 
 class ScheduleScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -90,7 +91,8 @@ class ScheduleScreen extends React.Component {
             classId: classes.classId,
             text: classes.title,
             time: `${moment(new Date(timeSlot.startTime)).format('HH:mm')} - ${moment(new Date(timeSlot.endTime)).format('HH:mm')}`,
-            address: classes.address.formatted_address
+            address: classes.address.formatted_address,
+            tutorList: classes.tutorList,
           }
           items[date] = items[date] || [];
           items[date].push(slot)
@@ -181,7 +183,7 @@ class ScheduleScreen extends React.Component {
     return (
       <View style={{flex: 1}}>
         <Calendar
-          selected={new Date().toISOString().slice(0, 10)}
+          // selected={new Date().toISOString().slice(0, 10)}
           // Handler which gets executed on day press. Default = undefined
           onDayPress={this.handleDayPress}
           // Do not show days of other months in month page. Default = false
@@ -204,6 +206,12 @@ class ScheduleScreen extends React.Component {
                     onPress={() => this.handleAgendaItemPress(item.classId)}
                   >
                     <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.text}</Text>
+                    {
+                      item.tutorList && item.tutorList.length > 0 &&
+                      <View style={{flexDirection: 'row'}}>
+                        { item.tutorList.map((tutor, i) => (<Avatar key={`${tutor.userId}-${i}`} uri={tutor.avatarUrl}/>)) }
+                      </View>
+                    }
                     <Text style={{color: Colors.tintColor}}>{item.time}</Text>
                     <Text style={{color: 'purple', fontSize: 12}}>{item.address}</Text>
                   </TouchableOpacity>
@@ -246,6 +254,12 @@ class ScheduleScreen extends React.Component {
         onPress={() => this.handleAgendaItemPress(item.classId)}
       >
         <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.text}</Text>
+        {
+          item.tutorList && item.tutorList.length > 0 &&
+          <View style={{flexDirection: 'row'}}>
+            { item.tutorList.map((tutor, i) => (<Avatar key={`${tutor.userId}-${i}`} uri={tutor.avatarUrl}/>)) }
+          </View>
+        }
         <Text style={{color: Colors.tintColor}}>{item.time}</Text>
         <Text style={{color: 'purple', fontSize: 12}}>{item.address}</Text>
       </TouchableOpacity>

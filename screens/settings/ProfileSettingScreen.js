@@ -5,12 +5,11 @@ import Colors from '../../constants/Colors';
 import { List, ListItem } from 'react-native-elements';
 import { signOut, updateAvatar, updateProfile } from '../../redux/actions';
 import { onSignOut } from '../../lib/Auth/AWS_Auth';
-import { Avatar } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
+import { Avatar } from '../../components';
+
 let {width, height} = Dimensions.get('window');
-import axios from 'axios';
-import appSecrets from '../../appSecrets';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const maxLength = 255;
@@ -74,30 +73,16 @@ class ProfileSettingScreen extends React.Component {
 
   renderHeader() {
     let { locale } = this.props
-    let avatar = 
-      <Avatar
-        xlarge
-        rounded
-        icon={{name: 'account-box'}}
-        onPress={this._pickImage}
-        activeOpacity={0.7}
-        containerStyle={styles.avatarContainer}
-      />
+    let avatar = <Avatar large onPress={this._pickImage} />
     if (this.props.user && this.props.user.avatarUrl) {
       // console.warn('avatarUrl', this.props.user.avatarUrl)
-      avatar = 
-        <Avatar
-          xlarge
-          rounded
-          source={{url: this.props.user.avatarUrl}}
-          onPress={this._pickImage}
-          activeOpacity={0.7}
-          containerStyle={styles.avatarContainer}
-        />
+      avatar = <Avatar xlarge uri={this.props.user.avatarUrl} onPress={this._pickImage}/>
     }
     return (
       <View style={styles.loginContainer}>
-        { avatar }
+        <View style={styles.avatarContainer}>
+          { avatar }
+        </View>
         <View>
           <Text style={styles.text} onPress={this._pickImage}>{locale.profileSetting.text.editIcon}</Text>
         </View>
@@ -232,10 +217,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   avatarContainer: {
-    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 20
   },
   rowContainer: {
     flexDirection: 'row',

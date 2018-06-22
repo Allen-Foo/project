@@ -10,12 +10,11 @@ import {
   Dimensions
 } from 'react-native';
 
-import { Avatar, Rating } from 'react-native-elements';
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { mockData } from '../../constants/mockData';
-import { Tutor, Separator } from '../../components';
+import { Tutor, Separator, Avatar} from '../../components';
 import StarRating from 'react-native-star-rating';
 import { getClassDetail } from '../../redux/actions';
 import { Spinner } from '../../components';
@@ -42,11 +41,8 @@ class Comment extends React.Component {
         <View style={styles.rowContainer} onPress={() => this.props.navigation.navigate('CommentDetail')}>
           <View style={styles.avatarContainer}>
             <Avatar
-              large
-              rounded
-              source={{url: comment.user && comment.user.avatarUrl}}
-              activeOpacity={0.7}
-              style= {styles.avatar}
+              medium
+              uri={comment.user && comment.user.avatarUrl}
             />
           </View>
                 
