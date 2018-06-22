@@ -56,17 +56,21 @@ class ClassDetailScreen extends React.Component {
     super(props);
     this.state = {
       position: 0,
-      collapsed: true
+      collapsed: true,
+      appliedClassList: null,
+      classDetail: null,
+
     }
   }
 
   componentWillMount() {
     this.props.getClassDetail(this.props.navigation.state.params.classId)
+    this.state.appliedClassList = this.props.appliedClassList
   }
 
   handleCommentButtonPress() {
     if (this.props.user) {
-      this.props.navigation.navigate('GiveComment', {classId: this.props.classDetail.classId})
+      this.props.navigation.navigate('GiveComment', {classId: this.state.classDetail.classId})
     } else {
       this.props.navigation.navigate('Signin')
     }
@@ -92,7 +96,8 @@ class ClassDetailScreen extends React.Component {
   }
 
   renderClassDetail() {
-    let { locale, classDetail, languageKey } = this.props;
+    let { locale, languageKey } = this.props;
+    let { classDetail } = this.state;
     let photoList = classDetail.photoList.map(photo => ({uri: photo.location}))
     return (
       <View>
@@ -150,11 +155,11 @@ class ClassDetailScreen extends React.Component {
   }
 
   renderApplyButton() {
-    let classInfo = this.props.classDetail;
+    let classInfo = this.state.classDetail;
     let classId = classInfo.classId;
-    let userId = this.props.classDetail.user.userId
+    let userId = this.state.classDetail.user.userId
 
-    if (this.props.appliedClassList && this.props.appliedClassList.some(list => list.classId === classId)) {
+    if (this.state.appliedClassList && this.state.appliedClassList.some(list => list.classId === classId)) {
       return (
         <View style={styles.appliedButton} onPress={() => this.props.navigation.navigate('Payment', {classInfo})}>
           <Text style={{color: 'white', }}> 
@@ -178,9 +183,9 @@ class ClassDetailScreen extends React.Component {
 
   renderContact() {
     let classId = this.props.navigation.state.params.classId;
-    let userId = this.props.classDetail.user.userId
+    let userId = this.state.classDetail.user.userId
 
-    if (this.props.appliedClassList && this.props.appliedClassList.some(list => list.classId == classId)) {
+    if (this.state.appliedClassList && this.state.appliedClassList.some(list => list.classId == classId)) {
       return (
         <View style={styles.rowContainer}>
           <View style={styles.innerContainer}>
@@ -191,7 +196,7 @@ class ClassDetailScreen extends React.Component {
             />
           </View>
           <View style={styles.innerTextContainer}>
-            <Text style={styles.tutorName}> {this.props.classDetail.phone} </Text>
+            <Text style={styles.tutorName}> {this.state.classDetail.phone} </Text>
           </View>
         </View>
       )
@@ -199,7 +204,7 @@ class ClassDetailScreen extends React.Component {
   }
   
   renderAddress() {
-    if (this.props.classDetail.address.formatted_address === 'On site') {
+    if (this.state.classDetail.address.formatted_address === 'On site') {
       return (
         <View style={styles.rowContainer}>
           <View style={styles.innerContainer}>
@@ -210,13 +215,13 @@ class ClassDetailScreen extends React.Component {
             />
           </View>
           <View style={[styles.innerTextContainer, {width: '70%'}]}>
-            <Text style={styles.address}> {this.props.classDetail.address.formatted_address} </Text>
+            <Text style={styles.address}> {this.state.classDetail.address.formatted_address} </Text>
           </View>
         </View>
       )
     } else {
       return (
-        <TouchableOpacity onPress={() => {this.props.navigation.navigate('ClassMap', this.props.classDetail.address)}}>
+        <TouchableOpacity onPress={() => {this.props.navigation.navigate('ClassMap', this.state.classDetail.address)}}>
           <View style={styles.rowContainer}>
             <View style={styles.innerContainer}>
               <MaterialIcons
@@ -226,7 +231,7 @@ class ClassDetailScreen extends React.Component {
               />
             </View>
             <View style={[styles.innerTextContainer, {width: '70%'}]}>
-              <Text style={styles.address}> {this.props.classDetail.address.formatted_address} </Text>
+              <Text style={styles.address}> {this.state.classDetail.address.formatted_address} </Text>
             </View>
             <Entypo
               name={"chevron-thin-right"}
@@ -442,7 +447,11 @@ class ClassDetailScreen extends React.Component {
   }
 
   render() {
-    if (this.props.isLoading || !this.props.classDetail) {
+    if (!this.state.classDetail) {
+      this.state.classDetail = this.props.classDetail
+    }
+
+    if (this.props.isLoading || !this.state.classDetail) {
       return this.renderLoading()
     } else {
       return this.renderClassDetail()

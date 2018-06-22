@@ -20,15 +20,18 @@ class TutorInfoScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      classDetail: null,
     }
   }
 
   componentWillMount() {
     this.props.getClassList(this.props.classDetail.user.userId)
+    this.state.classDetail = this.props.classDetail;
   }
 
   render() {
-    let { classDetail, classList, locale } = this.props
+    let { classList, locale } = this.props
+    let { classDetail } = this.state;
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.imageContainer}>
