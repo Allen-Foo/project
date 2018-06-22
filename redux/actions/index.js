@@ -3,6 +3,7 @@ import { setAppType } from './setAppType';
 import {
   createClass,
   getClassList,
+  getMoreClassList,
   updateClass,
   editClass,
   getClassDetail,
@@ -72,6 +73,7 @@ export {
   verifyCodeCancel,
   createClass,
   getClassList,
+  getMoreClassList,
   updateClass,
   editClass,
   deleteClass,
