@@ -7,6 +7,7 @@ import {
   SEARCH_CLASS_LIST_SUCCESS,
   SEARCH_CLASS_LIST_FAIL,
   SET_CURRENT_LOCATION,
+  SIGN_OUT_SUCCESS,
 } from '../types'
 
 const defaultState = {
@@ -72,6 +73,11 @@ export default (state = defaultState, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
+    case SIGN_OUT_SUCCESS:
+      // console.warn('here', 'SIGN_OUT_SUCCESS')
+      return {
+        ...defaultState
+      };
     default:
       return state
   }

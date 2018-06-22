@@ -554,7 +554,6 @@ export default (state = {...defaultState}, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
-
     default:
       return state
   }

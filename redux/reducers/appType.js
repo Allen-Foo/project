@@ -1,4 +1,6 @@
-
+import {
+  SIGN_OUT_SUCCESS,
+} from '../types';
 
 const defaultState = {
   mode: 'learner',
@@ -11,6 +13,11 @@ const currentApp = (state = defaultState, action) => {
         ...state,
         mode: action.payload.appType,
       }
+    case SIGN_OUT_SUCCESS:
+      // console.warn('here', 'SIGN_OUT_SUCCESS')
+      return {
+        ...defaultState
+      };
     default:
       return state
   }

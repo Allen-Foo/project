@@ -5,6 +5,7 @@ import {
   SET_EXPERIENCE,
   SET_ACHIEVEMENT,
   CLEAR_TUTORPROFILE,
+  SIGN_OUT_SUCCESS,
 } from '../types'
 
 const defaultState = {
@@ -42,6 +43,11 @@ export default (state = defaultState, action) => {
         ...state,
         achievement: action.payload,
       }
+    case SIGN_OUT_SUCCESS:
+      // console.warn('here', 'SIGN_OUT_SUCCESS')
+      return {
+        ...defaultState
+      };
     case CLEAR_TUTORPROFILE:
       return {
         ...state,

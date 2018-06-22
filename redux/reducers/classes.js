@@ -38,6 +38,7 @@ import {
   CREATE_TUTOR,
   CREATE_TUTOR_SUCCESS,
   CREATE_TUTOR_FAIL,
+  SIGN_OUT_SUCCESS,
 } from '../types';
 
 const defaultState = {
@@ -329,6 +330,11 @@ export default (state = {...defaultState}, action) => {
         ...state,
         requireUpdateClassList: true,
       }
+    case SIGN_OUT_SUCCESS:
+      // console.warn('here', 'SIGN_OUT_SUCCESS')
+      return {
+        ...defaultState
+      };
     default:
       return state
   }
