@@ -16,16 +16,38 @@ const defaultProps = {
 class Avatar extends Component {
 
   render() {
-    let { icon, uri, onPress } = this.props;
+    let { icon, uri, onPress, small, medium, large, xlarge } = this.props;
+    let width = 34
+    let height = 34
+    if (small) {
+      width = 34;
+      height = 34;
+    } else if (medium) {
+      width = 50;
+      height = 50;
+    } else if (large) {
+      width = 75;
+      height = 75;
+    } else if (xlarge) {
+      width = 120;
+      height = 120;
+    }
+
+    let contanerStyle = {
+      width: width, 
+      height: height, 
+      borderRadius: width /2
+    }
+
     let avatar;
     if (uri) {
-      avatar = <Image source={{uri: uri}} style={styles.avatar}/>
+      avatar = <Image source={{uri: uri}} style={contanerStyle}/>
     } else {
       avatar = (
-        <View style={[styles.avatar, {alignItems: 'center', justifyContent: 'center', backgroundColor: '#BEBEBE'}]}>
+        <View style={{...contanerStyle, alignItems: 'center', justifyContent: 'center', backgroundColor: '#BEBEBE'}}>
           <MaterialCommunityIcons
             name={icon.name} 
-            size={25}
+            size={width / 3}
             color={'#BEBEBE'}
             style={{ backgroundColor: '#fff'}}
           />
@@ -49,11 +71,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
-  },
-  avatar: {
-    width: 75,
-    height: 75,
-    borderRadius: 37.5,
   },
 });
 
