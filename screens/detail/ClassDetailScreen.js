@@ -67,8 +67,6 @@ class ClassDetailScreen extends React.Component {
   componentWillMount() {
     this.props.getClassDetail(this.props.navigation.state.params.classId)
     this.state.appliedClassList = this.props.appliedClassList
-    console.warn ('componentWillMount.....');
-
   }
 
   componentDidMount () {
