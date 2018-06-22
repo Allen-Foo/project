@@ -59,6 +59,7 @@ class ClassDetailScreen extends React.Component {
       collapsed: true,
       appliedClassList: null,
       classDetail: null,
+      didMount: false,
 
     }
   }
@@ -66,6 +67,12 @@ class ClassDetailScreen extends React.Component {
   componentWillMount() {
     this.props.getClassDetail(this.props.navigation.state.params.classId)
     this.state.appliedClassList = this.props.appliedClassList
+    console.warn ('componentWillMount.....');
+
+  }
+
+  componentDidMount () {
+    this.state.didMount = true
   }
 
   handleCommentButtonPress() {
@@ -447,7 +454,8 @@ class ClassDetailScreen extends React.Component {
   }
 
   render() {
-    if (!this.state.classDetail) {
+
+    if (!this.state.classDetail && this.state.didMount) {
       this.state.classDetail = this.props.classDetail
     }
 

@@ -3,6 +3,7 @@ import {
   CREATE_CLASS_SUCCESS,
   CREATE_CLASS_FAIL,
   GET_CLASS_LIST,
+  GET_MORE_CLASS_LIST,
   GET_CLASS_LIST_SUCCESS,
   GET_CLASS_LIST_FAIL,
   EDIT_CLASS,
@@ -76,6 +77,13 @@ export default (state = {...defaultState}, action) => {
         fetchErrorLastUpdate: new Date(),
       }
     case GET_CLASS_LIST:
+      // console.warn('here', 'GET_CLASS_LIST')
+      return {
+        ...state,
+        isLoading: true,
+        classList: [],
+      }
+    case GET_MORE_CLASS_LIST:
       // console.warn('here', 'GET_CLASS_LIST')
       return {
         ...state,

@@ -15,7 +15,7 @@ import {
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { getClassList, deleteClass, duplicateClass } from '../../redux/actions';
+import { getClassList, getMoreClassList, deleteClass, duplicateClass } from '../../redux/actions';
 import { Separator, Spinner, Toast, ClassItem} from '../../components';
 import Swipeout from 'react-native-swipeout';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
@@ -45,7 +45,7 @@ class ClassListScreen extends React.Component {
   };
 
   loadMoreItems = () => {
-    this.props.getClassList(this.props.userId, this.props.classList[this.props.classList.length -1].classId)
+    this.props.getMoreClassList(this.props.userId, this.props.classList[this.props.classList.length -1].classId)
   }
 
   constructor(props) {
@@ -236,6 +236,7 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getClassList,
+  getMoreClassList,
   deleteClass,
   duplicateClass,
 })(ClassListScreen)

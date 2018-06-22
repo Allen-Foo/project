@@ -4,6 +4,7 @@ import {
   CREATE_CLASS_SUCCESS,
   CREATE_CLASS_FAIL,
   GET_CLASS_LIST,
+  GET_MORE_CLASS_LIST,
   GET_CLASS_LIST_SUCCESS,
   GET_CLASS_LIST_FAIL,
   EDIT_CLASS,
@@ -44,8 +45,7 @@ export function createClass(cls) {
   };
 }
 
-// TODO current user id is hardcode
-export function getClassList(userId = 'testid', lastClassId) {
+export function getClassList(userId, lastClassId) {
   return {
     type: GET_CLASS_LIST,
     payload: {
@@ -54,6 +54,16 @@ export function getClassList(userId = 'testid', lastClassId) {
     }
   }
 }
+
+export function getMoreClassList(userId, lastClassId) {
+  return {
+    type: GET_MORE_CLASS_LIST,
+    payload: {
+      userId,
+      lastStartKey: lastClassId,
+    }
+  }
+} 
 
 // this is for local use,
 // only edit class temporarily
@@ -236,7 +246,7 @@ export const duplicateClassEpic = (action$, store, { request }) =>
 
 // this epic will create a class at dynamoDb
 export const getClassListEpic = (action$, store, { request }) =>
-  action$.ofType(GET_CLASS_LIST, CREATE_CLASS_SUCCESS, UPDATE_CLASS_SUCCESS, DELETE_CLASS_SUCCESS, DUPLICATE_CLASS_SUCCESS)
+  action$.ofType(GET_CLASS_LIST, GET_MORE_CLASS_LIST, CREATE_CLASS_SUCCESS, UPDATE_CLASS_SUCCESS, DELETE_CLASS_SUCCESS, DUPLICATE_CLASS_SUCCESS)
     .mergeMap(action => 
       Observable.fromPromise(request({
         url: '/getClassList',
