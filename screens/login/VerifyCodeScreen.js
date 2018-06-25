@@ -129,7 +129,7 @@ const ResendButton = props => {
       <View style={styles.resendButtonDisable}>
         <Text style={styles.resendTextDisable}>
           {
-            eval('`'+ locale.verifyCode.delayResend +'`')
+            eval(locale.verifyCode.delayResend)
           }
         </Text>
       </View>

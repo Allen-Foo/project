@@ -24,7 +24,7 @@ class ProgressBar extends React.Component {
     var remainPercentage = 1 - completePercentage;
     let remainStep = total - step;
 
-    let text = eval('`'+ locale.progressBar.stepToGo +'`');
+    let text = eval(locale.progressBar.stepToGo);
 
     return (
       <View style = {{width : '80%', alignItems: 'center'}}>
