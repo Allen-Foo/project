@@ -8,7 +8,7 @@ import classes from './classes';
 import userProfile from './userProfile';
 import socialLogin from './socialLogin';
 import filter from './filter';
-import tutorRegistration from './tutorRegistration'
+import tutor from './tutor'
 
 import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest';
 import {
@@ -38,6 +38,10 @@ import {
 } from '../actions/socialLogin';
 
 import {
+  getTutorDeatilEpic,
+} from '../actions/tutor'
+
+import {
   createClassEpic,
   updateClassEpic,
   getClassListEpic,
@@ -62,7 +66,7 @@ export const rootReducer = combineReducers({
   socialLogin,
   userProfile,
   filter,
-  tutorRegistration,
+  tutor,
 })
 
 export const rootEpic = combineEpics(
@@ -102,4 +106,5 @@ export const rootEpic = combineEpics(
   getTutorListEpic,
   deleteTutorEpic,
   updateTutorEpic,
+  getTutorDeatilEpic
 )

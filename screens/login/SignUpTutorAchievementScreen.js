@@ -117,7 +117,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    achievement: state.tutorRegistration.achievement,
+    achievement: state.tutor.achievement,
   }
 }
 

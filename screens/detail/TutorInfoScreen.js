@@ -6,8 +6,8 @@ import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { List, ListItem } from 'react-native-elements'
 const { height, width } = Dimensions.get('window')
 import Colors from '../../constants/Colors';
-import { getClassList } from '../../redux/actions';
-import { Separator, Tutor, Avatar } from '../../components';
+import { getClassList, getTutorDetail } from '../../redux/actions';
+import { Separator, Tutor, Avatar, Spinner } from '../../components';
 import StarRating from 'react-native-star-rating';
 
 class TutorInfoScreen extends React.Component {
@@ -20,18 +20,39 @@ class TutorInfoScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      didMount: false,
       classDetail: null,
+      tutor: null,
     }
   }
 
   componentWillMount() {
-    this.props.getClassList(this.props.classDetail.user.userId)
+    this.props.getClassList(this.props.classDetail.user.userId);
+    this.props.getTutorDetail(this.props.classDetail.user.userId);
     this.state.classDetail = this.props.classDetail;
+    this.state.tutor = {profile: null};
+  }
+
+  componentDidMount () {
+    this.state.didMount = true
+  }
+
+  renderLoading() {
+    return <Spinner />
   }
 
   render() {
     let { classList, locale } = this.props
     let { classDetail } = this.state;
+
+    if (!this.state.tutor.profile && this.state.didMount) {
+      this.state.tutor = this.props.tutor
+    }
+
+    if (!this.state.tutor.profile) {
+      return this.renderLoading()
+    }
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.imageContainer}>
@@ -66,12 +87,28 @@ class TutorInfoScreen extends React.Component {
           </View>
         </View>
           <View style={styles.introContainer}>
-            <View style={{flexDirection:'row'}}>
-              <Text style={{width: '30%'}}>Introduction: </Text>
+            <View style={styles.tutorInfo}>
+              <Text style={{width: '30%', fontWeight: 'bold'}}>{locale.tutorInfo.text.introduction}</Text>
               <Text style={{width: '60%'}}>
-                Apple Certified Professional certifications are for the creative professional using Final Cut Pro X or Logic Pro X. 
-                These certifications distinguish the learner as a skilled user, and provide a competitive edge in today’s ever-changing job market. 
-                The Final Cut Pro X and Logic Pro X exams are computer based and offered at AATP locations worldwide.
+                {this.state.tutor.selfIntro}
+              </Text>
+            </View>
+            <View style={styles.tutorInfo}>
+              <Text style={{width: '30%', fontWeight: 'bold'}}>{locale.tutorInfo.text.profession}</Text>
+              <Text style={{width: '60%'}}>
+                {this.state.tutor.profession}
+              </Text>
+            </View>
+            <View style={styles.tutorInfo}>
+              <Text style={{width: '30%', fontWeight: 'bold'}}>{locale.tutorInfo.text.experience}</Text>
+              <Text style={{width: '60%'}}>
+                {this.state.tutor.experience}
+              </Text>
+            </View>
+            <View style={styles.tutorInfo}>
+              <Text style={{width: '30%', fontWeight: 'bold'}}>{locale.tutorInfo.text.achievement}</Text>
+              <Text style={{width: '60%'}}>
+                {this.state.tutor.achievement}
               </Text>
             </View>
           </View>
@@ -102,6 +139,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 150,
   },
+  tutorInfo: {
+    flexDirection: 'row',
+    paddingVertical: 8,
+  },
   tutorAvatarContainer: {
     position: 'absolute',
     top: '80%',
@@ -128,7 +169,7 @@ const styles = StyleSheet.create({
   introContainer: {
     backgroundColor: '#fff',
     paddingLeft: '5%',
-    paddingVertical: '5%',
+    paddingVertical: 10,
     marginTop: '15%',
   },
 });
@@ -138,6 +179,7 @@ const mapStateToPorps = (state) => {
     locale: state.language.locale,
     isLoggedIn: state.socialLogin.isLoggedIn,
     classDetail: state.classes.classDetail,
+    tutor: state.tutor,
     classList: state.classes.classList,
     appType: state.appType.mode,
   }
@@ -145,4 +187,5 @@ const mapStateToPorps = (state) => {
 
 export default connect(mapStateToPorps, {
   getClassList,
+  getTutorDetail,
 })(TutorInfoScreen)

@@ -5,11 +5,14 @@ import {
   SET_EXPERIENCE,
   SET_ACHIEVEMENT,
   CLEAR_TUTORPROFILE,
-  SIGN_OUT_SUCCESS,
+  GET_TUTOR_DETAIL,
+  GET_TUTOR_DETAIL_SUCCESS,
+  GET_TUTOR_DETAIL_FAIL
 } from '../types'
 
 const defaultState = {
-  profile: {},
+  isLoading: false,
+  profile: null,
   selfIntro:'',
   profession:'',
   experience: 0,
@@ -43,19 +46,41 @@ export default (state = defaultState, action) => {
         ...state,
         achievement: action.payload,
       }
-    case SIGN_OUT_SUCCESS:
-      // console.warn('here', 'SIGN_OUT_SUCCESS')
-      return {
-        ...defaultState
-      };
     case CLEAR_TUTORPROFILE:
       return {
         ...state,
-        profile: {},
+        profile: null,
         selfIntro:'',
         profession:'',
         experience: 0,
         achievement: '',
+      }
+    case GET_TUTOR_DETAIL :
+      return {
+        ...state,
+        isLoading: true,
+        profile: null,
+        selfIntro:'',
+        profession:'',
+        experience: 0,
+        achievement: '',
+      }
+    case GET_TUTOR_DETAIL_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        profile: action.payload.profile,
+        selfIntro: action.payload.selfIntro,
+        profession: action.payload.profession,
+        experience: action.payload.experience,
+        achievement: action.payload.achievement,
+      }
+    case GET_TUTOR_DETAIL_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
       }
     default:
       return state

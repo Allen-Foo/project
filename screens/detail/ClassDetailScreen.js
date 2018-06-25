@@ -326,16 +326,9 @@ class ClassDetailScreen extends React.Component {
     return (
       <View>
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.tutor} </Text>
-        <View style={styles.classDetailContainer}>
+        <View style={styles.tutorDetailContainer}>
           <TouchableOpacity style={styles.innerClassDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfoScreen')}>
-            <View style={{paddingTop: 50}}>
-              <Text style={{paddingHorizontal: 10}}>Introduction:</Text>
-              <Text style={{paddingHorizontal: 10, paddingTop: 5}}>
-              Apple Certified Professional certifications are for the creative professional using Final Cut Pro X or Logic Pro X. 
-              These certifications distinguish the learner as a skilled user, and provide a competitive edge in today’s ever-changing job market. 
-              The Final Cut Pro X and Logic Pro X exams are computer based and offered at AATP locations worldwide.
-              </Text>
-            </View>
+
             <View style={styles.tutorAvatarContainer}>
               <Avatar
                 large
@@ -362,26 +355,21 @@ class ClassDetailScreen extends React.Component {
 
   renderTutorList(classDetail, locale) {
     let { tutorList } = classDetail;
+    console.warn(classDetail)
     return (
       <View>
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.tutor} </Text>
-        <View style={styles.classDetailContainer}>
+        <View style={styles.tutorDetailContainer}>
           { 
             tutorList.map((tutor, index) => (
               <View key={index} style={styles.innerClassDetailContainer} onPress={() => this.props.navigation.navigate('TutorInfoScreen')}>
-                <View style={{paddingTop: 50}}>
-                  <Text style={{paddingHorizontal: 10}}>Introduction:</Text>
-                  <Text style={{paddingHorizontal: 10, paddingTop: 5}}>
-                    {tutor.introduction}
-                  </Text>
-                </View>
                 <View style={styles.tutorAvatarContainer}>
                   <Avatar
                     large
                     uri={tutor.avatarUrl}
                   />
                   <View style={styles.usernameText}>
-                    <Text style={{fontSize: 20}}>{tutor.tutorName}</Text>
+                    <Text style={{fontSize: 20}}>{tutor.username}</Text>
                     <Text style={{fontSize: 14, color: '#bebebe'}}>{`${locale.classDetail.text.rating + parseFloat(classDetail.totalRatings).toFixed(1)}/5`}</Text>
                     <View style={{flexDirection: 'row', marginTop: 5}}>
                       <FontAwesome
@@ -498,6 +486,14 @@ const styles = StyleSheet.create({
     paddingRight: '5%',
     paddingVertical: 10
   },
+  tutorDetailContainer: {
+    width: '100%',
+    backgroundColor: '#fff',
+    paddingTop: '5%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    paddingVertical: 10
+  },
   innerClassDetailContainer: {
     borderWidth: 1,
     borderColor: '#bebebe',
@@ -510,8 +506,8 @@ const styles = StyleSheet.create({
   tutorAvatarContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
-    position: 'absolute',
-    top: -20,
+    // position: 'absolute',
+    paddingVertical: 10,
     paddingHorizontal: 10,
     backgroundColor: '#fff'
   },

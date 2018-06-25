@@ -55,7 +55,8 @@ import {
   setExperience,
   setAchievement,
   clearTutorProfile,
-} from './tutorRegistration'
+  getTutorDetail,
+} from './tutor'
 
 export {
   setLanguage,
@@ -100,6 +101,7 @@ export {
   setExperience,
   setAchievement,
   clearTutorProfile,
+  getTutorDetail,
   renewAppliedClass,
   createTutor,
   getTutorList,

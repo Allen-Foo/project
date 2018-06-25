@@ -277,11 +277,11 @@ const mapStateToProps = (state) => {
     fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate,
     showMFAPrompt: state.socialLogin.showMFAPrompt,
 
-    profile: state.tutorRegistration.profile,
-    selfIntro: state.tutorRegistration.selfIntro,
-    profession: state.tutorRegistration.profession,
-    experience: state.tutorRegistration.experience,
-    achievement: state.tutorRegistration.achievement,
+    profile: state.tutor.profile,
+    selfIntro: state.tutor.selfIntro,
+    profession: state.tutor.profession,
+    experience: state.tutor.experience,
+    achievement: state.tutor.achievement,
   }
 }
 
