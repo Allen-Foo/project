@@ -33,6 +33,7 @@ import {
   DUPLICATE_CLASS_SUCCESS,
   DUPLICATE_CLASS_FAIL,
   RENEW_APPLIED_CLASSLIST,
+  SIGN_OUT_SUCCESS,
 } from '../types';
 
 import { Observable } from 'rxjs/Observable';
@@ -289,7 +290,7 @@ export const getClassDetailEpic = (action$, store, { request }) =>
     )
 
 export const getAllClassListEpic = (action$, store, { request }) =>
-  action$.ofType(GET_ALL_CLASS_LIST)
+  action$.ofType(GET_ALL_CLASS_LIST, SIGN_OUT_SUCCESS)
     .mergeMap(action => 
       Observable.fromPromise(request({
         url: '/getAllClassList',
