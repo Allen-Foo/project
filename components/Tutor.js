@@ -211,7 +211,7 @@ const mapStateToProps = (state) => {
   return {
     locale: state.language.locale,
     user: state.userProfile.user,
-    bookmark: state.userProfile.bookmark,
+    bookmark: state.userProfile.user && state.userProfile.user.bookmark,
   }
 }
 
