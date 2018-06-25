@@ -77,7 +77,7 @@ class AssignTutorScreen extends React.Component {
 
   handleRemoveTutor = (tutor) => {
      this.setState({
-      selectedTutorList: this.state.selectedTutorList.filter(x => x.tutorId != tutor.tutorId)
+      selectedTutorList: this.state.selectedTutorList.filter(x => x.userId != tutor.userId)
     })
   }
 
@@ -92,20 +92,21 @@ class AssignTutorScreen extends React.Component {
     let { params = {} } = this.props.navigation.state;
 
     return (
-      <View>
+      <View style={{flex: 1}}>
         <FlatList
           contentContainerStyle={styles.listContainer}
           data={tutorList}
-          keyExtractor={(item) => (item.tutorId)}
+          keyExtractor={(item) => (item.userId)}
           renderItem={({item}) => {
             return (
               <View style={{width: '100%'}}>
                 <TutorListItem
                   data={item}
-                  checked={this.state.selectedTutorList.map(x=>x.tutorId).includes(item.tutorId)}
+                  checked={this.state.selectedTutorList.map(x=>x.userId).includes(item.userId)}
                   isCheckMode={true}
                   handleAddTutor={this.handleAddTutor}
                   handleRemoveTutor={this.handleRemoveTutor}
+                  // ListFooterComponent={() => (<View style={{height: 30}} />)}
                 />
                 <Separator />
               </View>
