@@ -28,6 +28,16 @@ class Spinner extends Component {
     showText: true,
   };
 
+  componentDidMount() {
+    // this function is for login only
+    // call signinEmail after render the loading overlay
+    if (this.props.callback instanceof Function) {
+      setTimeout(() => {
+        this.props.callback();
+      }, 0);
+    }
+  }
+
   render() {
     const { intensity, color, showText } = this.props;
     return (

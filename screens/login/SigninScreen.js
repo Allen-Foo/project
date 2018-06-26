@@ -54,12 +54,13 @@ class SigninScreen extends React.Component {
       email: '',
       password: '',
       errorMessage: null,
+      isLoading: false,
     }
   }
 
   _handleSubmit = (email, password) => {
     Keyboard.dismiss()
-    this.props.signInEmail(email, password);
+    this.setState({isLoading: true})
   }
 
   validateInput() {
@@ -80,6 +81,10 @@ class SigninScreen extends React.Component {
       this.props.navigation.goBack(null)
     }
 
+    if (!nextProps.isLoading && this.props.isLoading) {
+      this.setState({isLoading: false})
+    }
+
     // if login fail, show message 
     if (nextProps.fetchErrorLastUpdate instanceof Date) {
       if (!(this.props.fetchErrorLastUpdate instanceof Date) ||
@@ -98,8 +103,11 @@ class SigninScreen extends React.Component {
 
   render() {
     let { locale, signInFacebook, signInGoogle, fetchErrorMsg } = this.props
+    const { email, password } = this.state;
 
     var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+
+    let isLoading = this.state.isLoading || this.props.isLoading
 
     return (
       <View style={styles.container}>
@@ -138,7 +146,7 @@ class SigninScreen extends React.Component {
           value={this.state.password}
           secureTextEntry={true}
           returnKeyType={"done"}
-          onSubmitEditing={(email, password) => this._handleSubmit(this.state.email, this.state.password)}
+          onSubmitEditing={(email, password) => this.validateInput(this.state.email, this.state.password)}
         />
 
         <TouchableOpacity 
@@ -154,7 +162,7 @@ class SigninScreen extends React.Component {
             {locale.profile.text.signUp} 
           </Text>
         </TouchableOpacity>
-        { this.props.isLoading && <Spinner /> }
+        { isLoading && <Spinner callback={() => this.props.signInEmail(email, password)} /> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
     );
