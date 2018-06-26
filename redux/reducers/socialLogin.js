@@ -265,13 +265,18 @@ export default (state = {...defaultState}, action) => {
       };
     case SIGN_IN_EMAIL_FAIL:
       // console.warn('here', 'SIGN_IN_EMAIL_FAIL', action.payload)
+      // show Prompt only when the error type is 'UserNotConfirmed'
+      let showMFAPrompt = false
+      if (action.payload && action.payload.code === 'UserNotConfirmedException') {
+        showMFAPrompt = true
+      }
       return {
         ...state,
         isLoading: false,
         isLoggedIn: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
-        showMFAPrompt: (action.payload.statusCode == 400),
+        showMFAPrompt: showMFAPrompt,
       }
     case SIGN_IN_FACEBOOK:
       // console.warn('here', 'SIGN_IN_FACEBOOK')

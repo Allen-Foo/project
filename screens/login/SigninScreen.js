@@ -60,7 +60,11 @@ class SigninScreen extends React.Component {
 
   _handleSubmit = (email, password) => {
     Keyboard.dismiss()
-    this.setState({isLoading: true})
+    this.setState({isLoading: true}, () => {
+      this.timer = setTimeout(() => {
+        this.props.signInEmail(email, password)
+      }, 0);
+    })
   }
 
   validateInput() {
@@ -73,6 +77,10 @@ class SigninScreen extends React.Component {
       // submit to server
       this._handleSubmit(email, password);
     }
+  }
+
+  componentWillUnmount() {
+    this.timer && clearTimeout(this.timer);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -162,7 +170,7 @@ class SigninScreen extends React.Component {
             {locale.profile.text.signUp} 
           </Text>
         </TouchableOpacity>
-        { isLoading && <Spinner callback={() => this.props.signInEmail(email, password)} /> }
+        { isLoading && <Spinner /> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
     );
