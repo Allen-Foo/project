@@ -34,7 +34,6 @@ import {
   getTutorListEpic,
   deleteTutorEpic,
   updateTutorEpic,
-  updateAWSIdEpic,
 } from '../actions/socialLogin';
 
 import {
@@ -82,7 +81,6 @@ export const rootEpic = combineEpics(
   verifyCodeEpic,
   resendCodeEpic,
   registerEpic,
-  updateAWSIdEpic,
   loginEpic,
   getIdentityIdEpic,
   createClassEpic,

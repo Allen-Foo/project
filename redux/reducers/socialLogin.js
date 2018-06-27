@@ -33,9 +33,6 @@ import {
   REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  UPDATE_AWSID,
-  UPDATE_AWSID_SUCCESS,
-  UPDATE_AWSID_FAIL,
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -157,25 +154,6 @@ export default (state = {...defaultState}, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
-    case UPDATE_AWSID:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case UPDATE_AWSID_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        showMFAPrompt: false,
-        isVerified: true,
-      }
-    case UPDATE_AWSID_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        fetchErrorMsg: action.payload,
-        fetchErrorLastUpdate: new Date(),
-      }
     case LOGIN:
       // console.warn('here', 'LOGIN')
       return {
@@ -188,6 +166,8 @@ export default (state = {...defaultState}, action) => {
         ...state,
         isLoading: false,
         isLoggedIn: true,
+        showMFAPrompt: false,
+        isVerified: true,
         // user: action.payload,
         bookmark: action.payload.bookmark || [],
       };

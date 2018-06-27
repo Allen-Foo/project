@@ -35,9 +35,6 @@ import {
   REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  UPDATE_AWSID,
-  UPDATE_AWSID_SUCCESS,
-  UPDATE_AWSID_FAIL,
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -229,50 +226,16 @@ export const signInEmailEpic = (action$, store, { request }) =>
     .mergeMap(action => 
       Observable.fromPromise(onSignInEmail(action.payload.username, action.payload.password))
       .map(res => {
-        if (action.payload.isNewUser) {
-          // remove password field and add login type and awsId
-          const username = action.payload.username
-          return {
-            type: UPDATE_AWSID,
-            payload: {
-              username: username,
-              awsId: res
-            }
-          }
-        } else {
-          return {
-            type: LOGIN,
-            payload: {
-              awsId: res
-            }
+        return {
+          type: LOGIN,
+          payload: {
+            username: action.payload.username,
+            awsId: res
           }
         }
       })
       .catch(err => Observable.of({
         type: SIGN_IN_EMAIL_FAIL,
-        payload: err
-      }))
-    )
-
-// this epic will sign in user through AWS Cognito
-export const updateAWSIdEpic = (action$, store, { request }) =>
-  action$.ofType(UPDATE_AWSID)
-    .mergeMap(action => 
-      Observable.fromPromise(request({
-        url: '/updateAWSId',
-        method: 'post',
-        data: {
-          ...action.payload,
-        } 
-      }))
-      .map(res => {
-        // console.warn('register success', res)
-        return {
-          type: UPDATE_AWSID_SUCCESS,
-        }
-      })
-      .catch(err => Observable.of({
-        type: UPDATE_AWSID_FAIL,
         payload: err
       }))
     )
