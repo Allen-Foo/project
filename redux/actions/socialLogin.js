@@ -285,7 +285,7 @@ export const signUpEmailEpic = (action$, store, { request }) =>
       .map(res => {
         const {password, ...user} = action.payload.profile;
         user.loginType = 'email';
-        const { tutorInformation } = action.payload;
+        const { profile, ...tutorInformation } = action.payload;
         return {
           type: REGISTER,
           payload: {
