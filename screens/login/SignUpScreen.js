@@ -21,7 +21,7 @@ import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerEr
 import { NavigationActions } from 'react-navigation';
 
 import { Spinner, Toast } from '../../components';
-import { signUp, signInFacebook, signInGoogle, setTutorProfile, validateNewUserInfo } from '../../redux/actions'
+import { signUp, signInFacebook, signInGoogle, setTutorProfile, setCompanyProfile, validateNewUserInfo } from '../../redux/actions'
 
 
 class SignUpScreen extends React.Component {
@@ -76,9 +76,17 @@ class SignUpScreen extends React.Component {
     if (nextProps.hasValidateNewUserInfo && !this.props.hasValidateNewUserInfo) {
       let { ...profile } = this.state;
 
-      this.props.setTutorProfile(profile);
-      // Next step
-      this.props.navigation.navigate('SignUpTutorProfessionScreen');
+      if (this.props.navigation.state.params.userRole == 'tutor') {
+        this.props.setTutorProfile(profile);
+
+        // Next step
+        this.props.navigation.navigate('SignUpTutorProfessionScreen');
+      } else {
+        this.props.setCompanyProfile(profile);
+
+        // Next step
+        this.props.navigation.navigate('SignUpTutorProfessionScreen');
+      }
     }
   }
 
@@ -119,11 +127,10 @@ class SignUpScreen extends React.Component {
     }
      else {
       if (this.props.navigation.state.params.userRole == 'tutor') {
-      
         this.props.validateNewUserInfo (this.state.email, this.state.username);
-        
-      }
-      else {
+      } else if (this.props.navigation.state.params.userRole == 'company') {
+        this.props.validateNewUserInfo (this.state.email, this.state.username);
+      } else {
         // submit to server
         this.handleSignUp();
       }
@@ -347,6 +354,7 @@ export default connect(mapStateToProps, {
   signInFacebook,
   signInGoogle,
   setTutorProfile,
+  setCompanyProfile,
   validateNewUserInfo,
 })(SignUpScreen)
 

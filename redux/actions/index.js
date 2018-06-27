@@ -63,6 +63,10 @@ import {
   purchaseGold,
 } from './product'
 
+import {
+  setCompanyProfile,
+} from './company'
+
 export {
   setLanguage,
   setAppType,
@@ -114,4 +118,7 @@ export {
   updateTutor,
   getProductList,
   purchaseGold,
+
+  // company
+  setCompanyProfile,
 }
