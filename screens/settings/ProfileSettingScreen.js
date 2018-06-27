@@ -73,9 +73,8 @@ class ProfileSettingScreen extends React.Component {
 
   renderHeader() {
     let { locale } = this.props
-    let avatar = <Avatar large onPress={this._pickImage} />
-    if (this.props.user && this.props.user.avatarUrl) {
-      // console.warn('avatarUrl', this.props.user.avatarUrl)
+    let avatar = <Avatar xlarge onPress={this._pickImage} />
+    if (this.props.user && this.props.user.avatarUrl != 'null') {
       avatar = <Avatar xlarge uri={this.props.user.avatarUrl} onPress={this._pickImage}/>
     }
     return (

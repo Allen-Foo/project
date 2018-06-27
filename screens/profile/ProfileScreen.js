@@ -38,7 +38,7 @@ class ProfileScreen extends React.Component {
 
   renderHeader() {
     let avatar = <Avatar large/>
-    if (this.props.user && this.props.user.avatarUrl) {
+    if (this.props.user && this.props.user.avatarUrl != 'null') {
       avatar = <Avatar large uri={this.props.user.avatarUrl} />
     }
 
