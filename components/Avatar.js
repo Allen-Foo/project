@@ -6,6 +6,12 @@ import PropTypes from 'prop-types';
 const propTypes = {
   fontSize: PropTypes.number,
   icon: PropTypes.object,
+  onPress: PropTypes.func,
+  onLongPress: PropTypes.func,
+  small: PropTypes.bool,
+  medium: PropTypes.bool,
+  large: PropTypes.bool,
+  xlarge: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -16,7 +22,7 @@ const defaultProps = {
 class Avatar extends Component {
 
   render() {
-    let { icon, uri, onPress, small, medium, large, xlarge } = this.props;
+    let { icon, uri, onPress, onLongPress, small, medium, large, xlarge, ...attributes } = this.props;
     let width = 34
     let height = 34
     if (small) {
@@ -39,6 +45,8 @@ class Avatar extends Component {
       borderRadius: width /2
     }
 
+    let Component = onPress || onLongPress ? TouchableOpacity : View;
+
     let avatar;
     if (uri) {
       avatar = <Image source={{uri: uri}} style={contanerStyle}/>
@@ -56,9 +64,14 @@ class Avatar extends Component {
     }
 
     return (
-      <TouchableOpacity style={styles.container} onPress={onPress}>
+      <Component
+        onPress={onPress}
+        onLongPress={onLongPress}
+        style={styles.container}
+        {...attributes}
+      >
         {avatar}
-      </TouchableOpacity>
+      </Component>
     )
   }
 }
