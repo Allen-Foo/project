@@ -218,8 +218,6 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingVertical: 15, 
-    borderColor: 'grey', 
-    borderBottomWidth: 1, 
     width: '30%',
     fontSize: 12,
     backgroundColor: '#FFF',
@@ -227,8 +225,6 @@ const styles = StyleSheet.create({
   },
   text: {
     paddingVertical: 15, 
-    borderColor: 'grey', 
-    borderBottomWidth: 1, 
     width: '70%',
     fontSize: 14,
     backgroundColor: '#FFF',
