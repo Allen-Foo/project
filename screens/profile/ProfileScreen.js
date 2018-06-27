@@ -4,7 +4,7 @@ import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Te
 import { Avatar } from '../../components';
 
 import { connect } from 'react-redux';
-import { FontAwesome, Entypo, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, Entypo, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 const { height, width } = Dimensions.get('window')
 
 
@@ -83,6 +83,7 @@ class ProfileScreen extends React.Component {
         />  
       )
     } else if (this.props.appType == 'learner' || this.props.user.userRole == 'learner') {
+      // Learner mode
       return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.learner}
@@ -91,6 +92,7 @@ class ProfileScreen extends React.Component {
         /> 
       )
     } else if (this.props.user.userRole == 'company') {
+      // Company mode
       return (
         <View>
           <ListItem
@@ -99,6 +101,11 @@ class ProfileScreen extends React.Component {
             onPress={() => {this.props.navigation.navigate('ClassList')}}
           />
           <ListItem
+            title={this.props.locale.profile.text.balance}
+            leftIcon={{name: 'cash-multiple'}}
+            onPress={() => {this.props.navigation.navigate('BalanceScreen')}}
+          />  
+          <ListItem
             title={this.props.locale.profile.text.manageTutor}
             leftIcon={{name: 'group'}}
             onPress={() => {this.props.navigation.navigate('ManageTutor')}}
@@ -106,12 +113,13 @@ class ProfileScreen extends React.Component {
         </View>
       )
     } else {
+      // Tutor mode
       return (
         <ListItem
           title={this.props.locale.profile.text.viewClasses.tutor}
           leftIcon={{name: 'class'}}
           onPress={() => {this.props.navigation.navigate('ClassList')}}
-        />   
+        />
       )
     }
   }

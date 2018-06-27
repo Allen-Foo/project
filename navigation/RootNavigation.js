@@ -49,6 +49,7 @@ import Contact from '../screens/createClass/ContactScreen';
 import AssignTutor from '../screens/createClass/AssignTutorScreen';
 import ManageTutor from '../screens/profile/ManageTutorScreen';
 import CreateTutor from '../screens/profile/CreateTutorScreen';
+import BalanceScreen from '../screens/balance/BalanceScreen';
 
 import MainTabNavigator from './MainTabNavigator';
 import TutorTabNavigator from './TutorTabNavigator';
@@ -183,6 +184,9 @@ const TutorStackNavigator = StackNavigator(
     },
     ManageTutor: {
       screen: ManageTutor
+    },
+    BalanceScreen: {
+      screen: BalanceScreen
     }
   },
   {
