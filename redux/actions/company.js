@@ -1,13 +1,10 @@
 import {
-  SET_TUTORPROFILE,
-  SET_SELFINTRO,
-  SET_PROFESSION,
-  SET_EXPERIENCE,
-  SET_ACHIEVEMENT,
-  CLEAR_TUTORPROFILE,
-  GET_TUTOR_DETAIL,
-  GET_TUTOR_DETAIL_SUCCESS,
-  GET_TUTOR_DETAIL_FAIL
+  SET_COMPANY_PROFILE,
+  SET_COMPANY_DISPALY_NAME,
+  SET_COMPANY_INTRODUCTION,
+  SET_COMPANY_LOGO,
+  SET_COMPANY_SLOGAN,
+  SET_COMPANY_BANNER,
 } from '../types'
 import AWS from 'aws-sdk';
 import { Observable } from 'rxjs/Observable';
@@ -17,50 +14,44 @@ import { ServerErrorCode } from '../../constants/ServerErrorCode'
 
 export function setCompanyProfile(profile) {
   return {
-    type: SET_TUTORPROFILE,
+    type: SET_COMPANY_PROFILE,
     payload: profile
   };
 }
 
-export function setSelfIntro(selfIntro) {
+export function setCompanyDisplayName(name) {
   return {
-    type: SET_SELFINTRO,
-    payload: selfIntro
+    type: SET_COMPANY_DISPALY_NAME,
+    payload: name
   };
 }
 
-export function setProfession(profession) {
+export function setCompanyIntroduction(introduction) {
   return {
-    type: SET_PROFESSION,
-    payload: profession
+    type: SET_COMPANY_INTRODUCTION,
+    payload: introduction
   };
 }
 
-export function setExperience(experience) {
+export function setCompanyLogo(logo) {
   return {
-    type: SET_EXPERIENCE,
-    payload: experience
+    type: SET_COMPANY_LOGO,
+    payload: logo
+  }; 
+}
+
+export function setCompanySlogan(slogan) {
+  return {
+    type: SET_COMPANY_SLOGAN,
+    payload: slogan
   };
 }
 
-export function setAchievement(achievement) {
+export function setCompanyBanner(banner) {
   return {
-    type: SET_ACHIEVEMENT,
-    payload: achievement
+    type: SET_COMPANY_BANNER,
+    payload: banner
   };
-}
-
-export function clearTutorProfile () {
-  return {
-    type: CLEAR_TUTORPROFILE,
-  };
-}
-
-export function getTutorDetail (tutorId) {
-  return {
-    type: GET_TUTOR_DETAIL,
-    payload: tutorId,
-  }
 }
 
 // this epic will sign in user through AWS Cognito

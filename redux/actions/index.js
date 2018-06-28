@@ -65,6 +65,11 @@ import {
 
 import {
   setCompanyProfile,
+  setCompanyDisplayName,
+  setCompanyIntroduction,
+  setCompanyLogo,
+  setCompanySlogan,
+  setCompanyBanner,
 } from './company'
 
 export {
@@ -121,4 +126,10 @@ export {
 
   // company
   setCompanyProfile,
+  setCompanyDisplayName,
+  setCompanyIntroduction,
+  setCompanyLogo,
+  setCompanySlogan,
+  setCompanyBanner,
+  
 }
