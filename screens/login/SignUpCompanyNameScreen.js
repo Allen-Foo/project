@@ -51,6 +51,7 @@ class SignUpCompanyNameScreen extends React.Component {
               this.setState({displayName})
             }}
             value={this.state.displayName}
+            underlineColorAndroid={'transparent'}
           />
           <NextButton 
             onPress={

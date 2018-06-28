@@ -46,6 +46,8 @@ class SignUpCompanyIntroductionScreen extends React.Component {
 
           <TextInput 
             style={styles.textInput}
+            multiline={true}
+            numberOfLines={15}
             onChangeText={introduction => {
               // console.warn('text', text);
               this.setState({introduction})
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
     borderColor: 'grey', 
     borderBottomWidth: 1, 
     width: '100%',
-    // height: 50,
+    height: 200,
     fontSize: 18,
     backgroundColor: '#FFF',
     paddingLeft: 20,

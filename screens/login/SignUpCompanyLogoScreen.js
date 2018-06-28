@@ -12,9 +12,13 @@ import {
 
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
-import { Separator, Toast } from '../../components';
+import { Separator, Toast, Avatar } from '../../components';
+import { ImagePicker } from 'expo';
 import { setCompanyLogo } from '../../redux/actions';
 import { ProgressBar, NextButton } from '../../components';
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import axios from 'axios';
+import appSecrets from '../../appSecrets';
 
 class SignUpCompanyLogoScreen extends React.Component {
 
@@ -44,14 +48,24 @@ class SignUpCompanyLogoScreen extends React.Component {
 
           <Text style={styles.question}>{locale.signUp.text.logo.label}</Text>
 
-          <TextInput 
-            style={styles.textInput}
-            onChangeText={logo => {
-              // console.warn('text', text);
-              this.setState({logo})
+          {
+            this.state.logo != '' && this.state.logo &&
+            <Avatar large uri={this.state.logo}/>
+          }
+
+          <TouchableOpacity
+            style={styles.button}
+            // onPress={this._pickImage}
+            onPress={() => {
+              this._pickImage()
             }}
-            value={this.state.logo}
-          />
+          >
+            <Entypo
+              name={"camera"}
+              size={25}
+            />
+          </TouchableOpacity>
+
           <NextButton 
             onPress={
               () => {
@@ -71,6 +85,35 @@ class SignUpCompanyLogoScreen extends React.Component {
         </View>
       </TouchableWithoutFeedback>
     );
+  }
+
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+    });
+    // console.warn('photo', result);
+
+    if (!result.cancelled) {
+      this.uploadPhoto(result)
+    }
+  }
+
+  uploadPhoto(data) {
+    let baseURL = appSecrets.aws.apiURL;
+    axios({
+      method: 'post',
+      url: baseURL + '/upload',
+      data: {
+        key: 'testKey',
+        file: data.base64,
+      }
+    }).then(res => {
+      this.setState({
+        logo: res.data.Location,
+      })
+    }).catch(err => console.warn(err))
   }
 }
 
@@ -99,12 +142,17 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   button: {
-    height: 40, 
-    width: '80%',
-    backgroundColor: '#5ECC3F', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderRadius: 10, 
+    width: '90%',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5, 
+    marginTop: 20,
+    paddingVertical: 10,
+  },
+  addButton: {
+    fontSize: 50,
+    fontWeight: '500'
   },
 });
 
