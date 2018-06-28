@@ -16,10 +16,9 @@ class ProgressBar extends React.Component {
   }
 
   render() {
-    const { step, locale } = this.props;
+    const { step, locale, total } = this.props;
 
     let width = '80%';
-    let total = 5;
     var completePercentage = step / total;
     var remainPercentage = 1 - completePercentage;
     let remainStep = total - step;
@@ -42,6 +41,10 @@ class ProgressBar extends React.Component {
         </View>
     );
   }
+}
+
+ProgressBar.defaultProps = {
+  total: 5
 }
 
 const mapStateToProps = (state) => {
