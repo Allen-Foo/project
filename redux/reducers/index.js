@@ -9,7 +9,8 @@ import classes from './classes';
 import userProfile from './userProfile';
 import socialLogin from './socialLogin';
 import filter from './filter';
-import tutor from './tutor'
+import tutor from './tutor';
+import company from './company'
 
 import apiTest, { doGetEpic, doPostEpic } from '../../api/apiTest';
 import {
@@ -73,6 +74,7 @@ export const rootReducer = combineReducers({
   filter,
   tutor,
   product,
+  company,
 })
 
 export const rootEpic = combineEpics(

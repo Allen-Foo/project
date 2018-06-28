@@ -61,7 +61,7 @@ class SignUpCompanyBannerScreen extends React.Component {
                 else {
                   this.props.setCompanyBanner (this.state.banner);
                   // Next step
-                  this.props.navigation.navigate('SignUpTutorExperienceScreen')
+                  this.props.navigation.navigate('SignUpCompanyConfirm')
                 }
               }
             }
