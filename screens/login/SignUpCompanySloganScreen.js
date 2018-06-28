@@ -13,10 +13,10 @@ import {
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { Separator, Toast } from '../../components';
-import { setCompanyDisplayName } from '../../redux/actions';
+import { setCompanySlogan } from '../../redux/actions';
 import { ProgressBar, NextButton } from '../../components';
 
-class SignUpCompanyNameScreen extends React.Component {
+class SignUpCompanySloganScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     return {
@@ -40,7 +40,7 @@ class SignUpCompanyNameScreen extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
-          <ProgressBar step = {1} total={6}/>
+          <ProgressBar step = {4} total={6}/>
 
           <Text style={styles.question}>{locale.signUp.text.displayName.label}</Text>
 
@@ -59,9 +59,9 @@ class SignUpCompanyNameScreen extends React.Component {
                   this.Toast.show();
                 }
                 else {
-                  this.props.setCompanyDisplayName (this.state.displayName);
+                  this.props.setCompanySlogan (this.state.displayName);
                   // Next step
-                  this.props.navigation.navigate('SignUpCompanyIntroduction')
+                  this.props.navigation.navigate('SignUpCompanyBanner')
                 }
               }
             }
@@ -117,5 +117,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps,{
-  setCompanyDisplayName,
-})(SignUpCompanyNameScreen)
+  setCompanySlogan,
+})(SignUpCompanySloganScreen)

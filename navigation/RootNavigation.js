@@ -20,6 +20,9 @@ import SignUpTutorAchievementScreen from '../screens/login/SignUpTutorAchievemen
 import SignUpTutorConfirmScreen from '../screens/login/SignUpTutorConfirmScreen'
 import SignUpCompanyName from '../screens/login/SignUpCompanyNameScreen'
 import SignUpCompanyIntroduction from '../screens/login/SignUpCompanyIntroductionScreen'
+import SignUpCompanyLogo from '../screens/login/SignUpCompanyLogoScreen'
+import SignUpCompanySlogan from '../screens/login/SignUpCompanySloganScreen'
+import SignUpCompanyBanner from '../screens/login/SignUpCompanyBannerScreen'
 
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 import ChangePassword from '../screens/settings/ChangePasswordScreen';
@@ -247,6 +250,15 @@ const AuthStack = StackNavigator(
     },
     SignUpCompanyIntroduction: {
       screen: SignUpCompanyIntroduction,
+    },
+    SignUpCompanyLogo: {
+      screen: SignUpCompanyLogo,
+    },
+    SignUpCompanySlogan: {
+      screen: SignUpCompanySlogan,
+    },
+    SignUpCompanyBanner: {
+      screen: SignUpCompanyBanner,
     },
   }
 )

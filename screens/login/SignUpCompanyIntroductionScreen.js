@@ -40,7 +40,7 @@ class SignUpCompanyIntroductionScreen extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
-          <ProgressBar step = {2} />
+          <ProgressBar step = {2} total={6}/>
 
           <Text style={styles.question}>{locale.signUp.text.displayName.label}</Text>
 
@@ -61,7 +61,7 @@ class SignUpCompanyIntroductionScreen extends React.Component {
                 else {
                   this.props.setCompanyIntroduction (this.state.displayName);
                   // Next step
-                  this.props.navigation.navigate('SignUpTutorExperienceScreen')
+                  this.props.navigation.navigate('SignUpCompanyLogo')
                 }
               }
             }
