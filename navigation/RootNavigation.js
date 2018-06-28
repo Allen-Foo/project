@@ -18,6 +18,9 @@ import SignUpTutorProfessionScreen from '../screens/login/SignUpTutorProfessionS
 import SignUpTutorExperienceScreen from '../screens/login/SignUpTutorExperienceScreen'
 import SignUpTutorAchievementScreen from '../screens/login/SignUpTutorAchievementScreen'
 import SignUpTutorConfirmScreen from '../screens/login/SignUpTutorConfirmScreen'
+import SignUpCompanyName from '../screens/login/SignUpCompanyNameScreen'
+import SignUpCompanyIntroduction from '../screens/login/SignUpCompanyIntroductionScreen'
+
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 import ChangePassword from '../screens/settings/ChangePasswordScreen';
 import SearchClass from '../screens/search/SearchClassScreen';
@@ -238,6 +241,12 @@ const AuthStack = StackNavigator(
     },
     SignUpTutorConfirmScreen: {
       screen: SignUpTutorConfirmScreen,
+    },
+    SignUpCompanyName: {
+      screen: SignUpCompanyName,
+    },
+    SignUpCompanyIntroduction: {
+      screen: SignUpCompanyIntroduction,
     },
   }
 )
