@@ -20,7 +20,7 @@ class SignUpCompanyBannerScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     return {
-      title: screenProps.locale.signUp.title.displayName,
+      title: screenProps.locale.signUp.title.banner,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -31,7 +31,7 @@ class SignUpCompanyBannerScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayName: props.displayName || ''
+      banner: props.banner || ''
     }
   }
 
@@ -42,24 +42,24 @@ class SignUpCompanyBannerScreen extends React.Component {
         <View style={styles.container}>
           <ProgressBar step = {5} total={6}/>
 
-          <Text style={styles.question}>{locale.signUp.text.displayName.label}</Text>
+          <Text style={styles.question}>{locale.signUp.text.banner.label}</Text>
 
           <TextInput 
             style={styles.textInput}
-            onChangeText={displayName => {
+            onChangeText={banner => {
               // console.warn('text', text);
-              this.setState({displayName})
+              this.setState({banner})
             }}
-            value={this.state.displayName}
+            value={this.state.banner}
           />
           <NextButton 
             onPress={
               () => {
-                if (!this.state.displayName) {
+                if (!this.state.banner) {
                   this.Toast.show();
                 }
                 else {
-                  this.props.setCompanyBanner (this.state.displayName);
+                  this.props.setCompanyBanner (this.state.banner);
                   // Next step
                   this.props.navigation.navigate('SignUpTutorExperienceScreen')
                 }
@@ -112,7 +112,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    displayName: state.tutor.displayName,
+    banner: state.tutor.banner,
   }
 }
 

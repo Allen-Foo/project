@@ -20,7 +20,7 @@ class SignUpCompanyIntroductionScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     return {
-      title: screenProps.locale.signUp.title.displayName,
+      title: screenProps.locale.signUp.title.introduction,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -31,7 +31,7 @@ class SignUpCompanyIntroductionScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayName: props.displayName || ''
+      introduction: props.introduction || ''
     }
   }
 
@@ -42,24 +42,24 @@ class SignUpCompanyIntroductionScreen extends React.Component {
         <View style={styles.container}>
           <ProgressBar step = {2} total={6}/>
 
-          <Text style={styles.question}>{locale.signUp.text.displayName.label}</Text>
+          <Text style={styles.question}>{locale.signUp.text.introduction.label}</Text>
 
           <TextInput 
             style={styles.textInput}
-            onChangeText={displayName => {
+            onChangeText={introduction => {
               // console.warn('text', text);
-              this.setState({displayName})
+              this.setState({introduction})
             }}
-            value={this.state.displayName}
+            value={this.state.introduction}
           />
           <NextButton 
             onPress={
               () => {
-                if (!this.state.displayName) {
+                if (!this.state.introduction) {
                   this.Toast.show();
                 }
                 else {
-                  this.props.setCompanyIntroduction (this.state.displayName);
+                  this.props.setCompanyIntroduction (this.state.introduction);
                   // Next step
                   this.props.navigation.navigate('SignUpCompanyLogo')
                 }
@@ -112,7 +112,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    displayName: state.tutor.displayName,
+    introduction: state.tutor.introduction,
   }
 }
 

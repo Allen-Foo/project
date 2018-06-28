@@ -20,7 +20,7 @@ class SignUpCompanyLogoScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     return {
-      title: screenProps.locale.signUp.title.displayName,
+      title: screenProps.locale.signUp.title.logo,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -31,7 +31,7 @@ class SignUpCompanyLogoScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayName: props.displayName || ''
+      logo: props.logo || ''
     }
   }
 
@@ -42,24 +42,24 @@ class SignUpCompanyLogoScreen extends React.Component {
         <View style={styles.container}>
           <ProgressBar step = {3} total={6}/>
 
-          <Text style={styles.question}>{locale.signUp.text.displayName.label}</Text>
+          <Text style={styles.question}>{locale.signUp.text.logo.label}</Text>
 
           <TextInput 
             style={styles.textInput}
-            onChangeText={displayName => {
+            onChangeText={logo => {
               // console.warn('text', text);
-              this.setState({displayName})
+              this.setState({logo})
             }}
-            value={this.state.displayName}
+            value={this.state.logo}
           />
           <NextButton 
             onPress={
               () => {
-                if (!this.state.displayName) {
+                if (!this.state.logo) {
                   this.Toast.show();
                 }
                 else {
-                  this.props.setCompanyLogo (this.state.displayName);
+                  this.props.setCompanyLogo (this.state.logo);
                   // Next step
                   this.props.navigation.navigate('SignUpCompanySlogan')
                 }
@@ -112,7 +112,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    displayName: state.tutor.displayName,
+    logo: state.tutor.logo,
   }
 }
 

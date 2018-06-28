@@ -20,7 +20,7 @@ class SignUpCompanySloganScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     return {
-      title: screenProps.locale.signUp.title.displayName,
+      title: screenProps.locale.signUp.title.slogan,
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: Colors.tintColor,
@@ -31,7 +31,7 @@ class SignUpCompanySloganScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayName: props.displayName || ''
+      slogan: props.slogan || ''
     }
   }
 
@@ -42,24 +42,24 @@ class SignUpCompanySloganScreen extends React.Component {
         <View style={styles.container}>
           <ProgressBar step = {4} total={6}/>
 
-          <Text style={styles.question}>{locale.signUp.text.displayName.label}</Text>
+          <Text style={styles.question}>{locale.signUp.text.slogan.label}</Text>
 
           <TextInput 
             style={styles.textInput}
-            onChangeText={displayName => {
+            onChangeText={slogan => {
               // console.warn('text', text);
-              this.setState({displayName})
+              this.setState({slogan})
             }}
-            value={this.state.displayName}
+            value={this.state.slogan}
           />
           <NextButton 
             onPress={
               () => {
-                if (!this.state.displayName) {
+                if (!this.state.slogan) {
                   this.Toast.show();
                 }
                 else {
-                  this.props.setCompanySlogan (this.state.displayName);
+                  this.props.setCompanySlogan (this.state.slogan);
                   // Next step
                   this.props.navigation.navigate('SignUpCompanyBanner')
                 }
@@ -112,7 +112,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    displayName: state.tutor.displayName,
+    slogan: state.tutor.slogan,
   }
 }
 
