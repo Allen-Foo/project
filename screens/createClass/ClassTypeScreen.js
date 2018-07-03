@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { Hr, NextButton} from '../../components';
 import { editClass } from '../../redux/actions';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
 
 class ClassTypeScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -30,7 +31,10 @@ class ClassTypeScreen extends React.Component {
 
     return {
       title: params.isEditMode ? null : screenProps.locale.classType.title,
-      headerTintColor: 'black',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      },
       headerRight: params.isEditMode ? headerRight : null
     }
   };

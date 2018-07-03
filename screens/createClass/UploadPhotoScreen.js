@@ -17,6 +17,7 @@ import { editClass } from '../../redux/actions';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
+import Colors from '../../constants/Colors';
 
 let {width, height} = Dimensions.get('window');
 
@@ -36,7 +37,10 @@ class ClassAddressScreen extends React.Component {
 
     return {
       title: params.isEditMode ? null : screenProps.locale.uploadPhoto.title,
-      headerTintColor: 'black',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      },
       headerRight: params.isEditMode ? headerRight : null
     }
   };

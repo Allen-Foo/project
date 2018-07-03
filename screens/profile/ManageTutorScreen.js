@@ -39,8 +39,11 @@ class ManageTutorScreen extends React.Component {
     return {
       tabBarLabel: screenProps.locale.manageTutor.title,
       headerTitle: screenProps.locale.manageTutor.title,
-      headerTintColor: '#000',
+      headerTintColor: '#fff',
       headerRight,
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      }
     }
   };
 

@@ -36,8 +36,11 @@ class CreateTutorScreen extends React.Component {
 
     return {
       headerTitle: params.isEditMode ? screenProps.locale.createTutor.editTutor : screenProps.locale.createTutor.title,
-      headerTintColor: '#000',
+      headerTintColor: '#fff',
       headerRight,
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      }
     }
   };
 

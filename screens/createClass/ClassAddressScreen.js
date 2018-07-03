@@ -12,6 +12,7 @@ import { Hr, NextButton} from '../../components';
 import { editClass } from '../../redux/actions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { CheckBox } from 'react-native-elements'
+import Colors from '../../constants/Colors';
 
 class ClassAddressScreen extends React.Component {
    static navigationOptions = ({navigation, screenProps}) => {
@@ -29,7 +30,10 @@ class ClassAddressScreen extends React.Component {
 
     return {
       title: params.isEditMode ? null : screenProps.locale.classAddress.title,
-      headerTintColor: 'black',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      },
       headerRight: params.isEditMode ? headerRight : null
     }
   };

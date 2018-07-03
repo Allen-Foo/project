@@ -15,6 +15,7 @@ import { Hr, NextButton} from '../../components';
 import { createClass, editClass } from '../../redux/actions';
 import { Dropdown } from 'react-native-material-dropdown';
 import { MaterialIcons, Entypo } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
 
 const CHARGE_TYPES = ['perLesson', 'perSemester']
 
@@ -34,7 +35,10 @@ class TutionFee extends React.Component {
 
     return {
       title: params.isEditMode ? null : screenProps.locale.tutionFee.title,
-      headerTintColor: 'black',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      },
       headerRight: params.isEditMode ? headerRight : null
     }
   };

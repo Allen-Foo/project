@@ -11,6 +11,7 @@ import {
 
 import { connect } from 'react-redux';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import Colors from '../../constants/Colors';
 
 class ClassAddressAutocomplete extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -18,9 +19,9 @@ class ClassAddressAutocomplete extends React.Component {
 
     return {
       headerTitle: screenProps.locale.classAddress.title,
-      headerTintColor: 'black',
+      headerTintColor: '#fff',
       headerStyle: {
-        // backgroundColor: '#555',
+        backgroundColor: Colors.greyColor,
       },
     }
   };

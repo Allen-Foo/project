@@ -38,8 +38,11 @@ class CalendarScreen extends React.Component {
 
     return {
       title: params.isEditMode ? null : screenProps.locale.calendar.title,
-      headerTintColor: 'black',
-      headerRight: params.isEditMode ? headerRight : null
+      headerRight: params.isEditMode ? headerRight : null,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      },
     }
   };
 

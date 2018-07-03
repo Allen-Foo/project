@@ -22,6 +22,7 @@ import { createClass, updateClass } from '../../redux/actions';
 import { NavigationActions } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
+import Colors from '../../constants/Colors';
 
 class ClassSummaryScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -39,7 +40,10 @@ class ClassSummaryScreen extends React.Component {
 
     return {
       title: params.isEditMode ? null : screenProps.locale.classSummary.title,
-      headerTintColor: 'black',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      },
       headerRight: params.isEditMode ? headerRight : null
     }
   };

@@ -62,7 +62,7 @@ export default MainTab = TabNavigator(
       activeTintColor: Colors.tintColor,
       inactiveTintColor: Colors.tabIconDefault,
       style: {
-        backgroundColor: '#555',
+        backgroundColor: Colors.greyColor,
       },
     },
   }

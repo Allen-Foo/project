@@ -31,7 +31,10 @@ class RepeatScreen extends React.Component {
 
     return {
       headerTitle: screenProps.locale.repeat.title,
-      headerTintColor: '#000',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      },
       headerRight,
     }
   };

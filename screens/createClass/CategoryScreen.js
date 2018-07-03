@@ -30,9 +30,9 @@ class CategoryScreen extends React.Component {
 
     return {
       headerTitle: screenProps.locale.category.title,
-      headerTintColor: 'black',
+      headerTintColor: '#fff',
       headerStyle: {
-        //backgroundColor: '#3A3C3D',
+        backgroundColor: Colors.greyColor,
       },
     }
   };

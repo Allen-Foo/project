@@ -35,9 +35,9 @@ class ClassDetailScreen extends React.Component {
     if (screenProps.appType == 'tutor') {
       return {
         headerTitle: screenProps.locale.classDetail.title,
-        headerTintColor: '#000',
+        headerTintColor: '#fff',
         headerStyle: {
-          backgroundColor: '#f7f7f7',
+          backgroundColor: Colors.greyColor,
         },
         headerRight
       }

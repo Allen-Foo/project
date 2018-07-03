@@ -30,8 +30,11 @@ class ProfileSettingScreen extends React.Component {
 
       return {
         headerTitle: screenProps.locale.profileSetting.title,
-        headerTintColor: '#000',
+        headerTintColor: '#fff',
         headerRight,
+        headerStyle: {
+          backgroundColor: Colors.tintColor,
+        },
       }
     };
 

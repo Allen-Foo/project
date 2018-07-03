@@ -17,6 +17,7 @@ import { Separator, Spinner, Toast, ClassItem, TutorListItem, Hr, NextButton} fr
 import { createClass, editClass, getTutorList } from '../../redux/actions';
 import { Dropdown } from 'react-native-material-dropdown';
 import { MaterialIcons, Entypo } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
 
 class AssignTutorScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -34,8 +35,11 @@ class AssignTutorScreen extends React.Component {
 
     return {
       title: params.isEditMode ? null : screenProps.locale.assignTutor.title,
-      headerTintColor: 'black',
-      headerRight: params.isEditMode ? headerRight : null
+      headerRight: params.isEditMode ? headerRight : null,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      },
     }
   };
   

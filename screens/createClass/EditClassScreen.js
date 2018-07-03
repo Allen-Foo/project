@@ -25,6 +25,7 @@ import { getClassDetail, updateClass, deleteClass } from '../../redux/actions';
 import { NavigationActions } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
+import Colors from '../../constants/Colors';
 
 class EditClassScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -41,7 +42,10 @@ class EditClassScreen extends React.Component {
     );
 
     return {
-      headerTintColor: 'black',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      },
       headerRight: headerRight
     }
   };

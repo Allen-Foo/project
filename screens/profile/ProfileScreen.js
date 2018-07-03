@@ -18,8 +18,7 @@ class ProfileScreen extends React.Component {
     let headerTintColor = '#fff';
     let backgroundColor = Colors.tintColor;
     if (screenProps.appType == 'tutor') {
-      headerTintColor = '#000';
-      backgroundColor = '#f7f7f7'
+      backgroundColor = Colors.greyColor;
     }
     return {
       tabBarLabel: screenProps.locale.profile.title,

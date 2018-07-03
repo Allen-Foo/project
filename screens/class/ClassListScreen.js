@@ -39,8 +39,11 @@ class ClassListScreen extends React.Component {
     return {
       tabBarLabel: screenProps.locale.classList.title,
       headerTitle: screenProps.locale.classList.title,
-      headerTintColor: '#000',
+      headerTintColor: '#fff',
       headerRight,
+      headerStyle: {
+        backgroundColor: Colors.greyColor,
+      }
     }
   };
 
