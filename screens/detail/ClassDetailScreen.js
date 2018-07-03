@@ -315,7 +315,9 @@ class ClassDetailScreen extends React.Component {
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.classDescription} </Text>
         <View style={styles.classDetailContainer}>
           <View style={{marginTop: -20}}>
-            <Text>{classDetail.description}</Text>
+            { 
+              classDetail.description != 'null' && <Text>{classDetail.description}</Text>
+            }
           </View>
         </View>
       </View>
