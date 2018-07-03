@@ -78,6 +78,7 @@ class ProfileScreen extends React.Component {
         <ListItem
           title={this.props.locale.profile.text.viewClasses.learner}
           leftIcon={{name: 'class'}}
+          iconType = 'MaterialIcons'
           onPress={() => {this.props.navigation.navigate('Signin')}}
         />  
       )
@@ -87,6 +88,7 @@ class ProfileScreen extends React.Component {
         <ListItem
           title={this.props.locale.profile.text.viewClasses.learner}
           leftIcon={{name: 'class'}}
+          iconType = 'MaterialIcons'
           onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
         /> 
       )
@@ -97,16 +99,19 @@ class ProfileScreen extends React.Component {
           <ListItem
             title={this.props.locale.profile.text.viewClasses.tutor}
             leftIcon={{name: 'class'}}
+            iconType = 'MaterialIcons'
             onPress={() => {this.props.navigation.navigate('ClassList')}}
           />
           <ListItem
             title={this.props.locale.profile.text.balance}
             leftIcon={{name: 'cash-multiple'}}
+            iconType = 'MaterialCommunityIcons'
             onPress={() => {this.props.navigation.navigate('BalanceScreen')}}
           />  
           <ListItem
             title={this.props.locale.profile.text.manageTutor}
             leftIcon={{name: 'group'}}
+            iconType = 'MaterialIcons'
             onPress={() => {this.props.navigation.navigate('ManageTutor')}}
           />
         </View>
@@ -117,6 +122,7 @@ class ProfileScreen extends React.Component {
         <ListItem
           title={this.props.locale.profile.text.viewClasses.tutor}
           leftIcon={{name: 'class'}}
+          iconType = 'MaterialIcons'
           onPress={() => {this.props.navigation.navigate('ClassList')}}
         />
       )
@@ -135,6 +141,7 @@ class ProfileScreen extends React.Component {
             <ListItem
               title={this.props.locale.profile.text.switchMode[this.props.appType]}
               leftIcon={{name: 'swap-horiz'}}
+              iconType = 'MaterialIcons'
               onPress={() => this.props.setAppType(this.props.appType == 'tutor'? 'learner' : 'tutor')}
             />
           }
@@ -144,6 +151,7 @@ class ProfileScreen extends React.Component {
           <ListItem
             title={this.props.locale.profile.text.settings}
             leftIcon={{name: 'settings'}}
+            iconType = 'MaterialIcons'
             onPress={() => {this.props.navigation.navigate('Settings')}}
           />        
         </View>
@@ -153,18 +161,31 @@ class ProfileScreen extends React.Component {
 }
 
 const ListItem = props => {
-  let { title, leftIcon, onPress } = props;
+  let { title, leftIcon, onPress, iconType } = props;
   return (
     <TouchableOpacity 
       style={styles.listItem}
       onPress={() => onPress()}
     >
-      <MaterialIcons
-        name={leftIcon.name}
-        size={25}
-        color={'#555'}
-        style={{paddingLeft: '5%', paddingRight: '7%'}}
-      />
+      {
+        iconType === 'MaterialIcons' && 
+        <MaterialIcons
+          name={leftIcon.name}
+          size={25}
+          color={'#555'}
+          style={{paddingLeft: '5%', paddingRight: '7%'}}
+        />
+      }
+      {
+        iconType === 'MaterialCommunityIcons' && 
+        <MaterialCommunityIcons
+          name={leftIcon.name}
+          size={25}
+          color={'#555'}
+          style={{paddingLeft: '5%', paddingRight: '7%'}}
+        />
+      }
+      
       <Text style={styles.itemText}>{title}</Text>
       <Entypo
         name={"chevron-thin-right"}

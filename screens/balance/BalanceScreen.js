@@ -27,8 +27,8 @@ class BalanceScreen extends React.Component {
     const { state } = navigation;
     let headerTintColor = '#fff';
     if (screenProps.appType == 'tutor') {
-      headerTintColor = '#000';
-      backgroundColor = '#f7f7f7'
+      headerTintColor = '#fff';
+      backgroundColor = Colors.greyColor;
     }
     return {
       tabBarLabel: screenProps.locale.balance.title,
