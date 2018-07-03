@@ -45,7 +45,7 @@ class TutorListItem extends React.Component {
           <Image source={{uri: data.avatarUrl}} style={styles.avatar}/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
-          <Text style={styles.tutorName}>{data.username}</Text>
+          <Text style={styles.tutorName}>{data.name}</Text>
           <View style={{flexDirection: 'row'}}>
             <View>
               <Text style={styles.email}>{`${locale.createTutor.text.email}: `}</Text>

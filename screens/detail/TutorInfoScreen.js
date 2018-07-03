@@ -73,7 +73,7 @@ class TutorInfoScreen extends React.Component {
               uri={classDetail.user.avatarUrl}
             />
             <View style={styles.usernameContainer}>
-              <Text style={styles.usernameText}>{classDetail.user.username}</Text>
+              <Text style={styles.usernameText}>{classDetail.user.name}</Text>
               <View style={{flexDirection: 'row'}}>
                 <FontAwesome
                   name={"check-square-o"}

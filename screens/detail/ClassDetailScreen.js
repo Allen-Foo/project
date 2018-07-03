@@ -262,7 +262,7 @@ class ClassDetailScreen extends React.Component {
       <View>
         <View style={styles.contentContainer}>
           <Text style={styles.className}> {classDetail.title} </Text>
-          <Text style={[styles.tutorName, {paddingVertical: 5}]}> {classDetail.user.username} </Text>
+          <Text style={[styles.tutorName, {paddingVertical: 5}]}> {classDetail.user.name} </Text>
           <View style={styles.ratingRow}>
             <Text style={styles.comment}> {`${classDetail.comments.length} reviews`} </Text>
           </View>
@@ -335,7 +335,7 @@ class ClassDetailScreen extends React.Component {
                 uri={classDetail.user && classDetail.user.avatarUrl}
               />
               <View style={styles.usernameText}>
-                <Text style={{fontSize: 20}}>{classDetail.user.username}</Text>
+                <Text style={{fontSize: 20}}>{classDetail.user.name}</Text>
                 <Text style={{fontSize: 14, color: '#bebebe'}}>{`${locale.classDetail.text.rating + parseFloat(classDetail.totalRatings).toFixed(1)}/5`}</Text>
                 <View style={{flexDirection: 'row', marginTop: 5}}>
                   <FontAwesome
@@ -369,7 +369,7 @@ class ClassDetailScreen extends React.Component {
                     uri={tutor.avatarUrl}
                   />
                   <View style={styles.usernameText}>
-                    <Text style={{fontSize: 20}}>{tutor.username}</Text>
+                    <Text style={{fontSize: 20}}>{tutor.name}</Text>
                     <Text style={{fontSize: 14, color: '#bebebe'}}>{`${locale.classDetail.text.rating + parseFloat(classDetail.totalRatings).toFixed(1)}/5`}</Text>
                     <View style={{flexDirection: 'row', marginTop: 5}}>
                       <FontAwesome
@@ -405,7 +405,7 @@ class ClassDetailScreen extends React.Component {
                     uri={userId && userId.avatarUrl}
                   />
                   <View style={styles.usernameText}>
-                    <Text style={{fontSize: 20}}>{userId.username}</Text>
+                    <Text style={{fontSize: 20}}>{userId.name}</Text>
                   </View>
                 </View>
               </View>
