@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Dimensions, Image, TextInput} from 'react-native';
+import { Alert, ScrollView, StyleSheet, View, Text, TouchableOpacity, Dimensions, Image, TextInput} from 'react-native';
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { List, ListItem } from 'react-native-elements';
@@ -19,7 +19,7 @@ class ProfileSettingScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { params = {} } = navigation.state;
       let headerRight = (
-        <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+        <TouchableOpacity onPress={()=>{params.validateInput ? params.validateInput() : () => console.warn('not define')}}>
           <MaterialIcons
             name={"check"}
             size={30}
@@ -37,17 +37,55 @@ class ProfileSettingScreen extends React.Component {
 
   componentDidMount() {
     // We can only set the function after the component has been initialized
-    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+    this.props.navigation.setParams({ validateInput: this.validateInput });
   }
 
-  _handleSubmit = () => {
-    this.props.updateProfile(this.state)
+  validateInput = () => {
+    if (!this.state.name
+      || this.state.name === '') {
+      Alert.alert('Name cannot be empty!')
+    }
+     else if (!this.state.email.includes("@")) {
+      Alert.alert('Invalid email')
+    }
+     else if (!this.state.email
+      || this.state.email === '') {
+      Alert.alert('Email cannot be empty!')
+    }
+     else if (!this.state.phone
+      || this.state.phone === '') {
+      Alert.alert('Phone Number cannot be empty!')
+    }
+    else {
+      this.handleSubmit()
+    }
+  }
+
+  handleSubmit() {
+
+    let data = {...this.state}
+
+    if (this.state.introduction === '') {
+      data.introduction = 'null';
+    }
+    if (this.state.website === '') {
+      data.website ='null';
+    }
+
+    this.props.updateProfile(data)
     this.props.navigation.goBack();
   }
 
   constructor(props) {
     super(props);
     let {name, email, website, introduction, changePw, phone} = props.user;
+
+    if (introduction === 'null') {
+      introduction = '';
+    }
+    if (website === 'null') {
+      website = '';
+    }
 
     this.state = {
       textLength: 0,
