@@ -160,7 +160,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    logo: state.tutor.logo,
+    logo: state.company.logo,
   }
 }
 

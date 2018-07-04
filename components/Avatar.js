@@ -81,8 +81,8 @@ Avatar.defaultProps = defaultProps;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
     backgroundColor: 'transparent',
   },
 });

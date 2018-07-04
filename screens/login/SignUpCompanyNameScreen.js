@@ -113,7 +113,7 @@ const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
     locale: state.language.locale,
-    displayName: state.tutor.displayName,
+    displayName: state.company.displayName,
   }
 }
 

@@ -17,8 +17,8 @@ import CountryPicker, { getAllCountries } from 'react-native-country-picker-moda
 import Prompt from 'react-native-prompt';
 import { getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
-import { Spinner, Toast } from '../../components';
-
+import { Spinner, Toast, Slideshow, Avatar, NextButton } from '../../components';
+let {width, height} = Dimensions.get('window');
 
 class SignUpCompanyConfirmScreen extends React.Component {
 
@@ -131,10 +131,11 @@ class SignUpCompanyConfirmScreen extends React.Component {
             <Text style={styles.title}>
              {locale.signUp.title.logo}
             </Text>
-            <Text style={styles.text}>
-              {logo}
-            </Text>
+            <View style={styles.logoContainer}>
+              <Avatar medium uri={logo} />
+            </View>
           </View>
+
 
           <View style={styles.textContainers}>
             <Text style={styles.title}>
@@ -149,21 +150,20 @@ class SignUpCompanyConfirmScreen extends React.Component {
             <Text style={styles.title}>
               {locale.signUp.title.banner}
             </Text>
-            <Text style={styles.text}>
-              {banner}
-            </Text>
+            <Slideshow 
+              dataSource={banner}
+              containerStyle={sliderContainer}
+              scrollEnabled={banner.length > 1}
+            />
           </View>
+          
 
         </ScrollView>
         { this.props.isLoading && <Spinner /> }
-        <TouchableOpacity 
-            style={[styles.button, {marginTop:20, marginBottom:30}]}
-            onPress={() => this.handleSignUp()}
-          >
-            <Text style={{color: 'white'}}>
-            {locale.signin.text.signUp.label}
-            </Text>
-        </TouchableOpacity>
+        <NextButton 
+          onPress={() => this.handleSignUp()}
+          text={locale.signin.text.signUp.label}
+        />
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
     );
@@ -175,6 +175,14 @@ const countryPickerStyle = {
     justifyContent: 'center',
     alignItems: 'center',
   },
+}
+
+const sliderContainer = {
+  width: width * 0.7,
+  height: width * 0.7 * 3 / 4,
+  paddingHorizontal: width * 0.025,
+  paddingTop: width * 0.025,
+  marginBottom: width * 0.025,
 }
 
 const styles = StyleSheet.create({
@@ -206,6 +214,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     backgroundColor: '#FFF',
     paddingLeft: 15,
+  },
+  logoContainer: {
+    paddingVertical: 15, 
+    width: '70%',
+    paddingLeft: 10,
+    paddingRight: 10,
+    justifyContent: 'flex-start',
   },
   text: {
     paddingVertical: 15, 
