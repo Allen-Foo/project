@@ -88,12 +88,6 @@ class TutorInfoScreen extends React.Component {
         </View>
           <View style={styles.introContainer}>
             <View style={styles.tutorInfo}>
-              <Text style={{width: '30%', fontWeight: 'bold'}}>{locale.tutorInfo.text.introduction}</Text>
-              <Text style={{width: '60%'}}>
-                {this.state.tutor.selfIntro}
-              </Text>
-            </View>
-            <View style={styles.tutorInfo}>
               <Text style={{width: '30%', fontWeight: 'bold'}}>{locale.tutorInfo.text.profession}</Text>
               <Text style={{width: '60%'}}>
                 {this.state.tutor.profession}
@@ -111,6 +105,17 @@ class TutorInfoScreen extends React.Component {
                 {this.state.tutor.achievement}
               </Text>
             </View>
+
+            {
+              (this.state.tutor.selfIntro != 'null' &&
+              <View style={styles.tutorInfo}>
+                <Text style={{width: '30%', fontWeight: 'bold'}}>{locale.tutorInfo.text.introduction}</Text>
+                <Text style={{width: '60%'}}>
+                  {this.state.tutor.selfIntro}
+                </Text>
+              </View>)
+            }
+
           </View>
           <Text style={{paddingTop: 10}}> {locale.tutorInfo.text.mainCourse} </Text>
 

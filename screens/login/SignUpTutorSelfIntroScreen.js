@@ -63,13 +63,13 @@ class SignUpTutorSelfIntroScreen extends React.Component {
             onPress={
               () => {
                 if (!this.state.selfIntroduction) {
-                  this.Toast.show();
+                  this.props.setSelfIntro ('');
                 }
                 else {
                   this.props.setSelfIntro (this.state.selfIntroduction);
-                  // Next step
-                  this.props.navigation.navigate('SignUpTutorConfirmScreen')
                 }
+                // Next step
+                this.props.navigation.navigate('SignUpTutorConfirmScreen')
               }
             }
             text={locale.signin.text.next.label}

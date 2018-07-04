@@ -56,6 +56,10 @@ class SignUpTutorConfirmScreen extends React.Component {
     let { selfIntro, profession, experience, achievement } = this.props;
     profile.phone = callingCode + phoneNumber;
 
+    if (selfIntro === '') {
+      selfIntro = 'null';
+    }
+
     this.props.signUp(profile, selfIntro, profession, experience, achievement);
   }
 
@@ -64,7 +68,6 @@ class SignUpTutorConfirmScreen extends React.Component {
     let { locale, profile, selfIntro, profession, experience, achievement, fetchErrorMsg} = this.props
 
     let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
-
     return (
       <View style = {{flex:1, alignItems:'center'}}>
         <ScrollView 
@@ -109,14 +112,17 @@ class SignUpTutorConfirmScreen extends React.Component {
             </View>
           </View>
 
-          <View style={styles.textContainers}>
-            <Text style={styles.title}>
-            {locale.signUp.title.selfIntro}
-            </Text>
-            <Text style={styles.text}>
-            {selfIntro}
-            </Text>
-          </View>
+          {
+            (selfIntro != '' &&
+            <View style={styles.textContainers}>
+              <Text style={styles.title}>
+                {locale.signUp.title.selfIntro}
+              </Text>
+              <Text style={styles.text}>
+                {selfIntro}
+              </Text>
+            </View>)
+          }
 
           <View style={styles.textContainers}>
             <Text style={styles.title}>
