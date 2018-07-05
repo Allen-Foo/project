@@ -60,7 +60,7 @@ class SignUpTutorConfirmScreen extends React.Component {
       selfIntro = 'null';
     }
 
-    this.props.signUp(profile, selfIntro, profession, experience, achievement);
+    this.props.signUp(profile, {selfIntro, profession, experience, achievement});
   }
 
   render() {

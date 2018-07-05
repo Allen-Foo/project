@@ -89,14 +89,11 @@ export const signOut = () => ({
   type: SIGN_OUT_SUCCESS
 })
 
-export const signUp = (profile, selfIntro, profession, experience, achievement) => ({
+export const signUp = (profile, extraInfo) => ({
   type: SIGN_UP,
   payload: {
     profile,
-    selfIntro,
-    profession,
-    experience,
-    achievement
+    extraInfo,
   }
 })
 
@@ -248,13 +245,13 @@ export const signUpEmailEpic = (action$, store, { request }) =>
       .map(res => {
         const {password, ...user} = action.payload.profile;
         user.loginType = 'email';
-        const { profile, ...tutorInformation } = action.payload;
+        const { profile, extraInfo } = action.payload;
         return {
           type: REGISTER,
           payload: {
-              showMFAPrompt: !res.userConfirmed,
-              user,
-              tutorInformation,
+            showMFAPrompt: !res.userConfirmed,
+            user,
+            extraInfo,
           }
         }
       })

@@ -94,7 +94,7 @@ class SignUpScreen extends React.Component {
     let { cca2, phoneNumber, callingCode, ...profile } = this.state;
     profile.phone = callingCode + phoneNumber;
 
-    this.props.signUp(profile, "", "", "", "")
+    this.props.signUp(profile, {})
   }
 
   validateInput() {
