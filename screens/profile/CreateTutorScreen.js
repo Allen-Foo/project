@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   Alert,
+  Picker,
   TouchableOpacity,
 } from 'react-native';
 
@@ -18,7 +19,7 @@ import { connect } from 'react-redux';
 import { Avatar } from 'react-native-elements';
 import { Separator, Spinner, Toast } from '../../components';
 
-import { createTutor, updateTutor } from '../../redux/actions';
+import { createTutor, updateTutor, getTutorDetail } from '../../redux/actions';
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -29,7 +30,7 @@ class CreateTutorScreen extends React.Component {
     const { state } = navigation;
     const { params = {} } = navigation.state;
     let headerRight = (
-      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
+      <TouchableOpacity onPress={()=>{params.validateInput ? params.validateInput() : () => console.warn('not define')}}>
         <Text style={{paddingRight: 15, fontSize: 16}}>{screenProps.locale.common.confirm}</Text>
       </TouchableOpacity>
     );
@@ -44,13 +45,53 @@ class CreateTutorScreen extends React.Component {
     }
   };
 
-  componentDidMount() {
-    // We can only set the function after the component has been initialized
-    this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
+  componentWillMount() {
+    const { params = {} }  = this.props.navigation.state;
+
+    if (params.isEditMode) {
+      this.props.getTutorDetail(params.userId)
+    }
   }
 
-  _handleSubmit = () => {
+  componentDidMount() {
+    // We can only set the function after the component has been initialized
+    this.props.navigation.setParams({ validateInput: this.validateInput });
+  }
+
+  validateInput = () => {
+    if (!this.state.name) {
+      Alert.alert('Name cannot be empty!')
+    }
+     else if (!this.state.email) {
+      Alert.alert('Email cannot be empty!')
+    }
+     else if (!this.state.email.includes("@")) {
+      Alert.alert('Invalid email')
+    }
+     else if (!this.state.phone) {
+      Alert.alert('Phone Number cannot be empty!')
+    }
+     else if (!this.state.profession) {
+      Alert.alert('Profession cannot be empty!')
+    }
+     else if (!this.state.achievement) {
+      Alert.alert('Achievement cannot be empty!')
+    }
+    else if (!this.state.avatarUrl) {
+      Alert.alert('Please choose icon!')
+    }
+     else {
+      this.handleSubmit ();
+    }
+  }
+
+  handleSubmit() {
     const { params = {} }  = this.props.navigation.state;
+
+    if (this.state.selfIntro === '') {
+      this.state.selfIntro = 'null';
+    }
+
     if (params.isEditMode) {
       this.props.updateTutor({
         ...this.props.navigation.state.params,
@@ -59,25 +100,63 @@ class CreateTutorScreen extends React.Component {
     } else {
       this.props.createTutor(this.state)
     }
+    this.setState ({isGoBack: true});
   }
   
   componentWillReceiveProps(nextProps) {
+
     if (!nextProps.isLoading && this.props.isLoading) {
       this.props.navigation.goBack();
     }
+    if  (!nextProps.isTutorLoading && this.props.isTutorLoading) {
+      if (nextProps.fetchErrorLastUpdate instanceof Date
+          && (!(this.props.fetchErrorLastUpdate instanceof Date)
+            || nextProps.fetchErrorLastUpdate.getTime() !== this.props.fetchErrorLastUpdate.getTime())) {
+        this.props.navigation.goBack();
+      }
+      else {
+        this.setState ({profession: nextProps.tutor.profession});
+        this.setState ({experience: nextProps.tutor.experience});
+        this.setState ({achievement: nextProps.tutor.achievement});
+        
+
+        if (nextProps.tutor.selfIntro === 'null') {
+          this.setState ({selfIntro: ''});
+        }
+        else {
+          this.setState ({selfIntro: nextProps.tutor.selfIntro});
+        }
+      }
+      
+    }
+
   }
 
   constructor(props) {
     super(props);
     const { params = {} }  = this.props.navigation.state;
-
+    if (params.selfIntro === 'null') {
+      params.selfIntro = '';
+    }
     this.state = {
-      username: params.username,
+      name: params.name,
       email: params.email,
       phone: params.phone,
-      introduction: params.introduction,
+      selfIntro: '',
+      profession: '',
+      experience: '0',
+      achievement: '',
       avatarUrl: params.avatarUrl,
+      showPicker: false,
     }
+  }
+
+  showPicker = () => {this.setState({ showPicker: true })}
+  hidePicker = () => {this.setState({ showPicker: false })}
+  handleCancel = () => {this.hidePicker()}
+  handleConfirm = (v) => {
+    this.setState({experience: v})
+    this.hidePicker()
   }
 
   renderHeader() {
@@ -114,40 +193,74 @@ class CreateTutorScreen extends React.Component {
   }
 
   render() {
-    let { locale } = this.props
-    return (
-      <KeyboardAwareScrollView style={styles.container} behavior="padding">
-        {this.renderHeader()}
-        <TextInputItems
-          fieldName={locale.createTutor.text.tutorName}
-          style={styles.textInput}
-          onChangeText={(username) => this.setState({username})}
-          value={this.state.username}
-        />
-        <TextInputItems
-          fieldName={locale.createTutor.text.email}
-          style={styles.textInput}
-          onChangeText={(email) => this.setState({email})}
-          value={this.state.email}
-        />
-        <TextInputItems
-          fieldName={locale.createTutor.text.phone}
-          style={styles.textInput}
-          onChangeText={(phone) => this.setState({phone})}
-          value={this.state.phone}
-        />
-        <View style={styles.contentContainer}>
-          <Text style={styles.fieldName}>{locale.createTutor.text.introduction}</Text>
-          <TextInput
-            style={styles.introTextInput}          
-            onChangeText={(introduction) => this.setState({introduction})}
-            value={this.state.introduction}
-            multiline={true}
-          />
-        </View>
+    let { locale, tutor } = this.props
 
-        { this.props.isLoading && <Spinner intensity={100}/> }
-      </KeyboardAwareScrollView>
+    return (
+      <View style={styles.container} >
+        <KeyboardAwareScrollView >
+          {this.renderHeader()}
+          <TextInputItems
+            fieldName={locale.createTutor.text.tutorName}
+            style={styles.textInput}
+            onChangeText={(name) => this.setState({name})}
+            value={this.state.name}
+          />
+          <TextInputItems
+            fieldName={locale.createTutor.text.email}
+            style={styles.textInput}
+            onChangeText={(email) => this.setState({email})}
+            value={this.state.email}
+          />
+          <TextInputItems
+            fieldName={locale.createTutor.text.phone}
+            style={styles.textInput}
+            onChangeText={(phone) => this.setState({phone})}
+            value={this.state.phone}
+          />
+          <TextInputItems
+            fieldName={locale.createTutor.text.profession}
+            style={styles.textInput}
+            onChangeText={(profession) => this.setState({profession})}
+            value={this.state.profession}
+          />
+          
+          <View style={styles.contentContainer}>
+            <Text style={styles.fieldName}>{locale.createTutor.text.experience}</Text>
+            <TouchableOpacity onPress = {() => this.showPicker()}>
+              <Text style={styles.textInput}>
+                {this.state.experience}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <TextInputItems
+            fieldName={locale.createTutor.text.achievement}
+            style={styles.textInput}
+            onChangeText={(achievement) => this.setState({achievement})}
+            value={this.state.achievement}
+          />
+          <View style={styles.contentContainer}>
+            <Text style={styles.fieldName}>{locale.createTutor.text.selfIntro}</Text>
+            <TextInput
+              style={styles.introTextInput}          
+              onChangeText={(selfIntro) => this.setState({selfIntro})}
+              value={this.state.selfIntro}
+              multiline={true}
+            />
+          </View>
+          <View style={{width: 400, height: 300}} />
+        </KeyboardAwareScrollView>
+        { 
+            this.state.showPicker &&
+            <CustomPicker
+              onCancel={this.handleCancel}
+              onConfirm={this.handleConfirm}
+              locale={locale}
+              experience={this.state.experience}
+            />
+          }
+        { (this.props.isTutorLoading || this.props.isLoading) && <Spinner intensity={100}/> }
+      </View>
     )
   }
 
@@ -206,15 +319,80 @@ const TextInputItems = props => {
   )
 }
 
+class CustomPicker extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      experience: props.experience || '0'
+    }
+  }
+
+  render() {
+    const { experience, locale, onCancel, onConfirm } = this.props;
+    return (
+       <View style={styles.pickerContainer}>
+        <View style={styles.innerRowContainer}>
+          <TouchableOpacity onPress={() => onCancel()}>
+            <Text style={[styles.text, {color: '#FF5A5F', }]}>
+              {locale.common.cancel} 
+            </Text>
+          </TouchableOpacity>
+          {
+            <TouchableOpacity onPress={() => onConfirm(this.state.experience)}>
+              <Text style={[styles.text, {color: '#666', }]}>
+                {locale.common.confirm} 
+              </Text>
+            </TouchableOpacity>  
+          }
+        </View>
+        <Text style={styles.fieldName}>{locale.createTutor.text.experience}</Text>
+        <Picker
+          selectedValue={this.state.experience}
+          style={styles.picker}
+          onValueChange={
+            (experience, itemIndex) => {
+              this.setState({experience});
+            }
+          }>
+          <Picker.Item label="0" value={'0'} />
+          <Picker.Item label="1" value={'1'} />
+          <Picker.Item label="2" value={'2'} />
+          <Picker.Item label="3" value={'3'} />
+          <Picker.Item label="4" value={'4'} />
+          <Picker.Item label="5" value={'5'} />
+          <Picker.Item label="6" value={'6'} />
+          <Picker.Item label="7" value={'7'} />
+          <Picker.Item label="8" value={'8'} />
+          <Picker.Item label="9" value={'9'} />
+          <Picker.Item label="10+" value={'10+'} />
+        </Picker>
+      </View>
+    )
+  }
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#E4E4E4',
-    paddingTop: 40,
   },
   contentContainer: {
     width: '90%',
     paddingLeft: 30
+  },
+  innerRowContainer: {
+    flexDirection: 'row',
+    paddingTop: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: '90%',
+  },
+  pickerContainer: {
+    backgroundColor: '#fff',
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
   },
   text: {
     color: '#3b85be',
@@ -244,24 +422,37 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   avatarContainer: {
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginTop: 40,
   },
   loginContainer: {
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  picker: {
+    // height: 200,
+    width: '100%',
+    backgroundColor: '#FFF'
+    // borderColor: 'black',
+    // borderWidth: 1,
+    // backgroundColor: '#FFF',
+  },
 });
 
 const mapStateToProps = (state) => {
   return {
     isLoading: state.socialLogin.isLoading,
+    isTutorLoading: state.tutor.isLoading,
     locale: state.language.locale,
+    tutor: state.tutor,
+    fetchErrorLastUpdate: state.tutor.fetchErrorLastUpdate,
   }
 }
 
 export default connect(mapStateToProps, {
   createTutor,
   updateTutor,
+  getTutorDetail,
 })(CreateTutorScreen)
 
