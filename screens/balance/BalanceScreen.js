@@ -55,6 +55,8 @@ class BalanceScreen extends React.Component {
 
     let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
 
+    let date = new Date ();
+
     return (
       <View style={styles.container}>
         <Text style= {styles.title}> {locale.balance.title} </Text>
@@ -72,10 +74,10 @@ class BalanceScreen extends React.Component {
             justifyContent: 'center',
           }}>
 
-          <Text style= {styles.amount}> {this.props.revenue} </Text>
+          <Text style= {styles.amount}> {'$' + this.props.revenue} </Text>
 
         </View>
-        <Text style= {styles.upToText}> {upToText} </Text>
+        <Text style= {styles.upToText}> {upToText + ' ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()} </Text>
          <TouchableOpacity 
             style={styles.button}
           >
