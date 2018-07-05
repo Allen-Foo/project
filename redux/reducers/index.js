@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 
 import language from './language';
+import product from './product';
 import appType from './appType';
 import classes from './classes';
 import userProfile from './userProfile';
@@ -54,6 +55,11 @@ import {
 } from '../actions/classes';
 
 import {
+  getProductListEpic,
+  purchaseGoldEpic,
+} from '../actions/product';
+
+import {
   searchClassListEpic,
 } from '../actions/filter';
 
@@ -66,6 +72,7 @@ export const rootReducer = combineReducers({
   userProfile,
   filter,
   tutor,
+  product,
 })
 
 export const rootEpic = combineEpics(
@@ -104,5 +111,7 @@ export const rootEpic = combineEpics(
   getTutorListEpic,
   deleteTutorEpic,
   updateTutorEpic,
-  getTutorDeatilEpic
+  getTutorDeatilEpic,
+  getProductListEpic,
+  purchaseGoldEpic,
 )

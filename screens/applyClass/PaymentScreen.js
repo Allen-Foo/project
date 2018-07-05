@@ -55,7 +55,8 @@ class PaymentScreen extends React.Component {
         curr: "HKD",
         quan:1, 
         desc: 'null',
-        userId: this.props.user.userId
+        userId: this.props.user.userId,
+        type: "class"
       }
     }).then(res => {
       this.setState({

@@ -58,6 +58,11 @@ import {
   getTutorDetail,
 } from './tutor'
 
+import {
+  getProductList,
+  purchaseGold,
+} from './product'
+
 export {
   setLanguage,
   setAppType,
@@ -107,4 +112,6 @@ export {
   getTutorList,
   deleteTutor,
   updateTutor,
+  getProductList,
+  purchaseGold,
 }

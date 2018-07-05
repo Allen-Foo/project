@@ -80,7 +80,7 @@ class ProfileScreen extends React.Component {
           leftIcon={{name: 'class'}}
           iconType = 'MaterialIcons'
           onPress={() => {this.props.navigation.navigate('Signin')}}
-        />  
+        />
       )
     } else if (this.props.appType == 'learner' || this.props.user.userRole == 'learner') {
       // Learner mode
@@ -90,7 +90,7 @@ class ProfileScreen extends React.Component {
           leftIcon={{name: 'class'}}
           iconType = 'MaterialIcons'
           onPress={() => {this.props.navigation.navigate('AppliedClassList')}}
-        /> 
+        />
       )
     } else if (this.props.user.userRole == 'company') {
       // Company mode
@@ -119,12 +119,21 @@ class ProfileScreen extends React.Component {
     } else {
       // Tutor mode
       return (
-        <ListItem
-          title={this.props.locale.profile.text.viewClasses.tutor}
-          leftIcon={{name: 'class'}}
-          iconType = 'MaterialIcons'
-          onPress={() => {this.props.navigation.navigate('ClassList')}}
-        />
+        <View>
+          <ListItem
+            title={this.props.locale.profile.text.checkCoins.tutor}
+            leftIcon={{name: 'coin'}}
+            iconType = 'MaterialCommunityIcons'
+            onPress={() => {this.props.navigation.navigate('Coin')}}
+            useCommunityIcon={true}
+          />
+          <ListItem
+            title={this.props.locale.profile.text.viewClasses.tutor}
+            leftIcon={{name: 'class'}}
+            iconType = 'MaterialIcons'
+            onPress={() => {this.props.navigation.navigate('ClassList')}}
+          />
+        </View>
       )
     }
   }
@@ -147,13 +156,12 @@ class ProfileScreen extends React.Component {
           }
 
           { this.renderClassList() }
-          
           <ListItem
             title={this.props.locale.profile.text.settings}
             leftIcon={{name: 'settings'}}
             iconType = 'MaterialIcons'
             onPress={() => {this.props.navigation.navigate('Settings')}}
-          />        
+          />
         </View>
       </ScrollView>
     )
@@ -163,7 +171,7 @@ class ProfileScreen extends React.Component {
 const ListItem = props => {
   let { title, leftIcon, onPress, iconType } = props;
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.listItem}
       onPress={() => onPress()}
     >
@@ -185,7 +193,7 @@ const ListItem = props => {
           style={{paddingLeft: '5%', paddingRight: '7%'}}
         />
       }
-      
+
       <Text style={styles.itemText}>{title}</Text>
       <Entypo
         name={"chevron-thin-right"}
@@ -196,7 +204,7 @@ const ListItem = props => {
     </TouchableOpacity>
   )
 }
-  
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
