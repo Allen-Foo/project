@@ -16,7 +16,7 @@ let {width, height} = Dimensions.get('window');
 import Colors from '../../constants/Colors';
 import { ImagePicker } from 'expo';
 import { connect } from 'react-redux';
-import { Avatar } from 'react-native-elements';
+import { Avatar } from '../../components';
 import { Separator, Spinner, Toast } from '../../components';
 
 import { createTutor, updateTutor, getTutorDetail } from '../../redux/actions';
@@ -160,27 +160,10 @@ class CreateTutorScreen extends React.Component {
   }
 
   renderHeader() {
-    let { locale } = this.props
-    let avatar = 
-      <Avatar
-        xlarge
-        rounded
-        icon={{name: 'account-box'}}
-        onPress={this._pickImage}
-        activeOpacity={0.7}
-        containerStyle={styles.avatarContainer}
-      />
-      
-    if (this.state.avatarUrl) {
-      avatar = 
-        <Avatar
-          xlarge
-          rounded
-          source={{url: this.state.avatarUrl}}
-          onPress={this._pickImage}
-          activeOpacity={0.7}
-          containerStyle={styles.avatarContainer}
-        />
+    let { locale } = this.props      
+    let avatar = <Avatar xlarge onPress={this._pickImage} />
+    if (this.state.avatarUrl && this.state.avatarUrl != 'null') {
+      avatar = <Avatar xlarge uri={this.state.avatarUrl} onPress={this._pickImage}/>
     }
     return (
       <View style={styles.loginContainer}>
@@ -429,6 +412,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 40,
   },
   picker: {
     // height: 200,

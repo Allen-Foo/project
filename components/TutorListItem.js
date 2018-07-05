@@ -14,7 +14,8 @@ import Colors from '../constants/Colors';
 import { connect } from 'react-redux';
 
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import { Avatar, Rating } from 'react-native-elements';
+import { Rating } from 'react-native-elements';
+import { Avatar } from '../components';
 import StarRating from 'react-native-star-rating';
 import { CheckBox } from 'react-native-elements'
 
@@ -39,11 +40,15 @@ class TutorListItem extends React.Component {
 
   render() {
     const { data, onPress, locale, isCheckMode } = this.props;
+
+    let avatar = <Avatar large uri={data.avatarUrl} onPress={onPress}/>
+
     return (
       <View style={styles.rowContainer}>
-        <TouchableOpacity style={styles.avatarContainer} onPress={onPress}>
-          <Image source={{uri: data.avatarUrl}} style={styles.avatar}/>
-        </TouchableOpacity>
+        <View style = {{paddingHorizontal:20, paddingVertical:10}}>
+          { avatar }
+        </View>
+
         <TouchableOpacity style={styles.contentContainer} onPress={onPress}>
           <Text style={styles.tutorName}>{data.name}</Text>
           <View style={{flexDirection: 'row'}}>
