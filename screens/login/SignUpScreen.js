@@ -78,14 +78,11 @@ class SignUpScreen extends React.Component {
 
       if (this.props.navigation.state.params.userRole == 'tutor') {
         this.props.setTutorProfile(profile);
-
-        // Next step
         this.props.navigation.navigate('SignUpTutorProfessionScreen');
       } else {
+        // for company
         this.props.setCompanyProfile(profile);
-
-        // Next step
-        this.props.navigation.navigate('SignUpTutorProfessionScreen');
+        this.props.navigation.navigate('SignUpCompanyName');
       }
     }
   }
