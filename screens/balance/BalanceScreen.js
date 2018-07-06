@@ -16,6 +16,10 @@ import Colors from '../../constants/Colors';
 
 import { SocialIcon } from 'react-native-elements';
 
+import { Spinner, Toast } from '../../components';
+import { getRevenue } from '../../redux/actions';
+import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
+
 const { height, width } = Dimensions.get('window')
 
 
@@ -40,10 +44,16 @@ class BalanceScreen extends React.Component {
     }
   };
 
+  componentWillMount() {
+    this.props.getRevenue(this.props.userId);
+  }
+
   render() {
-    let {locale} = this.props;
+    let {locale, fetchErrorMsg} = this.props;
 
     let upToText = locale.balance.upTo + "";
+
+    let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
 
     return (
       <View style={styles.container}>
@@ -62,7 +72,7 @@ class BalanceScreen extends React.Component {
             justifyContent: 'center',
           }}>
 
-          <Text style= {styles.amount}> [$ 99] </Text>
+          <Text style= {styles.amount}> {this.props.revenue} </Text>
 
         </View>
         <Text style= {styles.upToText}> {upToText} </Text>
@@ -70,9 +80,11 @@ class BalanceScreen extends React.Component {
             style={styles.button}
           >
             <Text style={styles.buttonText}>
-            [Get my money back]
+              {locale.balance.withdraw}
             </Text>
         </TouchableOpacity>
+        { this.props.isLoading && <Spinner /> }
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
     );
   }
@@ -127,8 +139,15 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   // console.warn('state', state)
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    isLoading: state.tutor.isLoading,
+    revenue: state.tutor.revenue,
+    userId: state.userProfile.user.userId,
+    fetchErrorMsg: state.socialLogin.fetchErrorMsg,
+    fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate,
   }
 }
 
-export default connect(mapStateToProps)(BalanceScreen)
+export default connect(mapStateToProps, {
+  getRevenue
+})(BalanceScreen)

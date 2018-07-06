@@ -7,7 +7,10 @@ import {
   CLEAR_TUTORPROFILE,
   GET_TUTOR_DETAIL,
   GET_TUTOR_DETAIL_SUCCESS,
-  GET_TUTOR_DETAIL_FAIL
+  GET_TUTOR_DETAIL_FAIL,
+  GET_REVENUE,
+  GET_REVENUE_SUCCESS,
+  GET_REVENUE_FAIL,
 } from '../types'
 
 const defaultState = {
@@ -17,6 +20,7 @@ const defaultState = {
   profession:'',
   experience: 0,
   achievement: '',
+  revenue: 0,
 }
 
 export default (state = defaultState, action) => {
@@ -76,6 +80,25 @@ export default (state = defaultState, action) => {
         achievement: action.payload.achievement,
       }
     case GET_TUTOR_DETAIL_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case GET_REVENUE:
+      return {
+        ...state,
+        isLoading: true,
+        revenue: 0,
+      }
+    case GET_REVENUE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        revenue: action.payload.revenue,
+      }
+      case GET_REVENUE_FAIL:
       return {
         ...state,
         isLoading: false,

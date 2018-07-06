@@ -7,7 +7,10 @@ import {
   CLEAR_TUTORPROFILE,
   GET_TUTOR_DETAIL,
   GET_TUTOR_DETAIL_SUCCESS,
-  GET_TUTOR_DETAIL_FAIL
+  GET_TUTOR_DETAIL_FAIL,
+  GET_REVENUE,
+  GET_REVENUE_SUCCESS,
+  GET_REVENUE_FAIL,
 } from '../types'
 import AWS from 'aws-sdk';
 import { Observable } from 'rxjs/Observable';
@@ -63,7 +66,14 @@ export function getTutorDetail (tutorId) {
   }
 }
 
-// this epic will sign in user through AWS Cognito
+export function getRevenue (userId) {
+  return {
+    type: GET_REVENUE,
+    payload: userId,
+  }
+}
+
+
 export const getTutorDeatilEpic = (action$, store, { request }) =>
   action$.ofType(GET_TUTOR_DETAIL)
     .mergeMap(action => 
@@ -83,6 +93,29 @@ export const getTutorDeatilEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GET_TUTOR_DETAIL_FAIL,
+        payload: err
+      }))
+    )
+
+export const getRevenueEpic = (action$, store, { request }) =>
+  action$.ofType(GET_REVENUE)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        method: 'post',
+        url: '/getWalletRevenue',
+        data: {
+          userId: action.payload
+        }
+       }))
+      .map(res => {
+        // console.warn('update profile success', res.data)
+        return {
+          type: GET_REVENUE_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: GET_REVENUE_FAIL,
         payload: err
       }))
     )

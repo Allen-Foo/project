@@ -56,6 +56,7 @@ import {
   setAchievement,
   clearTutorProfile,
   getTutorDetail,
+  getRevenue,
 } from './tutor'
 
 import {
@@ -116,6 +117,7 @@ export {
   setAchievement,
   clearTutorProfile,
   getTutorDetail,
+  getRevenue,
   renewAppliedClass,
   createTutor,
   getTutorList,
