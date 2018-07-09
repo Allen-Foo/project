@@ -44,6 +44,10 @@ import {
 } from '../actions/tutor'
 
 import {
+  getCompanyDetailEpic,
+} from '../actions/company'
+
+import {
   createClassEpic,
   updateClassEpic,
   getClassListEpic,
@@ -118,4 +122,7 @@ export const rootEpic = combineEpics(
   getProductListEpic,
   purchaseGoldEpic,
   getRevenueEpic,
+
+  // company
+  getCompanyDetailEpic,
 )

@@ -71,6 +71,7 @@ import {
   setCompanyLogo,
   setCompanySlogan,
   setCompanyBanner,
+  getCompanyDetail,
 } from './company'
 
 export {
@@ -133,5 +134,5 @@ export {
   setCompanyLogo,
   setCompanySlogan,
   setCompanyBanner,
-  
+  getCompanyDetail,
 }

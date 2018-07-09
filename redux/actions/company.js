@@ -5,6 +5,10 @@ import {
   SET_COMPANY_LOGO,
   SET_COMPANY_SLOGAN,
   SET_COMPANY_BANNER,
+
+  GET_COMPANY_DETAIL,
+  GET_COMPANY_DETAIL_SUCCESS,
+  GET_COMPANY_DETAIL_FAIL,
 } from '../types'
 import AWS from 'aws-sdk';
 import { Observable } from 'rxjs/Observable';
@@ -54,26 +58,33 @@ export function setCompanyBanner(banner) {
   };
 }
 
+export function getCompanyDetail(companyId) {
+  return {
+    type: GET_COMPANY_DETAIL,
+    payload: companyId
+  }
+}
+
 // this epic will sign in user through AWS Cognito
-export const getTutorDeatilEpic = (action$, store, { request }) =>
-  action$.ofType(GET_TUTOR_DETAIL)
+export const getCompanyDetailEpic = (action$, store, { request }) =>
+  action$.ofType(GET_COMPANY_DETAIL)
     .mergeMap(action => 
       Observable.fromPromise(request({
         method: 'post',
-        url: '/getTutorDetail',
+        url: '/getCompanyDetail',
         data: {
-          tutorId: action.payload
+          companyId: action.payload
         }
        }))
       .map(res => {
         // console.warn('update profile success', res.data)
         return {
-          type: GET_TUTOR_DETAIL_SUCCESS,
+          type: GET_COMPANY_DETAIL_SUCCESS,
           payload: res.data
         }
       })
       .catch(err => Observable.of({
-        type: GET_TUTOR_DETAIL_FAIL,
+        type: GET_COMPANY_DETAIL_FAIL,
         payload: err
       }))
     )
