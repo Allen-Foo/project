@@ -10,6 +10,8 @@ import ApiTest from '../screens/settings/ApiTestScreen';
 import Language from '../screens/settings/LanguageScreen';
 import ProfileSetting from '../screens/settings/ProfileSettingScreen';
 import ClassDetailScreen from '../screens/detail/ClassDetailScreen';
+import CompanyInfo from '../screens/detail/CompanyInfoScreen';
+
 import SignUp from '../screens/login/SignUpScreen';
 import PreSignUp from '../screens/login/PreSignUpScreen';
 import VerifyCode from '../screens/login/VerifyCodeScreen';
@@ -83,6 +85,9 @@ const RootStackNavigator = StackNavigator(
     },
     ClassDetailScreen: {
       screen: ClassDetailScreen,
+    },
+    CompanyInfo: {
+      screen: CompanyInfo,
     },
     ApiTest: {
       screen: ApiTest

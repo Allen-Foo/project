@@ -314,7 +314,7 @@ class ClassDetailScreen extends React.Component {
           : this.renderLearnerInfo(classDetail) 
         }
         {
-          this.props.mode == 'learner' && classDetail.companyInfo &&
+          this.props.mode == 'learner' && classDetail.user.userRole == 'company' &&
           this.renderCompanyInfo(classDetail, locale)
         }
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.classDescription} </Text>
@@ -388,7 +388,6 @@ class ClassDetailScreen extends React.Component {
 
   renderTutorList(classDetail, locale) {
     let { tutorList } = classDetail;
-    console.warn(classDetail)
     return (
       <View>
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.tutor} </Text>
