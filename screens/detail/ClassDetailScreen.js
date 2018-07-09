@@ -104,6 +104,7 @@ class ClassDetailScreen extends React.Component {
     let { locale, languageKey } = this.props;
     let { classDetail } = this.state;
     let photoList = classDetail.photoList.map(photo => ({uri: photo.location}))
+
     return (
       <View>
         <ScrollView contentContainerStyle={styles.container}>
@@ -312,6 +313,10 @@ class ClassDetailScreen extends React.Component {
           ? classDetail.tutorList && classDetail.tutorList.length > 0 ? this.renderTutorList(classDetail, locale) : this.renderTutorInfo(classDetail, locale)
           : this.renderLearnerInfo(classDetail) 
         }
+        {
+          this.props.mode == 'learner' && classDetail.companyInfo &&
+          this.renderCompanyInfo(classDetail, locale)
+        }
         <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.classDescription} </Text>
         <View style={styles.classDetailContainer}>
           <View style={{marginTop: -20}}>
@@ -351,6 +356,32 @@ class ClassDetailScreen extends React.Component {
             </View>
           </TouchableOpacity>
         </View>
+      </View>
+    )
+  }
+
+  renderCompanyInfo(classDetail, locale) {
+    return (
+      <View>
+        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {locale.classDetail.text.organization} </Text>
+        <TouchableOpacity style={styles.tutorDetailContainer} onPress={() => this.props.navigation.navigate('CompanyInfo')}>
+          <View style={{flexDirection: 'row', paddingBottom: 10}}>
+            <Avatar large uri={classDetail.user && classDetail.user.avatarUrl}/>
+            <View style={styles.usernameText}>
+              <Text style={{fontSize: 20}}>{classDetail.user.name}</Text>
+              <View style={{flexDirection: 'row', marginTop: 5}}>
+                <FontAwesome
+                  name={"check-square-o"}
+                  size={20}
+                  color={'#f72470'}
+                />
+                <Text style={{marginLeft: 5, color: '#f72470'}}>{locale.classDetail.text.verifiedBy}</Text>
+              </View>
+              <Text style={{fontSize: 14, color: '#bebebe'}}>{`${locale.classDetail.text.rating + parseFloat(classDetail.totalRatings).toFixed(1)}/5`}</Text>
+            </View>
+          </View>
+          <Text>{classDetail.user.introduction}</Text>
+        </TouchableOpacity>
       </View>
     )
   }
