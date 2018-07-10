@@ -30,6 +30,18 @@ const EditButton = props => (
     <MaterialIcons
       name={"edit"}
       size={25}
+      color={'#fff'}
+      style={{ paddingRight: 15}}
+    />
+  </TouchableOpacity>
+)
+
+const CheckButton = props => (
+  <TouchableOpacity onPress={()=> props.onPress()}>
+    <MaterialIcons
+      name={"check"}
+      size={25}
+      color={'#fff'}
       style={{ paddingRight: 15}}
     />
   </TouchableOpacity>
@@ -62,4 +74,5 @@ export {
   NextButton,
   HeaderButton,
   EditButton,
+  CheckButton
 }

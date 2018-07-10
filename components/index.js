@@ -5,7 +5,7 @@ import Spinner from './Spinner';
 import Hr from './Hr';
 import KohanaTextInput from './KohanaTextInput';
 import HideoTextInput from'./HideoTextInput';
-import { NextButton, HeaderButton, EditButton } from'./Button';
+import { NextButton, HeaderButton, EditButton, CheckButton } from'./Button';
 import Slideshow from'./Slideshow';
 import ClassItem from'./ClassItem';
 import ProgressBar from'./ProgressBar';
@@ -27,6 +27,7 @@ export {
   NextButton,
   HeaderButton,
   EditButton,
+  CheckButton,
   IndexMarker,
   ClassItem,
   ProgressBar,
