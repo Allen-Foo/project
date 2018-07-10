@@ -31,7 +31,7 @@ class CreateTutorScreen extends React.Component {
     const { params = {} } = navigation.state;
     let headerRight = (
       <TouchableOpacity onPress={()=>{params.validateInput ? params.validateInput() : () => console.warn('not define')}}>
-        <Text style={{paddingRight: 15, fontSize: 16}}>{screenProps.locale.common.confirm}</Text>
+        <Text style={{paddingRight: 15, fontSize: 16, color: '#fff'}}>{screenProps.locale.common.confirm}</Text>
       </TouchableOpacity>
     );
 

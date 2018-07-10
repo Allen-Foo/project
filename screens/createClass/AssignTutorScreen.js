@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Separator, Spinner, Toast, ClassItem, TutorListItem, Hr, NextButton} from '../../components';
+import { Separator, Spinner, Toast, ClassItem, TutorListItem, Hr, NextButton, CheckButton } from '../../components';
 
 import { createClass, editClass, getTutorList } from '../../redux/actions';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -26,14 +26,8 @@ class AssignTutorScreen extends React.Component {
     const { params = {} }  = navigation.state;
 
     let headerRight = (
-      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
-        <MaterialIcons
-          name={"check"}
-          size={30}
-          style={{ paddingRight: 15 }}
-        />
-      </TouchableOpacity>
-    );
+      <CheckButton onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}} />
+    )
 
     return {
       title: params.isEditMode ? null : screenProps.locale.assignTutor.title,

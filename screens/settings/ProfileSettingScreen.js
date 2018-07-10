@@ -7,7 +7,7 @@ import { signOut, updateAvatar, updateProfile } from '../../redux/actions';
 import { onSignOut } from '../../lib/Auth/AWS_Auth';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
-import { Avatar } from '../../components';
+import { Avatar, CheckButton} from '../../components';
 
 let {width, height} = Dimensions.get('window');
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -18,25 +18,20 @@ class ProfileSettingScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     const { params = {} } = navigation.state;
-      let headerRight = (
-        <TouchableOpacity onPress={()=>{params.validateInput ? params.validateInput() : () => console.warn('not define')}}>
-          <MaterialIcons
-            name={"check"}
-            size={30}
-            style={{ paddingRight: 15 }}
-          />
-        </TouchableOpacity>
-      );
 
-      return {
-        headerTitle: screenProps.locale.profileSetting.title,
-        headerTintColor: '#fff',
-        headerRight,
-        headerStyle: {
-          backgroundColor: Colors.tintColor,
-        },
-      }
-    };
+    let headerRight = (
+      <CheckButton onPress={()=>{params.validateInput ? params.validateInput() : () => console.warn('not define')}} />
+    )
+
+    return {
+      headerTitle: screenProps.locale.profileSetting.title,
+      headerTintColor: '#fff',
+      headerRight,
+      headerStyle: {
+        backgroundColor: screenProps.appType == 'tutor' ? Colors.greyColor : Colors.tintColor,
+      },
+    }
+  };
 
   componentDidMount() {
     // We can only set the function after the component has been initialized

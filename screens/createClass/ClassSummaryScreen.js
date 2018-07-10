@@ -11,16 +11,13 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Hr, NextButton, Slideshow, Spinner, Toast} from '../../components';
+import { Hr, NextButton, Slideshow, Spinner, Toast, CheckButton} from '../../components';
 
 import moment from 'moment';
 let {width, height} = Dimensions.get('window');
 
-import axios from 'axios';
-import appSecrets from '../../appSecrets';
 import { createClass, updateClass } from '../../redux/actions';
 import { NavigationActions } from 'react-navigation';
-import { MaterialIcons } from '@expo/vector-icons';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 import Colors from '../../constants/Colors';
 
@@ -29,14 +26,8 @@ class ClassSummaryScreen extends React.Component {
     const { params = {} }  = navigation.state;
 
     let headerRight = (
-      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
-        <MaterialIcons
-          name={"check"}
-          size={30}
-          style={{ paddingRight: 15 }}
-        />
-      </TouchableOpacity>
-    );
+      <CheckButton onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}} />
+    )
 
     return {
       title: params.isEditMode ? null : screenProps.locale.classSummary.title,

@@ -12,7 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { createClass, editClass } from '../../redux/actions';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Hr, NextButton} from '../../components';
+import { Hr, NextButton, CheckButton } from '../../components';
 import Colors from '../../constants/Colors';
 
 class ClassDescriptionScreen extends React.Component {
@@ -20,13 +20,7 @@ class ClassDescriptionScreen extends React.Component {
     const { params = {} }  = navigation.state;
 
     let headerRight = (
-      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
-        <MaterialIcons
-          name={"check"}
-          size={30}
-          style={{ paddingRight: 15 }}
-        />
-      </TouchableOpacity>
+      <CheckButton onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}/>
     );
 
     return {

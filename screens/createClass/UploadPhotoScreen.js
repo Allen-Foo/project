@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Hr, NextButton, Spinner, Separator } from '../../components';
+import { Hr, NextButton, Spinner, Separator, CheckButton } from '../../components';
 import { ImagePicker } from 'expo';
 import { editClass } from '../../redux/actions';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
@@ -26,14 +26,8 @@ class ClassAddressScreen extends React.Component {
     const { params = {} }  = navigation.state;
 
     let headerRight = (
-      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
-        <MaterialIcons
-          name={"check"}
-          size={30}
-          style={{ paddingRight: 15 }}
-        />
-      </TouchableOpacity>
-    );
+      <CheckButton onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}} />
+    )
 
     return {
       title: params.isEditMode ? null : screenProps.locale.uploadPhoto.title,

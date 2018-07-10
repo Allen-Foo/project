@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { Hr, NextButton} from '../../components';
+import { Hr, NextButton, CheckButton } from '../../components';
 import { editClass } from '../../redux/actions';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
@@ -20,14 +20,8 @@ class ClassTypeScreen extends React.Component {
     const { params = {} }  = navigation.state;
 
     let headerRight = (
-      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
-        <MaterialIcons
-          name={"check"}
-          size={30}
-          style={{ paddingRight: 15 }}
-        />
-      </TouchableOpacity>
-    );
+      <CheckButton onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}} />
+    )
 
     return {
       title: params.isEditMode ? null : screenProps.locale.classType.title,

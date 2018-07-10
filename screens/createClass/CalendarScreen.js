@@ -14,7 +14,7 @@ import {
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { createClass, editClass } from '../../redux/actions';
-import { Hr, NextButton} from '../../components';
+import { Hr, NextButton, CheckButton } from '../../components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment from 'moment';
@@ -27,14 +27,8 @@ class CalendarScreen extends React.Component {
     const { params = {} }  = navigation.state;
 
     let headerRight = (
-      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
-        <MaterialIcons
-          name={"check"}
-          size={30}
-          style={{ paddingRight: 15 }}
-        />
-      </TouchableOpacity>
-    );
+      <CheckButton onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}} />
+    )
 
     return {
       title: params.isEditMode ? null : screenProps.locale.calendar.title,

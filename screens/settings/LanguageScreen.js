@@ -9,11 +9,13 @@ import { setLanguage } from '../../redux/actions';
 
 
 class LanguageScreen extends React.Component {
-  static navigationOptions = {
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+  static navigationOptions = ({navigation, screenProps}) => {
+    return {
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: screenProps.appType == 'tutor' ? Colors.greyColor : Colors.tintColor,
+      },
+    }
   };
 
   constructor(props) {

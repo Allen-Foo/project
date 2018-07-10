@@ -11,7 +11,7 @@ import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { MaterialIcons } from '@expo/vector-icons';
+import { CheckButton } from '../../components';
 
 const REPEAT_TYPE = ['neverRepeat', 'everyDay', 'everyWeek', 'everyTwoWeek', 'everyMonth'];
 
@@ -19,15 +19,10 @@ class RepeatScreen extends React.Component {
 
   static navigationOptions = ({navigation, screenProps}) => {
     const { params = {} } = navigation.state;
+
     let headerRight = (
-      <TouchableOpacity onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}}>
-        <MaterialIcons
-          name={"check"}
-          size={30}
-          style={{ paddingRight: 15 }}
-        />
-      </TouchableOpacity>
-    );
+      <CheckButton onPress={()=>{params.handleSubmit ? params.handleSubmit() : () => console.warn('not define')}} />
+    )
 
     return {
       headerTitle: screenProps.locale.repeat.title,

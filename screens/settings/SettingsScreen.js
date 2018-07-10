@@ -16,7 +16,7 @@ class SettingsScreen extends React.Component {
       headerTitle: screenProps.locale.settings.title,
       headerTintColor: '#fff',
       headerStyle: {
-        backgroundColor: Colors.tintColor,
+        backgroundColor: screenProps.appType == 'tutor' ? Colors.greyColor : Colors.tintColor,
       },
     }
   };

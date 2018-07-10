@@ -31,6 +31,7 @@ class ClassListScreen extends React.Component {
         <MaterialIcons
           name={"add"}
           size={30}
+          color={'#fff'}
           style={{ paddingRight: 15, paddingTop: 5 }}
         />
       </TouchableOpacity>

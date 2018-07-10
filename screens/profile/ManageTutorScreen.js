@@ -31,6 +31,7 @@ class ManageTutorScreen extends React.Component {
         <MaterialIcons
           name={"person-add"}
           size={30}
+          color={'#fff'}
           style={{ paddingRight: 15, paddingTop: 5 }}
         />
       </TouchableOpacity>
