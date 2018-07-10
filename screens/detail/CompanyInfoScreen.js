@@ -9,6 +9,7 @@ import Colors from '../../constants/Colors';
 import { getClassList, getCompanyDetail } from '../../redux/actions';
 import { Separator, Avatar, Spinner, Slideshow } from '../../components';
 import StarRating from 'react-native-star-rating';
+import CompanyTabComponent from './CompanyTabComponent'
 
 class CompanyInfoScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -46,8 +47,6 @@ class CompanyInfoScreen extends React.Component {
     let { classList, locale } = this.props
     let { companyDetail } = this.state;
 
-    console.warn('companyDetail', companyDetail)
-
     if (!companyDetail || !companyDetail.profile) {
       return this.renderLoading()
     }
@@ -67,10 +66,12 @@ class CompanyInfoScreen extends React.Component {
           />
         </TouchableOpacity>
         <View style={styles.companyAvatarContainer}>
-          <Avatar
-            large
-            uri={companyDetail.logo}
-          />
+          <View style={styles.avatar}>
+            <Avatar
+              large
+              uri={companyDetail.logo}
+            />
+          </View>
           <View style={styles.usernameContainer}>
             <Text style={styles.usernameText}>{companyDetail.displayName}</Text>
             <View style={{flexDirection: 'row'}}>
@@ -84,6 +85,8 @@ class CompanyInfoScreen extends React.Component {
             <Text>{companyDetail.slogan}</Text>
           </View>
         </View>
+
+        <CompanyTabComponent />
       </ScrollView>
     );
   }
@@ -99,10 +102,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
   },
   companyAvatarContainer: {
-    position: 'absolute',
-    top: '80%',
+    // position: 'absolute',
+    // top: '80%',
     flexDirection: 'row',
-    paddingLeft: '5%',
+    // paddingLeft: '5%',
+    paddingVertical: 10,
   },
   chevronContainer: {
     position: 'absolute',
@@ -110,12 +114,15 @@ const styles = StyleSheet.create({
     left: 20,
     backgroundColor: 'transparent',
   },
+  avatar: {
+    marginTop: '-7%',
+  },
   usernameText: {
     fontSize: 20,
   },
   usernameContainer: {
     paddingLeft: '5%',
-    paddingTop: '18%',
+    // paddingTop: '18%',
   },
 });
 
