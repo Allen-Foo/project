@@ -60,6 +60,7 @@ import AssignTutor from '../screens/createClass/AssignTutorScreen';
 import ManageTutor from '../screens/profile/ManageTutorScreen';
 import CreateTutor from '../screens/profile/CreateTutorScreen';
 import BalanceScreen from '../screens/balance/BalanceScreen';
+import WithdrawScreen from '../screens/balance/WithdrawScreen';
 import Coin from '../screens/coin/CoinScreen';
 import PurchaseCoin from '../screens/coin/PurchaseCoinScreen';
 import PurchaseHistory from '../screens/coin/PurchaseHistory';
@@ -203,6 +204,9 @@ const TutorStackNavigator = StackNavigator(
     },
     BalanceScreen: {
       screen: BalanceScreen
+    },
+    WithdrawScreen: {
+      screen: WithdrawScreen
     },
     Coin: {
       screen: Coin,

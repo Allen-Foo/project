@@ -328,7 +328,7 @@ class CustomPicker extends React.Component {
             </TouchableOpacity>  
           }
         </View>
-        <Text style={styles.fieldName}>{locale.createTutor.text.experience}</Text>
+        <Text style={styles.pickerName}>{locale.createTutor.text.experience}</Text>
         <Picker
           selectedValue={this.state.experience}
           style={styles.picker}
@@ -393,6 +393,9 @@ const styles = StyleSheet.create({
   fieldName: {
     paddingTop: 10,
     paddingVertical: 10
+  },
+  pickerName: {
+    alignSelf: 'center'
   },
   introTextInput: {
     borderWidth: 1,

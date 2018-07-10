@@ -80,6 +80,7 @@ class BalanceScreen extends React.Component {
         <Text style= {styles.upToText}> {upToText + ' ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()} </Text>
          <TouchableOpacity 
             style={styles.button}
+            onPress = {() => {this.props.navigation.navigate('WithdrawScreen')}}
           >
             <Text style={styles.buttonText}>
               {locale.balance.withdraw}

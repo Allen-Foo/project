@@ -131,6 +131,12 @@ class ProfileScreen extends React.Component {
             iconType = 'MaterialIcons'
             onPress={() => {this.props.navigation.navigate('ClassList')}}
           />
+          <ListItem
+            title={this.props.locale.profile.text.balance}
+            leftIcon={{name: 'cash-multiple'}}
+            iconType = 'MaterialCommunityIcons'
+            onPress={() => {this.props.navigation.navigate('BalanceScreen')}}
+          />
         </View>
       )
     }

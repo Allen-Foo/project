@@ -11,6 +11,9 @@ import {
   GET_REVENUE,
   GET_REVENUE_SUCCESS,
   GET_REVENUE_FAIL,
+  WITHDRAW_MONEY,
+  WITHDRAW_MONEY_SUCCESS,
+  WITHDRAW_MONEY_FAIL,
 } from '../types'
 import AWS from 'aws-sdk';
 import { Observable } from 'rxjs/Observable';
@@ -73,6 +76,13 @@ export function getRevenue (userId) {
   }
 }
 
+export function withdrawMoney (data) {
+  return {
+    type: WITHDRAW_MONEY,
+    payload: data,
+  }
+}
+
 
 export const getTutorDeatilEpic = (action$, store, { request }) =>
   action$.ofType(GET_TUTOR_DETAIL)
@@ -116,6 +126,33 @@ export const getRevenueEpic = (action$, store, { request }) =>
       })
       .catch(err => Observable.of({
         type: GET_REVENUE_FAIL,
+        payload: err
+      }))
+    )
+
+export const withdrawMoneyEpic = (action$, store, { request }) =>
+  action$.ofType(WITHDRAW_MONEY)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        method: 'post',
+        url: '/applyWithdrawn',
+        data: {
+          userId: store.getState().userProfile.user.userId,
+          bankAccountName: action.payload.bankAccountName,
+          bankName: action.payload.bankName,
+          bankAccount: action.payload.bankAccount,
+          amount: action.payload.amount,
+        }
+       }))
+      .map(res => {
+        // console.warn('update profile success', res.data)
+        return {
+          type: WITHDRAW_MONEY_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: WITHDRAW_MONEY_FAIL,
         payload: err
       }))
     )
