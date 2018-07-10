@@ -18,6 +18,7 @@ import { SocialIcon } from 'react-native-elements';
 
 import { Spinner, Toast } from '../../components';
 import { getRevenue } from '../../redux/actions';
+import { MaterialIcons} from '@expo/vector-icons';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
 const { height, width } = Dimensions.get('window')
@@ -59,6 +60,16 @@ class BalanceScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+        <TouchableOpacity
+          style={{marginRight: 15, paddingTop: 10, alignSelf: 'flex-end'}}
+          onPress={() => this.props.navigation.navigate('WithdrawRecordScreen')}>
+          <MaterialIcons
+            name={'event-note'}
+            size={25}
+            color={'#555'}
+          />
+        </TouchableOpacity>
+
         <Text style= {styles.title}> {locale.balance.title} </Text>
 
         <View
@@ -100,7 +111,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    marginTop: 30,
     marginBottom: 30,
     fontSize: 30,
     alignItems: 'center',
