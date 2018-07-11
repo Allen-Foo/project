@@ -11,6 +11,12 @@ import {
   GET_REVENUE,
   GET_REVENUE_SUCCESS,
   GET_REVENUE_FAIL,
+  WITHDRAW_MONEY,
+  WITHDRAW_MONEY_SUCCESS,
+  WITHDRAW_MONEY_FAIL,
+  GET_WITHDRAW_RECORD,
+  GET_WITHDRAW_RECORD_SUCCESS,
+  GET_WITHDRAW_RECORD_FAIL,
 } from '../types'
 
 const defaultState = {
@@ -21,6 +27,7 @@ const defaultState = {
   experience: 0,
   achievement: '',
   revenue: 0,
+  withdrawnList: [],
 }
 
 export default (state = defaultState, action) => {
@@ -98,7 +105,57 @@ export default (state = defaultState, action) => {
         isLoading: false,
         revenue: action.payload.revenue,
       }
-      case GET_REVENUE_FAIL:
+    case GET_REVENUE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case WITHDRAW_MONEY:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case WITHDRAW_MONEY_SUCCESS:
+      return {
+        isLoading: false,
+      }
+    case WITHDRAW_MONEY_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case GET_WITHDRAW_RECORD:
+      if (!action.payload.lastRecordId) {
+        return {
+          ...state,
+          isLoading: true,
+          withdrawnList: [],
+        }
+      }
+      else {
+        return {
+          ...state,
+          isLoading: true,
+        }
+      }
+    case GET_WITHDRAW_RECORD_SUCCESS:
+      let withdrawnList
+      if (state.withdrawnList && state.withdrawnList.length > 0) {
+        withdrawnList = state.withdrawnList.concat(action.payload.withdrawnList)
+      } else {
+        withdrawnList = action.payload.withdrawnList
+      }
+      return {
+        ...state,
+        isLoading: false,
+        withdrawnList: withdrawnList,
+
+      }
+    case GET_WITHDRAW_RECORD_FAIL:
       return {
         ...state,
         isLoading: false,

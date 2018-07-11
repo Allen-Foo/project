@@ -14,6 +14,9 @@ import {
   WITHDRAW_MONEY,
   WITHDRAW_MONEY_SUCCESS,
   WITHDRAW_MONEY_FAIL,
+  GET_WITHDRAW_RECORD,
+  GET_WITHDRAW_RECORD_SUCCESS,
+  GET_WITHDRAW_RECORD_FAIL,
 } from '../types'
 import AWS from 'aws-sdk';
 import { Observable } from 'rxjs/Observable';
@@ -80,6 +83,13 @@ export function withdrawMoney (data) {
   return {
     type: WITHDRAW_MONEY,
     payload: data,
+  }
+}
+
+export function getWithdrawRecord (userId, lastRecordId) {
+  return {
+    type: GET_WITHDRAW_RECORD,
+    payload: {userId, lastRecordId},
   }
 }
 
@@ -156,3 +166,28 @@ export const withdrawMoneyEpic = (action$, store, { request }) =>
         payload: err
       }))
     )
+
+export const getWithdrawRecordEpic = (action$, store, { request }) =>
+  action$.ofType(GET_WITHDRAW_RECORD)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        method: 'post',
+        url: '/getWithdrawnRecord',
+        data: {
+          userId: action.payload.userId,
+          lastStartKey: action.payload.lastRecordId,
+        }
+       }))
+      .map(res => {
+        // console.warn('update profile success', res.data)
+        return {
+          type: GET_WITHDRAW_RECORD_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: GET_WITHDRAW_RECORD_FAIL,
+        payload: err
+      }))
+    )
+    

@@ -58,6 +58,7 @@ import {
   getTutorDetail,
   getRevenue,
   withdrawMoney,
+  getWithdrawRecord,
 } from './tutor'
 
 import {
@@ -122,6 +123,7 @@ export {
   getTutorDetail,
   getRevenue,
   withdrawMoney,
+  getWithdrawRecord,
   renewAppliedClass,
   createTutor,
   getTutorList,

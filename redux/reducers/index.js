@@ -42,6 +42,7 @@ import {
   getTutorDeatilEpic,
   getRevenueEpic,
   withdrawMoneyEpic,
+  getWithdrawRecordEpic,
 } from '../actions/tutor'
 
 import {
@@ -131,4 +132,5 @@ export const rootEpic = combineEpics(
 
   // money
   withdrawMoneyEpic,
+  getWithdrawRecordEpic,
 )
