@@ -88,7 +88,7 @@ class VerifyCodeScreen extends Component {
           </View>
           
           <TouchableOpacity
-            onPress={() => this.props.verifyCode(this.state.username, this.state.password, code)}
+            onPress={() => this.props.verifyCode(this.state.username, this.state.password, this.state.code)}
             style={styles.submitButton}
           >
             <Text style={styles.submitText}>
