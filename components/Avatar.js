@@ -12,17 +12,19 @@ const propTypes = {
   medium: PropTypes.bool,
   large: PropTypes.bool,
   xlarge: PropTypes.bool,
+  shape: PropTypes.string,
 };
 
 const defaultProps = {
   fontSize: 13,
+  shape: 'rounded',
   icon: {name: 'account'}
 };
 
 class Avatar extends Component {
 
   render() {
-    let { icon, uri, onPress, onLongPress, small, medium, large, xlarge, ...attributes } = this.props;
+    let { icon, uri, onPress, onLongPress, small, medium, large, xlarge, shape, ...attributes } = this.props;
     let width = 34
     let height = 34
     if (small) {
@@ -42,17 +44,20 @@ class Avatar extends Component {
     let contanerStyle = {
       width: width, 
       height: height, 
-      borderRadius: width /2
     }
 
     let Component = onPress || onLongPress ? TouchableOpacity : View;
 
     let avatar;
     if (uri) {
-      avatar = <Image source={{uri: uri}} style={contanerStyle}/>
+      avatar = <Image source={{uri: uri}} style={[contanerStyle, shape == 'rounded' && { borderRadius: width / 2 }]}/>
     } else {
       avatar = (
-        <View style={{...contanerStyle, alignItems: 'center', justifyContent: 'center', backgroundColor: '#BEBEBE'}}>
+        <View style={[
+          contanerStyle,
+          styles.overlayContainer,
+          shape == 'rounded' && { borderRadius: width / 2 },
+        ]}>
           <MaterialCommunityIcons
             name={icon.name} 
             size={width / 3}
@@ -67,7 +72,7 @@ class Avatar extends Component {
       <Component
         onPress={onPress}
         onLongPress={onLongPress}
-        style={styles.container}
+        style={[styles.container, shape == 'rounded' && { borderRadius: width / 2 }]}
         {...attributes}
       >
         {avatar}
@@ -81,10 +86,13 @@ Avatar.defaultProps = defaultProps;
 
 const styles = StyleSheet.create({
   container: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: 'transparent',
   },
+  overlayContainer: {
+    alignItems: 'center', 
+    justifyContent: 'center',
+    backgroundColor: '#BEBEBE',
+  }
 });
 
 module.exports = Avatar;

@@ -61,7 +61,7 @@ class CompanyInfoScreen extends React.Component {
         <TouchableOpacity style={styles.chevronContainer} onPress={() => this.props.navigation.goBack()}>
           <Entypo
             name={"chevron-thin-left"}
-            size={20}
+            size={22}
             color={'#fff'}
           />
         </TouchableOpacity>
@@ -70,6 +70,7 @@ class CompanyInfoScreen extends React.Component {
             <Avatar
               large
               uri={companyDetail.logo}
+              shape={'square'}
             />
           </View>
           <View style={styles.usernameContainer}>
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
   },
   avatar: {
     marginTop: '-7%',
+    paddingLeft: '3%',
   },
   usernameText: {
     fontSize: 20,

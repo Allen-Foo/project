@@ -50,7 +50,7 @@ class SignUpCompanyLogoScreen extends React.Component {
 
           {
             this.state.logo != '' && this.state.logo &&
-            <Avatar large uri={this.state.logo}/>
+            <Avatar shape={'square'} large uri={this.state.logo}/>
           }
 
           <TouchableOpacity
