@@ -662,7 +662,7 @@ export const createTutorEpic = (action$, store, { request }) =>
         // console.warn('update profile success', res.data)
         return {
           type: CREATE_TUTOR_SUCCESS,
-          payload: res.data
+          // payload: res.data
         }
       })
       .catch(err => Observable.of({
@@ -679,7 +679,7 @@ export const getTutorListEpic = (action$, store, { request }) =>
         method: 'post',
         data: {
           ...action.payload,
-          userId: store.getState().userProfile.user.userId
+          userId: (action.payload && action.payload.userId) || store.getState().userProfile.user.userId
         } 
       }))
       .map(res => {
@@ -707,7 +707,7 @@ export const deleteTutorEpic = (action$, store, { request }) =>
       .map(res => {
         return {
           type: DELETE_TUTOR_SUCCESS,
-          payload: res.data
+          // payload: res.data
         }
       })
       .catch(err => Observable.of({
@@ -729,7 +729,7 @@ export const updateTutorEpic = (action$, store, { request }) =>
       .map(res => {
         return {
           type: UPDATE_TUTOR_SUCCESS,
-          payload: res.data
+          // payload: res.data
         }
       })
       .catch(err => Observable.of({

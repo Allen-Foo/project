@@ -16,8 +16,10 @@ import { Separator, Spinner, Toast, ClassItem, TutorListItem, Hr, NextButton} fr
 
 import { createClass, editClass, getTutorList } from '../../redux/actions';
 import { Dropdown } from 'react-native-material-dropdown';
-import { MaterialIcons, Entypo } from '@expo/vector-icons';
+import { MaterialIcons, Entypo, Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
+import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
+
 
 class AssignTutorScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -63,6 +65,12 @@ class AssignTutorScreen extends React.Component {
     this.props.navigation.setParams({ handleSubmit: this._handleSubmit });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.tutorList != nextProps.tutorList) {
+      this.setState({tutorList: nextProps.tutorList})
+    }
+  }
+
   _handleSubmit = () => {
     this.props.editClass({
       tutorList: this.state.selectedTutorList,
@@ -91,9 +99,42 @@ class AssignTutorScreen extends React.Component {
     this.props.navigation.navigate('Contact', params)
   }
 
+  renderEmptyPage = () => {
+    let { locale, fetchErrorMsg } = this.props
+    let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
+    
+    return (
+      <View style={styles.container}>
+        <Ionicons
+          name={"ios-people"}
+          size={60}
+          color={Colors.tintColor}
+        />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate('CreateTutor')}
+        >
+          <Ionicons
+            name={'ios-add-circle-outline'}
+            size={30}
+            style={{ padding: '2%'}}
+            color={'black'}
+          />
+          <Text style={styles.text}> {this.props.locale.manageTutor.text.addATutor} </Text>
+        </TouchableOpacity>  
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
+      </View>
+    )
+  }
+
   render() {
-    let { locale, tutorList } = this.props;
+    let { locale } = this.props;
     let { params = {} } = this.props.navigation.state;
+    let { tutorList } = this.state;
+
+    if (tutorList && tutorList.length == 0) {
+      return this.renderEmptyPage()
+    }
 
     return (
       <View style={{flex: 1}}>
