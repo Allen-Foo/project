@@ -8,6 +8,7 @@ import HideoTextInput from'./HideoTextInput';
 import { NextButton, HeaderButton, EditButton, CheckButton } from'./Button';
 import Slideshow from'./Slideshow';
 import ClassItem from'./ClassItem';
+import RecordItem from'./RecordItem';
 import ProgressBar from'./ProgressBar';
 import AppliedClassItem from'./AppliedClassItem';
 import IndexMarker from'./IndexMarker';
@@ -37,4 +38,5 @@ export {
   ConfirmationCodeInput,
   TutorListItem,
   ListItem,
+  RecordItem,
 }

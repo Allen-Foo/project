@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { MaterialCommunityIcons, Feather} from '@expo/vector-icons';
 
-import { Separator, Spinner, Toast } from '../../components';
+import { Separator, Spinner, Toast, RecordItem } from '../../components';
 import { getWithdrawRecord } from '../../redux/actions';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
@@ -74,14 +74,13 @@ class WithdrawRecordScreen extends React.Component {
               keyExtractor={(item) => (item.withdrawnId)}
               renderItem={({item}) => {
                 return (
-                  <View style={{width: width, height: 80, borderWidth:1}}>
-                      <WithdrawnReocrd
-                      locale = {locale}
+                  <View style={{width: width,}}>
+                      <RecordItem
                       icon = 'cash-multiple'
-                      status = {item.status}
+                      data = {item}
+                      progress = {item.progress}
                       date={item.createdAt}
-                      amount={'$' + item.withdrawnAmount}
-                      // onPress= {()=>this.props.navigation.navigate('WithdrawDetailScreen', {item: item})}
+                      amount={'$' + item.requestAmount}
                        />
                   </View>
                 )
@@ -116,121 +115,6 @@ class WithdrawRecordScreen extends React.Component {
   }
 }
 
-const WithdrawnReocrd = props => {
-  const { locale, icon, status, date, amount, onPress } = props;
-
-  tDate = new Date (date);
-  let dateString = tDate.getDate() + '/' + (tDate.getMonth()+1) + '/' + tDate.getFullYear() + '\n'
-                   + tDate.getHours() + ':' + tDate.getMinutes() + ':' + tDate.getSeconds(); 
-
-  let statusIcon, statusColor, statusText;
-  if (status === 'approved') {
-    statusIcon = require('../../assets/images/tick.png');
-    statusColor = '#65B458';
-    statusText = locale.withdrawRecord.text.approved;
-  }
-  else if (status === 'rejected') {
-    statusIcon = require('../../assets/images/cross.png');
-    statusColor = '#D23731';
-    statusText = locale.withdrawRecord.text.rejected;
-  }
-  else {
-    statusIcon = require('../../assets/images/question.png');
-    statusColor = '#3B4F9E';
-    statusText = locale.withdrawRecord.text.processing;
-  }
-
-  return (
-    <TouchableOpacity
-      style={{
-        width: width,
-        height: '100%',
-        backgroundColor: '#fff',
-        flexDirection: 'row',
-        alignItems: 'center',
-      }}
-      onPress={onPress}
-    >
-
-      <View 
-        style= {{
-          width: 60,
-          height: 50,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <View
-          onLayout={(event) => {
-            var {x, y, width, height} = event.nativeEvent.layout;
-          }}
-          style={{
-            width: 40,
-            height: 40,
-            backgroundColor: '#fff',
-            borderRadius: 20,
-            borderColor: '#000',
-            borderWidth: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <MaterialCommunityIcons
-            name={icon}
-            size={25}
-            color={'#555'}>
-
-          </MaterialCommunityIcons>
-        </View>
-        <Image
-          style={{
-            width: 25,
-            height: 25,
-            position: 'absolute',
-            right: 2,
-            bottom: 2,
-          }}
-          source={statusIcon}
-        />
-      </View>
-    
-      <Text style={styles.text}>
-        {locale.withdraw.title}
-      </Text>
-      <Text style={styles.amount}>
-        {amount}
-      </Text>
-      <Text style={styles.date}>
-        {dateString}
-      </Text>
-
-      <View
-        onLayout={(event) => {
-          var {x, y, width, height} = event.nativeEvent.layout;
-        }}
-        style={{
-          width: 75,
-          height: 30,
-          backgroundColor: '#fff',
-          borderRadius: 12,
-          borderColor: statusColor,
-          borderWidth: 2,
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'absolute',
-          right: 8,
-        }}>
-        <Text style={{
-          justifyContent: 'center',
-          fontSize: 12,
-          backgroundColor: 'transparent',
-          color: statusColor
-        }}>
-          {statusText}
-        </Text>
-      </View>
-    </TouchableOpacity>
-  )
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -250,26 +134,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     backgroundColor: '#FFF',
     paddingLeft: 15,
-  },
-  text: {
-    width:75,
-    paddingVertical: 15, 
-    fontSize: 16,
-    backgroundColor: '#FFF',
-
-  },
-  date: {
-    width:100,
-    paddingVertical: 15, 
-    fontSize: 12,
-    color: '#777',
-    paddingLeft: 5,
-  },
-  amount: {
-    width:70,
-    paddingVertical: 15, 
-    fontSize: 16,
-    paddingLeft: 5,
   },
 });
 
