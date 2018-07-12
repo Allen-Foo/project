@@ -36,10 +36,12 @@ class ClassTypeScreen extends React.Component {
   constructor(props) {
     super(props);
     let { params = {} } = this.props.navigation.state;
+    let {locale} = props;
+    
     this.props.navigation.state.key = 'ClassType'
 
     this.state = {
-      classType: params.category && params.skill && `${params.category} - ${params.skill}`,
+      classType: params.category && params.skill && `${locale.category.types[params.category]} - ${locale.skill.types[params.category][params.skill]}`,
       category: params.category || '',
       skill: params.skill || '',
     }
@@ -98,7 +100,7 @@ class ClassTypeScreen extends React.Component {
             <Entypo
               name={"chevron-thin-right"}
               size={20}
-              style={{ paddingRight: 15 }}
+              style={{ paddingRight: 15, backgroundColor: 'transparent' }}
               color={'#555'}
             />
           </TouchableOpacity>
