@@ -2,6 +2,9 @@ import {
   GET_PRODUCT_LIST,
   GET_PRODUCT_LIST_SUCCESS,
   GET_PRODUCT_LIST_FAIL,
+  GET_COIN_HISTORY_LIST,
+  GET_COIN_HISTORY_LIST_SUCCESS,
+  GET_COIN_HISTORY_LIST_FAIL,
   PURCHASE_GOLD,
   PURCHASE_GOLD_SUCCESS,
   PURCHASE_GOLD_FAIL,
@@ -30,6 +33,26 @@ export default (state = {...defaultState}, action) => {
         productList: action.payload.productList,
       };
     case GET_PRODUCT_LIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        fetchErrorMsg: action.payload,
+        fetchErrorLastUpdate: new Date(),
+      }
+    case GET_COIN_HISTORY_LIST:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_COIN_HISTORY_LIST_SUCCESS:
+      // console.warn('here', 'GET_PRODUCT_LIST_SUCCESS', action.payload)
+      return {
+        ...state,
+        isLastRecord: action.payload.isLastRecord,
+        isLoading: false,
+        coinHistoryList: action.payload.coinHistoryList,
+      };
+    case GET_COIN_HISTORY_LIST_FAIL:
       return {
         ...state,
         isLoading: false,

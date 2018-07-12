@@ -61,6 +61,7 @@ import {
 
 import {
   getProductList,
+  getCoinHistoryList,
   purchaseGold,
 } from './product'
 
@@ -125,6 +126,7 @@ export {
   deleteTutor,
   updateTutor,
   getProductList,
+  getCoinHistoryList,
   purchaseGold,
 
   // company

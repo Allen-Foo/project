@@ -35,9 +35,7 @@ class PurchaseCoinScreen extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.productList || this.props.productList.length == 0) {
       this.props.getProductList()
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,7 +53,7 @@ class PurchaseCoinScreen extends React.Component {
       <View  style={styles.container}>
         <FlatList
           contentContainerStyle={styles.listContainer}
-          data={productList.sort(function(a,b) {return parseFloat(a.productId) - parseFloat(b.productId);})}
+          data={productList.sort(function(a,b) {return parseFloat(a.gold) - parseFloat(b.gold);})}
           keyExtractor={(item) => (item.productId)}
           renderItem={({item}) => {
             return (

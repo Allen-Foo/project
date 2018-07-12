@@ -62,6 +62,7 @@ import {
 
 import {
   getProductListEpic,
+  getCoinHistoryListEpic,
   purchaseGoldEpic,
 } from '../actions/product';
 
@@ -120,6 +121,7 @@ export const rootEpic = combineEpics(
   updateTutorEpic,
   getTutorDeatilEpic,
   getProductListEpic,
+  getCoinHistoryListEpic,
   purchaseGoldEpic,
   getRevenueEpic,
 

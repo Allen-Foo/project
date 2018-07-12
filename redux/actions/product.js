@@ -3,6 +3,9 @@ import {
   GET_PRODUCT_LIST,
   GET_PRODUCT_LIST_SUCCESS,
   GET_PRODUCT_LIST_FAIL,
+  GET_COIN_HISTORY_LIST,
+  GET_COIN_HISTORY_LIST_SUCCESS,
+  GET_COIN_HISTORY_LIST_FAIL,
   PURCHASE_GOLD,
   PURCHASE_GOLD_SUCCESS,
   PURCHASE_GOLD_FAIL,
@@ -19,7 +22,6 @@ export function getProductList(lastProductId) {
     }
   }
 }
-
 
 export const getProductListEpic = (action$, store, { request }) =>
   action$.ofType(GET_PRODUCT_LIST)
@@ -43,6 +45,39 @@ export const getProductListEpic = (action$, store, { request }) =>
         payload: err.message
       }))
     )
+
+export function getCoinHistoryList(userId, lastCoinHistoryId) {
+  return {
+    type: GET_COIN_HISTORY_LIST,
+    payload: {
+      userId: userId,
+      lastStartKey: lastCoinHistoryId,
+    }
+  }
+}
+
+export const getCoinHistoryListEpic = (action$, store, { request }) =>
+  action$.ofType(GET_COIN_HISTORY_LIST)
+    .mergeMap(action => 
+      Observable.fromPromise(request({
+        url: '/getCoinHistoryList',
+        method: 'post',
+        data: {
+          ...action.payload,
+        } 
+      }))
+      .map(res => {
+        // console.warn('login success', res)
+        return {
+          type: GET_COIN_HISTORY_LIST_SUCCESS,
+          payload: res.data
+        }
+      })
+      .catch(err => Observable.of({
+        type: GET_COIN_HISTORY_LIST_FAIL,
+        payload: err.message
+      }))
+    )    
 
 export function purchaseGold(userId, productId) {
   return {

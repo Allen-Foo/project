@@ -10,7 +10,7 @@ import { Separator, Spinner, Toast, ClassItem} from '../../components';
 
 import Colors from '../../constants/Colors';
 
-import { getProductList, purchaseGold } from '../../redux/actions';
+import { getCoinHistoryList } from '../../redux/actions';
 
 class PurchaseHistoryScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -37,22 +37,8 @@ class PurchaseHistoryScreen extends React.Component {
     isLoggedIn: false
   }
 
-  handlePressPurchase = (productId) => {
-    this.props.purchaseGold(this.props.user.userId, productId)
-  }
-
   componentWillMount() {
-    if (!this.props.productList || this.props.productList.length == 0) {
-      this.props.getProductList()
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isPurchaseSuccess && !this.props.isPurchaseSuccess) {
-      Alert.alert(
-        'success',
-      )
-    }
+    this.props.getCoinHistoryList(this.props.user.userId, null)
   }
 
   showPicker = () => {this.setState({ showPicker: true })}
@@ -68,16 +54,15 @@ class PurchaseHistoryScreen extends React.Component {
 
     return (
       <View style={styles.header}>
-        <TouchableOpacity style={{alignItems: 'center', paddingBottom: '2%' }} 
-          onPress={()=>{this.showPicker()}}>
+        <View style={{alignItems: 'center', paddingBottom: '2%' }}>
           <View style={styles.timeLabel}>
-            <Text> 123222 </Text>
+            <Text> 2018 </Text>
           </View>
-        </TouchableOpacity>
+        </View>
         <View style={styles.title}>
-          <Text> 123 </Text>
-          <Text> 123 </Text>
-          <Text> 123 </Text>
+          <Text> {this.props.locale.coin.text.time} </Text>
+          <Text> {this.props.locale.coin.text.action} </Text>
+          <Text> {this.props.locale.coin.text.coins} </Text>
         </View>
         <Separator />
       </View>
@@ -85,34 +70,17 @@ class PurchaseHistoryScreen extends React.Component {
   }
 
   render() {
-    let { productList, locale } = this.props;
-
+    let { coinHistoryList, locale } = this.props;
+    if (coinHistoryList)
+    coinHistoryList = coinHistoryList.sort(function(a,b) {
+      var dateA = Date.parse(new Date(a.createdAt));
+      var dateB = Date.parse(new Date(b.createdAt));
+      return parseFloat(dateA) - parseFloat(dateB);
+    })
     return (
       <View  style={styles.container}>
         { this.renderHeader() }
-        <FlatList
-          contentContainerStyle={styles.listContainer}
-          data={productList.sort(function(a,b) {return parseFloat(a.productId) - parseFloat(b.productId);})}
-          keyExtractor={(item) => (item.productId)}
-          renderItem={({item}) => {
-            return (
-              <View>
-                <View style={styles.rowContainer}>
-                {this.props.languageKey === 'en' && <Text> {item.engName} </Text>}
-                {this.props.languageKey === 'zh_hant' && <Text> {item.tcName} </Text>}
-                {this.props.languageKey === 'zh_hans' && <Text> {item.scName} </Text>}
-                  <TouchableOpacity style={{paddingVertical: 10, width: '25%', backgroundColor: Colors.tintColor}} 
-                  onPress={()=>{this.handlePressPurchase(item.productId)}}>
-                  <View style = {{alignItems: 'center'}}>
-                    <Text> HK${item.price} </Text>
-                  </View>
-                  </TouchableOpacity>
-                </View>
-                <Separator />
-              </View>
-            )
-          }}
-        />
+
         { 
           this.state.showPicker &&
           <ChargeTypePicker
@@ -122,6 +90,29 @@ class PurchaseHistoryScreen extends React.Component {
             chargeType={this.state.chargeType}
           />
         }
+        <FlatList
+          contentContainerStyle={styles.listContainer}
+          data={coinHistoryList}
+          keyExtractor={(item) => (item.coinHistoryId)}
+          renderItem={({item}) => {
+            return (
+              <View>
+                <View style={styles.listItem}>
+                  <View style = {{width:40 , alignItems: 'flex-start'}}>
+                    <Text> {new Date(item.createdAt).getDate() + '/' + (parseInt(new Date(item.createdAt).getMonth()) + 1)} </Text>
+                  </View>
+                  {this.props.languageKey === 'en' && <Text> {item.enAction} </Text>}
+                  {this.props.languageKey === 'zh_hant' && <Text> {item.tcAction} </Text>}
+                  {this.props.languageKey === 'zh_hans' && <Text> {item.scAction} </Text>}
+                  <View style = {{width:40 , alignItems: 'flex-end'}}>
+                    <Text> {item.gold} </Text>
+                  </View>
+                </View>
+                <Separator />
+              </View>
+            )
+          }}
+        />
         { this.props.isLoading && <Spinner /> }
       </View>
     )
@@ -246,12 +237,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee'
   },
   listItem: {
+    paddingVertical: '5%',
+    backgroundColor: '#fff',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
     flexDirection: 'row',
-    paddingVertical: 12,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: StyleSheet.hairlineWidth,
     alignItems: 'center',
-    backgroundColor: '#fff'
+
   },
   itemText: {
     fontSize: 17
@@ -310,16 +302,14 @@ const mapStateToPorps = (state) => {
   return {
     locale: state.language.locale,
     languageKey: state.language.key,
-    productList: state.product.productList,
+    coinHistoryList: state.product.coinHistoryList,
     isLoading: state.product.isLoading,
     isLoggedIn: state.socialLogin.isLoggedIn,
     user: state.userProfile.user,
     appType: state.appType.mode,
-    isPurchaseSuccess: state.product.isPurchaseSuccess,
   }
 }
 
 export default connect(mapStateToPorps, {
-  getProductList,
-  purchaseGold
+  getCoinHistoryList
 })(PurchaseHistoryScreen)

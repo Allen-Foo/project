@@ -10,6 +10,7 @@ import {
   SIGN_OUT_SUCCESS,
   GET_APPLIED_CLASS_LIST_SUCCESS,
   PURCHASE_GOLD_SUCCESS,
+  CREATE_CLASS_SUCCESS,
 } from '../types'
 
 const defaultState = {
@@ -79,6 +80,12 @@ export default (state = defaultState, action) => {
         ...defaultState
       };
     case PURCHASE_GOLD_SUCCESS:
+      // console.warn('here', 'REMOVE_FROM_BOOKMARK_SUCCESS')
+      return {
+        ...state,
+        user: action.payload.user,
+      };
+    case CREATE_CLASS_SUCCESS:
       // console.warn('here', 'REMOVE_FROM_BOOKMARK_SUCCESS')
       return {
         ...state,

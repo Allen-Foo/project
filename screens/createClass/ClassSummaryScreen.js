@@ -8,6 +8,7 @@ import {
   Image,
   InteractionManager,
   Dimensions,
+  Alert,
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -169,10 +170,50 @@ class ClassSummaryScreen extends React.Component {
           containerStyle={sliderContainer}
           scrollEnabled={params.photoList.length > 1}
         />
-        <NextButton 
-          onPress={() => this.props.createClass(params)}
+         { (this.props.user.gold + this.props.user.freeGold >= 30 && this.props.user.userRole != 'company') && <NextButton 
+          onPress={ () => 
+            Alert.alert(
+              this.props.locale.classList.tutorCreateClassMessage,
+              null,
+              [
+                {text: this.props.locale.common.cancel},
+                {text: this.props.locale.common.okMsg, onPress: () => this.props.createClass(params)},
+              ],
+            )
+          }
           text={this.props.locale.common.submit}
         /> 
+      }
+
+      { this.props.user.userRole == 'company' && <NextButton 
+          onPress={ () => 
+            Alert.alert(
+              this.props.locale.classList.companyCreateClassMessage,
+              null,
+              [
+                {text: this.props.locale.common.cancel},
+                {text: this.props.locale.common.okMsg, onPress: () => this.props.createClass(params)},
+              ],
+            )
+          }
+          text={this.props.locale.common.submit}
+        /> 
+      }
+
+      { (this.props.user.gold + this.props.user.freeGold < 30 && this.props.user.userRole != 'company') && <NextButton 
+          onPress={ () => 
+            Alert.alert(
+              this.props.locale.classList.tutorCreateClassNotEnoughCoinsMessage,
+              null,
+              [
+                {text: this.props.locale.common.cancel},
+                {text: this.props.locale.common.goToShop, onPress: () => this.props.navigation.navigate('PurchaseCoin')},
+              ],
+            )
+          }
+          text={this.props.locale.common.submit}
+        /> 
+      }
         { this.props.isLoading && <Spinner /> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
       </View>
@@ -249,6 +290,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     userId: state.userProfile.user && state.userProfile.user.userId,
+    user: state.userProfile.user,
     locale: state.language.locale,
     isLoading: state.classes.isLoading,
     requireUpdateClassList: state.classes.requireUpdateClassList,
