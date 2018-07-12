@@ -45,7 +45,7 @@ class ProfileScreen extends React.Component {
       return (
         <TouchableOpacity style={[styles.loginContainer,{flexDirection: 'row'}]} onPress={() => this.props.navigation.navigate('ProfileSetting')}>
           { avatar }
-          <View style = {{flexdirection: 'row'}}>
+          <View>
             <Text style={styles.name}>{this.props.user.name}</Text>
             <Text style={styles.username}>{'ID: ' + this.props.user.username}</Text>
           </View>
