@@ -336,6 +336,7 @@ class ClassDetailScreen extends React.Component {
     )
   }
 
+  // for tutor account, render self profile info
   renderTutorInfo(classDetail, locale) {
     return (
       <View>
@@ -393,6 +394,7 @@ class ClassDetailScreen extends React.Component {
     )
   }
 
+  // for company account, render tutor list and company info
   renderTutorList(classDetail, locale) {
     let { tutorList } = classDetail;
     return (
@@ -428,6 +430,7 @@ class ClassDetailScreen extends React.Component {
     )
   }
 
+  // when switch to tutor mode, display the learner information 
   renderLearnerInfo(classDetail) {
     let { locale } = this.props;
     let studentInfo = this.state.collapsed ? classDetail.studentInfo.filter((x, i) => i < 2) : classDetail.studentInfo

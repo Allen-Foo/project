@@ -56,6 +56,11 @@ class SignUpCompanyConfirmScreen extends React.Component {
     let { displayName, introduction, logo, slogan, banner } = this.props;
     profile.phone = callingCode + phoneNumber;
 
+    // for company account, assign some data to the profile
+    profile.introduction = introduction;
+    profile.name = displayName;
+    profile.avatarUrl = logo;
+
     this.props.signUp(profile, {displayName, introduction, logo, slogan, banner});
   }
 
