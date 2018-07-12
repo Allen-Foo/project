@@ -50,6 +50,11 @@ class ClassDescriptionScreen extends React.Component {
 
   _handleSubmit = () => {
     let { title, description } = this.state;
+
+    if (description === '') {
+      description = 'null'
+    }
+
     this.props.editClass({title, description})
     this.props.navigation.goBack();
   }
@@ -76,6 +81,11 @@ class ClassDescriptionScreen extends React.Component {
     let { title, description } = this.state;
     let { locale } = this.props;
 
+    let classDescription = this.state.description;
+    if (classDescription === 'null') {
+      classDescription = '';
+    }
+
     return (
       <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
@@ -91,7 +101,7 @@ class ClassDescriptionScreen extends React.Component {
             multiline
             style={styles.textArea}
             onChangeText={(description) => this.setState({description})}
-            value={this.state.description}
+            value={classDescription}
           />
           {
             !this.isEmpty(title) && !params.isEditMode &&

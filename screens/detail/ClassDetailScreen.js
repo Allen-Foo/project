@@ -317,14 +317,21 @@ class ClassDetailScreen extends React.Component {
           this.props.mode == 'learner' && classDetail.user.userRole == 'company' &&
           this.renderCompanyInfo(classDetail, locale)
         }
-        <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.classDescription} </Text>
-        <View style={styles.classDetailContainer}>
-          <View style={{marginTop: -20}}>
-            { 
-              classDetail.description != 'null' && <Text>{classDetail.description}</Text>
-            }
+
+        { classDetail.description != 'null' && 
+          <View>
+            <Text style={{paddingVertical: 15, paddingLeft: 10}}> {this.props.locale.classDetail.text.classDescription} </Text>
+            <View style={styles.classDetailContainer}>
+              <View style={{marginTop: -20}}>
+                { 
+                  classDetail.description != 'null' && <Text>{classDetail.description}</Text>
+                }
+              </View>
+            </View>
           </View>
-        </View>
+        }
+        
+
       </View>
     )
   }

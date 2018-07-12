@@ -105,6 +105,12 @@ class EditClassScreen extends React.Component {
     }
 
     let { locale, appliedClassList, user } = this.props;
+
+    let classDescription = params.description;
+    if (classDescription === 'null') {
+      classDescription = ''
+    }
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <ClassInfoRow
@@ -114,7 +120,7 @@ class EditClassScreen extends React.Component {
         />
         <ClassInfoRow
           label={locale.classSummary.label.description}
-          value={params.description}
+          value={classDescription}
           onPress={() => this.props.navigation.navigate('ClassDescription', Object.assign(params, {isEditMode: true}))}
         />
         {

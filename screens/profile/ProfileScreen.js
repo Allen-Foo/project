@@ -45,7 +45,10 @@ class ProfileScreen extends React.Component {
       return (
         <TouchableOpacity style={[styles.loginContainer,{flexDirection: 'row'}]} onPress={() => this.props.navigation.navigate('ProfileSetting')}>
           { avatar }
-          <Text style={styles.username}>{this.props.user.username}</Text>
+          <View style = {{flexdirection: 'row'}}>
+            <Text style={styles.name}>{this.props.user.name}</Text>
+            <Text style={styles.username}>{'ID: ' + this.props.user.username}</Text>
+          </View>
           <View style={styles.chevronContainer}>
             <Entypo
               name={"chevron-thin-right"}
@@ -59,7 +62,7 @@ class ProfileScreen extends React.Component {
       return (
         <TouchableOpacity style={[styles.loginContainer,{flexDirection: 'row'}]} onPress={() => this.props.navigation.navigate('Signin')}>
           <Avatar large/>
-          <Text style={styles.username}>{this.props.locale.profile.text.signUpOrLogin}</Text>
+          <Text style={styles.name}>{this.props.locale.profile.text.signUpOrLogin}</Text>
           <View style={styles.chevronContainer}>
             <Entypo
               name={"chevron-thin-right"}
@@ -227,10 +230,16 @@ const styles = StyleSheet.create({
     right: '5%',
     alignSelf: 'center'
   },
-  username: {
+  name: {
     marginTop: 10,
     paddingLeft: 10,
     fontSize: 20,
+  },
+  username: {
+    color: '#999',
+    marginTop: 10,
+    paddingLeft: 10,
+    fontSize: 12,
   },
   avatarContainer: {
     backgroundColor: '#eee'
