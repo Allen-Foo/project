@@ -1,15 +1,10 @@
 import React from 'react';
-import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text, Dimensions } from 'react-native';
-// import { Avatar } from 'react-native-elements';
-import { Avatar } from '../../components';
+import { Alert, AsyncStorage, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 
+import { Avatar, ListItem } from '../../components';
 import { connect } from 'react-redux';
 import { FontAwesome, Entypo, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-const { height, width } = Dimensions.get('window')
-
-
 import Colors from '../../constants/Colors';
-
 import { signInFacebook, signInGoogle, setAppType } from '../../redux/actions';
 
 class ProfileScreen extends React.Component {
@@ -171,43 +166,6 @@ class ProfileScreen extends React.Component {
   }
 }
 
-const ListItem = props => {
-  let { title, leftIcon, onPress, iconType } = props;
-  return (
-    <TouchableOpacity
-      style={styles.listItem}
-      onPress={() => onPress()}
-    >
-      {
-        iconType === 'MaterialIcons' && 
-        <MaterialIcons
-          name={leftIcon.name}
-          size={25}
-          color={'#555'}
-          style={{paddingLeft: '5%', paddingRight: '7%'}}
-        />
-      }
-      {
-        iconType === 'MaterialCommunityIcons' && 
-        <MaterialCommunityIcons
-          name={leftIcon.name}
-          size={25}
-          color={'#555'}
-          style={{paddingLeft: '5%', paddingRight: '7%'}}
-        />
-      }
-
-      <Text style={styles.itemText}>{title}</Text>
-      <Entypo
-        name={"chevron-thin-right"}
-        size={18}
-        color={'#555'}
-        style={styles.chevronRight}
-      />
-    </TouchableOpacity>
-  )
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -241,32 +199,11 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 12,
   },
-  avatarContainer: {
-    backgroundColor: '#eee'
-  },
-  listItem: {
-    flexDirection: 'row',
-    paddingVertical: 12,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#555',
-    borderBottomColor: '#555',
-    alignItems: 'center',
-    backgroundColor: '#fff'
-  },
-  itemText: {
-    fontSize: 17
-  },
-  chevronRight: {
-    position: 'absolute',
-    right: '5%'
-  }
 });
 
 const mapStateToPorps = (state) => {
   return {
     locale: state.language.locale,
-    // isLoggedIn: state.socialLogin.isLoggedIn,
     user: state.userProfile.user,
     appType: state.appType.mode,
   }

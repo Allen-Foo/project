@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-nati
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 
-import { List, ListItem } from 'react-native-elements';
+import { ListItem } from '../../components';
 import { Constants } from 'expo'
 import { onSignOut } from '../../lib/Auth/AWS_Auth';
 import { signOut } from '../../redux/actions'
@@ -24,21 +24,14 @@ class SettingsScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <List containerStyle={styles.listContainer}>
-          <ListItem
-            containerStyle={styles.itemContainer}
-            title={this.props.locale.settings.language}
-            onPress={() => {this.props.navigation.navigate('Language')}}
-          />
-          <ListItem
-            containerStyle={styles.itemContainer}
-            title={this.props.locale.settings.version}
-            rightTitle={'0.0.1'}
-            rightTitleStyle={{fontSize: 16}}
-            hideChevron
-            onPress={() => {this.props.navigation.navigate('ApiTest')}}
-          />
-        </List>
+        <ListItem
+          title={this.props.locale.settings.language}
+          onPress={() => {this.props.navigation.navigate('Language')}}
+        />
+        <View style={styles.rowContainer}>
+          <Text style={styles.leftText}> {this.props.locale.settings.version} </Text>
+          <Text style={styles.rightText}> {'1.0.0'} </Text>
+        </View>
         {
           this.props.user &&
           <TouchableOpacity 
@@ -63,14 +56,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  listContainer: {
-    width: '100%',
-    marginTop: 0,
-  },
-  itemContainer: {
-    paddingVertical: 25,
-    justifyContent: 'center',
-  },
   signOutContainer: {
     backgroundColor: '#fff',
     marginTop: 30,
@@ -83,6 +68,22 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 18,
   },
+  rowContainer: {
+    flexDirection: 'row', 
+    borderBottomWidth: StyleSheet.hairlineWidth, 
+    justifyContent: 'space-between'
+  },
+  leftText: {
+    fontSize: 17,
+    paddingVertical: 12,
+    paddingLeft: '6%',
+  },
+  rightText: {
+    fontSize: 17,
+    color: 'grey',
+    paddingVertical: 12,
+    paddingRight: '6%',
+  }
 });
 
 const mapStateToProps = (state) => {

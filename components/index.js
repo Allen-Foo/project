@@ -13,7 +13,8 @@ import AppliedClassItem from'./AppliedClassItem';
 import IndexMarker from'./IndexMarker';
 import TutorListItem from'./TutorListItem';
 import ConfirmationCodeInput from'./ConfirmationCodeInput';
-import Avatar from'./Avatar';
+import Avatar from './Avatar';
+import ListItem from './ListItem';
 
 export {
   Separator,
@@ -35,4 +36,5 @@ export {
   Avatar,
   ConfirmationCodeInput,
   TutorListItem,
+  ListItem,
 }

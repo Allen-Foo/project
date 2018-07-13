@@ -29,8 +29,13 @@ class TutorInfoScreen extends React.Component {
   componentWillMount() {
     this.props.getClassList(this.props.classDetail.user.userId);
     this.props.getTutorDetail(this.props.classDetail.user.userId);
-    this.state.classDetail = this.props.classDetail;
-    this.state.tutor = {profile: null};
+    this.setState({
+      classDetail: this.props.classDetail,
+      tutor: {
+        profile: null
+      }
+    })
+
   }
 
   componentDidMount () {
