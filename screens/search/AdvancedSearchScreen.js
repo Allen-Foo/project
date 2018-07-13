@@ -49,12 +49,21 @@ class AdvancedSearchScreen extends React.Component {
     super(props);
 
     this.state = {
-      searchPrice: props.filter && props.filter.searchPrice,
-      chargeType: props.filter && props.filter.chargeType,
+      searchPrice: props.filter && props.filter.searchPrice || 10000,
+      chargeType: 'perSemester', // props.filter && props.filter.chargeType,
       category: props.filter && props.filter.category,
       skill: props.filter && props.filter.skill,
       showPicker: false,
     }
+  }
+
+  resetState() {
+    this.setState({
+      searchPrice: 10000,
+      chargeType: 'perSemester', // props.filter && props.filter.chargeType,
+      category: null,
+      skill: null
+    })
   }
 
   componentDidMount() {
@@ -121,21 +130,6 @@ class AdvancedSearchScreen extends React.Component {
             {locale.advancedSearch.text.tutionFee}
           </Text>
         </View>
-        <TouchableOpacity 
-          style={styles.chargeTypeButton} 
-          onPress={() => this.showPicker()}
-        >
-          <Text style={styles.subTabText}>
-            {locale.advancedSearch.text[this.state.chargeType] || locale.advancedSearch.text.selectChargeType}
-          </Text>
-          <View style={styles.chargeTypeChevron}>
-            <Entypo
-              name={"chevron-thin-down"}
-              size={15}
-              color={'#555'}
-            />
-          </View>
-        </TouchableOpacity>
         <Separator style={{backgroundColor: '#eee'}}/>
         {
           this.state.chargeType && 
@@ -145,55 +139,20 @@ class AdvancedSearchScreen extends React.Component {
             locale={locale}
           />  
         }
-        { 
-          this.state.showPicker &&
-          <ChargeTypePicker
-            onCancel={this.handleCancel}
-            onConfirm={this.handleConfirm}
-            locale={locale}
-            chargeType={this.state.chargeType}
-          />
-        }
+        <TouchableOpacity 
+          style={styles.resetContainer}
+          onPress={() => {
+            this.resetState()
+          }}
+        >
+          <Text style={styles.reset}>
+            {this.props.locale.common.reset}
+          </Text>
+        </TouchableOpacity>
+
         { isLoading && <Spinner intensity={30}/> }
       </View>
     );
-  }
-}
-
-class ChargeTypePicker extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      chargeType: props.chargeType || 'perLesson'
-    }
-  }
-
-  render() {
-    const { chargeType, locale, onCancel, onConfirm } = this.props;
-    return (
-      <View style={styles.pickerContainer}>
-        <View style={styles.innerRowContainer}>
-          <TouchableOpacity onPress={() => onCancel()}>
-            <Text style={[styles.text, {color: '#FF5A5F', }]}>
-              {locale.common.cancel} 
-            </Text>
-          </TouchableOpacity>
-          {
-            <TouchableOpacity onPress={() => onConfirm(this.state.chargeType)}>
-              <Text style={[styles.text, {color: '#666', }]}>
-                {locale.common.confirm} 
-              </Text>
-            </TouchableOpacity>  
-          }
-        </View>
-        <Picker
-          selectedValue={this.state.chargeType}
-          onValueChange={(itemValue) => this.setState({chargeType: itemValue})}>
-          <Picker.Item label={locale.advancedSearch.text.perLesson} value='perLesson' />
-          <Picker.Item label={locale.advancedSearch.text.perSemester} value='perSemester' />
-        </Picker>
-      </View>
-    )
   }
 }
 
@@ -202,7 +161,7 @@ const PriceSlider = props => {
   return (
     <View style={styles.slider}>
       {
-        searchPrice == 1000 ?
+        searchPrice === 10000 ?
           <Text style={[styles.subTabText, {height: 17}]}>
             {locale.advancedSearch.text.any}
           </Text>
@@ -214,9 +173,10 @@ const PriceSlider = props => {
       }
       <Slider
         style={{width: '90%', alignSelf: 'center'}}
-        step={50}
+        step={100}
+        minimumTrackTintColor={Colors.tintColor}
         minimumValue={0}
-        maximumValue={1000}
+        maximumValue={10000}
         onValueChange={(searchPrice) => handleValueChange(searchPrice)}
         value={searchPrice}
       />
@@ -253,20 +213,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     flex: 1,
   },
-  innerRowContainer: {
-    flexDirection: 'row',
-    paddingTop: 10,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignSelf: 'center',
-    width: '90%',
-  },
-  pickerContainer: {
-    backgroundColor: '#fff',
-    width: '100%',
-    position: 'absolute',
-    bottom: 0,
-  },
   returnData: {
     paddingLeft: 10,
     marginTop: 5,
@@ -283,16 +229,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     backgroundColor: '#fff',
   },
-  chargeTypeButton: {
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 15,
-  },
-  chargeTypeChevron: {
-    position: 'absolute',
-    right: 13,
-    top: 15,
-  },
   tabButton: {
     paddingVertical: 15,
   },
@@ -305,6 +241,18 @@ const styles = StyleSheet.create({
   },
   chevronContainer: {
     paddingRight: 10,
+  },
+  resetContainer: {
+    backgroundColor: '#fff',
+    marginTop: 30,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  reset: {
+    color: 'red',
+    fontSize: 18,
   },
 });
 
