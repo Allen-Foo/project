@@ -26,6 +26,7 @@ import SignUpCompanyLogo from '../screens/login/SignUpCompanyLogoScreen'
 import SignUpCompanySlogan from '../screens/login/SignUpCompanySloganScreen'
 import SignUpCompanyBanner from '../screens/login/SignUpCompanyBannerScreen'
 import SignUpCompanyConfirm from '../screens/login/SignUpCompanyConfirmScreen'
+import Terms from '../screens/login/TermsScreen'
 
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 import ChangePassword from '../screens/settings/ChangePasswordScreen';
@@ -269,6 +270,9 @@ const AuthStack = StackNavigator(
     SignUpCompanyConfirm: {
       screen: SignUpCompanyConfirm,
     },
+    Terms: {
+      screen: Terms,
+    }
   }
 )
 

@@ -14,15 +14,21 @@ import { connect } from 'react-redux';
 import { Separator } from '../../components';
 import { SocialIcon } from 'react-native-elements';
 import { clearTutorProfile } from '../../redux/actions';
-
+import Colors from '../../constants/Colors';
 
 const { height, width } = Dimensions.get('window')
 
 
 class PreSignUpScreen extends React.Component {
-  // static navigationOptions = {
-  //   title: 'history'
-  // };
+  static navigationOptions = ({navigation, screenProps}) => {
+    const { state } = navigation;
+    return {
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
+  };
 
   render() {
     let { locale } = this.props
@@ -61,15 +67,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#eee',
-    //justifyContent: 'center',
-    //alignItems: 'center',
   },
   chooseUserType: {
-    top:100,
-    left:20
+    top: 100,
+    left: 20
   },
   textStyle: {
-    //top: 100,
     color:'black',
     left:20,
   },
@@ -78,9 +81,6 @@ const styles = StyleSheet.create({
     top:110,
     backgroundColor: '#fff', 
     justifyContent: 'center', 
-    //alignItems: 'center', 
-    //borderRadius: 10, 
-    //marginTop: 20
   },
 });
 

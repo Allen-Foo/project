@@ -202,8 +202,14 @@ class SignUpScreen extends React.Component {
         </TouchableOpacity>
 
         <Text style={styles.agreement}>
-          {locale.signUp.text.agreement.label}
+          <Text style={styles.label1}>
+            {locale.signUp.text.agreement.label1}
+          </Text>
+          <Text style={styles.label2} onPress={() => this.props.navigation.navigate('Terms')}>
+            {locale.signUp.text.agreement.label2}
+          </Text>
         </Text>
+
 
         { 
           userRole == 'learner' &&
@@ -283,9 +289,15 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   agreement: {
-    fontSize: 14,
     marginTop: 20,
     width: '80%',
+  },
+  label1: {
+    fontSize: 14,
+  },
+  label2: {
+    fontSize: 14,
+    color: 'blue',
   },
   textInput: {
     paddingVertical: 15, 
