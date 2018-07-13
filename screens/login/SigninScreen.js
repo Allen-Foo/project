@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { signInEmail, signInFacebook, signInGoogle, verifyCode, verifyCodeCancel } from '../../redux/actions'
+import { signInEmail, signInFacebook, verifyCode, verifyCodeCancel } from '../../redux/actions'
 import { Spinner, Toast } from '../../components';
 
 import { SocialIcon } from 'react-native-elements';
@@ -110,7 +110,7 @@ class SigninScreen extends React.Component {
   }
 
   render() {
-    let { locale, signInFacebook, signInGoogle, fetchErrorMsg } = this.props
+    let { locale, signInFacebook, fetchErrorMsg } = this.props
     const { email, password } = this.state;
 
     var errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
@@ -127,12 +127,6 @@ class SigninScreen extends React.Component {
           text={'Sign in with Facebook'}
           color={'#516BA2'}
           onPress={() => {signInFacebook()}}
-        />
-        <SocialButton
-          name={'google-plus'}
-          text={'Sign in with Google'}
-          color={'#CF563C'}
-          onPress={() => {signInGoogle()}}
         />
         <View style={{width: '80%', paddingVertical: 15}}>
           <Hr text="Or" marginLeft={0} marginRight={0}/>
@@ -237,7 +231,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   signInEmail,
   signInFacebook,
-  signInGoogle,
   verifyCode,
   verifyCodeCancel,
 })(SigninScreen);
