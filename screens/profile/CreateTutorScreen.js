@@ -16,13 +16,12 @@ let {width, height} = Dimensions.get('window');
 import Colors from '../../constants/Colors';
 import { ImagePicker } from 'expo';
 import { connect } from 'react-redux';
-import { Avatar } from '../../components';
-import { Separator, Spinner, Toast } from '../../components';
+import { Separator, Spinner, Toast, Avatar } from '../../components';
 
 import { createTutor, updateTutor, getTutorDetail } from '../../redux/actions';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import appSecrets from '../../appSecrets';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class CreateTutorScreen extends React.Component {
 
@@ -272,7 +271,8 @@ class CreateTutorScreen extends React.Component {
   }
 
   uploadPhoto(data) {
-    let baseURL = appSecrets.aws.apiURL;
+    let baseURL = appSecrets.aws.apiURL
+
     axios({
       method: 'post',
       url: baseURL + '/upload',
@@ -313,7 +313,7 @@ class CustomPicker extends React.Component {
   render() {
     const { experience, locale, onCancel, onConfirm } = this.props;
     return (
-       <View style={styles.pickerContainer}>
+      <View style={styles.pickerContainer}>
         <View style={styles.innerRowContainer}>
           <TouchableOpacity onPress={() => onCancel()}>
             <Text style={[styles.text, {color: '#FF5A5F', }]}>
@@ -407,10 +407,6 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     paddingHorizontal: 10,
   },
-  avatarContainer: {
-    alignSelf: 'center',
-    marginTop: 40,
-  },
   loginContainer: {
     width: '100%',
     alignItems: 'center',
@@ -418,12 +414,8 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   picker: {
-    // height: 200,
     width: '100%',
     backgroundColor: '#FFF'
-    // borderColor: 'black',
-    // borderWidth: 1,
-    // backgroundColor: '#FFF',
   },
 });
 

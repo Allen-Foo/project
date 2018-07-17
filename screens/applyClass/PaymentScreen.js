@@ -21,6 +21,12 @@ import { Spinner, Toast } from '../../components';
 import appSecrets from '../../appSecrets';
 
 class PaymentScreen extends React.Component {
+  static navigationOptions = {
+    headerTintColor: '#fff',
+    headerStyle: {
+      backgroundColor: Colors.tintColor,
+    },
+  };
 
   constructor(props) {
     super(props);

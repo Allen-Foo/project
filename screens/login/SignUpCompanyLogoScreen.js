@@ -2,7 +2,6 @@ import React from 'react';
 import { 
   View,
   Text,
-  TextInput,
   StyleSheet,
   TouchableOpacity,
   Alert,
@@ -131,16 +130,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
-  textInput: {
-    paddingVertical: 15, 
-    borderColor: 'grey', 
-    borderBottomWidth: 1, 
-    width: '100%',
-    // height: 50,
-    fontSize: 18,
-    backgroundColor: '#FFF',
-    paddingLeft: 20,
-  },
   button: {
     width: '90%',
     backgroundColor: 'white',
@@ -149,10 +138,6 @@ const styles = StyleSheet.create({
     borderRadius: 5, 
     marginTop: 20,
     paddingVertical: 10,
-  },
-  addButton: {
-    fontSize: 50,
-    fontWeight: '500'
   },
 });
 
@@ -164,6 +149,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps,{
+export default connect(mapStateToProps, {
   setCompanyLogo,
 })(SignUpCompanyLogoScreen)

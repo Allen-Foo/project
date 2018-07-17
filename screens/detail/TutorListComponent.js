@@ -24,7 +24,6 @@ const {width, height} = Dimensions.get('window');
 
 class TutorListComponent extends React.Component {
   static navigationOptions = {
-    tabBarLabel: 'Tutor',
     headerTintColor: '#fff',
     headerStyle: {
       backgroundColor: Colors.tintColor,
