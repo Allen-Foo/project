@@ -40,11 +40,11 @@ class SignUpScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'admin@genkontech.com',
-      password: 'asd123',
+      email: '',
+      password: '',
       username: '',
       callingCode: '+852',
-      phoneNumber: '84657862',
+      phoneNumber: '',
       cca2: 'HK',
       skill: '',
       userRole: props.navigation.state.params.userRole,
