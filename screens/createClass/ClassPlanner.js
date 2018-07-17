@@ -18,7 +18,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment from 'moment';
 
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, Entypo } from '@expo/vector-icons';
 
 class ClassPlanner extends React.Component {
   constructor(props) {
@@ -111,7 +111,7 @@ class ClassPlanner extends React.Component {
             {
               JSON.stringify(timeSlots) !== JSON.stringify(this.initialTimeSlots) &&
               <TouchableOpacity onPress={() => {onConfirm(this.state.timeSlots, this.state.repeat)}}>
-                <Text style={[styles.text, {color: '#666', }]}>
+                <Text style={[styles.text, {color: 'black', fontWeight: '600'}]}>
                   {this.props.locale.common.confirm} 
                 </Text>
               </TouchableOpacity>  
@@ -119,14 +119,14 @@ class ClassPlanner extends React.Component {
           </View>
         </View>
         <View style={[styles.rowContainer, styles.bottomLine, {backgroundColor: '#ccc'}]}>
-          <View style={styles.innerRowContainer}>
+          <TouchableOpacity 
+            style={styles.innerRowContainer}
+            onPress={() => this.props.navigation.navigate('Repeat', {returnData: this.handleReturnData, selectedDay, repeat})}
+          >
             <Text style={[styles.text, {color: '#666A6C'}]}> 
               {this.props.locale.common.repeat} 
             </Text>
-            <TouchableOpacity onPress={() => 
-                this.props.navigation.navigate('Repeat', {returnData: this.handleReturnData, selectedDay, repeat})
-              }
-            >
+            <View style={{flexDirection: 'row'}}>
               <Text style={[styles.text, {color: '#999C9E'}]}>
                 {
                   repeat && repeat.repeatType 
@@ -134,8 +134,14 @@ class ClassPlanner extends React.Component {
                   : this.props.locale.common.never
                 } 
               </Text>
-            </TouchableOpacity>
-          </View>
+              <Entypo
+                name={"chevron-thin-right"}
+                size={18}
+                color={'#999C9E'}
+                style={{paddingLeft: 10}}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
         <View style = {styles.dateText}>
           <Text style = {styles.text}>
