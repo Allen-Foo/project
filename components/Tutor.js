@@ -110,17 +110,20 @@ class Tutor extends React.Component {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.whiteHeart} 
-          onPress={() => this.handleLike(data.classId)}
-        >
-          <Ionicons
-            name={'ios-heart-outline'}
-            size={24}
-            style={{ padding: '3%', backgroundColor: 'transparent'}}
-            color={'white'}
-          />
-        </TouchableOpacity>
+        {
+          !this.state.liked &&
+          <TouchableOpacity
+            style={styles.whiteHeart} 
+            onPress={() => this.handleLike(data.classId)}
+          >
+            <Ionicons
+              name={'ios-heart-outline'}
+              size={24}
+              style={{ padding: '3%', backgroundColor: 'transparent'}}
+              color={'red'}
+            />
+          </TouchableOpacity>
+        }
         {
           this.state.liked &&
           <TouchableOpacity
@@ -129,7 +132,7 @@ class Tutor extends React.Component {
           >
             <Ionicons
               name={ 'ios-heart'}
-              size={21}
+              size={24}
               style={{padding: '3%',backgroundColor: 'transparent'}}
               color={'red'}
             />
@@ -188,13 +191,15 @@ const styles = StyleSheet.create({
   },
   whiteHeart: {
     position: 'absolute',
-    right: '0%',
-    top: '-1%',
+    right: 10,
+    bottom: 0,
+    padding: 10,
   },
   redHeart: {
     position: 'absolute',
-    right: '0.2%',
-    top: '-0.1%',
+    right: 10,
+    bottom: 0,
+    padding: 10,
   },
   distance: {
     position: 'absolute',
