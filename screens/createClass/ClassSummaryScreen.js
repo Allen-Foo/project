@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ScrollView,
   TouchableOpacity,
   View,
   Image,
@@ -135,7 +136,7 @@ class ClassSummaryScreen extends React.Component {
     // console.warn('params', params)
 
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <ClassInfoRow
           label={locale.classSummary.label.title}
           value={params.title}
@@ -216,7 +217,7 @@ class ClassSummaryScreen extends React.Component {
       }
         { this.props.isLoading && <Spinner /> }
         <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
-      </View>
+      </ScrollView>
     );
   }
 }
