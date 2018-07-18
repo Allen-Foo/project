@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { CheckButton } from '../../components';
+import { Entypo } from '@expo/vector-icons';
 
 const REPEAT_TYPE = ['neverRepeat', 'everyDay', 'everyWeek', 'everyTwoWeek', 'everyMonth'];
 
@@ -153,9 +154,19 @@ class DateTimePickerText extends React.Component {
   render() {
     return (
       <View>
-        <Text onPress={() => !this.props.disabled && this.setState({ isTimePickerVisible: true })}>
-          {moment(this.props.endDate).format('DD/MM/YYYY')}
-        </Text>
+        <TouchableOpacity 
+          disabled={this.props.disabled}
+          style={{flexDirection: 'row'}}
+          onPress={() => !this.props.disabled && this.setState({ isTimePickerVisible: true })}
+        >
+          <Text>{moment(this.props.endDate).format('DD/MM/YYYY')}</Text>
+          <Entypo
+            name={"chevron-small-down"}
+            size={18}
+            color={'#555'}
+            style={styles.chevronRight}
+          />
+        </TouchableOpacity>
 
         <DateTimePicker
           minimumDate={moment(this.props.startDate).toDate()}
