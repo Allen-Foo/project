@@ -3,6 +3,7 @@ import Colors from '../../constants/Colors';
 import ClassListComponent from './ClassListComponent';
 import TutorListComponent from './TutorListComponent';
 
+import { connect } from 'react-redux';
 import { TabNavigator, TabBarTop } from 'react-navigation';
 
 
@@ -49,4 +50,16 @@ const CompanyTabComponent = TabNavigator({
   },
 });
 
-export default CompanyTabComponent;
+class CompanyTab extends React.Component {
+  render() {
+    return <CompanyTabComponent screenProps={{ ...this.props }} />;
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    locale: state.language.locale,
+  }
+}
+
+export default connect(mapStateToProps, null)(CompanyTab)

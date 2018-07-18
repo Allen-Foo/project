@@ -23,12 +23,14 @@ import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
 const {width, height} = Dimensions.get('window');
 
 class ClassListComponent extends React.Component {
-   static navigationOptions = {
-    tabBarLabel: 'Class',
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: Colors.tintColor,
-    },
+  static navigationOptions = ({navigation, screenProps}) => {
+    return {
+      tabBarLabel: screenProps.locale.common.class,
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: Colors.tintColor,
+      },
+    }
   };
 
   loadMoreItems = () => {
