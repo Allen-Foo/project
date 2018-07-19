@@ -100,6 +100,21 @@ class ClassDetailScreen extends React.Component {
     return formattedTimeSlots.join('\n')
   }
 
+  shouldShowCommentButton() {
+    // only show comment in learner mode
+    if (this.props.mode != 'learner') {
+      return false
+    } else if (this.props.user) {
+      // learner can only give comment once
+      if (this.props.classDetail.comments.some(x => x.user.userId == this.props.user.userId)) {
+        return false
+      }
+      return true
+    } else {
+      return true
+    }
+  }
+
   renderClassDetail() {
     let { locale, languageKey } = this.props;
     let { classDetail } = this.state;
@@ -294,7 +309,7 @@ class ClassDetailScreen extends React.Component {
             { this.renderContact() }
             { this.renderAddress() }
             {
-              this.props.mode == 'learner' && 
+              this.shouldShowCommentButton() && 
               <TouchableOpacity style={styles.commentButton} onPress={() => this.handleCommentButtonPress()} >
                 <Text style={{color: 'green', }}> 
                   { locale.classDetail.text.giveComment.label }
