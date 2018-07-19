@@ -177,7 +177,7 @@ class SignUpScreen extends React.Component {
             styles={countryPickerStyle}
             onChange={(value)=> {
               // console.warn('cca2', value)
-              this.setState({cca2: value.cca2, callingCode: value.callingCode});
+              this.setState({cca2: value.cca2, callingCode: '+' + value.callingCode});
             }}
             cca2={this.state.cca2}
             translation='eng'

@@ -49,7 +49,8 @@ class Avatar extends Component {
     let Component = onPress || onLongPress ? TouchableOpacity : View;
 
     let avatar;
-    if (uri) {
+
+    if (uri && uri != 'null') {
       avatar = <Image source={{uri: uri}} style={[contanerStyle, shape == 'rounded' && { borderRadius: width / 2 }]}/>
     } else {
       avatar = (

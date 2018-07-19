@@ -52,6 +52,9 @@ class AssignTutorScreen extends React.Component {
     if (!this.props.tutorList || this.props.tutorList.length == 0) {
       this.props.getTutorList(this.props.user.userId)
     }
+    else {
+      this.setState({'tutorList': this.props.tutorList});
+    }
   }
 
   componentDidMount() {

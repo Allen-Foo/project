@@ -85,7 +85,7 @@ class SearchClassScreen extends React.Component {
 
   handleSearch = () => {
     let {address, keyword, isCurrentLocationSelected} = this.state;
-    this.props.setKeyword(keyword.toLowerCase())
+    this.props.setKeyword(keyword)
     this.props.setAddress(address, isCurrentLocationSelected)
     this.props.switchToNormalMode()
     this.props.searchClassList()
