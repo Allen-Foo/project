@@ -9,6 +9,8 @@ import {
   GET_COMPANY_DETAIL,
   GET_COMPANY_DETAIL_SUCCESS,
   GET_COMPANY_DETAIL_FAIL,
+
+  CLEAR_COMPANY_PROFILE,
 } from '../types'
 import AWS from 'aws-sdk';
 import { Observable } from 'rxjs/Observable';
@@ -63,6 +65,13 @@ export function getCompanyDetail(companyId) {
     type: GET_COMPANY_DETAIL,
     payload: companyId
   }
+}
+
+// use to clear company profile, avoid cached in redux store
+export function clearCompanyProfile () {
+  return {
+    type: CLEAR_COMPANY_PROFILE,
+  };
 }
 
 // this epic will sign in user through AWS Cognito

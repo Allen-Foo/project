@@ -63,6 +63,8 @@ import {
   UPDATE_TUTOR,
   UPDATE_TUTOR_SUCCESS,
   UPDATE_TUTOR_FAIL,
+
+  CLEAR_COMPANY_PROFILE,
 } from '../types';
 
 
@@ -502,6 +504,11 @@ export default (state = {...defaultState}, action) => {
         isLoading: false,
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
+      }
+    case CLEAR_COMPANY_PROFILE: 
+      return {
+        ...state,
+        tutorList: []
       }
     case UPDATE_TUTOR:
       return {

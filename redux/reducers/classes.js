@@ -39,6 +39,8 @@ import {
   CREATE_TUTOR_SUCCESS,
   CREATE_TUTOR_FAIL,
   SIGN_OUT_SUCCESS,
+
+  CLEAR_COMPANY_PROFILE,
 } from '../types';
 
 const defaultState = {
@@ -305,7 +307,11 @@ export default (state = {...defaultState}, action) => {
         fetchErrorMsg: action.payload,
         fetchErrorLastUpdate: new Date(),
       }
-
+    case CLEAR_COMPANY_PROFILE: 
+      return {
+        ...state,
+        classList: [],
+      }
     case APPLY_CLASS:
       return {
         ...state,

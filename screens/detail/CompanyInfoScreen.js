@@ -6,7 +6,7 @@ import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { List, ListItem } from 'react-native-elements'
 const { height, width } = Dimensions.get('window')
 import Colors from '../../constants/Colors';
-import { getClassList, getCompanyDetail } from '../../redux/actions';
+import { getClassList, getCompanyDetail, clearCompanyProfile, } from '../../redux/actions';
 import { Separator, Avatar, Spinner, Slideshow } from '../../components';
 import StarRating from 'react-native-star-rating';
 import CompanyTabComponent from './CompanyTabComponent'
@@ -37,6 +37,10 @@ class CompanyInfoScreen extends React.Component {
     if (nextProps.companyDetail && nextProps.companyDetail != this.props.companyDetail) {
       this.setState({companyDetail: nextProps.companyDetail})
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clearCompanyProfile()
   }
 
   renderLoading() {
@@ -142,4 +146,5 @@ const mapStateToPorps = (state) => {
 export default connect(mapStateToPorps, {
   getClassList,
   getCompanyDetail,
+  clearCompanyProfile,
 })(CompanyInfoScreen)
