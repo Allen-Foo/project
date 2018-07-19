@@ -14,13 +14,12 @@ import { signInFacebook, signInGoogle, setAppType } from '../../redux/actions';
 class CoinScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
-    let headerTintColor = '#fff';
    
     return {
       headerTitle: screenProps.locale.coin.title,
-      headerTintColor: headerTintColor,
+      headerTintColor: '#fff',
       headerStyle: {
-        backgroundColor: Colors.tintColor,
+        backgroundColor: Colors.greyColor,
       },
     }
   };

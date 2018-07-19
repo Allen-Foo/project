@@ -15,13 +15,12 @@ import { getCoinHistoryList } from '../../redux/actions';
 class PurchaseHistoryScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
-    let headerTintColor = '#fff';
    
     return {
       headerTitle: screenProps.locale.coin.text.purchasedHistory,
-      headerTintColor: '#000000',
+      headerTintColor: '#fff',
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: Colors.greyColor,
       },
     }
   };
@@ -54,15 +53,15 @@ class PurchaseHistoryScreen extends React.Component {
 
     return (
       <View style={styles.header}>
-        <View style={{alignItems: 'center', paddingBottom: '2%' }}>
+        <View style={{alignItems: 'center', paddingBottom: '2%', }}>
           <View style={styles.timeLabel}>
             <Text> 2018 </Text>
           </View>
         </View>
         <View style={styles.title}>
-          <Text> {this.props.locale.coin.text.time} </Text>
-          <Text> {this.props.locale.coin.text.action} </Text>
-          <Text> {this.props.locale.coin.text.coins} </Text>
+          <Text style={styles.headerText}> {this.props.locale.coin.text.time} </Text>
+          <Text style={styles.headerText}> {this.props.locale.coin.text.action} </Text>
+          <Text style={styles.headerText}> {this.props.locale.coin.text.coins} </Text>
         </View>
         <Separator />
       </View>
@@ -265,11 +264,16 @@ const styles = StyleSheet.create({
     paddingVertical: 3
   },
   title: {
-    backgroundColor: '#fff',
+    backgroundColor: '#777',
     justifyContent: 'space-between',
+    paddingVertical: 5,
     paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
+
+  },
+  headerText: {
+    color: 'white',
   },
   headerColumn: {
     paddingLeft: 15,

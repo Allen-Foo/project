@@ -15,13 +15,12 @@ import { getProductList, purchaseGold } from '../../redux/actions';
 class PurchaseCoinScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
     const { state } = navigation;
-    let headerTintColor = '#fff';
    
     return {
       headerTitle: screenProps.locale.coin.title,
-      headerTintColor: '#000000',
+      headerTintColor: '#fff',
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: Colors.greyColor,
       },
     }
   };
