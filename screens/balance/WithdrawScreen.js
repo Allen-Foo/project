@@ -77,6 +77,9 @@ class WithdrawScreen extends React.Component {
     else if (!this.state.bankAccount) {
       Alert.alert('Bank account cannot be empty!')
     }
+    else if (this.props.revenue < this.state.amount) {
+      Alert.alert('Not enough money')
+    }
     else {
       let msg = this.props.locale.withdraw.text.bankAccountName + this.state.bankAccountName +'\n'
                 + this.props.locale.withdraw.text.bankName + this.state.bankName +'\n'

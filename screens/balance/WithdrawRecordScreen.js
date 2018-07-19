@@ -66,7 +66,11 @@ class WithdrawRecordScreen extends React.Component {
 
     let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
 
-    if (withdrawnList && withdrawnList.length > 0) {
+
+    if (this.props.isLoading) {
+      return (<Spinner />)
+    }
+    else if (withdrawnList && withdrawnList.length > 0) {
       return (
         <View style = {styles.container}>
           <FlatList 
@@ -109,7 +113,7 @@ class WithdrawRecordScreen extends React.Component {
       );
     }
     else {
-      return (<Spinner />)
+      return (<View />)
     }
     
   }

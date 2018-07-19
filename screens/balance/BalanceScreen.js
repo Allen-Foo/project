@@ -52,11 +52,7 @@ class BalanceScreen extends React.Component {
   render() {
     let {locale, fetchErrorMsg} = this.props;
 
-    let upToText = locale.balance.upTo + "";
-
     let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
-
-    let date = new Date ();
 
     return (
       <View style={styles.container}>
@@ -88,7 +84,7 @@ class BalanceScreen extends React.Component {
           <Text style= {styles.amount}> {'$' + this.props.revenue} </Text>
 
         </View>
-        <Text style= {styles.upToText}> {upToText + ' ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()} </Text>
+        <Text style= {styles.upToText}> {locale.balance.pending + '$' + this.props.pendingRevenue} </Text>
          <TouchableOpacity 
             style={styles.button}
             onPress = {() => {this.props.navigation.navigate('WithdrawScreen')}}
@@ -155,6 +151,7 @@ const mapStateToProps = (state) => {
     locale: state.language.locale,
     isLoading: state.tutor.isLoading,
     revenue: state.tutor.revenue,
+    pendingRevenue: state.tutor.pendingRevenue,
     userId: state.userProfile.user.userId,
     fetchErrorMsg: state.socialLogin.fetchErrorMsg,
     fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate,

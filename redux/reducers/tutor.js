@@ -27,6 +27,7 @@ const defaultState = {
   experience: 0,
   achievement: '',
   revenue: 0,
+  pendingRevenue: 0,
   withdrawnList: [],
 }
 
@@ -98,12 +99,14 @@ export default (state = defaultState, action) => {
         ...state,
         isLoading: true,
         revenue: 0,
+        pendingRevenue:0,
       }
     case GET_REVENUE_SUCCESS:
       return {
         ...state,
         isLoading: false,
         revenue: action.payload.revenue,
+        pendingRevenue: action.payload.pendingRevenue,
       }
     case GET_REVENUE_FAIL:
       return {
