@@ -166,6 +166,10 @@ class ClassSummaryScreen extends React.Component {
           <Text style={styles.label}>{locale.classSummary.label.fee}</Text>
           <Text style={styles.price}>{`＄ ${params.fee} HKD ${locale.classSummary.label[params.chargeType]}`}</Text>
         </TouchableOpacity>
+        <ClassInfoRow
+          label={locale.classSummary.label.maxStudent}
+          value={params.maxNumberOfStudent + ' ' + locale.maxNumberOfStudent.text.ppl}
+        />
         <Slideshow 
           dataSource={params.photoList}
           containerStyle={sliderContainer}

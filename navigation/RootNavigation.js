@@ -59,6 +59,7 @@ import Contact from '../screens/createClass/ContactScreen';
 import AssignTutor from '../screens/createClass/AssignTutorScreen';
 import ManageTutor from '../screens/profile/ManageTutorScreen';
 import CreateTutor from '../screens/profile/CreateTutorScreen';
+import MaxNumberOfStudentScreen from '../screens/createClass/MaxNumberOfStudentScreen';
 import BalanceScreen from '../screens/balance/BalanceScreen';
 import WithdrawScreen from '../screens/balance/WithdrawScreen';
 import WithdrawRecordScreen from '../screens/balance/WithdrawRecordScreen';
@@ -199,6 +200,9 @@ const TutorStackNavigator = StackNavigator(
     },
     CreateTutor: {
       screen: CreateTutor
+    },
+    MaxNumberOfStudentScreen: {
+      screen: MaxNumberOfStudentScreen
     },
     ManageTutor: {
       screen: ManageTutor

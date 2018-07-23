@@ -288,6 +288,18 @@ class ClassDetailScreen extends React.Component {
           </View>
           <View style={styles.rowContainer}>
             <View style={styles.innerContainer}>
+              <MaterialIcons 
+                name={'people'} 
+                size={20}
+                color={'#5ECC3F'}
+              />
+            </View>
+            <View style={styles.innerTextContainer}>
+              <Text style={styles.tutorName}> {locale.maxNumberOfStudent.text.maxNum + classDetail.maxNumberOfStudent + ' ' + locale.maxNumberOfStudent.text.ppl}</Text>
+            </View>
+          </View>
+          <View style={styles.rowContainer}>
+            <View style={styles.innerContainer}>
               <FontAwesome 
                 name={'dollar'} 
                 size={20}
@@ -467,6 +479,18 @@ class ClassDetailScreen extends React.Component {
                   />
                   <View style={styles.usernameText}>
                     <Text style={{fontSize: 20}}>{userId.name}</Text>
+                    <View style={styles.rowContainer}>
+                      <View >
+                        <MaterialIcons
+                          name={'call'} 
+                          size={20}
+                          color={'#ff0000'}
+                        />
+                      </View>
+                      <View style={styles.innerTextContainer}>
+                        <Text style={styles.tutorName}> {userId.phone} </Text>
+                      </View>
+                    </View>
                   </View>
                 </View>
               </View>

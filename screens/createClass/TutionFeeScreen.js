@@ -73,7 +73,7 @@ class TutionFee extends React.Component {
     let { params = {} } = this.props.navigation.state;
     params.fee = Number(this.state.fee)
     params.chargeType = this.state.chargeType
-    this.props.navigation.navigate('UploadPhoto', params)
+    this.props.navigation.navigate('MaxNumberOfStudentScreen', params)
   }
   showPicker = () => {this.setState({ showPicker: true })}
   hidePicker = () => {this.setState({ showPicker: false })}
