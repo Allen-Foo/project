@@ -14,7 +14,6 @@ import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { verifyCode, verifyCodeCancel, signUp, clearTutorProfile } from '../../redux/actions';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
-import Prompt from 'react-native-prompt';
 import { getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
 import { Spinner, Toast } from '../../components';

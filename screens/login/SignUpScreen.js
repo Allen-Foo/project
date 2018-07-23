@@ -16,7 +16,6 @@ import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Hr, HideoTextInput } from '../../components';
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
-import Prompt from 'react-native-prompt';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 import { NavigationActions } from 'react-navigation';
 

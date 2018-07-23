@@ -18,7 +18,6 @@ import { SocialIcon } from 'react-native-elements';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Hr, HideoTextInput} from '../../components';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import Prompt from 'react-native-prompt';
 
 import { onSignIn } from '../../lib/Auth/AWS_Auth';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
