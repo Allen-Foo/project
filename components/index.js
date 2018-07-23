@@ -15,6 +15,7 @@ import IndexMarker from'./IndexMarker';
 import TutorListItem from'./TutorListItem';
 import ConfirmationCodeInput from'./ConfirmationCodeInput';
 import Avatar from './Avatar';
+import Ribbon from './Ribbon';
 import ListItem from './ListItem';
 
 export {
@@ -39,4 +40,5 @@ export {
   TutorListItem,
   ListItem,
   RecordItem,
+  Ribbon,
 }
