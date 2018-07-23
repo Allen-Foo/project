@@ -102,16 +102,20 @@ class ClassDetailScreen extends React.Component {
 
   shouldShowCommentButton() {
     // only show comment in learner mode
+    let classId = this.props.navigation.state.params.classId;
+    
     if (this.props.mode != 'learner') {
       return false
     } else if (this.props.user) {
-      // learner can only give comment once
-      if (this.props.classDetail.comments.some(x => x.user.userId == this.props.user.userId)) {
-        return false
+      if (this.state.appliedClassList.some(list => list.classId === classId)) {
+        if (this.props.classDetail.comments.some(x => x.user.userId == this.props.user.userId)) {
+          return false
+        }
+        return true
       }
-      return true
+      return false
     } else {
-      return true
+      return false
     }
   }
 
@@ -668,9 +672,9 @@ const styles = StyleSheet.create({
   },
   className: {
     paddingVertical: 5,
-    fontSize: 16,
+    fontSize: 18,
     color: '#555',
-    fontWeight: '400',
+    fontWeight: '700',
   },
   tutorName: {
     color: '#555',
