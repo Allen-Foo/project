@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import {Agenda, Calendar} from 'react-native-calendars';
 import moment from 'moment';
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome, Entypo } from '@expo/vector-icons';
 import { Avatar } from '../../components';
 
 class ScheduleScreen extends React.Component {
@@ -127,7 +127,7 @@ class ScheduleScreen extends React.Component {
         delete temp[key]
       }
     })
-    temp[day.dateString] = Object.assign({}, temp[day.dateString], {selected: true})
+    temp[day.dateString] = Object.assign({}, temp[day.dateString], {selected: true, selectedColor: Colors.tintColor})
 
     this.setState({
       markedDates: temp,
@@ -148,7 +148,7 @@ class ScheduleScreen extends React.Component {
         items={this.state.items}
         loadItemsForMonth={this.loadItems.bind(this)}
         //loadItemsForMonth={(month) => {console.log('trigger items loading')}}
-        selected={new Date().toISOString().slice(0, 10)}
+        // selected={new Date().toISOString().slice(0, 10)}
         renderItem={this.renderItem.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
         rowHasChanged={this.rowHasChanged.bind(this)}
@@ -158,6 +158,21 @@ class ScheduleScreen extends React.Component {
         //monthFormat={'yyyy'}
         //theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
         // renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
+        theme={{
+          selectedDayBackgroundColor: Colors.tintColor,
+          selectedDayTextColor: '#fff',
+          todayTextColor: Colors.tintColor,
+          dayTextColor: '#2d4150',
+          textDisabledColor: '#d9e1e8',
+          dotColor: Colors.tintColor,
+          selectedDotColor: '#fff',
+          // arrowColor: 'orange',
+          monthTextColor: Colors.tintColor,
+          textMonthFontWeight: 'bold',
+          textDayFontSize: 16,
+          textMonthFontSize: 16,
+          textDayHeaderFontSize: 16
+        }}
       />
     );
   }
@@ -175,6 +190,17 @@ class ScheduleScreen extends React.Component {
     return []
   }
 
+  renderArrow = (direction) => {
+    return (
+      <Entypo
+        name={`chevron-thin-${direction}`}
+        size={22}
+        color={Colors.tintColor}
+        style={{ paddingRight: 15 }}
+      />
+    ) 
+  }
+
   renderCalendar() {
     let day = this.state.selectedDay
     let dayItems = this.getDayItems(day || new Date().toISOString().slice(0, 10))
@@ -190,8 +216,24 @@ class ScheduleScreen extends React.Component {
           // day from another month that is visible in calendar page. Default = false
           disableMonthChange={true}
           markedDates={this.state.markedDates}
+          // renderArrow={this.renderArrow}
           style={{
             paddingBottom: 30,
+          }}
+          theme={{
+            selectedDayBackgroundColor: Colors.tintColor,
+            selectedDayTextColor: '#fff',
+            todayTextColor: Colors.tintColor,
+            dayTextColor: '#2d4150',
+            textDisabledColor: '#d9e1e8',
+            dotColor: Colors.tintColor,
+            selectedDotColor: '#fff',
+            arrowColor: Colors.tintColor,
+            monthTextColor: Colors.tintColor,
+            textMonthFontWeight: 'bold',
+            textDayFontSize: 16,
+            textMonthFontSize: 16,
+            textDayHeaderFontSize: 16
           }}
         />
         {

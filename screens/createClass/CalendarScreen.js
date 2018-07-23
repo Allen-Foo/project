@@ -153,9 +153,24 @@ class CalendarScreen extends React.Component {
             minDate={new Date().toISOString().slice(0, 10)}
             // Enable or disable vertical scroll indicator. Default = false
             showScrollIndicator={true}
-            showWeekNumbers={true}
+            showWeekNumbers={false}
             onDayPress={this.handleDayPress}
             markedDates={this.state.markedDates}
+            theme={{
+              selectedDayBackgroundColor: Colors.tintColor,
+              selectedDayTextColor: '#fff',
+              todayTextColor: Colors.tintColor,
+              dayTextColor: '#2d4150',
+              textDisabledColor: '#d9e1e8',
+              dotColor: Colors.tintColor,
+              selectedDotColor: '#fff',
+              // arrowColor: 'orange',
+              monthTextColor: Colors.tintColor,
+              textMonthFontWeight: 'bold',
+              textDayFontSize: 16,
+              textMonthFontSize: 16,
+              textDayHeaderFontSize: 16
+            }}
           />
         </View>
         {
