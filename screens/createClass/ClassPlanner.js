@@ -109,7 +109,7 @@ class ClassPlanner extends React.Component {
               </Text>
             </TouchableOpacity>
             {
-              JSON.stringify(timeSlots) !== JSON.stringify(this.initialTimeSlots) &&
+              JSON.stringify(timeSlots) !== JSON.stringify(this.initialTimeSlots)  || (repeat && repeat.repeatType) &&
               <TouchableOpacity onPress={() => {onConfirm(this.state.timeSlots, this.state.repeat)}}>
                 <Text style={[styles.text, {color: 'black', fontWeight: '600'}]}>
                   {this.props.locale.common.confirm} 
