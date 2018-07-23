@@ -16,6 +16,7 @@ import Colors from '../constants/Colors';
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Avatar, Rating } from 'react-native-elements';
 import { addToBookmark, removeFromBookmark } from '../redux/actions';
+import Ribbon from './Ribbon';
 
 import StarRating from 'react-native-star-rating';
 
@@ -81,6 +82,14 @@ class Tutor extends React.Component {
                 </Text>
               </View>
             }
+            <Ribbon
+              cornerRadius={80}
+              alignment={'left'}
+              style={{backgroundColor: 'red', height: 24,}}
+              textStyle={{color: '#fff', fontSize: 12,}}
+            >
+              {'Sale'}
+            </Ribbon>
           </View>
           <View style={{paddingLeft: 5}}>
             <Text style={styles.className}> {data.title} </Text>
@@ -151,6 +160,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   avatarContainer: {
+    overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
