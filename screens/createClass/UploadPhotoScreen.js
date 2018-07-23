@@ -10,6 +10,8 @@ import {
   Dimensions,
 } from 'react-native';
 
+import { Constants, Location, Permissions } from 'expo';
+
 import { connect } from 'react-redux';
 import { Hr, NextButton, Spinner, Separator, CheckButton } from '../../components';
 import { ImagePicker } from 'expo';
@@ -191,19 +193,24 @@ class ClassAddressScreen extends React.Component {
       return
     }
 
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      base64: true,
-    });
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true,
+      });
 
-    if (!result.cancelled) {
-      let temp = [...this.state.photoList];
-      result.isLoading = true
-      temp.push(result)
-      this.setState({
-        photoList: temp
-      }, () => this.uploadPhoto(result, this.state.photoList.length - 1))
+      if (!result.cancelled) {
+        let temp = [...this.state.photoList];
+        result.isLoading = true
+        temp.push(result)
+        this.setState({
+          photoList: temp
+        }, () => this.uploadPhoto(result, this.state.photoList.length - 1))
+      }
+    } else {
+      console.warn('access not granted')
     }
   };
 
@@ -212,19 +219,25 @@ class ClassAddressScreen extends React.Component {
       Alert.alert('cannot add more than four photos')
       return
     }
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      base64: true,
-    });
 
-    if (!result.cancelled) {
-      let temp = [...this.state.photoList];
-      result.isLoading = true
-      temp.push(result)
-      this.setState({
-        photoList: temp
-      }, () => this.uploadPhoto(result, this.state.photoList.length - 1))
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status === 'granted') {
+      let result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true,
+      });
+
+      if (!result.cancelled) {
+        let temp = [...this.state.photoList];
+        result.isLoading = true
+        temp.push(result)
+        this.setState({
+          photoList: temp
+        }, () => this.uploadPhoto(result, this.state.photoList.length - 1))
+      }
+    } else {
+      console.warn('access not granted')
     }
   };
 }
