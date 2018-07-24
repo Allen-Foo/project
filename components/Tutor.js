@@ -129,7 +129,7 @@ class Tutor extends React.Component {
               name={'ios-heart-outline'}
               size={24}
               style={{ padding: '3%', backgroundColor: 'transparent'}}
-              color={'red'}
+              color={'grey'}
             />
           </TouchableOpacity>
         }
