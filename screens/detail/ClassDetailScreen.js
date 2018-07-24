@@ -210,7 +210,8 @@ class ClassDetailScreen extends React.Component {
     let classId = this.props.navigation.state.params.classId;
     let userId = this.state.classDetail.user.userId
 
-    if (this.state.appliedClassList && this.state.appliedClassList.some(list => list.classId == classId)) {
+    if (this.state.appliedClassList && this.state.appliedClassList.some(list => list.classId == classId)
+      || this.state.classDetail.userId === this.props.user.userId) {
       return (
         <View style={styles.rowContainer}>
           <View style={styles.innerContainer}>
@@ -340,9 +341,10 @@ class ClassDetailScreen extends React.Component {
             }
         </View>
         { 
-          this.props.mode == 'learner' 
-          ? classDetail.tutorList && classDetail.tutorList.length > 0 ? this.renderTutorList(classDetail, locale) : this.renderTutorInfo(classDetail, locale)
-          : this.renderLearnerInfo(classDetail) 
+          classDetail.tutorList && classDetail.tutorList.length > 0 ? this.renderTutorList(classDetail, locale) : this.renderTutorInfo(classDetail, locale)
+        }
+        { 
+          this.props.mode != 'learner' && this.renderLearnerInfo(classDetail) 
         }
         {
           this.props.mode == 'learner' && classDetail.user.userRole == 'company' &&
