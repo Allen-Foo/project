@@ -211,7 +211,7 @@ class ClassDetailScreen extends React.Component {
     let userId = this.state.classDetail.user.userId
 
     if (this.state.appliedClassList && this.state.appliedClassList.some(list => list.classId == classId)
-      || this.state.classDetail.userId === this.props.user.userId) {
+      || (this.props.user && this.state.classDetail.userId === this.props.user.userId)) {
       return (
         <View style={styles.rowContainer}>
           <View style={styles.innerContainer}>
