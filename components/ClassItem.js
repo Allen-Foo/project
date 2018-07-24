@@ -59,7 +59,7 @@ class ClassItem extends React.Component {
               style={{marginLeft: '5%'}}
               color={'#E8DA3A'}
             />
-            <Text> {`${data.fee} ${locale.classSummary.label[data.chargeType]}`}</Text>
+            <Text> {data.fee}</Text>
           </Text>
           <Text>
             <MaterialIcons

@@ -50,7 +50,7 @@ class AdvancedSearchScreen extends React.Component {
 
     this.state = {
       searchPrice: props.filter && props.filter.searchPrice || 10000,
-      chargeType: 'perSemester', // props.filter && props.filter.chargeType,
+      // chargeType: 'perSemester', // props.filter && props.filter.chargeType,
       category: props.filter && props.filter.category,
       skill: props.filter && props.filter.skill,
       showPicker: false,
@@ -60,7 +60,7 @@ class AdvancedSearchScreen extends React.Component {
   resetState() {
     this.setState({
       searchPrice: 10000,
-      chargeType: 'perSemester', // props.filter && props.filter.chargeType,
+      // chargeType: 'perSemester', // props.filter && props.filter.chargeType,
       category: null,
       skill: null
     })
@@ -97,7 +97,7 @@ class AdvancedSearchScreen extends React.Component {
   hidePicker = () => {this.setState({ showPicker: false })}
   handleCancel = () => {this.hidePicker()}
   handleConfirm = (v) => {
-    this.setState({chargeType: v})
+    // this.setState({chargeType: v})
     this.hidePicker()
   }
 
@@ -132,12 +132,12 @@ class AdvancedSearchScreen extends React.Component {
         </View>
         <Separator style={{backgroundColor: '#eee'}}/>
         {
-          this.state.chargeType && 
-          <PriceSlider
-            searchPrice={this.state.searchPrice}
-            handleValueChange={(value) => this.setState({searchPrice: value})}
-            locale={locale}
-          />  
+          // this.state.chargeType && 
+          // <PriceSlider
+          //   searchPrice={this.state.searchPrice}
+          //   handleValueChange={(value) => this.setState({searchPrice: value})}
+          //   locale={locale}
+          // />  
         }
         <TouchableOpacity 
           style={styles.resetContainer}
@@ -156,33 +156,33 @@ class AdvancedSearchScreen extends React.Component {
   }
 }
 
-const PriceSlider = props => {
-  let { searchPrice, handleValueChange, locale } = props;
-  return (
-    <View style={styles.slider}>
-      {
-        searchPrice === 10000 ?
-          <Text style={[styles.subTabText, {height: 17}]}>
-            {locale.advancedSearch.text.any}
-          </Text>
-        :
-          <Text style={styles.subTabText}>
-            {locale.advancedSearch.text.below} $ 
-            {searchPrice}
-          </Text>
-      }
-      <Slider
-        style={{width: '90%', alignSelf: 'center'}}
-        step={100}
-        minimumTrackTintColor={Colors.tintColor}
-        minimumValue={0}
-        maximumValue={10000}
-        onValueChange={(searchPrice) => handleValueChange(searchPrice)}
-        value={searchPrice}
-      />
-    </View>
-  )
-}
+// const PriceSlider = props => {
+//   let { searchPrice, handleValueChange, locale } = props;
+//   return (
+//     <View style={styles.slider}>
+//       {
+//         searchPrice === 10000 ?
+//           <Text style={[styles.subTabText, {height: 17}]}>
+//             {locale.advancedSearch.text.any}
+//           </Text>
+//         :
+//           <Text style={styles.subTabText}>
+//             {locale.advancedSearch.text.below} $ 
+//             {searchPrice}
+//           </Text>
+//       }
+//       <Slider
+//         style={{width: '90%', alignSelf: 'center'}}
+//         step={100}
+//         minimumTrackTintColor={Colors.tintColor}
+//         minimumValue={0}
+//         maximumValue={10000}
+//         onValueChange={(searchPrice) => handleValueChange(searchPrice)}
+//         value={searchPrice}
+//       />
+//     </View>
+//   )
+// }
 
 const RowButton = props => {
   let { title, value, onPress } = props;

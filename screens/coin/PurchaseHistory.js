@@ -80,15 +80,6 @@ class PurchaseHistoryScreen extends React.Component {
       <View  style={styles.container}>
         { this.renderHeader() }
 
-        { 
-          this.state.showPicker &&
-          <ChargeTypePicker
-            onCancel={this.handleCancel}
-            onConfirm={this.handleConfirm}
-            locale={locale}
-            chargeType={this.state.chargeType}
-          />
-        }
         <FlatList
           contentContainerStyle={styles.listContainer}
           data={coinHistoryList}
@@ -113,43 +104,6 @@ class PurchaseHistoryScreen extends React.Component {
           }}
         />
         { this.props.isLoading && <Spinner /> }
-      </View>
-    )
-  }
-}
-
-class ChargeTypePicker extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      chargeType: props.chargeType || 'perLesson'
-    }
-  }
-
-  render() {
-    const { chargeType, locale, onCancel, onConfirm } = this.props;
-    return (
-      <View style={styles.pickerContainer}>
-        <View style={styles.innerRowContainer}>
-          <TouchableOpacity onPress={() => onCancel()}>
-            <Text style={[styles.text, {color: '#FF5A5F', }]}>
-              {locale.common.cancel} 
-            </Text>
-          </TouchableOpacity>
-          {
-            <TouchableOpacity onPress={() => onConfirm(this.state.chargeType)}>
-              <Text style={[styles.text, {color: '#666', }]}>
-                {locale.common.confirm} 
-              </Text>
-            </TouchableOpacity>  
-          }
-        </View>
-        <Picker
-          selectedValue={this.state.chargeType}
-          onValueChange={(itemValue) => this.setState({chargeType: itemValue})}>
-          <Picker.Item label={locale.advancedSearch.text.perLesson} value='perLesson' />
-          <Picker.Item label={locale.advancedSearch.text.perSemester} value='perSemester' />
-        </Picker>
       </View>
     )
   }

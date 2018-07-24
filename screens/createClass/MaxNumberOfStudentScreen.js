@@ -81,7 +81,7 @@ class MaxNumberOfStudentScreen extends React.Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            <Text style={{width: 80, textAlign: 'left', paddingLeft: 10}}>{locale.maxNumberOfStudent.text.maxNum}</Text>
+            <Text style={{width: 100, textAlign: 'left', paddingLeft: 40}}>{locale.maxNumberOfStudent.text.maxNum}</Text>
             <TextInput
               maxLength={8}
               autoFocus
@@ -90,7 +90,7 @@ class MaxNumberOfStudentScreen extends React.Component {
               onChangeText={(maxNumberOfStudent) => this.setState({maxNumberOfStudent})}
               value={maxNumberOfStudent}
             />
-            <Text style={{width: 80, textAlign: 'right', paddingRight: 10}}>{locale.maxNumberOfStudent.text.ppl}</Text>
+            <Text style={{width: 100, textAlign: 'right', paddingRight: 40}}>{locale.maxNumberOfStudent.text.ppl}</Text>
           </View>
           {
             !this.isEmpty(maxNumberOfStudent) && !params.isEditMode &&
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   textInput: {
-    width: 150,
+    width: 100,
     fontSize: 14,
     backgroundColor: '#fff',
     textAlign: 'center',

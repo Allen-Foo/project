@@ -176,7 +176,7 @@ class EditClassScreen extends React.Component {
           onPress={() => this.props.navigation.navigate('TutionFee', Object.assign(params, {isEditMode: true}))}
         >
           <Text style={styles.label}>{locale.classSummary.label.fee}</Text>
-          <Text style={styles.price}>{`＄ ${params.fee} HKD ${locale.classSummary.label[params.chargeType]}`}</Text>
+          <Text style={styles.price}>{`＄ ${params.fee} HKD`}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.props.navigation.navigate('UploadPhoto', Object.assign(params, {isEditMode: true}))}>
           <Slideshow 

@@ -40,8 +40,20 @@ class Contact extends React.Component {
   constructor(props) {
     super(props);
     let { params = {} } = this.props.navigation.state;
+    let phone = '';
+
+    if (params.phone) {
+      phone = String(params.phone)
+    }
+    else {
+      phone = this.props.user.phone;
+      if (phone.includes('+852')) {
+        phone = phone.substring(4)
+      }
+    }
+
     this.state = {
-      phone: params.phone && String(params.phone),
+      phone: phone,
     }
   }
 
@@ -143,7 +155,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    locale: state.language.locale
+    locale: state.language.locale,
+    user: state.userProfile.user,
   }
 }
 

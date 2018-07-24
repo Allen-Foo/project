@@ -168,7 +168,7 @@ class ClassDetailScreen extends React.Component {
                 size={14}
                 color={'#E8DA3A'}
               />
-              <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
+              <Text style={styles.tutorName}> {`${classDetail.fee} HKD`}</Text>
             </View>
             {
               this.renderApplyButton()
@@ -308,7 +308,7 @@ class ClassDetailScreen extends React.Component {
               />
             </View>
             <View style={styles.innerTextContainer}>
-              <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
+              <Text style={styles.tutorName}> {`${classDetail.fee} HKD`}</Text>
             </View>
           </View>
           <View style={styles.rowContainer}>

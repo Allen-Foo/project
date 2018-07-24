@@ -42,7 +42,7 @@ class TutionFee extends React.Component {
     let { params = {} } = this.props.navigation.state;
     this.state = {
       fee: params.fee && String(params.fee),
-      chargeType: params.chargeType || 'perLesson',
+      // chargeType: params.chargeType || 'perLesson',
       showPicker: false,
     }
   }
@@ -55,7 +55,7 @@ class TutionFee extends React.Component {
   _handleSubmit = () => {
     this.props.editClass({
       fee: Number(this.state.fee),
-      chargeType: this.state.chargeType
+      // chargeType: this.state.chargeType
     })
     this.props.navigation.goBack();
   }
@@ -72,20 +72,20 @@ class TutionFee extends React.Component {
   handleNext = () => {
     let { params = {} } = this.props.navigation.state;
     params.fee = Number(this.state.fee)
-    params.chargeType = this.state.chargeType
+    // params.chargeType = this.state.chargeType
     this.props.navigation.navigate('MaxNumberOfStudentScreen', params)
   }
   showPicker = () => {this.setState({ showPicker: true })}
   hidePicker = () => {this.setState({ showPicker: false })}
   handleCancel = () => {this.hidePicker()}
   handleConfirm = (v) => {
-    this.setState({chargeType: v})
+    // this.setState({chargeType: v})
     this.hidePicker()
   }
 
   render() {
     let { locale } = this.props;
-    let { fee, chargeType } = this.state;
+    let { fee } = this.state;
     let { params = {} } = this.props.navigation.state;
 
     let dropDownData = CHARGE_TYPES.map(x => ({value: locale.tutionFee.text[x]}))
@@ -95,6 +95,7 @@ class TutionFee extends React.Component {
         <View style={styles.container}>
           <View style={styles.rowContainer}>
             <Text style={{paddingLeft: 10}}>{locale.tutionFee.text.price}</Text>
+            {/*
             <TouchableOpacity 
               style={styles.chargeTypeButton} 
               onPress={() => this.showPicker()}
@@ -110,6 +111,7 @@ class TutionFee extends React.Component {
                 />
               </View>
             </TouchableOpacity>
+          */}
             <Text style={{color: '#FF5A5F', marginLeft: 30}}>＄</Text>
             <TextInput
               maxLength={4}
@@ -121,20 +123,20 @@ class TutionFee extends React.Component {
             />
           </View>
           {
-            !this.isEmpty(fee) && chargeType && !params.isEditMode &&
+            !this.isEmpty(fee) && !params.isEditMode &&
             <NextButton 
               onPress={() => this.handleNext()}
               text={locale.common.next}
             />
           }
           { 
-            this.state.showPicker &&
-            <ChargeTypePicker
-              onCancel={this.handleCancel}
-              onConfirm={this.handleConfirm}
-              locale={locale}
-              chargeType={this.state.chargeType}
-            />
+            // this.state.showPicker &&
+            // <ChargeTypePicker
+            //   onCancel={this.handleCancel}
+            //   onConfirm={this.handleConfirm}
+            //   locale={locale}
+            //   chargeType={this.state.chargeType}
+            // />
           }
         </View>
       </TouchableWithoutFeedback>
@@ -142,42 +144,42 @@ class TutionFee extends React.Component {
   }
 }
 
-class ChargeTypePicker extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      chargeType: props.chargeType || 'perLesson'
-    }
-  }
+// class ChargeTypePicker extends React.Component {
+//   constructor(props) {
+//     super(props)
+//     this.state = {
+//       chargeType: props.chargeType || 'perLesson'
+//     }
+//   }
 
-  render() {
-    const { chargeType, locale, onCancel, onConfirm } = this.props;
-    return (
-      <View style={styles.pickerContainer}>
-        <View style={styles.innerRowContainer}>
-          <TouchableOpacity onPress={() => onCancel()}>
-            <Text style={[styles.text, {color: '#FF5A5F', }]}>
-              {locale.common.cancel} 
-            </Text>
-          </TouchableOpacity>
-          {
-            <TouchableOpacity onPress={() => onConfirm(this.state.chargeType)}>
-              <Text style={[styles.text, {color: '#666', }]}>
-                {locale.common.confirm} 
-              </Text>
-            </TouchableOpacity>  
-          }
-        </View>
-        <Picker
-          selectedValue={this.state.chargeType}
-          onValueChange={(itemValue) => this.setState({chargeType: itemValue})}>
-          <Picker.Item label={locale.advancedSearch.text.perLesson} value='perLesson' />
-          <Picker.Item label={locale.advancedSearch.text.perSemester} value='perSemester' />
-        </Picker>
-      </View>
-    )
-  }
-}
+//   render() {
+//     const { chargeType, locale, onCancel, onConfirm } = this.props;
+//     return (
+//       <View style={styles.pickerContainer}>
+//         <View style={styles.innerRowContainer}>
+//           <TouchableOpacity onPress={() => onCancel()}>
+//             <Text style={[styles.text, {color: '#FF5A5F', }]}>
+//               {locale.common.cancel} 
+//             </Text>
+//           </TouchableOpacity>
+//           {
+//             <TouchableOpacity onPress={() => onConfirm(this.state.chargeType)}>
+//               <Text style={[styles.text, {color: '#666', }]}>
+//                 {locale.common.confirm} 
+//               </Text>
+//             </TouchableOpacity>  
+//           }
+//         </View>
+//         <Picker
+//           selectedValue={this.state.chargeType}
+//           onValueChange={(itemValue) => this.setState({chargeType: itemValue})}>
+//           <Picker.Item label={locale.advancedSearch.text.perLesson} value='perLesson' />
+//           <Picker.Item label={locale.advancedSearch.text.perSemester} value='perSemester' />
+//         </Picker>
+//       </View>
+//     )
+//   }
+// }
 
 const styles = StyleSheet.create({
   container: {
