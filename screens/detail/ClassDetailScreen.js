@@ -160,23 +160,48 @@ class ClassDetailScreen extends React.Component {
           <View style={{height: 100}}/>
         </ScrollView>
         { 
-          this.props.mode == 'learner' &&
+          this.renderBottom(classDetail)
+        }
+      </View>
+    )
+  }
+
+  renderBottom(classDetail) {
+    let { user, locale } = this.props;
+
+    if (this.props.mode == 'learner') {
+      if (user && user.userRole == 'company') {
+        // company account cannot apply class
+        return (
           <View style={styles.bottomContainer}>
-            <View style={styles.bottomPrice}>
+            <View style={[styles.bottomPrice, {width: '100%', backgroundColor: '#ccc'}]}>
               <FontAwesome 
-                name={'dollar'} 
+                name={'dollar'}
                 size={14}
                 color={'#E8DA3A'}
               />
               <Text style={styles.tutorName}> {`${classDetail.fee} HKD`}</Text>
             </View>
-            {
-              this.renderApplyButton()
-            }
           </View>
-        }
-      </View>
-    )
+        )
+      }
+
+      return (
+        <View style={styles.bottomContainer}>
+          <View style={styles.bottomPrice}>
+            <FontAwesome 
+              name={'dollar'} 
+              size={14}
+              color={'#E8DA3A'}
+            />
+            <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
+          </View>
+          {
+            this.renderApplyButton()
+          }
+        </View>
+      )
+    }
   }
 
   renderApplyButton() {
@@ -665,7 +690,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '60%',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    paddingVertical: 15,
   },
   usernameText: {
     paddingLeft: 10
