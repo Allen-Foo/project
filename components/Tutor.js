@@ -20,6 +20,12 @@ import Ribbon from './Ribbon';
 
 import StarRating from 'react-native-star-rating';
 
+const RIBBON_COLOR = {
+  'expired': 'grey',
+  'new': Colors.tintColor,
+  'full': 'orange',
+  'sale': 'red',
+}
 
 class Tutor extends React.Component {
 
@@ -28,7 +34,8 @@ class Tutor extends React.Component {
 
     let bookmark = this.props.bookmark || []
     this.state={
-      liked: bookmark.includes(props.data.classId)
+      liked: bookmark.includes(props.data.classId),
+      ribbonType: this.getRibbonType(props.data)
     }
   }
 
@@ -54,8 +61,14 @@ class Tutor extends React.Component {
     this.props.removeFromBookmark(classId)
   }
 
+  getRibbonType(data) {
+    // TODO, add logic here
+    return 'sale'
+  } 
+
   render() {
     const { data, onPress, locale } = this.props;
+    let { ribbonType } = this.state;
     let rating = Object.values(data.rating).reduce((a, b) => a + b, 0) / Object.values(data.rating).length
 
     return (
@@ -82,14 +95,13 @@ class Tutor extends React.Component {
                 </Text>
               </View>
             }
-            <Ribbon
-              cornerRadius={80}
-              alignment={'left'}
-              style={{backgroundColor: 'red', height: 24,}}
-              textStyle={{color: '#fff', fontSize: 12,}}
-            >
-              {'Sale'}
-            </Ribbon>
+            {
+              ribbonType &&
+              <RibbonComponent
+                color={RIBBON_COLOR[ribbonType]}
+                text={locale.ribbon[ribbonType]}
+              />  
+            }
           </View>
           <View style={{paddingLeft: 5}}>
             <Text style={styles.className}> {data.title} </Text>
@@ -150,6 +162,20 @@ class Tutor extends React.Component {
       </View>
     );
   }
+}
+
+const RibbonComponent = props => {
+  let { color, text } = props
+  return (
+    <Ribbon
+      cornerRadius={80}
+      alignment={'left'}
+      style={{backgroundColor: color, height: 24,}}
+      textStyle={{color: '#fff', fontSize: 14, fontWeight: '600'}}
+    >
+      {text}
+    </Ribbon>
+  )
 }
 
 const styles = StyleSheet.create({
