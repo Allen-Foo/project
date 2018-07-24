@@ -72,10 +72,10 @@ export function getTutorDetail (tutorId) {
   }
 }
 
-export function getRevenue (userId) {
+export function getRevenue (userId, userRole) {
   return {
     type: GET_REVENUE,
-    payload: userId,
+    payload: {userId,userRole}
   }
 }
 
@@ -124,7 +124,8 @@ export const getRevenueEpic = (action$, store, { request }) =>
         method: 'post',
         url: '/getWalletRevenue',
         data: {
-          userId: action.payload
+          userId: action.payload.userId,
+          userRole: action.payload.userRole,
         }
        }))
       .map(res => {

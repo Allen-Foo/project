@@ -46,7 +46,7 @@ class BalanceScreen extends React.Component {
   };
 
   componentWillMount() {
-    this.props.getRevenue(this.props.userId);
+    this.props.getRevenue(this.props.user.userId, this.props.user.userRole);
   }
 
   render() {
@@ -152,7 +152,7 @@ const mapStateToProps = (state) => {
     isLoading: state.tutor.isLoading,
     revenue: state.tutor.revenue,
     pendingRevenue: state.tutor.pendingRevenue,
-    userId: state.userProfile.user.userId,
+    user : state.userProfile.user,
     fetchErrorMsg: state.socialLogin.fetchErrorMsg,
     fetchErrorLastUpdate: state.socialLogin.fetchErrorLastUpdate,
   }

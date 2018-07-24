@@ -254,7 +254,7 @@ export const getClassListEpic = (action$, store, { request }) =>
         method: 'post',
         data: {
           ...action.payload
-        } 
+        }
       }))
       .map(res => {
         // console.warn('GET_CLASS_LIST success', res.data)
