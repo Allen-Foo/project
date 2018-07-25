@@ -101,6 +101,7 @@ class Contact extends React.Component {
               keyboardType='numeric'
               onChangeText={(phone) => this.setState({phone})}
               value={phone}
+              underlineColorAndroid={'transparent'}
             />
           </View>
           <View style={styles.textContainer}>
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   textInput: {
-    width: '50%',
+    width: '40%',
     fontSize: 14,
     backgroundColor: '#FFF',
     paddingLeft: 5,

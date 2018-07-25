@@ -81,9 +81,9 @@ class MaxNumberOfStudentScreen extends React.Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            <Text style={{width: 100, textAlign: 'left', paddingLeft: 40}}>{locale.maxNumberOfStudent.text.maxNum}</Text>
+            <Text style={{width: 100, textAlign: 'left', paddingLeft: 10}}>{locale.maxNumberOfStudent.text.maxNum}</Text>
             <TextInput
-              maxLength={8}
+              maxLength={4}
               autoFocus
               style={styles.textInput}
               keyboardType='numeric'
@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
-    // alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'white',
     width: '90%',
@@ -128,11 +127,10 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   textInput: {
-    width: 100,
+    width: '30%',
     fontSize: 14,
     backgroundColor: '#fff',
     textAlign: 'center',
-    // marginLeft: 70,
   },
 });
 

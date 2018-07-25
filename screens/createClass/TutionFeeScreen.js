@@ -121,6 +121,7 @@ class TutionFee extends React.Component {
               onChangeText={(fee) => this.setState({fee})}
               value={fee}
             />
+            <Text style={{color: '#FF5A5F', marginRight: 30}}>HKD</Text>
           </View>
           {
             !this.isEmpty(fee) && !params.isEditMode &&
