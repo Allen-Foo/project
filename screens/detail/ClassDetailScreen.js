@@ -351,7 +351,7 @@ class ClassDetailScreen extends React.Component {
           <View style={styles.rowContainer}>
             <View style={styles.innerContainer}>
               <MaterialIcons
-                name={'alarm'}
+                name={'access-time'}
                 size={20}
                 color={'#999'}
               />
@@ -664,9 +664,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     borderTopWidth: StyleSheet.hairlineWidth,
-    // borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#ccc',
-    // borderBottomColor: '#ccc',
   },
   innerContainer: {
     backgroundColor: '#fff',
