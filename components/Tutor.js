@@ -21,10 +21,10 @@ import Ribbon from './Ribbon';
 import StarRating from 'react-native-star-rating';
 
 const RIBBON_COLOR = {
-  'expired': 'grey',
+  'closed': Colors.closed,
   'new': Colors.tintColor,
-  'full': 'orange',
-  'sale': 'red',
+  'full': Colors.full,
+  'sale': Colors.sales,
 }
 
 class Tutor extends React.Component {
@@ -62,8 +62,26 @@ class Tutor extends React.Component {
   }
 
   getRibbonType(data) {
-    // TODO, add logic here
-    return 'sale'
+    let current = new Date ();
+    let hasPassed = false;
+    Object.values(data.time).forEach(date => {
+      let tempTime = new Date (date[0].startTime)
+      if (current - tempTime > 0) {
+        hasPassed = true;
+      }
+    })
+
+    let isFull = (data.numberOfStudent >= data.maxNumberOfStudent)
+
+    if (hasPassed) {
+      return 'closed'
+    }
+    else if (isFull) {
+      return 'full'
+    }
+    else {
+      return 'new'
+    }
   } 
 
   render() {

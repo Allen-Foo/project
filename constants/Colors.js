@@ -14,4 +14,7 @@ export default {
   noticeBackground: tintColor,
   noticeText: '#fff',
   separator: '#777',
+  full: '#2222dd',
+  closed: '#aa0000',
+  sale: 'red',
 };

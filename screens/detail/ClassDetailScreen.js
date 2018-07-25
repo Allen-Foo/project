@@ -191,7 +191,36 @@ class ClassDetailScreen extends React.Component {
     let classId = classInfo.classId;
     let userId = this.state.classDetail.user.userId
 
-    if (this.state.appliedClassList && this.state.appliedClassList.some(list => list.classId === classId)) {
+    let current = new Date ();
+    let hasPassed = false;
+    Object.values(this.state.classDetail.time).forEach(date => {
+      let tempTime = new Date (date[0].startTime)
+      if (current - tempTime > 0) {
+        hasPassed = true;
+      }
+    })
+
+    let isFull = (this.state.classDetail.numberOfStudent >= this.state.classDetail.maxNumberOfStudent)
+
+    if (hasPassed) {
+      return (
+        <View style={styles.closedButton}>
+          <Text style={{color: 'white', }}> 
+            { this.props.locale.classDetail.text.closed }
+          </Text>
+        </View>
+      ) 
+    }
+    else if (isFull) {
+      return (
+        <View style={styles.fullButton}>
+          <Text style={{color: 'white', }}> 
+            { this.props.locale.classDetail.text.full }
+          </Text>
+        </View>
+      ) 
+    }
+    else if (this.state.appliedClassList && this.state.appliedClassList.some(list => list.classId === classId)) {
       return (
         <View style={styles.appliedButton} onPress={() => this.props.navigation.navigate('Payment', {classInfo})}>
           <Text style={{color: 'white', }}> 
@@ -199,7 +228,8 @@ class ClassDetailScreen extends React.Component {
           </Text>
         </View>
       ) 
-    } else {
+    }
+    else {
       return (
         <TouchableOpacity 
           style={styles.applyButton} 
@@ -722,6 +752,20 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     fontSize: 10,
     fontWeight: '500'
+  },
+  closedButton: {
+    paddingVertical: 15,
+    width: '40%',
+    backgroundColor: Colors.closed,
+    justifyContent: 'center',
+    alignItems: 'center', 
+  },
+  fullButton: {
+    paddingVertical: 15,
+    width: '40%',
+    backgroundColor: Colors.full,
+    justifyContent: 'center',
+    alignItems: 'center', 
   },
   appliedButton: {
     paddingVertical: 15,
