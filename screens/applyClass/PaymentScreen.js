@@ -34,6 +34,7 @@ class PaymentScreen extends React.Component {
       isLoading: false,
       showWebView: false,
       paypalUrl: null,
+      errMessage: '',
     }
   }
 
@@ -65,14 +66,22 @@ class PaymentScreen extends React.Component {
         type: "class"
       }
     }).then(res => {
-      this.setState({
-        isLoading: false,               
-        showWebView: true,
-        paypalUrl: res.data.redirect_url
-      })
+      if (res.data.statusCode && res.data.statusCode == 200) {
+        this.setState({
+          isLoading: false,               
+          showWebView: true,
+          paypalUrl: res.data.redirect_url
+        })
+      }
+      else {
+        this.setState({isLoading: false, errMessage: res.data.msg})
+        this.Toast.show();
+      }
+      
       // console.warn('res', res.data)
     }).catch(err => {
-      this.setState({isLoading: false})
+      this.setState({isLoading: false, errMessage: 'Server Error'})
+      this.Toast.show();
     })
   }
 
@@ -103,12 +112,7 @@ class PaymentScreen extends React.Component {
               style={styles.paymentLogo}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={()=>{this.handleSubmit()}}>
-            <Image
-              source={require('../../assets/payment_icon/wechatpay_logo.png')}
-              style={styles.paymentLogo}
-            />
-          </TouchableOpacity>
+          
         </View>
         {
           this.state.showWebView &&
@@ -136,6 +140,7 @@ class PaymentScreen extends React.Component {
           </View>
         }
         { this.state.isLoading && <Spinner intensity={30}/> }
+        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={this.state.errMessage} />
       </View>
     );
   }
@@ -152,12 +157,13 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   paymentLogo: {
-    width: '30%',
-    height: '25%',
+    width: 150,
+    height: 36,
   },
   button: {
     backgroundColor: '#fff',
     width: '100%',
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
   },
