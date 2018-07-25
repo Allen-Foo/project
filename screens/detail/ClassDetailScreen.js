@@ -10,13 +10,14 @@ import {
   Dimensions,
 } from 'react-native';
 
-import moment from 'moment';
-
 import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-native-elements'
-import { Entypo, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { Entypo, Ionicons, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Comment from '../comments/Comment';
+import Helpers from '../../lib/Helpers';
+import { formatTime } from '../../lib/Helpers';
+
 import { getClassDetail } from '../../redux/actions';
 import { Hr, Slideshow, Spinner, Separator, EditButton, Avatar } from '../../components';
 
@@ -69,7 +70,7 @@ class ClassDetailScreen extends React.Component {
     this.state.appliedClassList = this.props.appliedClassList
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.state.didMount = true
   }
 
@@ -79,25 +80,6 @@ class ClassDetailScreen extends React.Component {
     } else {
       this.props.navigation.navigate('Signin')
     }
-  }
-
-  formateTime = (time) => {
-    let allTimeSlots = []
-    Object.values(time).forEach(date => date.forEach(timeSlot => allTimeSlots.push(timeSlot)))
-
-    let formattedTimeSlots = [];
-
-    allTimeSlots.forEach((timeSlot, index) => {
-      // only show 5 time slots
-      if (index < 5) {
-        let str = `${moment(timeSlot.startTime).format('YYYY-MM-DD')} from ${moment(timeSlot.startTime).format('HH:mm')} to ${moment(timeSlot.endTime).format('HH:mm')}`
-        formattedTimeSlots.push(str)
-      } else if (index == 5) {
-        formattedTimeSlots.push('...')
-      }
-    })
-
-    return formattedTimeSlots.join('\n')
   }
 
   shouldShowCommentButton() {
@@ -174,11 +156,11 @@ class ClassDetailScreen extends React.Component {
         // company account cannot apply class
         return (
           <View style={styles.bottomContainer}>
-            <View style={[styles.bottomPrice, {width: '100%', backgroundColor: '#ccc'}]}>
+            <View style={[styles.bottomPrice, {width: '100%', backgroundColor: '#999'}]}>
               <FontAwesome 
                 name={'dollar'}
                 size={14}
-                color={'#E8DA3A'}
+                color={'#FF9801'}
               />
               <Text style={styles.tutorName}> {`${classDetail.fee} HKD`}</Text>
             </View>
@@ -192,9 +174,9 @@ class ClassDetailScreen extends React.Component {
             <FontAwesome 
               name={'dollar'} 
               size={14}
-              color={'#E8DA3A'}
+              color={'#FF9801'}
             />
-            <Text style={styles.tutorName}> {`${classDetail.fee} HKD ${locale.classSummary.label[classDetail.chargeType]}`}</Text>
+            <Text style={styles.tutorName}> {`${classDetail.fee} HKD`}</Text>
           </View>
           {
             this.renderApplyButton()
@@ -243,7 +225,7 @@ class ClassDetailScreen extends React.Component {
             <MaterialIcons
               name={'call'} 
               size={20}
-              color={'#ff0000'}
+              color={'#999'}
             />
           </View>
           <View style={styles.innerTextContainer}>
@@ -262,11 +244,11 @@ class ClassDetailScreen extends React.Component {
             <MaterialIcons
               name={'location-on'} 
               size={20}
-              color={'#ff0000'}
+              color={'#999'}
             />
           </View>
           <View style={[styles.innerTextContainer, {width: '70%'}]}>
-            <Text style={styles.address}> {this.state.classDetail.address.formatted_address} </Text>
+            <Text numberOfLines={1} style={styles.address}> {this.state.classDetail.address.formatted_address} </Text>
           </View>
         </View>
       )
@@ -278,11 +260,11 @@ class ClassDetailScreen extends React.Component {
               <MaterialIcons
                 name={'location-on'} 
                 size={20}
-                color={'#ff0000'}
+                color={'#999'}
               />
             </View>
             <View style={[styles.innerTextContainer, {width: '70%'}]}>
-              <Text style={styles.address}> {this.state.classDetail.address.formatted_address} </Text>
+              <Text numberOfLines={1} style={styles.address}> {this.state.classDetail.address.formatted_address} </Text>
             </View>
             <Entypo
               name={"chevron-thin-right"}
@@ -317,7 +299,7 @@ class ClassDetailScreen extends React.Component {
               <MaterialIcons 
                 name={'people'} 
                 size={20}
-                color={'#5ECC3F'}
+                color={'#999'}
               />
             </View>
             <View style={styles.innerTextContainer}>
@@ -326,14 +308,14 @@ class ClassDetailScreen extends React.Component {
           </View>
           <View style={styles.rowContainer}>
             <View style={styles.innerContainer}>
-              <FontAwesome 
-                name={'dollar'} 
+              <MaterialCommunityIcons 
+                name={'cash-usd'} 
                 size={20}
-                color={'#E8DA3A'}
+                color={'#999'}
               />
             </View>
             <View style={styles.innerTextContainer}>
-              <Text style={styles.tutorName}> {`${classDetail.fee} HKD`}</Text>
+              <Text style={[styles.tutorName, {color: '#FF9801'}]}> {`${classDetail.fee} HKD`}</Text>
             </View>
           </View>
           <View style={styles.rowContainer}>
@@ -341,11 +323,11 @@ class ClassDetailScreen extends React.Component {
               <MaterialIcons
                 name={'alarm'}
                 size={20}
-                color={'#ff0000'}
+                color={'#999'}
               />
             </View>
             <View style={styles.innerTextContainer}>
-              <Text style={styles.tutorName}>{this.formateTime(classDetail.time)}</Text>
+              <Text style={styles.tutorName}>{formatTime(classDetail.time)}</Text>
             </View>
           </View>
             { this.renderContact() }
@@ -353,14 +335,14 @@ class ClassDetailScreen extends React.Component {
             {
               this.shouldShowCommentButton() && 
               <TouchableOpacity style={styles.commentButton} onPress={() => this.handleCommentButtonPress()} >
-                <Text style={{color: 'green', }}> 
+                <Text style={{color: 'green', fontWeight: '500'}}> 
                   { locale.classDetail.text.giveComment.label }
                 </Text>
                 <Entypo
                   name={"chevron-thin-right"}
                   size={15}
                   style={styles.chevronContainer}
-                  color={'#555'}
+                  color={'#999'}
                 />
               </TouchableOpacity>
             }
@@ -388,8 +370,6 @@ class ClassDetailScreen extends React.Component {
             </View>
           </View>
         }
-        
-
       </View>
     )
   }
@@ -511,7 +491,7 @@ class ClassDetailScreen extends React.Component {
                         <MaterialIcons
                           name={'call'} 
                           size={20}
-                          color={'#ff0000'}
+                          color={'#999'}
                         />
                       </View>
                       <View style={styles.innerTextContainer}>
@@ -533,7 +513,7 @@ class ClassDetailScreen extends React.Component {
                     <Entypo
                       name={"chevron-thin-down"}
                       size={15}
-                      color={'#555'}
+                      color={'#999'}
                     />
                   </View>
                 :
@@ -541,7 +521,7 @@ class ClassDetailScreen extends React.Component {
                     <Entypo
                       name={"chevron-thin-up"}
                       size={15}
-                      color={'#555'}
+                      color={'#999'}
                     />
                   </View>
               }
@@ -552,7 +532,6 @@ class ClassDetailScreen extends React.Component {
   }
 
   render() {
-
     if (!this.state.classDetail && this.state.didMount) {
       this.state.classDetail = this.props.classDetail
     }
@@ -649,10 +628,15 @@ const styles = StyleSheet.create({
 
   },
   rowContainer: {
-    paddingVertical: 5,
+    paddingVertical: 10,
+    marginRight: '5%',
     flexDirection: 'row',
     backgroundColor: '#fff',
     alignItems: 'center',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    // borderBottomWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#ccc',
+    // borderBottomColor: '#ccc',
   },
   innerContainer: {
     backgroundColor: '#fff',
@@ -684,6 +668,8 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     bottom: 0,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#ccc',
   },
   bottomPrice: {
     flexDirection: 'row',
@@ -707,7 +693,7 @@ const styles = StyleSheet.create({
   },
   chevronContainer: {
     position: 'absolute',
-    right: '5%',
+    right: '1%',
   },
   address: {
     color: '#555',
@@ -753,10 +739,12 @@ const styles = StyleSheet.create({
   },
   commentButton: {
     flexDirection: 'row',
-    paddingVertical: 20,
-    width: '100%',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#ccc',
+    paddingVertical: 15,
+    width: '95%',
     justifyContent: 'center',
-    alignSelf: 'center',
+    alignSelf: 'flex-start',
     alignItems: 'center', 
   }
 });
