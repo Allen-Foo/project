@@ -14,7 +14,7 @@ import Colors from '../../constants/Colors';
 import { connect } from 'react-redux';
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { mockData } from '../../constants/mockData';
-import { Tutor, Separator, Avatar} from '../../components';
+import { Tutor, Avatar} from '../../components';
 import StarRating from 'react-native-star-rating';
 import { getClassDetail } from '../../redux/actions';
 import { Spinner } from '../../components';
@@ -37,7 +37,6 @@ class Comment extends React.Component {
     // console.warn('comment', comment)
     return (
       <View>
-        <Separator />
         <View style={styles.rowContainer} onPress={() => this.props.navigation.navigate('CommentDetail')}>
           <View style={styles.avatarContainer}>
             <Avatar
@@ -89,6 +88,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: '2%',
     backgroundColor: '#fff',
+    // paddingHorizontal: '5%',
+    paddingRight: '5%',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#ccc',
   },
   avatarContainer: {
     justifyContent: 'center',
