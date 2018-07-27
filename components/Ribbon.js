@@ -11,6 +11,7 @@ import {
   StyleSheet,
   View,
   Text,
+  ViewPropTypes,
 } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -29,6 +30,9 @@ const styles = StyleSheet.create({
   },
 })
 
+// if ViewPropTypes is not defined fall back to View.propType (to support RN < 0.44)
+const viewPropTypes = ViewPropTypes || View.propTypes;
+
 export default class Ribbon extends Component {
 
   static defaultProps = {
@@ -36,7 +40,7 @@ export default class Ribbon extends Component {
   }
 
   static propTypes = {
-    style: View.propTypes.style,
+    style: viewPropTypes.style,
     textStyle: Text.propTypes.style,
     cornerRadius: PropTypes.number.isRequired,
     alignment: PropTypes.oneOf([
