@@ -6,6 +6,7 @@ import {
   View,
   Text,
   TextInput,
+  Image,
   Alert,
   TouchableOpacity
 } from 'react-native';
@@ -35,13 +36,21 @@ class PreSignUpScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.chooseUserType}>{locale.signUp.text.chooseUserType.label}</Text>
-        <TouchableOpacity 
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate('SignUp', {userRole: 'company'})}
-        >
-          <Text style={styles.textStyle}> {locale.signUp.text.company.label} </Text>
-        </TouchableOpacity>
+
         <Separator style={{backgroundColor: '#eee'}}/>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate('SignUp', {userRole: 'learner'})}
+        >
+          <Image 
+            source={require('../../assets/images/learner.png')}
+            style={styles.image}
+          />
+          <Text style={styles.textStyle}> {locale.signUp.text.learner.label} </Text>
+        </TouchableOpacity> 
+        <Separator style={{backgroundColor: '#eee'}}/>
+
         <TouchableOpacity 
           style={styles.button}
           onPress={() => {
@@ -49,15 +58,27 @@ class PreSignUpScreen extends React.Component {
             this.props.navigation.navigate('SignUp', {userRole: 'tutor'});
           }}
         >
+          <Image 
+            source={require('../../assets/images/tutor.png')}
+            style={styles.image}
+          />
           <Text style={styles.textStyle}> {locale.signUp.text.tutor.label} </Text>
         </TouchableOpacity>
         <Separator style={{backgroundColor: '#eee'}}/>
-        <TouchableOpacity
+
+        <TouchableOpacity 
           style={styles.button}
-          onPress={() => this.props.navigation.navigate('SignUp', {userRole: 'learner'})}
+          onPress={() => this.props.navigation.navigate('SignUp', {userRole: 'company'})}
         >
-          <Text style={styles.textStyle}> {locale.signUp.text.learner.label} </Text>
-        </TouchableOpacity> 
+          <Image 
+            source={require('../../assets/images/company.png')}
+            style={styles.image}
+          />
+          <Text style={styles.textStyle}> {locale.signUp.text.company.label} </Text>
+        </TouchableOpacity>
+
+        <Separator style={{backgroundColor: '#eee'}}/>
+
       </View>
     );
   }
@@ -66,19 +87,26 @@ class PreSignUpScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eee',
+    // justifyContent: 'center',
+    backgroundColor: '#fff',
+    alignItems: 'center',
   },
   chooseUserType: {
-    top: 100,
-    left: 20
+   paddingTop: 30,
+   paddingBottom: 30,
   },
   textStyle: {
+    paddingTop: 5,
     color:'black',
-    left:20,
+  },
+  image: {
+    width: 100,
+    height: 100,
   },
   button:{
-    height: 40,
-    top:110,
+    // height: 40,
+    paddingVertical: 10,
+    alignItems: 'center',
     backgroundColor: '#fff', 
     justifyContent: 'center', 
   },
