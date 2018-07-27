@@ -7,7 +7,7 @@
 // AWS Mobile Hub Project Constants
 const awsmobile = {
 aws_app_analytics : 'enable',
-aws_cognito_identity_pool_id : 'us-east-1:607057c5-bec6-453f-b5ac-745a8d4603dc',
+aws_cognito_identity_pool_id : 'us-east-1:c73b8f4b-a98b-4d3c-8d74-d2ad5369a18d',
 aws_cognito_region : 'us-east-1',
 aws_content_delivery : 'enable',
 aws_content_delivery_bucket : 'tutorapp-hosting-mobilehub-741024213',
@@ -27,9 +27,9 @@ aws_user_files : 'enable',
 aws_user_files_s3_bucket : 'tutorapp-userfiles-mobilehub-741024213',
 aws_user_files_s3_bucket_region : 'us-east-1',
 aws_user_pools : 'enable',
-aws_user_pools_id : 'us-east-1_vAyvxVinw',
+aws_user_pools_id : 'us-east-1_fYJ30s5dT',
 aws_user_pools_mfa_type : 'OFF',
-aws_user_pools_web_client_id : '3i9r2jns8eanteqaont8v5r8t2',
+aws_user_pools_web_client_id : '6sqqbq61ot314sdsqjsl2atvnj',
 aws_user_settings : 'enable',
 }
 
