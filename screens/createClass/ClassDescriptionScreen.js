@@ -95,6 +95,7 @@ class ClassDescriptionScreen extends React.Component {
             autoCapitalize={'words'}
             onChangeText={(title) => this.setState({title})}
             value={this.state.title}
+            underlineColorAndroid={'transparent'}
           />
           <Text style={{fontSize: 15, paddingVertical: 10}}>{locale.classDescription.question.descriptionMsg}</Text>
           <TextInput
@@ -102,6 +103,7 @@ class ClassDescriptionScreen extends React.Component {
             style={styles.textArea}
             onChangeText={(description) => this.setState({description})}
             value={classDescription}
+            underlineColorAndroid={'transparent'}
           />
           {
             !this.isEmpty(title) && !params.isEditMode &&

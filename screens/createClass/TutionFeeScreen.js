@@ -120,6 +120,7 @@ class TutionFee extends React.Component {
               keyboardType='numeric'
               onChangeText={(fee) => this.setState({fee})}
               value={fee}
+              underlineColorAndroid={'transparent'}
             />
             <Text style={{color: '#FF5A5F', marginRight: 30}}>HKD</Text>
           </View>
