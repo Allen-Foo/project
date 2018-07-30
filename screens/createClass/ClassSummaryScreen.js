@@ -136,92 +136,95 @@ class ClassSummaryScreen extends React.Component {
     // console.warn('params', params)
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <ClassInfoRow
-          label={locale.classSummary.label.title}
-          value={params.title}
-        />
-        <ClassInfoRow
-          label={locale.classSummary.label.description}
-          value={params.description}
-        />
-        <ClassInfoRow
-          label={locale.classSummary.label.category}
-          value={`${locale.category.types[params.category]} - ${locale.skill.types[params.category][params.skill]}`}
-        />
-        <ClassInfoRow
-          label={locale.classSummary.label.time}
-          value={this.formateTime(params.time)}
-          textStyle={{textAlign: 'center',}}
-        />
-        <ClassInfoRow
-          label={locale.classSummary.label.address}
-          value={params.address.formatted_address}
-        />
-        <ClassInfoRow
-          label={locale.classSummary.label.contact}
-          value={params.phone}
-        />
-        <TouchableOpacity style={styles.rowContainer}>
-          <Text style={styles.label}>{locale.classSummary.label.fee}</Text>
-          <Text style={styles.price}>{`＄ ${params.fee} HKD`}</Text>
-        </TouchableOpacity>
-        <ClassInfoRow
-          label={locale.classSummary.label.maxStudent}
-          value={params.maxNumberOfStudent + ' ' + locale.maxNumberOfStudent.text.ppl}
-        />
-        <Slideshow 
-          dataSource={params.photoList}
-          containerStyle={sliderContainer}
-          scrollEnabled={params.photoList.length > 1}
-        />
-         { (this.props.user.gold + this.props.user.freeGold >= 30 && this.props.user.userRole != 'company') && <NextButton 
-          onPress={ () => 
-            Alert.alert(
-              this.props.locale.classList.tutorCreateClassMessage,
-              null,
-              [
-                {text: this.props.locale.common.cancel},
-                {text: this.props.locale.common.okMsg, onPress: () => this.props.createClass(params)},
-              ],
-            )
-          }
-          text={this.props.locale.common.submit}
-        /> 
-      }
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <ClassInfoRow
+            label={locale.classSummary.label.title}
+            value={params.title}
+          />
+          <ClassInfoRow
+            label={locale.classSummary.label.description}
+            value={params.description}
+          />
+          <ClassInfoRow
+            label={locale.classSummary.label.category}
+            value={`${locale.category.types[params.category]} - ${locale.skill.types[params.category][params.skill]}`}
+          />
+          <ClassInfoRow
+            label={locale.classSummary.label.time}
+            value={this.formateTime(params.time)}
+            textStyle={{textAlign: 'center',}}
+          />
+          <ClassInfoRow
+            label={locale.classSummary.label.address}
+            value={params.address.formatted_address}
+          />
+          <ClassInfoRow
+            label={locale.classSummary.label.contact}
+            value={params.phone}
+          />
+          <TouchableOpacity style={styles.rowContainer}>
+            <Text style={styles.label}>{locale.classSummary.label.fee}</Text>
+            <Text style={styles.price}>{`＄ ${params.fee} HKD`}</Text>
+          </TouchableOpacity>
+          <ClassInfoRow
+            label={locale.classSummary.label.maxStudent}
+            value={params.maxNumberOfStudent + ' ' + locale.maxNumberOfStudent.text.ppl}
+          />
+          <Slideshow 
+            dataSource={params.photoList}
+            containerStyle={sliderContainer}
+            scrollEnabled={params.photoList.length > 1}
+          />
+          <View style={{height: 80}}/>
+        
+        </ScrollView>
+        { (this.props.user.gold + this.props.user.freeGold >= 30 && this.props.user.userRole != 'company') && <NextButton 
+            onPress={ () => 
+              Alert.alert(
+                this.props.locale.classList.tutorCreateClassMessage,
+                null,
+                [
+                  {text: this.props.locale.common.cancel},
+                  {text: this.props.locale.common.okMsg, onPress: () => this.props.createClass(params)},
+                ],
+              )
+            }
+            text={this.props.locale.common.submit}
+          /> 
+        }
+        { this.props.user.userRole == 'company' && <NextButton 
+            onPress={ () => 
+              Alert.alert(
+                this.props.locale.classList.companyCreateClassMessage,
+                null,
+                [
+                  {text: this.props.locale.common.cancel},
+                  {text: this.props.locale.common.okMsg, onPress: () => this.props.createClass(params)},
+                ],
+              )
+            }
+            text={this.props.locale.common.submit}
+          /> 
+        }
 
-      { this.props.user.userRole == 'company' && <NextButton 
-          onPress={ () => 
-            Alert.alert(
-              this.props.locale.classList.companyCreateClassMessage,
-              null,
-              [
-                {text: this.props.locale.common.cancel},
-                {text: this.props.locale.common.okMsg, onPress: () => this.props.createClass(params)},
-              ],
-            )
-          }
-          text={this.props.locale.common.submit}
-        /> 
-      }
-
-      { (this.props.user.gold + this.props.user.freeGold < 30 && this.props.user.userRole != 'company') && <NextButton 
-          onPress={ () => 
-            Alert.alert(
-              this.props.locale.classList.tutorCreateClassNotEnoughCoinsMessage,
-              null,
-              [
-                {text: this.props.locale.common.cancel},
-                {text: this.props.locale.common.goToShop, onPress: () => this.props.navigation.navigate('PurchaseCoin')},
-              ],
-            )
-          }
-          text={this.props.locale.common.submit}
-        /> 
-      }
-        { this.props.isLoading && <Spinner /> }
-        <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
-      </ScrollView>
+        { (this.props.user.gold + this.props.user.freeGold < 30 && this.props.user.userRole != 'company') && <NextButton 
+            onPress={ () => 
+              Alert.alert(
+                this.props.locale.classList.tutorCreateClassNotEnoughCoinsMessage,
+                null,
+                [
+                  {text: this.props.locale.common.cancel},
+                  {text: this.props.locale.common.goToShop, onPress: () => this.props.navigation.navigate('PurchaseCoin')},
+                ],
+              )
+            }
+            text={this.props.locale.common.submit}
+          /> 
+        }
+          { this.props.isLoading && <Spinner /> }
+          <Toast timeout={5000} ref={(r) => { this.Toast = r; }} text={errMessage} />
+      </View>
     );
   }
 }
@@ -256,6 +259,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 20,
   },
+  scrollContainer: {
+    width:width,
+    backgroundColor: '#F0F0F0',
+    alignItems: 'center',
+  },
   title: {
     paddingVertical: 20,
   },
@@ -271,7 +279,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   rowContainer: {
-    width: '90%',
+    width: width*0.9,
     paddingHorizontal: 10,
     paddingVertical: 12,
     marginBottom: 8,
