@@ -220,12 +220,6 @@ class SignUpScreen extends React.Component {
               style={{marginBottom: 10}}
               onPress={() => this.props.signInFacebook()}
             />
-            <SocialButton
-              name={'google-plus'}
-              text={'Sign in with Google'}
-              color={'#CF563C'}
-              onPress={() => this.props.signInGoogle()}
-            />
           </View>
         }
 
