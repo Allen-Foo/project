@@ -297,6 +297,15 @@ export const registerEpic = (action$, store, { request }) =>
       }))
       .map(res => {
         // console.warn('register success', res)
+        if (action.payload.registerType == 'facebook') {
+          return {
+            type: LOGIN,
+            payload: {
+              username: res.data.username,
+              awsId: res.data.awsId,
+            }
+          }
+        }
         return {
           type: REGISTER_SUCCESS,
           payload: res.data
@@ -343,6 +352,7 @@ export const getIdentityIdEpic = (action$, store, { request }) =>
         return {
           type: REGISTER,
           payload: {
+            registerType: 'facebook',
             user: {
               awsId: res,
               ...user
