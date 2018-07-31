@@ -178,7 +178,7 @@ class SignUpCompanyBannerScreen extends React.Component {
                   this.Toast.show();
                 }
                 else {
-                  this.props.setCompanyBanner (this.state.banner);
+                  this.props.setCompanyBanner(this.state.banner.map(x => ({location: x.location, uri: x.uri})));
                   // Next step
                   this.props.navigation.navigate('SignUpCompanyConfirm')
                 }
