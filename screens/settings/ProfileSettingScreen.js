@@ -13,11 +13,11 @@ import {
 import { connect } from 'react-redux';
 import Colors from '../../constants/Colors';
 import { List, ListItem } from 'react-native-elements';
-import { signOut, updateAvatar, updateProfile, getTutorDetail } from '../../redux/actions';
+import { signOut, updateAvatar, updateProfile, getTutorDetail, getCompanyDetail } from '../../redux/actions';
 import { onSignOut } from '../../lib/Auth/AWS_Auth';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
-import { Avatar, CheckButton} from '../../components';
+import { Avatar, CheckButton, Slideshow} from '../../components';
 
 let {width, height} = Dimensions.get('window');
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -83,6 +83,18 @@ class ProfileSettingScreen extends React.Component {
         }
 
       }
+      else if (this.props.user.userRole == 'company') {
+        if (!this.state.introduction) {
+          Alert.alert('Introduction cannot be empty!')
+        }
+        else if (!this.state.slogan) {
+          Alert.alert('Slogan cannot be empty!')
+        }
+        else {
+          // Tutor, Done
+        this.handleSubmit()
+        }
+      }
     }
   }
 
@@ -127,6 +139,7 @@ class ProfileSettingScreen extends React.Component {
       profession: '',
       experience: '0',
       achievement: '',
+      slogan: '',
       showPicker: false,
     }
   }
@@ -136,6 +149,9 @@ class ProfileSettingScreen extends React.Component {
     if (this.props.user.userRole == 'tutor') {
       this.props.getTutorDetail(this.props.user.userId)
     }
+    else if (this.props.user.userRole == 'company') {
+      this.props.getCompanyDetail(this.props.user.userId)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -144,26 +160,28 @@ class ProfileSettingScreen extends React.Component {
     //   this.props.navigation.goBack();
     // }
     if  (!nextProps.isTutorLoading && this.props.isTutorLoading) {
-      if (nextProps.fetchErrorLastUpdate instanceof Date
-          && (!(this.props.fetchErrorLastUpdate instanceof Date)
-            || nextProps.fetchErrorLastUpdate.getTime() !== this.props.fetchErrorLastUpdate.getTime())) {
-        this.props.navigation.goBack();
+      this.setState ({profession: nextProps.tutor.profession});
+      this.setState ({experience: nextProps.tutor.experience});
+      this.setState ({achievement: nextProps.tutor.achievement});
+      
+      if (nextProps.tutor.selfIntro === 'null') {
+        this.setState ({selfIntro: ''});
       }
       else {
-        this.setState ({profession: nextProps.tutor.profession});
-        this.setState ({experience: nextProps.tutor.experience});
-        this.setState ({achievement: nextProps.tutor.achievement});
-        
-
-        if (nextProps.tutor.selfIntro === 'null') {
-          this.setState ({selfIntro: ''});
-        }
-        else {
-          this.setState ({selfIntro: nextProps.tutor.selfIntro});
-        }
+        this.setState ({selfIntro: nextProps.tutor.selfIntro});
       }
-      
     }
+      
+
+    if  (!nextProps.isCompanyLoading && this.props.isCompanyLoading) {
+      this.setState ({introduction: nextProps.company.introduction});
+      this.setState ({slogan: nextProps.company.slogan});
+
+    }
+    if (this.props.user.userRole == 'company') {
+      this.setState ({banner: nextProps.company.banner});
+    }
+
 
   }
 
@@ -410,53 +428,50 @@ class ProfileSettingScreen extends React.Component {
               autoCapitalize={'none'}
             />
           </View>
+          
           <View style={styles.rowContainer}>
-            <Text style={styles.textTag}>{locale.createTutor.text.profession}</Text>
+            <Text style={styles.textTag}>{locale.signUp.title.slogan}</Text>
             <TextInput 
               style={styles.textInput}
-              onChangeText={(profession) => this.setState({profession})}
-              value={this.state.profession}
+              onChangeText={(slogan) => this.setState({slogan})}
+              value={this.state.slogan}
               autoCapitalize={'none'}
             />
           </View>
+          
           <View style={styles.rowContainer}>
-            <Text style={styles.textTag}>{locale.createTutor.text.experience}</Text>
-            <TouchableOpacity 
-              style={styles.expBox}
-              onPress = {() => this.showPicker()}>
-              <Text>
-                {this.state.experience}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.rowContainer}>
-            <Text style={styles.textTag}>{locale.createTutor.text.achievement}</Text>
+            <Text style={styles.textTag}>{locale.signUp.title.introduction}</Text>
             <TextInput 
-              style={styles.textInput}
-              onChangeText={(achievement) => this.setState({achievement})}
-              value={this.state.achievement}
+              multiline={true}
+              numberOfLines={4}
               autoCapitalize={'none'}
+              style={styles.introBox}
+              onChangeText={(introduction) => this.setState({introduction})}
+              value={this.state.introduction}
             />
           </View>
 
-
-          <View style={styles.rowContainer}>
-            <Text style={styles.textTag}>{locale.createTutor.text.selfIntro}</Text>
-              <TextInput 
-                multiline={true}
-                numberOfLines={4}
-                autoCapitalize={'none'}
-                style={styles.introBox}
-                onChangeText={(selfIntro) => this.setState({selfIntro})}
-                value={this.state.selfIntro}
-              />
-          </View>
-
+          {
+            this.state.banner &&
+            <View style={styles.rowContainer}>
+              <Text style={styles.textTag}>{locale.signUp.title.banner}</Text>
+              <View >
+                <Slideshow 
+                  dataSource={this.state.banner}
+                  containerStyle={{
+                    width: width * 0.7,
+                    height: width * 0.7 * 3 / 4,
+                    paddingHorizontal: width * 0.025,
+                    paddingTop: width * 0.025,
+                    marginBottom: width * 0.025,
+                  }}
+                  scrollEnabled={this.state.banner.length > 1}
+                />
+                <Text style={styles.changeBanner} onPress={() => this.props.navigation.navigate('ChanageBannerScene')}>{locale.profileSetting.text.editIcon}</Text>
+              </View>
+            </View>
+          }
           
-          
-          <TouchableOpacity style={styles.changePwButton} onPress={()=> this.props.navigation.navigate('ChangePassword')}>
-            <Text style={{textAlign: 'left', paddingVertical: 10}}>{locale.profileSetting.text.changePw}</Text>
-          </TouchableOpacity>
           <View style={{width: 400, height: 50}} />
 
         </View>
@@ -591,6 +606,12 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
   },
+  changeBanner: {
+    color: '#3b85be',
+    fontSize: 16,
+    marginTop: 10,
+    alignSelf: 'center',
+  },
   expBox: {
     borderWidth: 1,
     height: 30,
@@ -669,7 +690,9 @@ const mapStateToProps = (state) => {
     locale: state.language.locale,
     user: state.userProfile.user,
     isTutorLoading: state.tutor.isLoading,
+    isCompanyLoading: state.company.isLoading,
     tutor: state.tutor,
+    company: state.company,
   }
 }
 
@@ -678,4 +701,5 @@ export default connect(mapStateToProps, {
   updateAvatar,
   updateProfile,
   getTutorDetail,
+  getCompanyDetail,
 })(ProfileSettingScreen)

@@ -160,7 +160,7 @@ class SignUpCompanyConfirmScreen extends React.Component {
               scrollEnabled={banner.length > 1}
             />
           </View>
-          
+          <View style={{height:90}}/>
 
         </ScrollView>
         { this.props.isLoading && <Spinner /> }

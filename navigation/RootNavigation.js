@@ -30,6 +30,7 @@ import Terms from '../screens/login/TermsScreen'
 
 import ForgotPassword from '../screens/login/ForgotPasswordScreen';
 import ChangePassword from '../screens/settings/ChangePasswordScreen';
+import ChanageBannerScene from '../screens/settings/ChanageBannerScene';
 import SearchClass from '../screens/search/SearchClassScreen';
 import SearchClassResult from '../screens/search/SearchClassResultScreen';
 import ClassMap from '../screens/detail/ClassMapScreen';
@@ -102,8 +103,8 @@ const RootStackNavigator = StackNavigator(
     ForgotPassword: {
       screen: ForgotPassword,
     },
-    ChangePassword: {
-      screen: ChangePassword,
+    ChanageBannerScene : {
+      screen: ChanageBannerScene,
     },
     SearchClass: {
       screen: SearchClass,
@@ -149,6 +150,9 @@ const TutorStackNavigator = StackNavigator(
     },
     Settings: {
       screen: Settings,
+    },
+    ChanageBannerScene : {
+      screen: ChanageBannerScene,
     },
     Language: {
       screen: Language,
