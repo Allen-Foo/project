@@ -59,7 +59,6 @@ class App extends React.Component {
           && moment().isBefore(moment(res.data.finishedAt))
       ) {
         this.setState({imageUrl: res.data.imgUrl, redirectUrl: res.data.url})
-        this.showDialog()
       }
     })
   }
@@ -120,6 +119,7 @@ class App extends React.Component {
           >
             <Image
               source={{uri: this.state.imageUrl}}
+              onLoadEnd={() => this.state.imageUrl != '' && this.showDialog()}
               style={{width: width * 0.9, height: width * 1.2}}
             />
             <View style={styles.timeContainer}>
