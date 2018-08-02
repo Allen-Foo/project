@@ -2,7 +2,7 @@
 import 'rxjs';
 
 import React from 'react';
-import { AsyncStorage, Platform, StatusBar, StyleSheet, View, Dimensions, Image, Text } from 'react-native';
+import { AsyncStorage, Platform, StatusBar, StyleSheet, View, Dimensions, Image, Text, Linking, TouchableOpacity } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
@@ -117,16 +117,18 @@ class App extends React.Component {
               />,
             ]}
           >
-            <Image
-              source={{uri: this.state.imageUrl}}
-              onLoadEnd={() => this.state.imageUrl != '' && this.showDialog()}
-              style={{width: width * 0.9, height: width * 1.2}}
-            />
-            <View style={styles.timeContainer}>
-              <Text>
-                {this.state.delay}
-              </Text>
-            </View>
+            <TouchableOpacity onPress={() => Linking.openURL(this.state.redirectUrl)}>
+              <Image
+                source={{uri: this.state.imageUrl}}
+                onLoadEnd={() => this.state.imageUrl != '' && this.showDialog()}
+                style={{width: width * 0.9, height: width * 1.2}}
+              />
+              <View style={styles.timeContainer}>
+                <Text>
+                  {this.state.delay}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </PopupDialog>
         </View>
       );
