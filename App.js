@@ -9,6 +9,10 @@ import RootNavigation from './navigation/RootNavigation';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor} from './configureStore';
 import { Provider } from 'react-redux';
+import axios from 'axios';
+import appSecrets from './appSecrets';
+import moment from 'moment';
+import Colors from './constants/Colors';
 
 import PopupDialog, { SlideAnimation, ScaleAnimation, FadeAnimation, DialogButton } from 'react-native-popup-dialog';
 
@@ -39,7 +43,25 @@ class App extends React.Component {
     this.state = {
       delay: 0,
       isLoadingComplete: false,
+      imageUrl: '',
+      redirectUrl: null,
     }
+  }
+
+  componentDidMount() {
+    let baseURL = appSecrets.aws.apiURL;
+    axios({
+      method: 'post',
+      url: baseURL + '/getAdvertisement',
+    }).then(res => {
+      if (res.data && res.data.startedAt 
+          && moment().isAfter(moment(res.data.startedAt))
+          && moment().isBefore(moment(res.data.finishedAt))
+      ) {
+        this.setState({imageUrl: res.data.imgUrl, redirectUrl: res.data.url})
+        this.showDialog()
+      }
+    })
   }
 
   componentWillUnmount() {
@@ -48,7 +70,7 @@ class App extends React.Component {
 
   showDialog() {
     this.popupDialog.show();
-    this.setState({delay: 5})
+    this.setState({delay: 6})
     if (!this.interval) {
       this.interval = setInterval(() => {
         if (this.state.delay > 0) {
@@ -90,14 +112,14 @@ class App extends React.Component {
                   this.popupDialog.dismiss();
                 }}
                 buttonStyle={buttonStyle}
-                textStyle={{fontSize: 15}}
+                textStyle={{fontSize: 15, color: '#fff'}}
                 textContainerStyle={{paddingVertical: 15}}
                 key="button-1"
               />,
             ]}
           >
             <Image
-              source={{uri: 'https://s3.amazonaws.com/aws-test-dev-uploads/0f1e548e98b387794433d84cedceee091a1b64a4.jpg'}}
+              source={{uri: this.state.imageUrl}}
               style={{width: width * 0.9, height: width * 1.2}}
             />
             <View style={styles.timeContainer}>
@@ -139,7 +161,6 @@ class App extends React.Component {
 
   _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
-    this.showDialog()
   };
 }
 
@@ -147,7 +168,8 @@ const buttonStyle = {
   backgroundColor: '#fff',
   width: 0.9 * width,
   borderBottomLeftRadius: 5,
-  borderBottomRightRadius: 5
+  borderBottomRightRadius: 5,
+  backgroundColor: Colors.tintColor,
 }
 
 const styles = StyleSheet.create({
