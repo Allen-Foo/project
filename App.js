@@ -2,8 +2,8 @@
 import 'rxjs';
 
 import React from 'react';
-import { AsyncStorage, Platform, StatusBar, StyleSheet, View, Dimensions, Image, Text, Linking, TouchableOpacity } from 'react-native';
-import { AppLoading, Asset, Font } from 'expo';
+import { Modal, Alert, Platform, StatusBar, StyleSheet, View, Dimensions, Image, Text, Linking, TouchableOpacity } from 'react-native';
+import { AppLoading, Asset, Font, Constants } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -54,9 +54,12 @@ class App extends React.Component {
       method: 'post',
       url: baseURL + '/getAdvertisement',
     }).then(res => {
-      if (res.data && res.data.startedAt 
-          && moment().isAfter(moment(res.data.startedAt))
-          && moment().isBefore(moment(res.data.finishedAt))
+      // check update
+      if (res.data.version > Constants.manifest.version) {
+        this.updateDialog.show()
+      } else if (res.data && res.data.startedAt 
+        && moment().isAfter(moment(res.data.startedAt))
+        && moment().isBefore(moment(res.data.finishedAt))
       ) {
         this.setState({imageUrl: res.data.imgUrl, redirectUrl: res.data.url})
       }
@@ -81,6 +84,81 @@ class App extends React.Component {
     }
   }
 
+  renderAds = () => {
+    return (
+      <PopupDialog
+        width={0.9 * width}
+        height={1.2 * width}
+        ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+        dialogAnimation={scaleAnimation}
+        animationDuration={500}
+        dismissOnHardwareBackPress={false}
+        dismissOnTouchOutside={false}
+        hasOverlay={true}
+        actions={[
+          <DialogButton
+            text={'Close'}
+            dismissOnTouchOutside={false}
+            onPress={() => {
+              this.popupDialog.dismiss();
+            }}
+            buttonStyle={buttonStyle}
+            textStyle={{fontSize: 15, color: '#fff'}}
+            textContainerStyle={{paddingVertical: 15}}
+            key="button-1"
+          />
+        ]}
+      >
+        <TouchableOpacity onPress={() => Linking.openURL(this.state.redirectUrl)}>
+          <Image
+            source={{uri: this.state.imageUrl}}
+            onLoadEnd={() => this.state.imageUrl != '' && this.showDialog()}
+            style={{width: width * 0.9, height: width * 1.2}}
+          />
+          <View style={styles.timeContainer}>
+            <Text>
+              {this.state.delay}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </PopupDialog>
+    )
+  }
+
+  renderForceUpdate = () => {
+    return (
+      <PopupDialog
+        width={0.9 * width}
+        height={0.5 * width}
+        ref={(updateDialog) => { this.updateDialog = updateDialog; }}
+        dialogAnimation={scaleAnimation}
+        animationDuration={500}
+        dismissOnHardwareBackPress={false}
+        dismissOnTouchOutside={false}
+        hasOverlay={true}
+        actions={[
+          <DialogButton
+            text={'Update'}
+            dismissOnTouchOutside={false}
+            onPress={() => {
+              // go to apple store
+            }}
+            buttonStyle={buttonStyle}
+            textStyle={{fontSize: 15, color: '#fff'}}
+            textContainerStyle={{paddingVertical: 15}}
+            key="button-2"
+          />
+        ]}
+      >
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{fontSize: 16}}>
+            {'New version is available, please update now!'}
+          </Text>
+        </View>
+      </PopupDialog>
+    )
+  }
+
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -97,39 +175,8 @@ class App extends React.Component {
           {Platform.OS === 'android' &&
             <View style={styles.statusBarUnderlay} />}
           <RootNavigation />
-          <PopupDialog
-            width={0.9 * width}
-            height={1.2 * width}
-            ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-            dialogAnimation={scaleAnimation}
-            animationDuration={500}
-            actions={[
-              <DialogButton
-                text={'Close'}
-                dismissOnTouchOutside={false}
-                onPress={() => {
-                  this.popupDialog.dismiss();
-                }}
-                buttonStyle={buttonStyle}
-                textStyle={{fontSize: 15, color: '#fff'}}
-                textContainerStyle={{paddingVertical: 15}}
-                key="button-1"
-              />,
-            ]}
-          >
-            <TouchableOpacity onPress={() => Linking.openURL(this.state.redirectUrl)}>
-              <Image
-                source={{uri: this.state.imageUrl}}
-                onLoadEnd={() => this.state.imageUrl != '' && this.showDialog()}
-                style={{width: width * 0.9, height: width * 1.2}}
-              />
-              <View style={styles.timeContainer}>
-                <Text>
-                  {this.state.delay}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </PopupDialog>
+          {this.renderForceUpdate()}
+          {this.renderAds()}
         </View>
       );
     }
