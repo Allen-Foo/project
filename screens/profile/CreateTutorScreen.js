@@ -16,7 +16,8 @@ let {width, height} = Dimensions.get('window');
 import Colors from '../../constants/Colors';
 import { ImagePicker } from 'expo';
 import { connect } from 'react-redux';
-import { Separator, Spinner, Toast, Avatar } from '../../components';
+import { Separator, Spinner, Toast, Avatar, AchievementItem } from '../../components';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { createTutor, updateTutor, getTutorDetail } from '../../redux/actions';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -73,14 +74,37 @@ class CreateTutorScreen extends React.Component {
      else if (!this.state.profession) {
       Alert.alert('Profession cannot be empty!')
     }
-     else if (!this.state.achievement) {
+     else if (!this.state.achievementList) {
       Alert.alert('Achievement cannot be empty!')
     }
     else if (!this.state.avatarUrl) {
       Alert.alert('Please choose icon!')
     }
      else {
-      this.handleSubmit ();
+
+      // Check if all achievements are correctly filled in
+      if (this.state.achievementList.length > 0) {
+        let allFilled = true;
+        for (let i=0; i<this.state.achievementList.length;i++) {
+          if (!this.state.achievementList[i].achievement) {
+            allFilled = false;
+            break;
+          }
+        }
+
+        if (allFilled) {
+          this.handleSubmit ();
+        }
+        else {
+          Alert.alert('Achievement cannot be empty!')
+        }
+      }
+      else {
+        Alert.alert('Achievement cannot be empty!')
+      }
+
+
+
     }
   }
 
@@ -116,7 +140,7 @@ class CreateTutorScreen extends React.Component {
       else {
         this.setState ({profession: nextProps.tutor.profession});
         this.setState ({experience: nextProps.tutor.experience});
-        this.setState ({achievement: nextProps.tutor.achievement});
+        this.setState ({achievementList: nextProps.tutor.achievementList});
         
 
         if (nextProps.tutor.selfIntro === 'null') {
@@ -144,9 +168,12 @@ class CreateTutorScreen extends React.Component {
       selfIntro: '',
       profession: '',
       experience: '0',
-      achievement: '',
+      achievementList: null,
       avatarUrl: params.avatarUrl,
       showPicker: false,
+      showAchievementPicker: false,
+      targetIndex: 0,
+      isFromYear: false,
     }
   }
 
@@ -157,6 +184,44 @@ class CreateTutorScreen extends React.Component {
     this.setState({experience: v})
     this.hidePicker()
   }
+
+
+  onYearButtonPressed = (data)=> {
+    this.setState({showAchievementPicker:true, targetIndex:data.index, isFromYear: data.isFromYear})
+  }
+
+  onDeletePressed = (index)=> {
+    let achievementList = this.state.achievementList;
+    achievementList.splice(index,1)
+
+    for (let i=0; i<achievementList.length; i++) {
+      achievementList[i].index = i;
+    }
+
+    this.setState({achievementList})
+    console.log('achievementList: ', achievementList)
+  }
+
+  onTextChanged = (index, text) => {
+
+    let achievementList = this.state.achievementList
+    achievementList[index].achievement = text
+    this.setState({achievementList})
+
+  }
+
+  handleAchievementCancel = () => {this.setState({showAchievementPicker:false})}
+  handleAchievementConfirm = (v) => {
+    if (this.state.isFromYear) {
+      this.state.achievementList[this.state.targetIndex] = {...this.state.achievementList[this.state.targetIndex], fromYear: v}
+    }
+    else {
+      this.state.achievementList[this.state.targetIndex] = {...this.state.achievementList[this.state.targetIndex], toYear: v}
+    }
+
+    this.setState({showAchievementPicker:false})
+  }
+
 
   renderHeader() {
     let { locale } = this.props      
@@ -215,12 +280,8 @@ class CreateTutorScreen extends React.Component {
             </TouchableOpacity>
           </View>
 
-          <TextInputItems
-            fieldName={locale.createTutor.text.achievement}
-            style={styles.textInput}
-            onChangeText={(achievement) => this.setState({achievement})}
-            value={this.state.achievement}
-          />
+          {this.achievementItem ()}
+
           <View style={styles.contentContainer}>
             <Text style={styles.fieldName}>{locale.createTutor.text.selfIntro}</Text>
             <TextInput
@@ -241,6 +302,14 @@ class CreateTutorScreen extends React.Component {
               experience={this.state.experience}
             />
           }
+
+          { this.state.showAchievementPicker 
+            && <CustomAchievementPicker 
+              onCancel={this.handleAchievementCancel}
+              onConfirm={this.handleAchievementConfirm}
+              locale={this.props.locale}
+              year={this.state.isFromYear?this.state.achievementList[this.state.targetIndex].fromYear : this.state.achievementList[this.state.targetIndex].toYear}/>}
+
         { (this.props.isTutorLoading || this.props.isLoading) && <Spinner intensity={100}/> }
       </View>
     )
@@ -285,6 +354,78 @@ class CreateTutorScreen extends React.Component {
         avatarUrl: res.data.Location,
       })
     }).catch(err => console.warn(err))
+  }
+
+  achievementItem () {
+    return (
+      <View style={{
+        width: '90%',
+        paddingLeft: 30,
+        marginTop: 5,
+      }}>
+        <View style={styles.container}>
+          <View style={{
+            flexDirection: 'row',
+            height:30,
+            alignItems:'center',
+          }}>
+            <Text style={styles.achievementTitle}>
+            {this.props.locale.signUp.title.achievement}
+            </Text>
+            <Text 
+              style={{
+                width: '20%',
+                fontSize: 14,
+                textAlign: 'center',
+              }}>
+              {'From'}
+            </Text>
+            <Text 
+              style={{
+                width: '20%',
+                fontSize: 14,
+                textAlign: 'center',
+              }}>
+              {'To'}
+            </Text>
+          </View>
+
+          <ScrollView contentContainerStyle={{alignItems: 'center',}}>
+            {
+              !!this.state.achievementList &&
+              this.state.achievementList.length > 0 &&
+              this.state.achievementList.map((item, i) => 
+                <AchievementItem 
+                    key={i}
+                    canEdit={true}
+                    data={{...item, index:i}}
+                    onPressedCallback={this.onYearButtonPressed}
+                    onDeletePressedCallback={this.onDeletePressed}
+                    onTextChangedCallback={this.onTextChanged}/>
+              )
+            }
+            <TouchableOpacity
+              onPress= {()=>{
+                let achievementList = this.state.achievementList
+                let date = new Date();
+                if (achievementList) {
+                  achievementList.push({index:achievementList.length, achievement:'', fromYear:date.getFullYear (), toYear:date.getFullYear ()})
+                }
+                else {
+                  achievementList = [{index:0, achievement:'', fromYear:date.getFullYear (), toYear:date.getFullYear ()}]
+                }
+                this.setState({achievementList})
+              }} >
+              <MaterialCommunityIcons
+                name={'plus-circle-outline'}
+                size={25}
+                color={Colors.tintColor}
+              />
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+      </View>
+      );
   }
 }
 
@@ -354,6 +495,64 @@ class CustomPicker extends React.Component {
   }
 }
 
+class CustomAchievementPicker extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      year: props.year || '0'
+    }
+  }
+
+  render() {
+    const { locale, year, onCancel, onConfirm } = this.props;
+
+    let date = new Date();
+    let curYear = date.getFullYear();
+    let yearList = [];
+
+
+    for (let i = 0; i < 80; i++) {
+      yearList.push(curYear-i);
+    }
+
+    let pickerItems = yearList.map( (s, i) => {
+        return <Picker.Item key={i} value={s} label={''+s} />
+    });
+
+    return (
+      <View style={styles.pickerContainer}>
+        <View style={styles.innerRowContainer}>
+          <TouchableOpacity onPress={() => onCancel()}>
+            <Text style={[styles.text, {color: '#FF5A5F', }]}>
+              {locale.common.cancel} 
+            </Text>
+          </TouchableOpacity>
+          {
+            <TouchableOpacity onPress={() => onConfirm(this.state.year)}>
+              <Text style={[styles.text, {color: '#666', }]}>
+                {locale.common.confirm} 
+              </Text>
+            </TouchableOpacity>
+          }
+        </View>
+        
+        <Picker
+          selectedValue={this.state.year}
+          style={styles.picker}
+          onValueChange={
+            (year, itemIndex) => {
+
+              this.setState({year});
+            }
+          }>
+          {pickerItems}
+          
+        </Picker>
+      </View>
+    )
+  }
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -393,6 +592,11 @@ const styles = StyleSheet.create({
   fieldName: {
     paddingTop: 10,
     paddingVertical: 10
+  },
+  achievementTitle: {
+    
+    fontSize: 14,
+    width: '60%',
   },
   pickerName: {
     alignSelf: 'center'
