@@ -153,7 +153,7 @@ class ClassAddressScreen extends React.Component {
           {
             data && data.description && !params.isEditMode &&
             <NextButton 
-              onPress={() => this.props.navigation.navigate('TutionFee', params)}
+              onPress={() => this.handleNext(params)}
               text={this.props.locale.common.next}
             />
           }
