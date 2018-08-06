@@ -30,7 +30,7 @@ class SettingsScreen extends React.Component {
         />
         <View style={styles.rowContainer}>
           <Text style={styles.leftText}> {this.props.locale.settings.version} </Text>
-          <Text style={styles.rightText}> {'1.0.0'} </Text>
+          <Text style={styles.rightText}> {Constants.manifest.version} </Text>
         </View>
         {
           this.props.user &&
