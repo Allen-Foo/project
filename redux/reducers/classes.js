@@ -41,6 +41,7 @@ import {
   SIGN_OUT_SUCCESS,
 
   CLEAR_COMPANY_PROFILE,
+  CLEAR_TUTORPROFILE,
 } from '../types';
 
 const defaultState = {
@@ -308,6 +309,11 @@ export default (state = {...defaultState}, action) => {
         fetchErrorLastUpdate: new Date(),
       }
     case CLEAR_COMPANY_PROFILE: 
+      return {
+        ...state,
+        classList: [],
+      }
+    case CLEAR_TUTORPROFILE:
       return {
         ...state,
         classList: [],

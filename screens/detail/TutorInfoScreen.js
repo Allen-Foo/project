@@ -6,7 +6,7 @@ import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { List, ListItem } from 'react-native-elements'
 const { height, width } = Dimensions.get('window')
 import Colors from '../../constants/Colors';
-import { getClassList, getTutorDetail } from '../../redux/actions';
+import { getClassList, getTutorDetail, clearTutorProfile } from '../../redux/actions';
 import { Separator, Tutor, Avatar, Spinner, AchievementItem } from '../../components';
 import StarRating from 'react-native-star-rating';
 
@@ -40,6 +40,10 @@ class TutorInfoScreen extends React.Component {
 
   componentDidMount () {
     this.state.didMount = true
+  }
+
+  componentWillUnmount() {
+    this.props.clearTutorProfile()
   }
 
   renderLoading() {
@@ -208,4 +212,5 @@ const mapStateToPorps = (state) => {
 export default connect(mapStateToPorps, {
   getClassList,
   getTutorDetail,
+  clearTutorProfile,
 })(TutorInfoScreen)
