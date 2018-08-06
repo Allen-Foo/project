@@ -7,7 +7,7 @@ import { List, ListItem } from 'react-native-elements'
 const { height, width } = Dimensions.get('window')
 import Colors from '../../constants/Colors';
 import { getClassList, getTutorDetail } from '../../redux/actions';
-import { Separator, Tutor, Avatar, Spinner } from '../../components';
+import { Separator, Tutor, Avatar, Spinner, AchievementItem } from '../../components';
 import StarRating from 'react-native-star-rating';
 
 class TutorInfoScreen extends React.Component {
@@ -52,6 +52,7 @@ class TutorInfoScreen extends React.Component {
 
     if (!this.state.tutor.profile && this.state.didMount) {
       this.state.tutor = this.props.tutor
+      console.log(this.state.tutor)
     }
 
     if (!this.state.tutor.profile) {
@@ -106,9 +107,18 @@ class TutorInfoScreen extends React.Component {
             </View>
             <View style={styles.tutorInfo}>
               <Text style={{width: '30%', fontWeight: 'bold'}}>{locale.tutorInfo.text.achievement}</Text>
-              <Text style={{width: '60%'}}>
-                {this.state.tutor.achievement}
-              </Text>
+              <View style={{width:'70%'}}>
+                {
+                  this.state.tutor.achievementList &&
+                  this.state.tutor.achievementList.length > 0 &&
+                  this.state.tutor.achievementList.map((item, i) => 
+                    <AchievementItem 
+                        key={i}
+                        canEdit={false}
+                        data={{...item, index:i}}/>
+                  )
+                }
+              </View>
             </View>
 
             {
