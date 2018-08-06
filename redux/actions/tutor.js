@@ -52,10 +52,10 @@ export function setExperience(experience) {
   };
 }
 
-export function setAchievement(achievement) {
+export function setAchievement(achievementList) {
   return {
     type: SET_ACHIEVEMENT,
-    payload: achievement
+    payload: achievementList
   };
 }
 

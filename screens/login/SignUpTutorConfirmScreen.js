@@ -16,7 +16,7 @@ import { verifyCode, verifyCodeCancel, signUp, clearTutorProfile } from '../../r
 import CountryPicker, { getAllCountries } from 'react-native-country-picker-modal';
 import { getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 
-import { Spinner, Toast } from '../../components';
+import { Spinner, Toast, AchievementItem } from '../../components';
 
 
 class SignUpTutorConfirmScreen extends React.Component {
@@ -52,19 +52,19 @@ class SignUpTutorConfirmScreen extends React.Component {
 
   handleSignUp() {
     let { cca2, phoneNumber, callingCode, ...profile } = this.props.profile;
-    let { selfIntro, profession, experience, achievement } = this.props;
+    let { selfIntro, profession, experience, achievementList } = this.props;
     profile.phone = callingCode + phoneNumber;
 
     if (selfIntro === '') {
       selfIntro = 'null';
     }
 
-    this.props.signUp(profile, {selfIntro, profession, experience, achievement});
+    this.props.signUp(profile, {selfIntro, profession, experience, achievementList});
   }
 
   render() {
 
-    let { locale, profile, selfIntro, profession, experience, achievement, fetchErrorMsg} = this.props
+    let { locale, profile, selfIntro, profession, experience, achievementList, fetchErrorMsg} = this.props
 
     let errMessage = getLocaleErrorMessage (locale, fetchErrorMsg);
     return (
@@ -145,9 +145,18 @@ class SignUpTutorConfirmScreen extends React.Component {
             <Text style={styles.title}>
             {locale.signUp.title.achievement}
             </Text>
-            <Text style={styles.text}>
-            {achievement}
-            </Text>
+            <View style={{width:'70%'}}>
+              {
+                achievementList &&
+                achievementList.length > 0 &&
+                achievementList.map((item, i) => 
+                  <AchievementItem 
+                      key={i}
+                      canEdit={false}
+                      data={{...item, index:i}}/>
+                )
+              }
+            </View>
           </View>
         </ScrollView>
         { this.props.isLoading && <Spinner /> }
@@ -282,7 +291,7 @@ const mapStateToProps = (state) => {
     selfIntro: state.tutor.selfIntro,
     profession: state.tutor.profession,
     experience: state.tutor.experience,
-    achievement: state.tutor.achievement,
+    achievementList: state.tutor.achievementList,
   }
 }
 

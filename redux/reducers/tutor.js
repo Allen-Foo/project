@@ -25,7 +25,7 @@ const defaultState = {
   selfIntro:'',
   profession:'',
   experience: 0,
-  achievement: '',
+  achievementList: [],
   revenue: 0,
   pendingRevenue: 0,
   withdrawnList: [],
@@ -56,7 +56,7 @@ export default (state = defaultState, action) => {
     case SET_ACHIEVEMENT:
       return {
         ...state,
-        achievement: action.payload,
+        achievementList: action.payload,
       }
     case CLEAR_TUTORPROFILE:
       return {
@@ -65,7 +65,7 @@ export default (state = defaultState, action) => {
         selfIntro:'',
         profession:'',
         experience: 0,
-        achievement: '',
+        achievementList: [],
       }
     case GET_TUTOR_DETAIL :
       return {
@@ -75,7 +75,7 @@ export default (state = defaultState, action) => {
         selfIntro:'',
         profession:'',
         experience: 0,
-        achievement: '',
+        achievementList: [],
       }
     case GET_TUTOR_DETAIL_SUCCESS:
       return {
@@ -85,7 +85,7 @@ export default (state = defaultState, action) => {
         selfIntro: action.payload.selfIntro,
         profession: action.payload.profession,
         experience: action.payload.experience,
-        achievement: action.payload.achievement,
+        achievementList: action.payload.achievementList,
       }
     case GET_TUTOR_DETAIL_FAIL:
       return {

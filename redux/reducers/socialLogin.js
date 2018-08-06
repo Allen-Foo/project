@@ -95,7 +95,7 @@ export default (state = {...defaultState}, action) => {
           selfIntro : action.payload.selfIntro,
           profession : action.payload.profession,
           experience : action.payload.experience,
-          achievement : action.payload.achievement
+          achievementList : action.payload.achievementList
         }       
       }
     case SIGN_UP_SUCCESS:

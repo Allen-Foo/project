@@ -17,6 +17,7 @@ import ConfirmationCodeInput from'./ConfirmationCodeInput';
 import Avatar from './Avatar';
 import Ribbon from './Ribbon';
 import ListItem from './ListItem';
+import AchievementItem from './AchievementItem';
 
 export {
   Separator,
@@ -41,4 +42,5 @@ export {
   ListItem,
   RecordItem,
   Ribbon,
+  AchievementItem,
 }
