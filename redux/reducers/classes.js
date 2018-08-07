@@ -215,12 +215,24 @@ export default (state = {...defaultState}, action) => {
         fetchErrorLastUpdate: new Date(),
       }
     case GET_ALL_CLASS_LIST:
-      // console.warn('here', 'GET_CLASS_LIST')
+    {
+      // console.warn('GET_ALL_CLASS_LIST')
+      let allClassList = state.allClassList;
+
+      if (!action.payload.lastStartKey) {
+        allClassList = [];
+      }
+      else {
+        // allClassList = state.allClassList
+      }
+
       return {
         ...state,
         createClassSuccess: false,
         isLoading: true,
+        allClassList: allClassList,
       }
+    }
     case GET_ALL_CLASS_LIST_SUCCESS:
        //console.warn('here', 'GET_ALL_CLASS_LIST_SUCCESS', action.payload.classList)
       let allClassList
