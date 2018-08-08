@@ -114,7 +114,7 @@ class TutionFee extends React.Component {
           */}
             <Text style={{color: '#FF5A5F', marginLeft: 30}}>＄</Text>
             <TextInput
-              maxLength={4}
+              maxLength={5}
               autoFocus
               style={styles.textInput}
               keyboardType='numeric'
