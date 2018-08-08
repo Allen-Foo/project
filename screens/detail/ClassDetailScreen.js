@@ -327,6 +327,18 @@ class ClassDetailScreen extends React.Component {
           <View style={styles.rowContainer}>
             <View style={styles.innerContainer}>
               <MaterialIcons 
+                name={'format-list-bulleted'} 
+                size={20}
+                color={'#999'}
+              />
+            </View>
+            <View style={styles.innerTextContainer}>
+              <Text style={styles.tutorName}> {locale.category.types[classDetail.category] + " - " + locale.skill.types[classDetail.category][classDetail.skill]}</Text>
+            </View>
+          </View>
+          <View style={styles.rowContainer}>
+            <View style={styles.innerContainer}>
+              <MaterialIcons 
                 name={'people'} 
                 size={20}
                 color={'#999'}
