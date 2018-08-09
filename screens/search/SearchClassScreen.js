@@ -87,9 +87,16 @@ class SearchClassScreen extends React.Component {
     let {address, keyword, isCurrentLocationSelected} = this.state;
     this.props.setKeyword(keyword)
     this.props.setAddress(address, isCurrentLocationSelected)
-    this.props.switchToNormalMode()
+    
     this.props.searchClassList()
     this.props.navigation.navigate('Search')
+
+    if (!this.props.switchToNormalMode) {
+      this.props.navigation.setParams({ searchMode: false });
+    }
+    else {
+      this.props.switchToNormalMode()
+    }
   }
 
   handleCurrentLocationPress = () => {
