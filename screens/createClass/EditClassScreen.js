@@ -22,6 +22,8 @@ let {width, height} = Dimensions.get('window');
 import { getClassDetail, updateClass, deleteClass } from '../../redux/actions';
 import { ServerErrorCode, getLocaleErrorMessage } from '../../constants/ServerErrorCode';
 import Colors from '../../constants/Colors';
+import { formatTime } from '../../lib/Helpers';
+
 
 class EditClassScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => {
@@ -76,25 +78,6 @@ class EditClassScreen extends React.Component {
     this.props.navigation.goBack();
   }
 
-  formateTime = (time) => {
-    let allTimeSlots = []
-    Object.values(time).forEach(date => date.forEach(timeSlot => allTimeSlots.push(timeSlot)))
-
-    let formattedTimeSlots = [];
-
-    allTimeSlots.forEach((timeSlot, index) => {
-      // only show 5 time slots
-      if (index < 5) {
-        let str = `${moment(timeSlot.startTime).format('YYYY-MM-DD')} from ${moment(timeSlot.startTime).format('HH:mm')} to ${moment(timeSlot.endTime).format('HH:mm')}`
-        formattedTimeSlots.push(str)
-      } else if (index == 5) {
-        formattedTimeSlots.push('...')
-      }
-    })
-
-    return formattedTimeSlots.join('\n')
-  }
- 
   render() {
     let params = this.props.classDetail;
 
@@ -153,7 +136,7 @@ class EditClassScreen extends React.Component {
           appliedClassList={appliedClassList}
           classId={params.classId}
           okMsg={locale.common.okMsg}
-          value={this.formateTime(params.time)}
+          value={formatTime(params.time)}
           textStyle={{textAlign: 'center',}}
           onPress={() => this.props.navigation.navigate('Calendar', Object.assign(params, {isEditMode: true}))}
         />
