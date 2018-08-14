@@ -128,6 +128,12 @@ class TutorInfoScreen extends React.Component {
       extrapolate: 'clamp',
     });
 
+    const textColor = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE * 2 / 3, HEADER_SCROLL_DISTANCE],
+      outputRange: ['transparent', 'transparent', 'white'],
+      extrapolate: 'clamp',
+    });
+
 
     return (
       <View style={{flex: 1}}>
@@ -180,7 +186,14 @@ class TutorInfoScreen extends React.Component {
             source={require('../../assets/images/tutorinfo_background_image.png')}
           />
           <View style={styles.bar}>
-            <Text style={styles.title}>{classDetail.user.name}</Text>
+            <Animated.Text 
+            style={[
+              styles.title,
+              {color: textColor}
+            ]}
+            >
+              {classDetail.user.name}
+            </Animated.Text>
           </View>
           <TouchableOpacity style={styles.chevronContainer} onPress={() => this.props.navigation.goBack()}>
             <Entypo
