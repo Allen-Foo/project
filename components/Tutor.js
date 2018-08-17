@@ -32,11 +32,33 @@ class Tutor extends React.Component {
   constructor(props) {
     super(props);
 
+    this.mounted = false;
+
     let bookmark = this.props.bookmark || []
+
+    // calculate the remainSeconds
+    const currentSeconds = Date.now();
+    let startTime = Object.values(props.data.time)[0][0].startTime
+    let interval = new Date(startTime) - currentSeconds
+    let showLastMinute = false
+
+    if (interval < 3 * 24 * 60 * 60 * 1000 && interval > 0) {
+      showLastMinute = true
+    }
+
     this.state={
       liked: bookmark.includes(props.data.classId),
-      ribbonType: this.getRibbonType(props.data)
+      ribbonType: this.getRibbonType(props.data),
+      secondsRemaining: interval > 0 ? interval : 0,
+      timeoutId: null,
+      previousSeconds: null,
+      showLastMinute: showLastMinute,
     }
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+    this.tick();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,6 +68,62 @@ class Tutor extends React.Component {
       })
     }
   }
+
+  componentDidUpdate() {
+    if (!this.state.previousSeconds && this.state.secondsRemaining > 0 && this.mounted) {
+      console.warn('componentDidUpdate', this.state.previousSeconds)
+      this.tick();
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+    clearTimeout(this.state.timeoutId);
+  }
+
+  tick = () => {
+    const currentSeconds = Date.now();
+    const dt = this.state.previousSeconds ? currentSeconds - this.state.previousSeconds : 0;
+    const interval = this.props.interval || 1000;
+    const intervalSecondsRemaing = interval - (dt % interval);
+    let timeout = intervalSecondsRemaing;
+    if (intervalSecondsRemaing < interval / 2.0) {
+      timeout += interval;
+    }
+    const secondsRemaining = Math.max(this.state.secondsRemaining - dt, 0);
+    const isComplete = this.state.previousSeconds && secondsRemaining <= 0;
+
+    if (this.mounted) {
+      if (this.state.timeoutId) {
+        clearTimeout(this.state.timeoutId);
+      }
+      this.setState({
+        timeoutId: isComplete ? null : setTimeout(this.tick, timeout),
+        previousSeconds: currentSeconds,
+        secondsRemaining
+      });
+    }
+    if (isComplete) {
+      // if complete, set flag to 'closed'
+      this.setState({ribbonType: 'closed'})
+      return;
+    }
+  };
+
+  getFormattedTime = (milliseconds) => {
+    const remainingSec = Math.round(milliseconds / 1000);
+    const seconds = parseInt((remainingSec % 60).toString(), 10);
+    const minutes = parseInt(((remainingSec / 60) % 60).toString(), 10);
+    const hours = parseInt((remainingSec / 3600).toString(), 10);
+    const s = seconds < 10 ? '0' + seconds : seconds;
+    const m = minutes < 10 ? '0' + minutes : minutes;
+    if (hours > 24) {
+      return `${Math.floor(hours / 24)} days`
+    }
+    let h = hours < 10 ? '0' + hours : hours;
+    h = h === '00' ? '' : h + ':';
+    return h + m + ':' + s;
+  };
 
   handleLike(classId) {
     if (this.props.user) {
@@ -86,7 +164,7 @@ class Tutor extends React.Component {
 
   render() {
     const { data, onPress, locale } = this.props;
-    let { ribbonType } = this.state;
+    let { ribbonType, showLastMinute } = this.state;
     let rating = Object.values(data.rating).reduce((a, b) => a + b, 0) / Object.values(data.rating).length
 
     return (
@@ -121,7 +199,14 @@ class Tutor extends React.Component {
               />  
             }
           </View>
-          <View style={{paddingLeft: 5}}>
+          {
+            showLastMinute &&
+            <View style={{backgroundColor: '#F22029', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 10}}>
+              <Text style={{color: 'white', fontWeight: '500', fontSize: 18, paddingRight: 20}}> {`$ ${data.fee} HKD`}</Text>
+              <Text style={{color: '#FFC702', fontSize: 13, fontWeight: '600'}}>{`Only ${this.getFormattedTime(this.state.secondsRemaining)} Left`}</Text>
+            </View>
+          }
+          <View style={{paddingTop: 8}}>
             <Text style={styles.className}> {data.title} </Text>
             <View style={styles.ratingRow}>
               <StarRating
@@ -138,7 +223,7 @@ class Tutor extends React.Component {
               />
               <Text style={styles.comment}> {`${data.comments.length} ${this.props.locale.newsfeed.text.comment}`} </Text>
             </View>
-            <Text>
+            <Text style={{paddingLeft: 10}}>
               <FontAwesome 
                 name={'dollar'}
                 size={14}
@@ -222,16 +307,18 @@ const styles = StyleSheet.create({
   },
   ratingRow: {
     flexDirection: 'row',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    paddingLeft: 10,
   },
   rating: { 
     paddingVertical: '2%',
     paddingRight: '2%',
   },
   className: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#555',
     fontWeight: '600',
+    paddingLeft: 10,
   },
   tutorName: {
     color: '#555',
@@ -246,13 +333,13 @@ const styles = StyleSheet.create({
   whiteHeart: {
     position: 'absolute',
     right: 10,
-    bottom: 0,
+    bottom: 10,
     padding: 10,
   },
   redHeart: {
     position: 'absolute',
     right: 10,
-    bottom: 0,
+    bottom: 10,
     padding: 10,
   },
   distance: {
