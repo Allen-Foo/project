@@ -241,7 +241,7 @@ class Tutor extends React.Component {
             onPress={() => this.handleLike(data.classId)}
           >
             <Ionicons
-              name={'ios-heart-outline'}
+              name={'ios-heart'}
               size={24}
               style={{ padding: '3%', backgroundColor: 'transparent'}}
               color={'grey'}

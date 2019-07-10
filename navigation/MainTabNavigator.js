@@ -38,27 +38,27 @@ export default MainTab = TabNavigator(
         switch (routeName) {
           case 'NewsFeed':
             iconName = Platform.OS === 'ios'
-              ? `ios-paper${focused ? '' : '-outline'}`
+              ? `ios-paper`
               : 'md-paper';
             break;
           case 'History':
             iconName = Platform.OS === 'ios'
-              ? `ios-heart${focused ? '' : '-outline'}`
+              ? `ios-heart`
               : 'md-heart';
             break;
           case 'Search':
             iconName = Platform.OS === 'ios'
-              ? `ios-search${focused ? '' : '-outline'}`
+              ? `ios-search`
               : 'md-search';
             break;
           case 'Schedule':
             iconName = Platform.OS === 'ios'
-              ? `ios-calendar${focused ? '' : '-outline'}`
+              ? `ios-calendar`
               : 'md-calendar';
             break;
           case 'Profile':
             iconName = Platform.OS === 'ios'
-              ? `ios-contact${focused ? '' : '-outline'}`
+              ? `ios-contact`
               : 'md-contact';
         }
         return (
