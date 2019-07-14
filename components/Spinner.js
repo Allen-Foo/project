@@ -10,7 +10,7 @@ import {
 
 import { connect } from 'react-redux';
 
-import BlurView from 'expo-blur';
+import { BlurView } from 'expo-blur';
 
 import Colors from '../constants/Colors'
 

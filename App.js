@@ -58,8 +58,8 @@ class App extends React.Component {
       if (res.data.version > Constants.manifest.version) {
         this.updateDialog.show()
       } else if (res.data && res.data.startedAt 
-        && moment().isAfter(moment(res.data.startedAt))
-        && moment().isBefore(moment(res.data.finishedAt))
+        && moment().isAfter(moment(res.data.startedAt, "YYYY-MM-DD"))
+        && moment().isBefore(moment(res.data.finishedAt, "YYYY-MM-DD"))
       ) {
         this.setState({imageUrl: res.data.imgUrl, redirectUrl: res.data.url})
       }
