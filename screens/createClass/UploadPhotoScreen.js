@@ -193,8 +193,8 @@ class ClassAddressScreen extends React.Component {
       return
     }
 
-    // const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    // if (status === 'granted') {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
       let result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         aspect: [4, 3],
@@ -209,9 +209,9 @@ class ClassAddressScreen extends React.Component {
           photoList: temp
         }, () => this.uploadPhoto(result, this.state.photoList.length - 1))
       }
-    // } else {
-    //   console.warn('access not granted')
-    // }
+    } else {
+      console.warn('access not granted')
+    }
   };
 
   _takePhoto = async () => {
