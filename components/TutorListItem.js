@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Rating } from 'react-native-elements';
-import { Avatar } from '../components';
+import Avatar from './Avatar';
 import StarRating from 'react-native-star-rating';
 import { CheckBox } from 'react-native-elements'
 

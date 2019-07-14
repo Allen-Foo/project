@@ -30,17 +30,17 @@ export default MainTab = TabNavigator(
         switch (routeName) {
           case 'ClassList':
             iconName = Platform.OS === 'ios'
-              ? `ios-paper${focused ? '' : '-outline'}`
+              ? `ios-paper`
               : 'md-paper';
             break;
           case 'Schedule':
             iconName = Platform.OS === 'ios'
-              ? `ios-calendar${focused ? '' : '-outline'}`
+              ? `ios-calendar`
               : 'md-calendar';
             break;
           case 'Profile':
             iconName = Platform.OS === 'ios'
-              ? `ios-contact${focused ? '' : '-outline'}`
+              ? `ios-contact`
               : 'md-contact';
         }
         return (
