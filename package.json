@@ -19,7 +19,7 @@
     "expo-blur": "~5.0.1",
     "lodash": "^4.17.10",
     "moment": "^2.21.0",
-    "qs": "^5.2.0",
+    "qs": "^6.0.4",
     "react": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-animatable": "^1.2.4",
