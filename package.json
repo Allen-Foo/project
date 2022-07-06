@@ -18,7 +18,7 @@
     "expo": "^33.0.0",
     "expo-blur": "~5.0.1",
     "lodash": "^4.17.10",
-    "moment": "^2.21.0",
+    "moment": "^2.29.4",
     "qs": "^5.2.0",
     "react": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
